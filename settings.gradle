@@ -1,0 +1,8 @@
+rootProject.name = "YammyDelivery"
+
+include(
+    ":app",
+    ":features:main",
+    ":features:menu",
+    ":features:dishdetails"
+)
