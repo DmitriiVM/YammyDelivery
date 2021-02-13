@@ -16,7 +16,7 @@ class SearchFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
-                Text("Hello Compose!")
+                Text("Hello Compose!  SEARCH FRAGMENT")
             }
         }
     }

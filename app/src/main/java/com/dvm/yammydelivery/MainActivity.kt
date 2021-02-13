@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.commit
-import com.dvm.menu.main.MainFragment
+import com.dvm.menu.NavHostFragment
 import com.dvm.ui.ui.YammyDeliveryTheme
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace(R.id.fragmentContainer, MainFragment())
+                replace(R.id.fragmentContainer, NavHostFragment())
             }
         }
 

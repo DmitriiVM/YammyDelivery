@@ -2,12 +2,13 @@ package com.dvm.menu.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.dvm.menu.R
+import androidx.navigation.fragment.findNavController
 
 class MainFragment : Fragment() {
 
@@ -15,14 +16,19 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(
-        R.layout.fragment_main, container, false
-    ).apply {
-        findViewById<ComposeView>(R.id.compose_view).setContent {
+    )= ComposeView(requireContext()).apply {
+        setContent {
             MaterialTheme {
-                Text("Hello Compose lala!")
+                Text("Hello Compose!    MENU FRAGMENT")
             }
         }
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val action = MainFragmentDirections.actionMainFragmentToMenuFragment()
+        findNavController().navigate(action)
+
     }
 }
 

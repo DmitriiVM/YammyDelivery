@@ -9,6 +9,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 
 class MenuFragment : Fragment() {
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -16,8 +18,9 @@ class MenuFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
-                Text("Hello Compose!")
+                Text("Hello Compose!    MENU FRAGMENT")
             }
         }
     }
+
 }
