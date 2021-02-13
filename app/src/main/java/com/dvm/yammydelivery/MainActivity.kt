@@ -1,41 +1,33 @@
 package com.dvm.yammydelivery
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Text
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.tooling.preview.Preview
-import com.dvm.main.Temp
-import com.dvm.yammydelivery.ui.YammyDeliveryTheme
+import androidx.fragment.app.commit
+import com.dvm.menu.main.MainFragment
+import com.dvm.ui.ui.YammyDeliveryTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.main_activity)
 
-
-        Temp
-
-
-//        val dishes = ViewModel().getDishes()
-//        Log.d("mmm", "onCreate: $dishes")
-
-
-
-
-
-
-        setContent {
-            YammyDeliveryTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                replace(R.id.fragmentContainer, MainFragment())
             }
         }
+
+//        setContent {
+//            YammyDeliveryTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(color = MaterialTheme.colors.background) {
+//                    Greeting("Android")
+//                }
+//            }
+//        }
     }
 }
 
@@ -50,4 +42,9 @@ fun DefaultPreview() {
     YammyDeliveryTheme {
         Greeting("Android")
     }
+}
+
+
+fun main() {
+    print("iiii")
 }

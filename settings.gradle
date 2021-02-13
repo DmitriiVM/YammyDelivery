@@ -1,8 +1,14 @@
 rootProject.name = "YammyDelivery"
 
 include(
-    ":app",
-    ":features:main",
-    ":features:menu",
-    ":features:dishdetails"
+        ':app',
+        ':features:menu',
+        ':features:dish',
+        ':features:cart',
+        ':features:order',
+        ':features:auth',
+        ':features:profile',
+        ':core:network',
+        ':core:db',
+        ':core:ui'
 )
