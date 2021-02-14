@@ -4,7 +4,7 @@ object Versions {
     const val COROUTINES = "1.4.2"
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
-    const val ROOM = "2.2.3"
+    const val ROOM = "2.2.6"
 }
 
 object Libs {

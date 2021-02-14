@@ -15,31 +15,31 @@ interface Api {
     // ok
     @GET("categories")
     suspend fun getCategories(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = null,
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null
-    ): List<Category>
+    ): List<CategoryResponse>
 
     //  ok
     @GET("dishes")
     suspend fun getDishes(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = null,
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null
-    ): List<Dish>
+    ): List<DishResponse>
 
-    @GET("reviews")
+    @GET("reviews/{dishId}")
     suspend fun getReviews(
-        @Query("dishId") dishId: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long? = null,
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
+        @Path("dishId") dishId: String,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null
-    ): List<Review>
+    ): List<ReviewResponse>
 
     @FormUrlEncoded
     @POST("reviews/{dishId}")
     suspend fun addReview(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
         @Path("dishId") dishId: String,
         @Field("rating") rating: Int,
         @Field("text") text: String
@@ -50,7 +50,7 @@ interface Api {
     @GET("favorite")
     fun getFavorite(
         @Header("Authorization") token: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long? = null,
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null
     ): JsonElement
@@ -58,7 +58,7 @@ interface Api {
     @FormUrlEncoded
     @PUT("favorite")
     fun changeFavorite(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
         @Field("dishId") dishId: Int,
         @Field("favorite") favorite: Boolean
     )
@@ -68,16 +68,16 @@ interface Api {
 
     @GET("cart")
     suspend fun getCart(
-        @Header("Authorization") token: Token
-    ): Cart
+        @Header("Authorization") token: TokenResponse
+    ): CartResponse
 
     @FormUrlEncoded
     @PUT("cart")
     suspend fun updateCart(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
 //        @Field
 //    @Body
-    ): Cart
+    ): CartResponse
 
 
     //
@@ -86,14 +86,14 @@ interface Api {
     @POST("address/input")
     suspend fun checkInput(
         @Field("address") address: String
-    ): Address
+    ): AddressResponse
 
     @FormUrlEncoded
     @POST("address/coordinates")
     suspend fun checkCoordinates(
         @Field("lat") lat: Long,
         @Field("lon") lon: Long
-    ): Address
+    ): AddressResponse
 
 
     // auth
@@ -109,7 +109,7 @@ interface Api {
     @POST("auth/login")
     suspend fun login(
         @Body login: LoginInfo
-    ): Login
+    ): LoginResponse
 
 //    @Headers("Content-Type: application/json")
 //    @FormUrlEncoded
@@ -125,7 +125,7 @@ interface Api {
     @POST("auth/register")
     suspend fun register(
         @Body info: RegisterInfo
-    ): Login
+    ): LoginResponse
 
     // Ответ 200 - код отправлен на почту
     // Ответ 400 - код уже был отправлен менее 3 минут назад
@@ -158,7 +158,7 @@ interface Api {
     @POST("auth/refresh")
     suspend fun refresh(
         @Field("refreshToken") refreshToken: String
-    ): Token
+    ): TokenResponse
 
 
     // order
@@ -166,7 +166,7 @@ interface Api {
     @FormUrlEncoded
     @POST("orders/new")
     suspend fun createOrder(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
         @Field("address") address: String,
         @Field("entrance") entrance: Int,
         @Field("floor") floor: Int,
@@ -174,52 +174,52 @@ interface Api {
         @Field("intercom") intercom: String,
         @Field("comment") comment: String
 //    @Body  // TODO
-    ): Order
+    ): OrderResponse
 
     @GET("orders")
     suspend fun getOrders(
-        @Header("Authorization") token: Token,
-        @Header("If-Modified-Since") ifModifiedSince: Long? = null,
+        @Header("Authorization") token: TokenResponse,
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null,
-    ): List<Order>
+    ): List<OrderResponse>
 
 
     // timeout
     @GET("orders/status")
     suspend fun getStatuses(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = null,
-    ): List<Status>
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
+    ): List<StatusResponse>
 
 
     @FormUrlEncoded
     @PUT("orders/cancel")
     suspend fun cancelOrder(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
         @Query("orderId") orderId: Int
-    ): Order
+    ): OrderResponse
 
 
     // profile
 
     @GET("profile")
     suspend fun getProfile(
-        @Header("Authorization") token: Token
-    ): Profile
+        @Header("Authorization") token: TokenResponse
+    ): ProfileResponse
 
     @FormUrlEncoded
     @PUT("profile")
     suspend fun editProfile(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
         @Field("firstName") firstName: String,
         @Field("lastName") lastName: String,
         @Field("email") email: String
-    ): Profile
+    ): ProfileResponse
 
     @FormUrlEncoded
     @PUT("profile/password")
     suspend fun changePassword(
-        @Header("Authorization") token: Token,
+        @Header("Authorization") token: TokenResponse,
         @Field("oldPassword") oldPassword: String,
         @Field("newPassword") newPassword: String
     )

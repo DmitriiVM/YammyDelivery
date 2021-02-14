@@ -10,5 +10,6 @@ include(
         ':features:profile',
         ':core:network',
         ':core:db',
-        ':core:ui'
+        ':core:ui',
+        ':core:updateservice'
 )
