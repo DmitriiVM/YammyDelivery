@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.dvm.menu.menu.MenuFragment"
+        android:name="com.dvm.menu.menu.presentation.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" />
     <fragment

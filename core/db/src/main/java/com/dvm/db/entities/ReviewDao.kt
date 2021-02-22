@@ -8,6 +8,6 @@ import androidx.room.OnConflictStrategy
 interface ReviewDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertReviews(reviews: List<Review>)
+    suspend fun insertReviews(reviews: List<Review>)
 
 }

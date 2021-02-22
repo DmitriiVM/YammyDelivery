@@ -5,10 +5,11 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
     const val ROOM = "2.2.6"
+    const val LIFECYCLE = "2.3.0"
 }
 
 object Libs {
-    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha04"
+    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha07"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"
@@ -23,6 +24,7 @@ object Libs {
     const val COMPOSE_MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
     const val COMPOSE_ICONS = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
     const val COMPOSE_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
+    const val COMPOSE_ACCOMPANIST = "dev.chrisbanes.accompanist:accompanist-coil:0.4.0"
 
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
@@ -30,6 +32,10 @@ object Libs {
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
     const val RETROFIT_GSON_CONVERTER = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
     const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
+
+    const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
+    const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
+    const val LIFECYCLE_COMPILER = "androidx.lifecycle:lifecycle-compiler:${Versions.LIFECYCLE}"
 
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
