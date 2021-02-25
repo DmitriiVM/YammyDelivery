@@ -11,20 +11,33 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_mainFragment_to_menuFragment"
+            android:id="@+id/toMenuFragment"
             app:destination="@id/menuFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.dvm.menu.menu.presentation.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/toCategoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/toSearchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.dvm.menu.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.dvm.menu.category.presentation.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

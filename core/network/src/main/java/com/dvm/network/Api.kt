@@ -8,19 +8,16 @@ interface Api {
 
     // main
 
-    // ok
     @GET("main/recommend")
     suspend fun getRecommended(): List<String>
 
-    // ok
     @GET("categories")
     suspend fun getCategories(
         @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null
+        @Query("limit") limit: Int? = 100
     ): List<CategoryResponse>
 
-    //  ok
     @GET("dishes")
     suspend fun getDishes(
         @Header("If-Modified-Since") ifModifiedSince: Long? = 0,

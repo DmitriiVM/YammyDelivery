@@ -1,31 +1,21 @@
 package com.dvm.menu.menu.presentation
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.menu.menu.presentation.store.MenuStore
 import com.dvm.menu.menu.presentation.store.model.MenuAction
 import com.dvm.menu.menu.presentation.store.toAction
 import com.dvm.menu.menu.presentation.ui.model.MenuIntent
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class MenuViewModel(app: Application) : AndroidViewModel(app) {
+class MenuViewModel(app: Application) : AndroidViewModel(app) {  // TODO
 
-    private val store = MenuStore()
+    private val store = MenuStore(app.applicationContext)
 
     init {
         viewModelScope.launch {
-            store.start(app.applicationContext, viewModelScope)
-            store
-                .navigationEvent
-                .onEach {
-                    Log.d("mmm", "MenuViewModel :   -+-  ")
-                }
-                .launchIn(viewModelScope)
-
+            store.start(viewModelScope)
             store.dispatch(MenuAction.LoadMenu)
         }
     }
@@ -37,4 +27,5 @@ class MenuViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun state() = store.state
+    fun navigation() = store.navigationEvent
 }

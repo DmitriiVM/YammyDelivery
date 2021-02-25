@@ -9,15 +9,6 @@ import androidx.room.Query
 interface DishDao {
 
 
-//    @Query(
-//        """
-//            SELECT COUNT(oldPrice)
-//            FROM dish
-//            WHERE oldPrice > 0
-//        """
-//    )
-//    suspend fun hasSpecialOffers() : Int
-
     @Query(
         """
             SELECT EXISTS(
@@ -29,6 +20,16 @@ interface DishDao {
         """
     )
     suspend fun hasSpecialOffers(): Boolean
+
+    @Query(
+        """
+        SELECT *
+        FROM dish
+        WHERE category IS :category
+        AND active = 1
+    """
+    )
+    suspend fun getDishes(category: String): List<Dish>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDishes(dishes: List<Dish>)

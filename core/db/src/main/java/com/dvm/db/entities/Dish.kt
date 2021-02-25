@@ -8,7 +8,7 @@ data class Dish(
     @PrimaryKey
     val id: String,
     val name: String,
-    val description: String,
+    val description: String?,
     val image: String,
     val oldPrice: Int,
     val price: Int,

@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val action = MainFragmentDirections.actionMainFragmentToMenuFragment()
+        val action = MainFragmentDirections.toMenuFragment()
         findNavController().navigate(action)
 
     }

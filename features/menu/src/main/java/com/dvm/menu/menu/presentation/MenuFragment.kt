@@ -12,7 +12,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.dvm.menu.menu.domain.model.MenuItem
+import androidx.navigation.fragment.findNavController
+import com.dvm.db.AppDatabase
+import com.dvm.menu.menu.domain.MenuInteractor
+import com.dvm.menu.menu.presentation.store.model.MenuNavigationEvent
 import com.dvm.menu.menu.presentation.ui.model.MenuIntent
 import com.dvm.menu.menu.presentation.ui.model.MenuState
 import kotlinx.coroutines.flow.launchIn
@@ -22,7 +25,7 @@ import kotlinx.coroutines.launch
 
 class MenuFragment : Fragment() {
 
-    val model: MenuViewModel by viewModels()
+    private val model: MenuViewModel by viewModels()
 
     @ExperimentalStdlibApi
     @ExperimentalFoundationApi
@@ -32,8 +35,13 @@ class MenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
         lifecycleScope.launch {
-            val items = emptyList<MenuItem>()
-//            val items = MenuInteractor().getParentCategories(context)
+
+            // TODO remove
+            val items = MenuInteractor(
+                AppDatabase.getDb(context).categoryDao(),
+                AppDatabase.getDb(context).dishDao()
+            )
+                .getParentCategories(context)
 
             setContent {
                 MaterialTheme {
@@ -53,24 +61,38 @@ class MenuFragment : Fragment() {
         model
             .state()
             .onEach {
-                when (it){
+                when (it) {
                     MenuState.Loading -> Log.d("mmm", "MenuFragment :  onViewCreated --  $it")
-                    is MenuState.Data -> Log.d("mmm", "MenuFragment :  onViewCreated --  ${it.items}")
+                    is MenuState.Data -> Log.d(
+                        "mmm",
+                        "MenuFragment :  onViewCreated --  ${it.items}"
+                    )
                 }
 
             }
             .launchIn(lifecycleScope)
+
+        model
+            .navigation()
+            .onEach { navigation ->
+                when (navigation) {
+                    is MenuNavigationEvent.NavigateToMenuItem -> navigateToMenuItem(navigation.id)
+                    MenuNavigationEvent.NavigateToSearch -> navigateToSearch()
+                    MenuNavigationEvent.OpenAppMenu -> openAppMenu()
+                }
+            }
+            .launchIn(lifecycleScope)
     }
 
+    private fun openAppMenu() {
 
+    }
 
+    private fun navigateToSearch() {
+        findNavController().navigate(MenuFragmentDirections.toSearchFragment())
+    }
 
-
-
-
-
-
-
-
-
+    private fun navigateToMenuItem(id: String) {
+        findNavController().navigate(MenuFragmentDirections.toCategoryFragment(id))
+    }
 }

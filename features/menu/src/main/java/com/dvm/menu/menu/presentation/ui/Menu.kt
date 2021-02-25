@@ -63,9 +63,8 @@ fun MenuView(
                                 onClick = {
                                     onItemClick(
                                         when (item) {
-                                            is MenuItem.Item -> item.title
-                                            is MenuItem.Default -> item.title
-                                            MenuItem.SpecialOffer -> "Special offers"
+                                            is MenuItem.Item -> item.id
+                                            MenuItem.SpecialOffer -> "special"  // TODO think of better approach
                                         }
                                     )
                                 }
@@ -81,7 +80,6 @@ fun MenuView(
                                     .align(Alignment.CenterHorizontally),
                                 text = when (item) {
                                     is MenuItem.Item -> item.title
-                                    is MenuItem.Default -> item.title
                                     MenuItem.SpecialOffer -> "Special offers"
                                 }
                             )

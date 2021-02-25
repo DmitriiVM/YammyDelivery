@@ -19,8 +19,11 @@ class UpdateService {
         val dishDao = db.dishDao()
         val reviewDao = db.reviewDao()
 
-        val categories = async { api.getCategories() }
-        val dishes = api.getDishes()
+        val categories = async { api.getCategories(limit = 1000) }
+        val dishes = api.getDishes(limit = 1000)
+        dishes.forEach { 
+//            Log.d("mmm", "UpdateService :  update --  $it")
+        }
 
         val reviews =
             dishes

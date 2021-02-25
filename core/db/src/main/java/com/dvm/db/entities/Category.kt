@@ -15,3 +15,14 @@ data class Category(
     val createdAt: Long,
     val updatedAt: Long
 )
+
+data class ParentCategory(
+    val id: String,
+    val name: String,
+    val icon: String
+)
+
+data class Subcategory(
+    val id: String,
+    val name: String
+)

@@ -5,7 +5,7 @@ import com.dvm.menu.menu.presentation.ui.model.MenuIntent
 
 internal fun MenuIntent.toAction(): MenuAction =
     when (this){
-        is MenuIntent.MenuItemClick -> MenuAction.NavigateToMenuItem(title)
+        is MenuIntent.MenuItemClick -> MenuAction.NavigateToMenuItem(id)
         MenuIntent.SearchClick -> MenuAction.NavigateToSearch
         MenuIntent.AppMenuClick -> MenuAction.OpenAppMenu
     }
