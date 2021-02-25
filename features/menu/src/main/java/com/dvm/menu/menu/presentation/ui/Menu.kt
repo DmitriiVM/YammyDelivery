@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -34,6 +35,7 @@ fun MenuView(
             navigationIcon = {
                 Icon(
                     imageVector = Icons.Outlined.Menu,
+                    contentDescription = null,
                     modifier = Modifier.clickable(
                         onClick = onAppMenuClick
                     )
@@ -42,6 +44,7 @@ fun MenuView(
             actions = {
                 Icon(
                     imageVector = Icons.Outlined.Search,
+                    contentDescription = null,
                     modifier = Modifier.clickable(
                         onClick = onSearchClick
                     )

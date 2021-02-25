@@ -1,6 +1,6 @@
 object Versions {
-    const val KOTLIN = "1.4.21"
-    const val COMPOSE = "1.0.0-alpha09"
+    const val KOTLIN = "1.4.30"
+    const val COMPOSE = "1.0.0-beta01"
     const val COROUTINES = "1.4.2"
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
@@ -9,7 +9,7 @@ object Versions {
 }
 
 object Libs {
-    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha07"
+    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha08"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"

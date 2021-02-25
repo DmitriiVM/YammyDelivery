@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -58,6 +59,7 @@ class CategoryFragment : Fragment() {
                         navigationIcon = {
                             Icon(
                                 imageVector = Icons.Outlined.ArrowBack,
+                                contentDescription = null,
                                 modifier = Modifier.clickable(
                                     onClick = { findNavController().navigateUp() }
                                 )
@@ -65,7 +67,6 @@ class CategoryFragment : Fragment() {
                         },
                         actions = {
                             DropdownMenu(
-                                toggle = { Log.d("mmm", "CategoryFragment :  onCreateView --  -----")},
                                 expanded = currentState is CategoryState.Data && currentState.showSort,
                                 onDismissRequest = { viewModel.dispatch(CategoryIntent.SortClick(false))}) {
 
@@ -83,6 +84,7 @@ class CategoryFragment : Fragment() {
 
                             Icon(
                                 imageVector = Icons.Outlined.Sort,
+                                contentDescription = null,
                                 modifier = Modifier.clickable(
                                     onClick = {
                                         viewModel.dispatch(CategoryIntent.SortClick(true))

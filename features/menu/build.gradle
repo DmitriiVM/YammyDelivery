@@ -42,11 +42,8 @@ android {
 }
 
 dependencies {
-
     implementation project(":core:network")
     implementation project(":core:db")
-
-
 
     implementation 'androidx.core:core-ktx:1.5.0-beta01'
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -66,30 +63,17 @@ dependencies {
     implementation(Libs.COMPOSE_MATERIAL)
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
-    implementation(Libs.COMPOSE_ACCOMPANIST)  //
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha01"
-
-    implementation(Libs.ROOM_RUNTIME)
-    implementation(Libs.ROOM_KTX)
-    kapt(Libs.ROOM_COMPILER)
+    implementation(Libs.COMPOSE_ACCOMPANIST)
 
     implementation(Libs.LIFECYCLE_VIEWMODEL)
     implementation(Libs.LIFECYCLE_RUNTIME)
     kapt(Libs.LIFECYCLE_COMPILER)
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
-
+    implementation(Libs.ROOM_RUNTIME)
+    implementation(Libs.ROOM_KTX)
+    kapt(Libs.ROOM_COMPILER)
+    
     def nav_version = "2.3.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-
-    implementation("io.coil-kt:coil:1.1.1")  //
-    implementation 'com.caverock:androidsvg-aar:1.4'
 }
