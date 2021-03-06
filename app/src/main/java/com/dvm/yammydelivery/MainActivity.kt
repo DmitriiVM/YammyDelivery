@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.commit
 import com.dvm.menu.NavHostFragment
-import com.dvm.ui.ui.YammyDeliveryTheme
+import com.dvm.ui.themes.YammyDeliveryTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,11 +3,12 @@ package com.dvm.menu.menu.domain
 import android.content.Context
 import com.dvm.db.entities.CategoryDao
 import com.dvm.db.entities.DishDao
+import com.dvm.menu.Graph
 import com.dvm.menu.menu.domain.model.MenuItem
 
 class MenuInteractor(
-    private val categoryDao: CategoryDao,
-    private val dishDao: DishDao
+    private val categoryDao: CategoryDao = Graph.categoryDao,
+    private val dishDao: DishDao = Graph.dishDao
 ) {
 
     suspend fun getParentCategories(context: Context): List<MenuItem> {

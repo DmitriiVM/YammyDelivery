@@ -1,4 +1,4 @@
-package com.dvm.ui.ui
+package com.dvm.ui.themes
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

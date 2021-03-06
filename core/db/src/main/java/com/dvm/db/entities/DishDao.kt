@@ -8,7 +8,6 @@ import androidx.room.Query
 @Dao
 interface DishDao {
 
-
     @Query(
         """
             SELECT EXISTS(

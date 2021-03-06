@@ -1,4 +1,4 @@
-package com.dvm.ui.ui
+package com.dvm.ui.themes
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -1,7 +1,6 @@
 package com.dvm.menu.menu.presentation.store
 
 import android.content.Context
-import com.dvm.db.AppDatabase
 import com.dvm.menu.menu.domain.MenuInteractor
 import com.dvm.menu.menu.presentation.store.model.MenuAction
 import com.dvm.menu.menu.presentation.store.model.MenuNavigationEvent
@@ -13,7 +12,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 class MenuStore(
-    private val context: Context  // TODO temp
+    private val context: Context,  // TODO temp
+    private val interactor: MenuInteractor = MenuInteractor()
 ) {
 
     private val _state: MutableStateFlow<MenuState> = MutableStateFlow(MenuState.Loading)
@@ -27,15 +27,6 @@ class MenuStore(
 
     private val action = MutableSharedFlow<MenuAction>()
     private val result = MutableSharedFlow<MenuResult>()
-
-
-    val categoryDao = AppDatabase.getDb(context).categoryDao()
-    val dishDao = AppDatabase.getDb(context).dishDao()
-    private val interactor = MenuInteractor(
-        categoryDao,
-        dishDao
-    )
-
 
     suspend fun start(scope: CoroutineScope) {
         action

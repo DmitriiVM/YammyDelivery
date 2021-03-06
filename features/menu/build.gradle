@@ -64,6 +64,7 @@ dependencies {
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
     implementation(Libs.COMPOSE_ACCOMPANIST)
+    implementation(Libs.COMPOSE_VIEW_MODEL)
 
     implementation(Libs.LIFECYCLE_VIEWMODEL)
     implementation(Libs.LIFECYCLE_RUNTIME)
