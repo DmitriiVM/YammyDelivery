@@ -8,7 +8,7 @@ sealed class CategoryState {
     data class Error(val error: String): CategoryState()
     data class Data(
         val subcategories: List<Subcategory> = emptyList(),
-        val selectedCategory: Subcategory? = null,
+        val selectedCategoryId: String? = null,
         val dishes: List<Dish> = emptyList(),
         val selectedSort: SortType = SortType.ALPHABET_DESC,
         val message: String? = null,

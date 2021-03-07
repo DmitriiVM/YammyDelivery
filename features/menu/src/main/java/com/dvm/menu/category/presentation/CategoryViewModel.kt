@@ -25,8 +25,13 @@ class CategoryViewModel(
     fun loadContent() {
         viewModelScope.launch(Dispatchers.IO) {
             val subcategories = interactor.getSubcategories(categoryId)
-            val dishes = interactor.getDishes(subcategories.firstOrNull()?.id ?: categoryId)
-            state = CategoryState.Data(subcategories = subcategories, dishes = dishes)
+            val subcategoryId = subcategories.firstOrNull()?.id
+            val dishes = interactor.getDishes(subcategoryId ?: categoryId)
+            state = CategoryState.Data(
+                subcategories = subcategories,
+                dishes = dishes,
+                selectedCategoryId = subcategoryId
+            )
         }
     }
 
@@ -44,7 +49,10 @@ class CategoryViewModel(
                 viewModelScope.launch(Dispatchers.IO) {
                     if (currentState is CategoryState.Data) {
                         val dishes = interactor.getDishes(action.id)
-                        state = currentState.copy(dishes = dishes)
+                        state = currentState.copy(
+                            dishes = dishes,
+                            selectedCategoryId = action.id
+                        )
                     }
                 }
             }

@@ -19,4 +19,9 @@ data class Dish(
     val active: Boolean,
     val createdAt: Long,
     val updatedAt: Long
-)
+) {
+
+    val hasSpecialOffer: Boolean
+        get() = oldPrice < price
+
+}

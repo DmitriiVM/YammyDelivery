@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -18,6 +17,7 @@ import com.dvm.menu.menu.domain.MenuInteractor
 import com.dvm.menu.menu.presentation.store.model.MenuNavigationEvent
 import com.dvm.menu.menu.presentation.ui.model.MenuIntent
 import com.dvm.menu.menu.presentation.ui.model.MenuState
+import com.dvm.ui.themes.YammyDeliveryTheme
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -34,6 +34,7 @@ class MenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
+
         lifecycleScope.launch {
 
             // TODO remove
@@ -44,7 +45,7 @@ class MenuFragment : Fragment() {
                 .getParentCategories(context)
 
             setContent {
-                MaterialTheme {
+                YammyDeliveryTheme {
                     val menuItems = remember { items }
                     MenuView(
                         menuItems = menuItems,
@@ -58,6 +59,10 @@ class MenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+//        navigateToMenuItem("5ed8da011f071c00465b1fe4")
+
+
         model
             .state()
             .onEach {

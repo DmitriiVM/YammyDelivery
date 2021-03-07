@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.dvm.ui.themes.YammyDeliveryTheme
 
 class CategoryFragment : Fragment() {
 
@@ -29,7 +29,7 @@ class CategoryFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
 
         setContent {
-            MaterialTheme {
+            YammyDeliveryTheme {
                 Category(
                     state = viewModel.state,
                     onAction = { viewModel.dispatch(it) }
