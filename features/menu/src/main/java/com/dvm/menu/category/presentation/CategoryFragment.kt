@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dvm.ui.themes.YammyDeliveryTheme
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 class CategoryFragment : Fragment() {
 
@@ -29,11 +30,15 @@ class CategoryFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
 
         setContent {
-            YammyDeliveryTheme {
-                Category(
-                    state = viewModel.state,
-                    onAction = { viewModel.dispatch(it) }
-                )
+            YammyDeliveryTheme(
+                requireActivity().window
+            ) {
+                ProvideWindowInsets(consumeWindowInsets = false) {
+                    Category(
+                        state = viewModel.state,
+                        onAction = { viewModel.dispatch(it) }
+                    )
+                }
             }
         }
     }

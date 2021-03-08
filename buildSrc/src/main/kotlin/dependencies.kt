@@ -1,6 +1,7 @@
 object Versions {
     const val KOTLIN = "1.4.30"
     const val COMPOSE = "1.0.0-beta01"
+    const val COMPOSE_ACCOMPANIST = "0.6.1"
     const val COROUTINES = "1.4.2"
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
@@ -25,7 +26,8 @@ object Libs {
     const val COMPOSE_ICONS = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
     const val COMPOSE_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
     const val COMPOSE_VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha01"
-    const val COMPOSE_ACCOMPANIST = "dev.chrisbanes.accompanist:accompanist-coil:0.6.1"
+    const val COMPOSE_ACCOMPANIST_COIL = "dev.chrisbanes.accompanist:accompanist-coil:${Versions.COMPOSE_ACCOMPANIST}"
+    const val COMPOSE_ACCOMPANIST_INSETS = "dev.chrisbanes.accompanist:accompanist-insets:${Versions.COMPOSE_ACCOMPANIST}"
 
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"

@@ -9,10 +9,10 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.dvm.db.entities.Dish
 import com.dvm.menu.category.temp.CategoryAction
 import com.dvm.menu.category.temp.CategoryState
-import com.dvm.menu.category.temp.SortType
 import com.dvm.ui.components.AppBarIconBack
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @ExperimentalFoundationApi
 @Composable
@@ -34,9 +34,9 @@ fun Category(
     onAction: (CategoryAction) -> Unit
 ) {
     Column {
-        CategoryAppBar(
+        CategoryHeader(
             onAction = onAction,
-            state = state
+            state = state  // TODO
         )
 
         when (state) {
@@ -57,40 +57,48 @@ fun Category(
 
 
 @Composable
-private fun CategoryAppBar(
+private fun CategoryHeader(
     onAction: (CategoryAction) -> Unit,
     state: CategoryState
 ) {
-    TopAppBar(
-        title = { Text(text = "Dishes") },
-        navigationIcon = {
-            AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
-        },
-        actions = {
-            DropdownMenu(
-                expanded = state is CategoryState.Data && state.showSort,
-                onDismissRequest = { onAction(CategoryAction.SortClick(false)) }
-            ) {
-                SortType.values().forEach {
-                    DropdownMenuItem(
-                        // TODO select
-                        onClick = { onAction(CategoryAction.SortPick(it)) }
-                    ) {
-                        Text(text = it.title)
-                    }
-                }
-            }
-            Icon(
-                imageVector = Icons.Outlined.Sort,
-                contentDescription = null,
-                modifier = Modifier.clickable(
-                    onClick = {
-                        onAction(CategoryAction.SortClick(true))
-                    }
-                )
-            )
-        }
-    )
+    Spacer(Modifier.statusBarsHeight())
+    Row(modifier = Modifier .padding(8.dp)) {
+        AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
+    }
+
+    Divider()
+    Spacer(Modifier.statusBarsHeight())
+
+//    TopAppBar(
+//        title = { Text(text = "Dishes") },
+//        navigationIcon = {
+//            AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
+//        },
+//        actions = {
+//            DropdownMenu(
+//                expanded = state is CategoryState.Data && state.showSort,
+//                onDismissRequest = { onAction(CategoryAction.SortClick(false)) }
+//            ) {
+//                SortType.values().forEach {
+//                    DropdownMenuItem(
+//                        // TODO select
+//                        onClick = { onAction(CategoryAction.SortPick(it)) }
+//                    ) {
+//                        Text(text = it.title)
+//                    }
+//                }
+//            }
+//            Icon(
+//                imageVector = Icons.Outlined.Sort,
+//                contentDescription = null,
+//                modifier = Modifier.clickable(
+//                    onClick = {
+//                        onAction(CategoryAction.SortClick(true))
+//                    }
+//                )
+//            )
+//        }
+//    )
 }
 
 @ExperimentalFoundationApi
@@ -162,8 +170,10 @@ private fun DishItem(
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .padding(8.dp)
                     .fillMaxWidth()
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(4.dp)), // TODO material
                 error = {
                     Icon(
                         imageVector = Icons.Default.Error,

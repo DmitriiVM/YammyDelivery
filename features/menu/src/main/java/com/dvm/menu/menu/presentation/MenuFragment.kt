@@ -45,7 +45,9 @@ class MenuFragment : Fragment() {
                 .getParentCategories(context)
 
             setContent {
-                YammyDeliveryTheme {
+                YammyDeliveryTheme(
+                    requireActivity().window
+                ) {
                     val menuItems = remember { items }
                     MenuView(
                         menuItems = menuItems,
