@@ -4,8 +4,8 @@ import com.dvm.db.entities.Dish
 import com.dvm.db.entities.Subcategory
 
 sealed class CategoryState {
-    object Loading: CategoryState()  // TODO
-    data class Error(val error: String): CategoryState()
+    object Loading : CategoryState()  // TODO
+    data class Error(val error: String) : CategoryState()
     data class Data(
         val subcategories: List<Subcategory> = emptyList(),
         val selectedCategoryId: String? = null,
@@ -13,5 +13,8 @@ sealed class CategoryState {
         val selectedSort: SortType = SortType.ALPHABET_DESC,
         val message: String? = null,
         val showSort: Boolean = false
-    ): CategoryState()
+    ) : CategoryState()
+
+    val showSortPopup: Boolean
+        get() = this is Data && showSort
 }

@@ -20,7 +20,10 @@ fun YammyDeliveryTheme(
     content: @Composable() () -> Unit
 ) {
     SideEffect {
-        setSystemUiColors(window, darkTheme)
+        setSystemUiColors(
+            window = window,
+            darkTheme = darkTheme
+        )
     }
 
     val colors = if (darkTheme) {
@@ -44,7 +47,7 @@ private fun setSystemUiColors(window: Window, darkTheme: Boolean) {
     val systemBackgroundColor = if (darkTheme) {
         Color.Black.copy(alpha = 0.5f).toArgb()
     } else {
-        Color.White.copy(alpha = 0.5f).toArgb()
+        Color.White.copy(alpha = 0.9f).toArgb()
     }
     window.statusBarColor = systemBackgroundColor
 

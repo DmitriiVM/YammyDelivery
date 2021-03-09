@@ -1,5 +1,6 @@
 package com.dvm.menu.category.presentation
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,24 +8,34 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dvm.db.entities.Dish
+import com.dvm.db.entities.Subcategory
 import com.dvm.menu.category.temp.CategoryAction
 import com.dvm.menu.category.temp.CategoryState
+import com.dvm.menu.category.temp.SortType
 import com.dvm.ui.components.AppBarIconBack
+import com.dvm.ui.components.verticalGradient
+import com.dvm.ui.themes.AccentColors
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @ExperimentalFoundationApi
@@ -36,15 +47,14 @@ fun Category(
     Column {
         CategoryHeader(
             onAction = onAction,
-            state = state  // TODO
+            showSort = state.showSortPopup
         )
-
         when (state) {
             is CategoryState.Data -> {
                 CategoryContent(
                     data = state,
-                    onSubcategoryClick = { onAction(CategoryAction.SubcategoryClick(it))},
-                    onDishClick = { onAction(CategoryAction.AddToCartClick(it))}
+                    onSubcategoryClick = { onAction(CategoryAction.SubcategoryClick(it)) },
+                    onDishClick = { onAction(CategoryAction.AddToCartClick(it)) }
                 )
             }
             is CategoryState.Error -> {
@@ -59,46 +69,43 @@ fun Category(
 @Composable
 private fun CategoryHeader(
     onAction: (CategoryAction) -> Unit,
-    state: CategoryState
+    showSort: Boolean
 ) {
     Spacer(Modifier.statusBarsHeight())
-    Row(modifier = Modifier .padding(8.dp)) {
-        AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
-    }
-
-    Divider()
-    Spacer(Modifier.statusBarsHeight())
-
-//    TopAppBar(
-//        title = { Text(text = "Dishes") },
-//        navigationIcon = {
-//            AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
-//        },
-//        actions = {
-//            DropdownMenu(
-//                expanded = state is CategoryState.Data && state.showSort,
-//                onDismissRequest = { onAction(CategoryAction.SortClick(false)) }
-//            ) {
-//                SortType.values().forEach {
-//                    DropdownMenuItem(
-//                        // TODO select
-//                        onClick = { onAction(CategoryAction.SortPick(it)) }
-//                    ) {
-//                        Text(text = it.title)
-//                    }
-//                }
-//            }
-//            Icon(
-//                imageVector = Icons.Outlined.Sort,
-//                contentDescription = null,
-//                modifier = Modifier.clickable(
-//                    onClick = {
-//                        onAction(CategoryAction.SortClick(true))
-//                    }
-//                )
-//            )
-//        }
-//    )
+    TopAppBar(
+        title = { Text(text = "Dishes") },
+        navigationIcon = {
+            AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
+        },
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp,
+        actions = {
+            DropdownMenu(
+                expanded = showSort,
+                onDismissRequest = { onAction(CategoryAction.SortClick(false)) }  // TODO local state
+            ) {
+                SortType.values().forEach {
+                    DropdownMenuItem(
+                        // TODO select state
+                        onClick = { onAction(CategoryAction.SortPick(it)) }
+                    ) {
+                        Text(text = it.title)
+                    }
+                }
+            }
+            Icon(
+                imageVector = Icons.Outlined.Sort,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .clickable(
+                        onClick = {
+                            onAction(CategoryAction.SortClick(true))
+                        }
+                    )
+            )
+        }
+    )
 }
 
 @ExperimentalFoundationApi
@@ -109,37 +116,27 @@ private fun CategoryContent(
     onDishClick: (dishId: String) -> Unit
 ) {
     Column {
-        Divider(color = MaterialTheme.colors.onPrimary, thickness = 0.5.dp)
+
+        val selectedColor = remember { mutableStateOf(Color.White) }
+
         val subcategories = data.subcategories
         if (subcategories.isNotEmpty()) {
-            ScrollableTabRow(
-                selectedTabIndex = subcategories.indexOfFirst { it.id == data.selectedCategoryId },
-                modifier = Modifier,
-                backgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.9f)
-            ) {
-                subcategories.forEach { subcategory ->
-                    Tab(
-                        selected = subcategory.id == data.selectedCategoryId,
-                        text = {
-                            Text(text = subcategory.name)
-                        },
-                        onClick = {
-                                  onSubcategoryClick(subcategory.id)
-                        },
-                        selectedContentColor = MaterialTheme.colors.secondaryVariant
-                    )
-                }
-            }
+            val selectedTabIndex = subcategories.indexOfFirst { it.id == data.selectedCategoryId }
+            SubcategoryTabs(
+                subcategories = subcategories,
+                selectedTabIndex = selectedTabIndex,
+                selectedColor = selectedColor,
+                onSubcategoryClick = onSubcategoryClick
+            )
         }
 
-        val scrollState = rememberLazyListState()
-//        scrollState.scrollToItem(0, 0)
-
-        // Crossfade
+        // TODO Crossfade
         LazyVerticalGrid(
             cells = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp),
-            state = scrollState
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalGradient(selectedColor.value.copy(alpha = 0.2f))  // TODO color
         ) {
             items(2) {
                 Spacer(modifier = Modifier.height(15.dp))
@@ -150,6 +147,56 @@ private fun CategoryContent(
                     dish = dish,
                     onClick = onDishClick
                 )
+            }
+
+            items(2) {
+                Spacer(modifier = Modifier.navigationBarsHeight())
+            }
+        }
+    }
+}
+
+@Composable
+private fun SubcategoryTabs(
+    subcategories: List<Subcategory>,
+    selectedTabIndex: Int,
+    selectedColor: MutableState<Color>,
+    onSubcategoryClick: (subcategoryId: String) -> Unit
+) {
+    ScrollableTabRow(
+        selectedTabIndex = selectedTabIndex,
+        indicator = {},
+        modifier = Modifier,
+        backgroundColor = MaterialTheme.colors.background
+    ) {
+
+        val colors = remember { AccentColors.values().toList().shuffled() }
+        val colorSize = colors.size
+
+        subcategories.forEachIndexed { index, subcategory ->
+
+            val color = remember { colors[index % colorSize].color }
+            val selected = index == selectedTabIndex
+            if (selected) selectedColor.value = color
+
+            Tab(
+                selected = selected,
+                onClick = { onSubcategoryClick(subcategory.id) }
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(percent = 50),  // TODO
+                    color = color.copy(alpha = 0.1f),   // TODO
+                    border = if (selected) BorderStroke(
+                        width = 1.dp,
+                        color = color
+                    ) else null,
+                    modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 10.dp)
+                ) {
+                    Text(
+                        text = subcategory.name,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
             }
         }
     }
@@ -164,7 +211,7 @@ private fun DishItem(
         modifier = Modifier.padding(8.dp)
     ) {
         Column {
-            val hasSpecialOffer = dish.hasSpecialOffer
+            val hasSpecialOffer = dish.hasSpecialOffer  // TODO
             CoilImage(
                 data = dish.image,
                 contentDescription = null,
@@ -211,7 +258,11 @@ private fun DishItem(
                     )
                     Text(
                         text = dish.name,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier
+                            .padding(bottom = 5.dp)
+                            .height(40.dp),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }

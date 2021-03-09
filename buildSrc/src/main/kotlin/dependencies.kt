@@ -10,7 +10,7 @@ object Versions {
 }
 
 object Libs {
-    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha08"
+    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha09"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"

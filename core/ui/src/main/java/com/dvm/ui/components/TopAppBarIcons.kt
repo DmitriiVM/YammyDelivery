@@ -32,7 +32,7 @@ fun AppBarIconBack(
         imageVector = Icons.Outlined.ArrowBack,
         contentDescription = null,
         modifier = Modifier
-            .padding(end = 10.dp)
+            .padding(start = 10.dp)
             .clickable(onClick = onNavigateUp)
     )
 }

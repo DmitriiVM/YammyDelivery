@@ -21,19 +21,40 @@ val bg_temp = Color(0xFFEBEBEB)
 val onPrimary_temp = Color(0xFF00282E)
 val onSurface_temp = Color(0xFF00545F)
 
+// accent colors
+//val light_blue = Color(0xFFCCEBFF)
+//val light_yellow = Color(0xFFFFF0C6)
+//val light_orange = Color(0xFFFFE5D5)
+//val light_green = Color(0xFFD0FFF5)
+//val light_violet = Color(0xFFD6D4FF)
+
+val light_blue = Color(0xFF4DB9FF)
+val light_yellow = Color(0xFFFFD150)
+val light_orange = Color(0xFFFF9858)
+val light_green = Color(0xFF62FFDE)
+val light_violet = Color(0xFF665EFF)
+
+enum class AccentColors(val color: Color){
+    BLUE(light_blue),
+    YELLOW(light_yellow),
+    ORANGE(light_orange),
+    GREEN(light_green),
+    VIOLET(light_violet),
+}
+
 
 internal val LightColorPalette = lightColors(
     primary = cyan400,
     primaryVariant = cyan700,
     secondary = orange400,
     secondaryVariant = orange700,
-background = bg_temp,
-surface = cyan__,
+    background = Color.White,
+    surface = Color.White,
 //error,
-onPrimary = onPrimary_temp,
+    onPrimary = onPrimary_temp,
 //onSecondary,
 //onBackground,
-onSurface = onSurface_temp,
+    onSurface = onSurface_temp,
 //onError,
 )
 

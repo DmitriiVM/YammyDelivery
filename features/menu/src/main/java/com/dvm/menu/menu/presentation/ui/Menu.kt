@@ -2,6 +2,7 @@ package com.dvm.menu.menu.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.twotone.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.dvm.menu.R
 import com.dvm.menu.menu.domain.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
+import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @ExperimentalFoundationApi
 @Composable
@@ -32,7 +35,7 @@ fun MenuView(
     onAppMenuClick: () -> Unit
 ) {
     Column {
-        MenuAppBar(
+        MenuHeader(
             onAppMenuClick = onAppMenuClick,
             onSearchClick = onSearchClick
         )
@@ -44,23 +47,32 @@ fun MenuView(
 }
 
 @Composable
-private fun MenuAppBar(
+private fun MenuHeader(
     onAppMenuClick: () -> Unit,
     onSearchClick: () -> Unit
 ) {
-    TopAppBar(
-        title = { Text(stringResource(R.string.app_bar_title_menu)) },
-        navigationIcon = { AppBarIconMenu(onAppMenuClick) },
-        actions = {
-            Icon(
-                imageVector = Icons.Outlined.Search,
-                contentDescription = null,
-                modifier = Modifier.clickable(
-                    onClick = onSearchClick
+    Column(
+        modifier = Modifier.background(color = Color.White.copy(alpha = 0.8f))
+    ) {
+        Spacer(Modifier.statusBarsHeight())
+        TopAppBar(
+            title = { Text(stringResource(R.string.app_bar_title_menu)) },
+            navigationIcon = { AppBarIconMenu(onAppMenuClick) },
+            backgroundColor = Color.Transparent,
+            elevation = 0.dp,
+            actions = {
+                Icon(
+                    imageVector = Icons.Outlined.Search,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(end = 12.dp)
+                        .clickable(
+                            onClick = onSearchClick
+                        )
                 )
-            )
-        }
-    )
+            }
+        )
+    }
 }
 
 @ExperimentalFoundationApi

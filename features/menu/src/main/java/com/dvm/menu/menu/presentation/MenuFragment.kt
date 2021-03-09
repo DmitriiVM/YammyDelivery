@@ -18,6 +18,7 @@ import com.dvm.menu.menu.presentation.store.model.MenuNavigationEvent
 import com.dvm.menu.menu.presentation.ui.model.MenuIntent
 import com.dvm.menu.menu.presentation.ui.model.MenuState
 import com.dvm.ui.themes.YammyDeliveryTheme
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -48,13 +49,15 @@ class MenuFragment : Fragment() {
                 YammyDeliveryTheme(
                     requireActivity().window
                 ) {
-                    val menuItems = remember { items }
-                    MenuView(
-                        menuItems = menuItems,
-                        onItemClick = { model.dispatch(MenuIntent.MenuItemClick(it)) },
-                        onSearchClick = { model.dispatch(MenuIntent.SearchClick) },
-                        onAppMenuClick = { model.dispatch(MenuIntent.AppMenuClick) }
-                    )
+                    ProvideWindowInsets(consumeWindowInsets = false){
+                        val menuItems = remember { items }
+                        MenuView(
+                            menuItems = menuItems,
+                            onItemClick = { model.dispatch(MenuIntent.MenuItemClick(it)) },
+                            onSearchClick = { model.dispatch(MenuIntent.SearchClick) },
+                            onAppMenuClick = { model.dispatch(MenuIntent.AppMenuClick) }
+                        )
+                    }
                 }
             }
         }
