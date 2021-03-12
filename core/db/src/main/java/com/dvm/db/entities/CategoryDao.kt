@@ -30,10 +30,15 @@ interface CategoryDao {
     )
     suspend fun getChildCategories(id: String): List<Subcategory> // TODO flow
 
+    @Query(
+        """
+            SELECT name
+            FROM category
+            WHERE id = :categoryId
+        """
+    )
+    suspend fun getCategoryTitle(categoryId: String): String
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCategories(categories: List<Category>)
-
-
-
-
 }

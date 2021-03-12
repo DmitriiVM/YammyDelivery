@@ -2,7 +2,6 @@ package com.dvm.menu.menu.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -35,7 +34,7 @@ fun MenuView(
     onAppMenuClick: () -> Unit
 ) {
     Column {
-        MenuHeader(
+        MenuAppBar(
             onAppMenuClick = onAppMenuClick,
             onSearchClick = onSearchClick
         )
@@ -47,32 +46,28 @@ fun MenuView(
 }
 
 @Composable
-private fun MenuHeader(
+private fun MenuAppBar(
     onAppMenuClick: () -> Unit,
     onSearchClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.background(color = Color.White.copy(alpha = 0.8f))
-    ) {
-        Spacer(Modifier.statusBarsHeight())
-        TopAppBar(
-            title = { Text(stringResource(R.string.app_bar_title_menu)) },
-            navigationIcon = { AppBarIconMenu(onAppMenuClick) },
-            backgroundColor = Color.Transparent,
-            elevation = 0.dp,
-            actions = {
-                Icon(
-                    imageVector = Icons.Outlined.Search,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(end = 12.dp)
-                        .clickable(
-                            onClick = onSearchClick
-                        )
-                )
-            }
-        )
-    }
+    Spacer(Modifier.statusBarsHeight())
+    TopAppBar(
+        title = { Text(stringResource(R.string.app_bar_title_menu)) },
+        navigationIcon = { AppBarIconMenu(onAppMenuClick) },
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp,
+        actions = {
+            Icon(
+                imageVector = Icons.Outlined.Search,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .clickable(
+                        onClick = onSearchClick
+                    )
+            )
+        }
+    )
 }
 
 @ExperimentalFoundationApi

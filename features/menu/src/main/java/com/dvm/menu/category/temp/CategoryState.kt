@@ -7,14 +7,11 @@ sealed class CategoryState {
     object Loading : CategoryState()  // TODO
     data class Error(val error: String) : CategoryState()
     data class Data(
+        val title: String = "",
         val subcategories: List<Subcategory> = emptyList(),
         val selectedCategoryId: String? = null,
         val dishes: List<Dish> = emptyList(),
-        val selectedSort: SortType = SortType.ALPHABET_DESC,
-        val message: String? = null,
-        val showSort: Boolean = false
+        val selectedSort: SortType = SortType.ALPHABET_ASC,
+        val message: String? = null
     ) : CategoryState()
-
-    val showSortPopup: Boolean
-        get() = this is Data && showSort
 }

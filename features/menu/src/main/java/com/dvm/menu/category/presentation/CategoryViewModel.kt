@@ -27,7 +27,9 @@ class CategoryViewModel(
             val subcategories = interactor.getSubcategories(categoryId)
             val subcategoryId = subcategories.firstOrNull()?.id
             val dishes = interactor.getDishes(subcategoryId ?: categoryId)
+            val title = interactor.getCategoryTitle(categoryId)
             state = CategoryState.Data(
+                title = title,
                 subcategories = subcategories,
                 dishes = dishes,
                 selectedCategoryId = subcategoryId
@@ -68,13 +70,7 @@ class CategoryViewModel(
                         SortType.RATING_ASC -> dishes.sortedBy { it.rating }
                         SortType.RATING_DESC -> dishes.sortedByDescending { it.rating }
                     }
-                    state = currentState.copy(dishes = sortedDishes, showSort = false)
-                }
-            }
-
-            is CategoryAction.SortClick -> {
-                if (currentState is CategoryState.Data) {
-                    state = currentState.copy(showSort = action.isShown)
+                    state = currentState.copy(dishes = sortedDishes, selectedSort = action.type)
                 }
             }
 
@@ -95,3 +91,7 @@ class CategoryViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+
+
+

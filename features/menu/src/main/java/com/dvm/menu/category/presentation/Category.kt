@@ -1,5 +1,8 @@
 package com.dvm.menu.category.presentation
 
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -15,15 +18,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.sharp.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dvm.db.entities.Dish
@@ -45,14 +47,25 @@ fun Category(
     onAction: (CategoryAction) -> Unit
 ) {
     Column {
-        CategoryHeader(
-            onAction = onAction,
-            showSort = state.showSortPopup
+
+        var selectedColor by remember {
+            mutableStateOf(AccentColors.values().random().color)
+        }
+
+        CategoryAppBar(
+            selectedSort = if (state is CategoryState.Data) state.selectedSort else null,
+            selectedColor = selectedColor,
+            onAction = onAction
         )
         when (state) {
             is CategoryState.Data -> {
                 CategoryContent(
-                    data = state,
+                    title = state.title,
+                    subcategories = state.subcategories,
+                    dishes = state.dishes,
+                    selectedCategoryId = state.selectedCategoryId,
+                    selectedColor = selectedColor,
+                    onColorSelected = { selectedColor = it },
                     onSubcategoryClick = { onAction(CategoryAction.SubcategoryClick(it)) },
                     onDishClick = { onAction(CategoryAction.AddToCartClick(it)) }
                 )
@@ -65,31 +78,40 @@ fun Category(
     }
 }
 
-
 @Composable
-private fun CategoryHeader(
-    onAction: (CategoryAction) -> Unit,
-    showSort: Boolean
+private fun CategoryAppBar(
+    selectedSort: SortType?,
+    selectedColor: Color,
+    onAction: (CategoryAction) -> Unit
 ) {
     Spacer(Modifier.statusBarsHeight())
+
     TopAppBar(
-        title = { Text(text = "Dishes") },
+        title = { },
         navigationIcon = {
             AppBarIconBack(onNavigateUp = { onAction(CategoryAction.NavigateUpClick) })
         },
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
         actions = {
+
+            var showDropdownMenu by remember { mutableStateOf(false) }
+
             DropdownMenu(
-                expanded = showSort,
-                onDismissRequest = { onAction(CategoryAction.SortClick(false)) }  // TODO local state
+                expanded = showDropdownMenu,
+                onDismissRequest = { showDropdownMenu = false }
             ) {
-                SortType.values().forEach {
+                SortType.values().forEach { type ->
                     DropdownMenuItem(
-                        // TODO select state
-                        onClick = { onAction(CategoryAction.SortPick(it)) }
+                        onClick = {
+                            onAction(CategoryAction.SortPick(type))
+                            showDropdownMenu = false
+                        }
                     ) {
-                        Text(text = it.title)
+                        Text(
+                            text = type.title,
+                            color = if (type == selectedSort) selectedColor else Color.Unspecified
+                        )
                     }
                 }
             }
@@ -99,9 +121,7 @@ private fun CategoryHeader(
                 modifier = Modifier
                     .padding(end = 12.dp)
                     .clickable(
-                        onClick = {
-                            onAction(CategoryAction.SortClick(true))
-                        }
+                        onClick = { showDropdownMenu = true }
                     )
             )
         }
@@ -111,46 +131,64 @@ private fun CategoryHeader(
 @ExperimentalFoundationApi
 @Composable
 private fun CategoryContent(
-    data: CategoryState.Data, // TODO
+    title: String,
+    subcategories: List<Subcategory>,
+    dishes: List<Dish>,
+    selectedCategoryId: String?,
+    selectedColor: Color,
+    onColorSelected: (Color) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit,
     onDishClick: (dishId: String) -> Unit
 ) {
     Column {
 
-        val selectedColor = remember { mutableStateOf(Color.White) }
+        Text(
+            text = title,
+            style = MaterialTheme.typography.h2,
+            modifier = Modifier.padding(start = 20.dp, bottom = 15.dp)
+        )
 
-        val subcategories = data.subcategories
         if (subcategories.isNotEmpty()) {
-            val selectedTabIndex = subcategories.indexOfFirst { it.id == data.selectedCategoryId }
             SubcategoryTabs(
                 subcategories = subcategories,
-                selectedTabIndex = selectedTabIndex,
-                selectedColor = selectedColor,
+                selectedTabIndex = subcategories.indexOfFirst { it.id == selectedCategoryId },
+                onColorSelected = onColorSelected,
                 onSubcategoryClick = onSubcategoryClick
             )
+        } else {
+            Divider(Modifier.padding(horizontal = 15.dp))
+            Divider(
+                color = selectedColor.copy(alpha = 0.5f),
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            )
+            Divider(Modifier.padding(horizontal = 15.dp))
         }
 
-        // TODO Crossfade
-        LazyVerticalGrid(
-            cells = GridCells.Fixed(2),
-            contentPadding = PaddingValues(8.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalGradient(selectedColor.value.copy(alpha = 0.2f))  // TODO color
-        ) {
-            items(2) {
-                Spacer(modifier = Modifier.height(15.dp))
-            }
 
-            items(data.dishes) { dish ->
-                DishItem(
-                    dish = dish,
-                    onClick = onDishClick
-                )
-            }
+        val animatableColor = remember { Animatable(Color.White) }
+        LaunchedEffect(selectedColor) {
+            animatableColor.animateTo(selectedColor, animationSpec = tween(durationMillis = 1000))
+        }
 
-            items(2) {
-                Spacer(modifier = Modifier.navigationBarsHeight())
+        Crossfade(targetState = dishes) {
+            LazyVerticalGrid(
+                cells = GridCells.Fixed(2),
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalGradient(animatableColor.value.copy(alpha = 0.4f))  // TODO color
+            ) {
+                items(2) { Spacer(Modifier.height(15.dp)) }
+
+                items(dishes) { dish ->
+                    DishItem(
+                        dish = dish,
+                        onClick = onDishClick
+                    )
+                }
+
+                items(2) { Spacer(Modifier.navigationBarsHeight()) }
             }
         }
     }
@@ -160,7 +198,7 @@ private fun CategoryContent(
 private fun SubcategoryTabs(
     subcategories: List<Subcategory>,
     selectedTabIndex: Int,
-    selectedColor: MutableState<Color>,
+    onColorSelected: (Color) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit
 ) {
     ScrollableTabRow(
@@ -177,7 +215,7 @@ private fun SubcategoryTabs(
 
             val color = remember { colors[index % colorSize].color }
             val selected = index == selectedTabIndex
-            if (selected) selectedColor.value = color
+            if (selected) onColorSelected(color)
 
             Tab(
                 selected = selected,
@@ -190,11 +228,18 @@ private fun SubcategoryTabs(
                         width = 1.dp,
                         color = color
                     ) else null,
-                    modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 10.dp)
+                    modifier = Modifier.padding(
+                        start = 4.dp,
+                        end = 4.dp,
+                        bottom = 10.dp
+                    )
                 ) {
                     Text(
                         text = subcategory.name,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        )
                     )
                 }
             }
@@ -208,7 +253,8 @@ private fun DishItem(
     onClick: (dishId: String) -> Unit
 ) {
     Card(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
+//        elevation = 2.dp
     ) {
         Column {
             val hasSpecialOffer = dish.hasSpecialOffer  // TODO
@@ -234,36 +280,45 @@ private fun DishItem(
                     modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(end = 10.dp),
+                        .padding(end = 15.dp),
                     contentAlignment = Alignment.TopEnd
                 ) {
 
+                    // elevation, todo
                     Icon(
                         imageVector = Icons.Sharp.Add,
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
-                            .offset(y = (-20).dp)
+                            .offset(y = (-28).dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.colors.secondary)
                             .clickable { onClick(dish.id) }
                     )
                 }
                 Column(
-                    modifier = Modifier.padding(15.dp)
+                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 5.dp)
                 ) {
                     Text(
-                        text = dish.price.toString(),
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        text = "${dish.price} ₽",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(start = 15.dp, bottom = 5.dp)
                     )
+                    Divider(modifier = Modifier.padding(horizontal = 3.dp))
                     Text(
                         text = dish.name,
                         modifier = Modifier
-                            .padding(bottom = 5.dp)
-                            .height(40.dp),
+                            .padding(bottom = 5.dp, start = 5.dp, end = 5.dp)
+                            .fillMaxWidth()
+                            .height(40.dp)
+                            .wrapContentHeight(),
                         maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center
                     )
+                    Divider(modifier = Modifier.padding(horizontal = 3.dp))
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Divider(modifier = Modifier.padding(horizontal = 3.dp))
                 }
             }
         }

@@ -15,4 +15,7 @@ class CategoryInteractor(
     suspend fun getDishes(categoryId: String) =
         dishDao.getDishes(categoryId)
 
+    suspend fun getCategoryTitle(categoryId: String) =
+        categoryDao.getCategoryTitle(categoryId)
+
 }
