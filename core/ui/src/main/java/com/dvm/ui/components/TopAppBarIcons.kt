@@ -26,12 +26,13 @@ fun AppBarIconMenu(
 
 @Composable
 fun AppBarIconBack(
+    modifier: Modifier = Modifier,
     onNavigateUp: () -> Unit
 ) {
     Icon(
         imageVector = Icons.Outlined.ArrowBack,
         contentDescription = null,
-        modifier = Modifier
+        modifier = modifier
             .padding(start = 10.dp)
             .clickable(onClick = onNavigateUp)
     )

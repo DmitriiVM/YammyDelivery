@@ -10,7 +10,9 @@ fun Modifier.verticalGradient(color: Color) =
         brush = Brush.verticalGradient(
             listOf(
                 Color.White,
-                color
+                Color.White,
+                color,
+                color,
             )
         )
     )
