@@ -22,6 +22,5 @@ data class Dish(
 ) {
 
     val hasSpecialOffer: Boolean
-        get() = oldPrice < price
-
+        get() = oldPrice != 0 && oldPrice > price
 }

@@ -1,12 +1,13 @@
 package com.dvm.menu.menu.presentation
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,14 +16,21 @@ import androidx.compose.material.icons.twotone.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dvm.menu.R
 import com.dvm.menu.menu.domain.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
+import com.dvm.ui.themes.light_blue
+import com.dvm.ui.themes.light_green
+import com.dvm.ui.themes.light_violet
+import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @ExperimentalFoundationApi
@@ -68,6 +76,7 @@ private fun MenuAppBar(
             )
         }
     )
+    Divider()
 }
 
 @ExperimentalFoundationApi
@@ -82,53 +91,94 @@ private fun MenuContent(
     ) {
 
         items(3) {
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(Modifier.height(20.dp))
         }
 
-        items(menuItems) { item ->
-            Card(
-                modifier = Modifier
-                    .fillParentMaxWidth()
-                    .aspectRatio(1f)
-                    .padding(7.dp)
-                    .clickable(
-                        onClick = {
-                            onItemClick(
-                                when (item) {
-                                    is MenuItem.Item -> item.id
-                                    MenuItem.SpecialOffer -> "special"  // TODO think of better approach
-                                }
-                            )
-                        }
-                    ),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        imageVector = Icons.TwoTone.Star,
-                        contentDescription = null,
-                        modifier = Modifier.size(50.dp),
-                        colorFilter = ColorFilter.tint(
-                            MaterialTheme.colors.primary.copy(
-                                alpha = 0.5f
-                            )
-                        )
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .align(Alignment.CenterHorizontally),
-                        textAlign = TextAlign.Center,
-                        text = when (item) {
-                            is MenuItem.Item -> item.title
-                            MenuItem.SpecialOffer -> "Акции"
+        itemsIndexed(menuItems) { index, item ->
+            MenuItem(
+                index = index,
+                item = item,
+                modifier = Modifier.fillParentMaxWidth(),
+                onItemClick = onItemClick
+            )
+        }
+
+        items(3) {
+            Spacer(Modifier.navigationBarsHeight())
+        }
+    }
+}
+
+@Composable
+private fun MenuItem(
+    index: Int,
+    item: MenuItem,
+    modifier: Modifier,
+    onItemClick: (String) -> Unit
+) {
+
+    val rowIndex = (index - index % 3) / 3
+    val height = 128
+    val startY = with(LocalDensity.current) { (-height * rowIndex).dp.toPx() }
+    val endY = with(LocalDensity.current) { (height * 5 - (height * rowIndex)).dp.toPx() }
+
+    Card(
+        elevation = 3.dp,
+        shape = RoundedCornerShape(10.dp),
+        border = BorderStroke(
+            width = 1.dp,
+            brush = Brush.verticalGradient(
+                startY = startY,
+                endY = endY,
+                colors = listOf(
+                    light_violet,
+                    light_green,
+                    light_blue
+                ),
+                tileMode = TileMode.Mirror
+            )
+        ),
+        modifier = modifier
+            .aspectRatio(1f)
+            .padding(7.dp)
+            .clickable(
+                onClick = {
+                    onItemClick(
+                        when (item) {
+                            is MenuItem.Item -> item.id
+                            MenuItem.SpecialOffer -> "special"  // TODO think of better approach
                         }
                     )
                 }
+            )
+    ) {
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Image(
+                    imageVector = Icons.TwoTone.Star,
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp),
+                    colorFilter = ColorFilter.tint(
+                        MaterialTheme.colors.primary.copy( alpha = 0.5f )
+                    )
+                )
             }
+            Text(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .padding(5.dp),
+                textAlign = TextAlign.Center,
+                text = when (item) {
+                    is MenuItem.Item -> item.title
+                    MenuItem.SpecialOffer -> "Акции"
+                }
+            )
         }
     }
 }
