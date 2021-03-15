@@ -1,8 +1,8 @@
 package com.dvm.menu.menu.domain
 
 import android.content.Context
-import com.dvm.db.entities.CategoryDao
-import com.dvm.db.entities.DishDao
+import com.dvm.db.dao.CategoryDao
+import com.dvm.db.dao.DishDao
 import com.dvm.menu.Graph
 import com.dvm.menu.menu.domain.model.MenuItem
 

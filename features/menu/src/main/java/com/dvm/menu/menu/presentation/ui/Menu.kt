@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dvm.menu.R
+import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.menu.menu.domain.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.light_blue
@@ -146,7 +147,7 @@ private fun MenuItem(
                     onItemClick(
                         when (item) {
                             is MenuItem.Item -> item.id
-                            MenuItem.SpecialOffer -> "special"  // TODO think of better approach
+                            MenuItem.SpecialOffer -> MENU_SPECIAL_OFFER  // TODO think of better approach
                         }
                     )
                 }

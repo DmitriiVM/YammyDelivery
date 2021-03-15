@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.db.entities.Dish
 import com.dvm.db.entities.Subcategory
-import com.dvm.menu.category.temp.CategoryAction
-import com.dvm.menu.category.temp.CategoryState
-import com.dvm.menu.category.temp.SortType
+import com.dvm.menu.category.presentation.model.CategoryEvent
+import com.dvm.menu.category.presentation.model.CategoryState
+import com.dvm.menu.category.presentation.model.SortType
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.AccentColors
@@ -55,7 +55,7 @@ private val AppBarHeight = 56.dp
 @Composable
 fun Category(
     state: CategoryState,
-    onAction: (CategoryAction) -> Unit
+    onAction: (CategoryEvent) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
     val titleHeight = remember { mutableStateOf(0) }
@@ -71,44 +71,36 @@ fun Category(
     }
 
     Box {
-        when (state) {
-            is CategoryState.Data -> {
-                CategoryContent(
-                    data = state,
-                    selectedColor = selectedColor,
-                    onColorSelected = { selectedColor = it },
-                    lazyListState = lazyListState,
-                    offset = offset,
-                    titleHeight = titleHeight,
-                    onSubcategoryClick = { onAction(CategoryAction.SubcategoryClick(it)) },
-                    onDishClick = { onAction(CategoryAction.AddToCartClick(it)) },
-                    onFavoriteClick = { onAction(CategoryAction.AddToFavoriteClick(it)) }
-                )
-            }
-            is CategoryState.Error -> {
-                // TODO
-            }
-            CategoryState.Loading -> {
-                // TODO
-            }
-        }
+        CategoryContent(
+            state = state,
+            selectedColor = selectedColor,
+            onColorSelected = { selectedColor = it },
+            lazyListState = lazyListState,
+            offset = offset,
+            titleHeight = titleHeight,
+            onSubcategoryClick = { onAction(CategoryEvent.SubcategoryClick(it)) },
+            onDishClick = { onAction(CategoryEvent.DishClick(it)) },
+            onAddToCartClick = { onAction(CategoryEvent.AddToCartClick(it)) },
+            onFavoriteClick = { onAction(CategoryEvent.AddToFavoriteClick(it)) }
+        )
+    }
 
-        Column {
-            Spacer(Modifier.statusBarsHeight())
-            CategoryAppBar(
-                selectedSort = if (state is CategoryState.Data) state.selectedSort else null,
-                selectedColor = selectedColor,
-                offset = offset,
-                onAction = onAction
-            )
-        }
+    Column {
+        Spacer(Modifier.statusBarsHeight())
+        CategoryAppBar(
+            selectedSort = state.selectedSort,
+            selectedColor = selectedColor,
+            offset = offset,
+            onAction = onAction
+        )
     }
 }
+
 
 @ExperimentalFoundationApi
 @Composable
 private fun CategoryContent(
-    data: CategoryState.Data,
+    state: CategoryState,
     selectedColor: Color,
     lazyListState: LazyListState,
     offset: Int,
@@ -116,6 +108,7 @@ private fun CategoryContent(
     onColorSelected: (Color) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit,
     onDishClick: (dishId: String) -> Unit,
+    onAddToCartClick: (dishId: String) -> Unit,
     onFavoriteClick: (dishId: String) -> Unit
 ) {
     Box {
@@ -130,16 +123,17 @@ private fun CategoryContent(
 
         DishList(
             color = color,
-            data = data,
+            state = state,
             lazyListState = lazyListState,
             offset = offset,
             titleHeight = titleHeight,
             selectedColor = selectedColor,
             onDishClick = onDishClick,
+            onAddToCartClick = onAddToCartClick,
             onFavoriteClick = onFavoriteClick
         )
 
-        val subcategories = data.subcategories
+        val subcategories = state.subcategories
         if (subcategories.isNotEmpty()) {
             Column {
                 Spacer(Modifier.statusBarsHeight())
@@ -147,7 +141,7 @@ private fun CategoryContent(
                 val titleHeightDp = with(LocalDensity.current) { titleHeight.value.toDp() }
                 Spacer(Modifier.height(titleHeightDp))
                 val selectedTabIndex =
-                    subcategories.indexOfFirst { it.id == data.selectedCategoryId }
+                    subcategories.indexOfFirst { it.id == state.selectedCategoryId }
                 SubcategoryTabs(
                     subcategories = subcategories,
                     selectedTabIndex = selectedTabIndex,
@@ -163,12 +157,13 @@ private fun CategoryContent(
 @Composable
 private fun DishList(
     color: Animatable<Color, AnimationVector4D>,
-    data: CategoryState.Data,
+    state: CategoryState,
     lazyListState: LazyListState,
     offset: Int,
     titleHeight: MutableState<Int>,
     selectedColor: Color,
     onDishClick: (dishId: String) -> Unit,
+    onAddToCartClick: (dishId: String) -> Unit,
     onFavoriteClick: (dishId: String) -> Unit
 ) {
     BoxWithConstraints(
@@ -180,7 +175,7 @@ private fun DishList(
 
         val itemWidth = with(LocalDensity.current) { (constraints.maxWidth / 2).toDp() }
 
-        Crossfade(data.dishes) {
+        Crossfade(state.dishes) {
             LaunchedEffect(it) {
                 lazyListState.scrollToItem(0, -offset)
             }
@@ -188,20 +183,21 @@ private fun DishList(
             LazyColumn(state = lazyListState) {
                 item {
                     DishListHeader(
-                        data = data,
+                        state = state,
                         titleHeight = titleHeight,
                         selectedColor = selectedColor
                     )
                 }
 
-                val chunkedDishes = data.dishes.chunked(2)
+                val chunkedDishes = state.dishes.chunked(2)
                 items(chunkedDishes) { dishes ->
                     Row(Modifier.fillMaxWidth()) {
                         dishes.forEach { dish ->
                             DishItem(
                                 dish = dish,
                                 modifier = Modifier.width(itemWidth),
-                                onClick = onDishClick,
+                                onDishClick = onDishClick,
+                                onAddToCartClick = onAddToCartClick,
                                 onFavoriteClick = onFavoriteClick
                             )
                         }
@@ -220,21 +216,21 @@ private fun DishList(
 
 @Composable
 private fun DishListHeader(
-    data: CategoryState.Data,
+    state: CategoryState,
     titleHeight: MutableState<Int>,
     selectedColor: Color
 ) {
     Spacer(Modifier.statusBarsHeight())
     Spacer(modifier = Modifier.height(AppBarHeight))
     Text(
-        text = data.title,
+        text = state.title,
         style = MaterialTheme.typography.h2,
         modifier = Modifier
             .onSizeChanged { size -> titleHeight.value = size.height }
             .padding(start = 20.dp, bottom = 15.dp)
     )
 
-    if (data.subcategories.isNotEmpty()) {
+    if (state.subcategories.isNotEmpty()) {
         Spacer(Modifier.height(AppBarHeight))
     } else {
         Divider(Modifier.padding(horizontal = 8.dp))
@@ -252,7 +248,7 @@ private fun CategoryAppBar(
     selectedSort: SortType?,
     selectedColor: Color,
     offset: Int,
-    onAction: (CategoryAction) -> Unit
+    onAction: (CategoryEvent) -> Unit
 ) {
     TopAppBar(
         title = { },
@@ -263,7 +259,7 @@ private fun CategoryAppBar(
                         translationX = offset.toFloat(),
                         alpha = 1f + offset * 0.03f
                     ),
-                onNavigateUp = { onAction(CategoryAction.NavigateUpClick) }
+                onNavigateUp = { onAction(CategoryEvent.NavigateUpClick) }
             )
         },
         backgroundColor = Color.Transparent,
@@ -279,7 +275,7 @@ private fun CategoryAppBar(
                 SortType.values().forEach { type ->
                     DropdownMenuItem(
                         onClick = {
-                            onAction(CategoryAction.SortPick(type))
+                            onAction(CategoryEvent.SortPick(type))
                             expanded = false
                         }
                     ) {
@@ -363,12 +359,15 @@ private fun SubcategoryTabs(
 private fun DishItem(
     dish: Dish,
     modifier: Modifier = Modifier,
-    onClick: (dishId: String) -> Unit,
+    onDishClick: (dishId: String) -> Unit,
+    onAddToCartClick: (dishId: String) -> Unit,
     onFavoriteClick: (dishId: String) -> Unit
 ) {
     Card(
-        modifier = modifier.padding(8.dp),
-        elevation = 1.dp
+        elevation = 1.dp,
+        modifier = modifier
+            .padding(8.dp)
+            .clickable { onDishClick(dish.id) }
     ) {
         Box {
             Column {
@@ -407,7 +406,7 @@ private fun DishItem(
                                 .offset(y = (-28).dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.colors.secondary)
-                                .clickable { onClick(dish.id) }
+                                .clickable { onAddToCartClick(dish.id) }
                         )
                     }
                     Column(

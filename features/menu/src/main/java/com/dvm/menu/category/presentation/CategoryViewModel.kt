@@ -6,63 +6,87 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dvm.db.dao.CartDao
+import com.dvm.db.dao.CategoryDao
+import com.dvm.db.dao.DishDao
+import com.dvm.db.dao.FavoriteDao
 import com.dvm.menu.Graph
-import com.dvm.menu.category.domain.CategoryInteractor
-import com.dvm.menu.category.temp.CategoryAction
-import com.dvm.menu.category.temp.CategoryState
-import com.dvm.menu.category.temp.SortType
+import com.dvm.menu.category.presentation.model.CategoryEvent
+import com.dvm.menu.category.presentation.model.CategoryState
+import com.dvm.menu.category.presentation.model.NavigationEvent
+import com.dvm.menu.category.presentation.model.SortType
+import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val categoryId: String,
-    private val interactor: CategoryInteractor = Graph.interactor
+    private val categoryDao: CategoryDao,
+    private val dishDao: DishDao,
+    private val favoriteDao: FavoriteDao,
+    private val cartDao: CartDao,
 ) : ViewModel() {
 
-    var state by mutableStateOf<CategoryState>(CategoryState.Loading)
+    var state by mutableStateOf(CategoryState())
         private set
+
+    private val _event = MutableSharedFlow<NavigationEvent>()
+    val event: SharedFlow<NavigationEvent>
+        get() = _event
 
     fun loadContent() {
         viewModelScope.launch(Dispatchers.IO) {
-            val subcategories = interactor.getSubcategories(categoryId)
-            val subcategoryId = subcategories.firstOrNull()?.id
-            val dishes = interactor.getDishes(subcategoryId ?: categoryId)
-            val title = interactor.getCategoryTitle(categoryId)
-            state = CategoryState.Data(
-                title = title,
-                subcategories = subcategories,
-                dishes = dishes,
-                selectedCategoryId = subcategoryId
-            )
+            when (categoryId) {
+                MENU_SPECIAL_OFFER -> {
+                    val dishes = dishDao.getSpecialOffers()
+                    state = CategoryState(
+                        title = "Акции",
+                        dishes = dishes
+                    )
+                }
+                else -> {
+                    val subcategories = categoryDao.getChildCategories(categoryId)
+                    val subcategoryId = subcategories.firstOrNull()?.id
+                    val dishes = dishDao.getDishes(subcategoryId ?: categoryId)
+                    val title = categoryDao.getCategoryTitle(categoryId)
+                    state = CategoryState(
+                        title = title,
+                        subcategories = subcategories,
+                        dishes = dishes,
+                        selectedCategoryId = subcategoryId
+                    )
+                }
+            }
         }
     }
 
-    fun dispatch(action: CategoryAction) {
-        val currentState = state
-        when (action) {
-
-            is CategoryAction.AddToCartClick -> {
-            }
-
-            is CategoryAction.DishClick -> {
-            }
-
-            is CategoryAction.SubcategoryClick -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    if (currentState is CategoryState.Data) {
-                        val dishes = interactor.getDishes(action.id)
-                        state = currentState.copy(
-                            dishes = dishes,
-                            selectedCategoryId = action.id
-                        )
-                    }
+    fun dispatch(event: CategoryEvent) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (event) {
+                is CategoryEvent.AddToCartClick -> {
+                    /*cartDao.addToCart(action.dishId)*/
                 }
-            }
-
-            is CategoryAction.SortPick -> {
-                if (currentState is CategoryState.Data) {
-                    val dishes = currentState.dishes
-                    val sortedDishes = when (action.type) {
+                is CategoryEvent.DishClick -> {
+                    _event.emit(NavigationEvent.ToDetails(event.dishId))
+                }
+                is CategoryEvent.AddToFavoriteClick -> {
+                    /*favoriteDao.addToFavorite(action.dishId)*/
+                }
+                CategoryEvent.NavigateUpClick -> {
+                    _event.emit(NavigationEvent.Up)
+                }
+                is CategoryEvent.SubcategoryClick -> {
+                    val dishes = dishDao.getDishes(event.id)
+                    state = state.copy(
+                        dishes = dishes,
+                        selectedCategoryId = event.id
+                    )
+                }
+                is CategoryEvent.SortPick -> {
+                    val dishes = state.dishes
+                    val sortedDishes = when (event.sortType) {
                         SortType.ALPHABET_ASC -> dishes.sortedBy { it.name }
                         SortType.ALPHABET_DESC -> dishes.sortedByDescending { it.name }
                         SortType.POPULARITY_ASC -> dishes.sortedBy { it.likes }
@@ -70,23 +94,30 @@ class CategoryViewModel(
                         SortType.RATING_ASC -> dishes.sortedBy { it.rating }
                         SortType.RATING_DESC -> dishes.sortedByDescending { it.rating }
                     }
-                    state = currentState.copy(dishes = sortedDishes, selectedSort = action.type)
+                    state = state.copy(dishes = sortedDishes, selectedSort = event.sortType)
                 }
-            }
-
-            CategoryAction.NavigateUpClick -> {
             }
         }
     }
 }
 
 class CategoryViewModelFactory(
-    private val categoryId: String
+    private val categoryId: String,
+    private val categoryDao: CategoryDao = Graph.categoryDao,
+    private val dishDao: DishDao = Graph.dishDao,
+    private val favoriteDao: FavoriteDao = Graph.favoriteDao,
+    private val cartDao: CartDao = Graph.cartDao,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
-            return CategoryViewModel(categoryId) as T
+            return CategoryViewModel(
+                categoryId = categoryId,
+                categoryDao = categoryDao,
+                dishDao = dishDao,
+                favoriteDao = favoriteDao,
+                cartDao = cartDao,
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

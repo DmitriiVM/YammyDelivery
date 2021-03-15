@@ -12,8 +12,8 @@ data class Category(
     val parent: String? = null,
     val icon: String? = null,
     val active: Boolean,
-    val createdAt: Long,
-    val updatedAt: Long
+    val createdAt: Long,   // TODO
+    val updatedAt: Long   // TODO
 )
 
 data class ParentCategory(

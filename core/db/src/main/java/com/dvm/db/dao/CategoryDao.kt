@@ -1,9 +1,12 @@
-package com.dvm.db.entities
+package com.dvm.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dvm.db.entities.Category
+import com.dvm.db.entities.ParentCategory
+import com.dvm.db.entities.Subcategory
 
 @Dao
 interface CategoryDao {

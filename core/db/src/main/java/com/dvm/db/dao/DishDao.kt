@@ -1,9 +1,10 @@
-package com.dvm.db.entities
+package com.dvm.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dvm.db.entities.Dish
 
 @Dao
 interface DishDao {
@@ -29,6 +30,16 @@ interface DishDao {
     """
     )
     suspend fun getDishes(category: String): List<Dish>
+
+    @Query(
+        """
+        SELECT *
+        FROM dish
+        WHERE oldPrice > price
+        AND active = 1
+    """
+    )
+    suspend fun getSpecialOffers(): List<Dish>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDishes(dishes: List<Dish>)

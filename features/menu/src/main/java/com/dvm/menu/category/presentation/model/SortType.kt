@@ -1,4 +1,4 @@
-package com.dvm.menu.category.temp
+package com.dvm.menu.category.presentation.model
 
 enum class SortType(val title: String){
     ALPHABET_ASC("По алфавиту ▲"),

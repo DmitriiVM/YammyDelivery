@@ -9,10 +9,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.dvm.menu.category.presentation.model.NavigationEvent
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class CategoryFragment : Fragment() {
 
@@ -28,7 +32,6 @@ class CategoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
-
         setContent {
             YammyDeliveryTheme(
                 requireActivity().window
@@ -44,7 +47,23 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.loadContent()
+        if (savedInstanceState == null) {
+            viewModel.loadContent()
+        }
+        viewModel
+            .event
+            .onEach { event ->
+                when (event) {
+                    NavigationEvent.Up -> {
+                        findNavController().navigateUp()
+                    }
+                    is NavigationEvent.ToDetails -> {
+
+                    }
+                }
+            }
+            .launchIn(lifecycleScope)
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {

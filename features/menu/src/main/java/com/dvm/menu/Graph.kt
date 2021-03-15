@@ -2,7 +2,6 @@ package com.dvm.menu
 
 import android.content.Context
 import com.dvm.db.AppDatabase
-import com.dvm.menu.category.domain.CategoryInteractor
 
 object Graph {
 
@@ -14,8 +13,12 @@ object Graph {
         database.dishDao()
     }
 
-    val interactor by lazy {
-        CategoryInteractor()
+    val favoriteDao by lazy {
+        database.favoriteDao()
+    }
+
+    val cartDao by lazy {
+        database.cartDao()
     }
 
     private lateinit var database: AppDatabase
