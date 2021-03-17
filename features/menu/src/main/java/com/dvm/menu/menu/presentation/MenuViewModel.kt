@@ -1,31 +1,44 @@
 package com.dvm.menu.menu.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.menu.menu.presentation.store.MenuStore
-import com.dvm.menu.menu.presentation.store.model.MenuAction
-import com.dvm.menu.menu.presentation.store.toAction
-import com.dvm.menu.menu.presentation.ui.model.MenuIntent
+import com.dvm.menu.menu.domain.MenuInteractor
+import com.dvm.menu.menu.domain.model.MenuItem
+import com.dvm.menu.menu.presentation.model.MenuEvent
+import com.dvm.menu.menu.presentation.model.MenuNavigationEvent
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-class MenuViewModel(app: Application) : AndroidViewModel(app) {  // TODO
+class MenuViewModel(
+    private val interactor: MenuInteractor = MenuInteractor()
+) : ViewModel() {
 
-    private val store = MenuStore(app.applicationContext)
+    var menuItems by mutableStateOf(emptyList<MenuItem>())
+        private set
+
+    private val _navigationEvent = MutableSharedFlow<MenuNavigationEvent>()
+    val navigationEvent: SharedFlow<MenuNavigationEvent>
+        get() = _navigationEvent
 
     init {
         viewModelScope.launch {
-            store.start(viewModelScope)
-            store.dispatch(MenuAction.LoadMenu)
+            menuItems = interactor.getParentCategories()
         }
     }
 
-    fun dispatch(intent: MenuIntent) {
+    fun dispatch(event: MenuEvent) {
         viewModelScope.launch {
-            store.dispatch(intent.toAction())
+            _navigationEvent.emit(
+                when (event) {
+                    is MenuEvent.MenuItemClick -> MenuNavigationEvent.NavigateToCategory(event.id)
+                    MenuEvent.AppMenuClick -> MenuNavigationEvent.OpenAppMenu
+                    MenuEvent.SearchClick -> MenuNavigationEvent.NavigateToSearch
+                }
+            )
         }
     }
-
-    fun state() = store.state
-    fun navigation() = store.navigationEvent
 }

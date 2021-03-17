@@ -1,7 +1,7 @@
-package com.dvm.menu.menu.presentation.store.model
+package com.dvm.menu.menu.presentation.model
 
 sealed class MenuNavigationEvent {
     object OpenAppMenu: MenuNavigationEvent()
     object NavigateToSearch: MenuNavigationEvent()
-    data class NavigateToMenuItem(val id: String): MenuNavigationEvent()
+    data class NavigateToCategory(val id: String): MenuNavigationEvent()
 }

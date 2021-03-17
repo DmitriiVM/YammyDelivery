@@ -12,8 +12,8 @@ import com.dvm.db.dao.DishDao
 import com.dvm.db.dao.FavoriteDao
 import com.dvm.menu.Graph
 import com.dvm.menu.category.presentation.model.CategoryEvent
+import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.menu.category.presentation.model.CategoryState
-import com.dvm.menu.category.presentation.model.NavigationEvent
 import com.dvm.menu.category.presentation.model.SortType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import kotlinx.coroutines.Dispatchers
@@ -32,11 +32,15 @@ class CategoryViewModel(
     var state by mutableStateOf(CategoryState())
         private set
 
-    private val _event = MutableSharedFlow<NavigationEvent>()
-    val event: SharedFlow<NavigationEvent>
-        get() = _event
+    private val _navigationEvent = MutableSharedFlow<CategoryNavigationEvent>()
+    val navigationEvent: SharedFlow<CategoryNavigationEvent>
+        get() = _navigationEvent
 
-    fun loadContent() {
+    init {
+        loadContent()
+    }
+
+    private fun loadContent() {
         viewModelScope.launch(Dispatchers.IO) {
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
@@ -69,13 +73,13 @@ class CategoryViewModel(
                     /*cartDao.addToCart(action.dishId)*/
                 }
                 is CategoryEvent.DishClick -> {
-                    _event.emit(NavigationEvent.ToDetails(event.dishId))
+                    _navigationEvent.emit(CategoryNavigationEvent.ToDetails(event.dishId))
                 }
                 is CategoryEvent.AddToFavoriteClick -> {
                     /*favoriteDao.addToFavorite(action.dishId)*/
                 }
                 CategoryEvent.NavigateUpClick -> {
-                    _event.emit(NavigationEvent.Up)
+                    _navigationEvent.emit(CategoryNavigationEvent.Up)
                 }
                 is CategoryEvent.SubcategoryClick -> {
                     val dishes = dishDao.getDishes(event.id)

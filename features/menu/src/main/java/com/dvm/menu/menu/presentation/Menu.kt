@@ -2,7 +2,6 @@ package com.dvm.menu.menu.presentation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -12,25 +11,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.twotone.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dvm.menu.R
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.menu.menu.domain.model.MenuItem
+import com.dvm.menu.menu.presentation.model.MenuEvent
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.light_blue
 import com.dvm.ui.themes.light_green
 import com.dvm.ui.themes.light_violet
+import com.dvm.ui.themes.temp
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
@@ -38,18 +38,16 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 fun MenuView(
     menuItems: List<MenuItem>,
-    onItemClick: (String) -> Unit,
-    onSearchClick: () -> Unit,
-    onAppMenuClick: () -> Unit
+    onEvent: (MenuEvent) -> Unit
 ) {
     Column {
         MenuAppBar(
-            onAppMenuClick = onAppMenuClick,
-            onSearchClick = onSearchClick
+            onAppMenuClick = { onEvent(MenuEvent.AppMenuClick) },
+            onSearchClick = { onEvent(MenuEvent.SearchClick) }
         )
         MenuContent(
             menuItems = menuItems,
-            onItemClick = onItemClick
+            onItemClick = { onEvent(MenuEvent.MenuItemClick(it)) }
         )
     }
 }
@@ -117,7 +115,6 @@ private fun MenuItem(
     modifier: Modifier,
     onItemClick: (String) -> Unit
 ) {
-
     val rowIndex = (index - index % 3) / 3
     val height = 128
     val startY = with(LocalDensity.current) { (-height * rowIndex).dp.toPx() }
@@ -147,7 +144,7 @@ private fun MenuItem(
                     onItemClick(
                         when (item) {
                             is MenuItem.Item -> item.id
-                            MenuItem.SpecialOffer -> MENU_SPECIAL_OFFER  // TODO think of better approach
+                            MenuItem.SpecialOffer -> MENU_SPECIAL_OFFER
                         }
                     )
                 }
@@ -160,13 +157,16 @@ private fun MenuItem(
                     .weight(1f),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                Image(
-                    imageVector = Icons.TwoTone.Star,
+                Icon(
+                    painter = painterResource(
+                        id = when (item) {
+                            is MenuItem.Item -> getIcon(item.title)
+                            MenuItem.SpecialOffer -> R.drawable.icon_special_offer
+                        }
+                    ),
                     contentDescription = null,
-                    modifier = Modifier.size(40.dp),
-                    colorFilter = ColorFilter.tint(
-                        MaterialTheme.colors.primary.copy( alpha = 0.5f )
-                    )
+                    modifier = Modifier.size(30.dp),
+                    tint = temp.copy(alpha = 0.5f)
                 )
             }
             Text(
@@ -178,8 +178,30 @@ private fun MenuItem(
                 text = when (item) {
                     is MenuItem.Item -> item.title
                     MenuItem.SpecialOffer -> "Акции"
-                }
+                },
+                color = Color.Black.copy(alpha = 0.7f)
             )
         }
+    }
+}
+
+fun getIcon(dishTitle: String) : Int{
+    return when (dishTitle) {
+        "Бургеры и хот-доги" -> R.drawable.icon_hamburger
+        "Пицца" -> R.drawable.icon_pizza
+        "Суши и роллы" -> R.drawable.icon_sushi
+        "Завтраки" -> R.drawable.icon_breakfast
+        "Супы" -> R.drawable.icon_soup
+        "Основное блюдо" -> R.drawable.icon_main_dish
+        "Гарниры" -> R.drawable.icon_side_dish
+        "Паста" -> R.drawable.icon_pasta
+        "Пельмени" -> R.drawable.icon_dumpling
+        "Салаты" -> R.drawable.icon_vegetables
+        "Десерты" -> R.drawable.icon_dessert
+        "Закуски" -> R.drawable.icon_snack
+        "Блюда на гриле" -> R.drawable.icon_grill
+        "Соусы" -> R.drawable.icon_sauce
+        "Напитки" -> R.drawable.icon_juice
+        else -> R.drawable.icon_special_offer
     }
 }

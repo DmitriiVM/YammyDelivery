@@ -64,6 +64,8 @@ val light_orange = Color(0xFFFF9858)
 val light_green = Color(0xFF62FFDE)
 val light_violet = Color(0xFF665EFF)
 
+val temp = Color(0xFF286FAD)
+
 enum class AccentColors(val color: Color){
     BLUE(light_blue),
     YELLOW(light_yellow),

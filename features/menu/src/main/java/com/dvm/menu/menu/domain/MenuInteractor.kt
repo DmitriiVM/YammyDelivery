@@ -1,32 +1,20 @@
 package com.dvm.menu.menu.domain
 
-import android.content.Context
-import com.dvm.db.dao.CategoryDao
-import com.dvm.db.dao.DishDao
-import com.dvm.menu.Graph
 import com.dvm.menu.menu.domain.model.MenuItem
+import com.dvm.menu.menu.repository.CategoryRepository
 
 class MenuInteractor(
-    private val categoryDao: CategoryDao = Graph.categoryDao,
-    private val dishDao: DishDao = Graph.dishDao
+    private val repository: CategoryRepository = CategoryRepository()
 ) {
 
-    suspend fun getParentCategories(context: Context): List<MenuItem> {
+    suspend fun getParentCategories(): List<MenuItem> {
 
-        val hasSpecialOffers = dishDao.hasSpecialOffers()
+        val hasSpecialOffers = repository.hasSpecialOffers()
 
         return mutableListOf<MenuItem>().apply {
             if (hasSpecialOffers) add(MenuItem.SpecialOffer)
             addAll(
-                categoryDao
-                    .getParentCategories()
-                    .map { category ->
-                        MenuItem.Item(
-                            id = category.id,
-                            title = category.name,
-                            imageUrl = category.icon
-                        )
-                    }  // TODO mapping in data layer
+                repository.getMenuItems()
             )
         }
     }

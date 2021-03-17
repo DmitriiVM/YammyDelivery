@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.dvm.menu.category.presentation.model.NavigationEvent
+import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.launchIn
@@ -24,6 +24,19 @@ class CategoryFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels {
         CategoryViewModelFactory(args.id)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel
+            .navigationEvent
+            .onEach { event ->
+                when (event) {
+                    is CategoryNavigationEvent.ToDetails -> navigateToDetails(event.dishId)
+                    CategoryNavigationEvent.Up -> navigateUp()
+                }
+            }
+            .launchIn(lifecycleScope)
     }
 
     @ExperimentalFoundationApi
@@ -47,29 +60,21 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            viewModel.loadContent()
-        }
-        viewModel
-            .event
-            .onEach { event ->
-                when (event) {
-                    NavigationEvent.Up -> {
-                        findNavController().navigateUp()
-                    }
-                    is NavigationEvent.ToDetails -> {
-
-                    }
-                }
-            }
-            .launchIn(lifecycleScope)
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigateUp()
+                    navigateUp()
                 }
             }
         )
+    }
+
+
+    private fun navigateToDetails(dishId: String) {
+
+    }
+
+    private fun navigateUp() {
+        findNavController().navigateUp()
     }
 }
