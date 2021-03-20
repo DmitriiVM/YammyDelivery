@@ -3,9 +3,12 @@ package com.dvm.yammydelivery
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.dvm.appmenu.Navigator
+import com.dvm.dish.DishFragment
 import com.dvm.menu.NavHostFragment
+import com.dvm.menu.search.SearchFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -15,14 +18,26 @@ class MainActivity : AppCompatActivity() {
                 replace(R.id.fragmentContainer, NavHostFragment())
             }
         }
+    }
 
-//        setContent {
-//            YammyDeliveryTheme {
-//                // A surface container using the 'background' color from the theme
-//                Surface(color = MaterialTheme.colors.background) {
-//                    Greeting("Android")
-//                }
-//            }
-//        }
+    override fun navigateToDishScreen(dishId: String){
+        supportFragmentManager.commit {
+            addToBackStack("test")
+            replace(R.id.fragmentContainer, DishFragment.newInstance(dishId))
+        }
+    }
+
+    override fun navigateToMenuScreen() {
+        supportFragmentManager.commit {
+            addToBackStack("test")
+            replace(R.id.fragmentContainer, NavHostFragment())
+        }
+    }
+
+    override fun navigateToSearchScreen() {
+        supportFragmentManager.commit {
+            addToBackStack("test")
+            replace(R.id.fragmentContainer, SearchFragment())
+        }
     }
 }

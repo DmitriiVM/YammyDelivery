@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.dvm.appmenu.Navigator
 import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -52,7 +53,8 @@ class CategoryFragment : Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Category(
                         state = viewModel.state,
-                        onAction = { viewModel.dispatch(it) }
+                        onAction = { viewModel.dispatch(it) },
+                        navigator = requireActivity() as Navigator
                     )
                 }
             }
@@ -69,9 +71,8 @@ class CategoryFragment : Fragment() {
         )
     }
 
-
     private fun navigateToDetails(dishId: String) {
-
+        (requireActivity() as Navigator).navigateToDishScreen(dishId)
     }
 
     private fun navigateUp() {

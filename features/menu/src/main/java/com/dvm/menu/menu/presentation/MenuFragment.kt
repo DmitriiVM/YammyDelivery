@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.dvm.appmenu.Navigator
 import com.dvm.menu.menu.presentation.model.MenuNavigationEvent
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -47,7 +48,8 @@ class MenuFragment : Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     MenuView(
                         menuItems = model.menuItems,
-                        onEvent = { model.dispatch(it) }
+                        onEvent = { model.dispatch(it) },
+                        navigator = requireActivity() as Navigator
                     )
                 }
             }

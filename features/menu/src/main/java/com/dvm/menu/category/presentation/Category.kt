@@ -37,6 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dvm.appmenu.Drawer
+import com.dvm.appmenu.Navigator
 import com.dvm.db.entities.Dish
 import com.dvm.db.entities.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
@@ -55,22 +57,23 @@ private val AppBarHeight = 56.dp
 @Composable
 fun Category(
     state: CategoryState,
-    onAction: (CategoryEvent) -> Unit
+    onAction: (CategoryEvent) -> Unit,
+    navigator: Navigator,
 ) {
-    val lazyListState = rememberLazyListState()
-    val titleHeight = remember { mutableStateOf(0) }
-    var offset by remember { mutableStateOf(0) }
-    var selectedColor by remember {
-        mutableStateOf(AccentColors.values().random().color)
-    }
+    Drawer(navigator) {
+        val lazyListState = rememberLazyListState()
+        val titleHeight = remember { mutableStateOf(0) }
+        var offset by remember { mutableStateOf(0) }
+        var selectedColor by remember {
+            mutableStateOf(AccentColors.values().random().color)
+        }
 
-    if (lazyListState.firstVisibleItemIndex == 0) {
-        val maxTabOffset =
-            with(LocalDensity.current) { AppBarHeight.toPx() }.toInt() + titleHeight.value
-        offset = -lazyListState.firstVisibleItemScrollOffset.coerceAtMost(maxTabOffset)
-    }
+        if (lazyListState.firstVisibleItemIndex == 0) {
+            val maxTabOffset =
+                with(LocalDensity.current) { AppBarHeight.toPx() }.toInt() + titleHeight.value
+            offset = -lazyListState.firstVisibleItemScrollOffset.coerceAtMost(maxTabOffset)
+        }
 
-    Box {
         CategoryContent(
             state = state,
             selectedColor = selectedColor,
@@ -83,16 +86,16 @@ fun Category(
             onAddToCartClick = { onAction(CategoryEvent.AddToCartClick(it)) },
             onFavoriteClick = { onAction(CategoryEvent.AddToFavoriteClick(it)) }
         )
-    }
 
-    Column {
-        Spacer(Modifier.statusBarsHeight())
-        CategoryAppBar(
-            selectedSort = state.selectedSort,
-            selectedColor = selectedColor,
-            offset = offset,
-            onAction = onAction
-        )
+        Column {
+            Spacer(Modifier.statusBarsHeight())
+            CategoryAppBar(
+                selectedSort = state.selectedSort,
+                selectedColor = selectedColor,
+                offset = offset,
+                onAction = onAction
+            )
+        }
     }
 }
 

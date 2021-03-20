@@ -16,7 +16,6 @@ import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.SortType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -41,7 +40,7 @@ class CategoryViewModel(
     }
 
     private fun loadContent() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     val dishes = dishDao.getSpecialOffers()
@@ -67,7 +66,7 @@ class CategoryViewModel(
     }
 
     fun dispatch(event: CategoryEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (event) {
                 is CategoryEvent.AddToCartClick -> {
                     /*cartDao.addToCart(action.dishId)*/

@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -22,6 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.dvm.appmenu.Drawer
+import com.dvm.appmenu.Navigator
 import com.dvm.menu.R
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.menu.menu.domain.model.MenuItem
@@ -33,22 +36,36 @@ import com.dvm.ui.themes.light_violet
 import com.dvm.ui.themes.temp
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @Composable
 fun MenuView(
     menuItems: List<MenuItem>,
-    onEvent: (MenuEvent) -> Unit
+    onEvent: (MenuEvent) -> Unit,
+    navigator: Navigator
 ) {
-    Column {
-        MenuAppBar(
-            onAppMenuClick = { onEvent(MenuEvent.AppMenuClick) },
-            onSearchClick = { onEvent(MenuEvent.SearchClick) }
-        )
-        MenuContent(
-            menuItems = menuItems,
-            onItemClick = { onEvent(MenuEvent.MenuItemClick(it)) }
-        )
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    Drawer(
+        navigator = navigator,
+        drawerState = drawerState
+    ) {
+        Column {
+            MenuAppBar(
+                onAppMenuClick = {
+                    scope.launch {
+                        drawerState.open()
+                    }
+                },
+                onSearchClick = { onEvent(MenuEvent.SearchClick) }
+            )
+            MenuContent(
+                menuItems = menuItems,
+                onItemClick = { onEvent(MenuEvent.MenuItemClick(it)) }
+            )
+        }
     }
 }
 
@@ -185,7 +202,7 @@ private fun MenuItem(
     }
 }
 
-fun getIcon(dishTitle: String) : Int{
+fun getIcon(dishTitle: String): Int {
     return when (dishTitle) {
         "Бургеры и хот-доги" -> R.drawable.icon_hamburger
         "Пицца" -> R.drawable.icon_pizza
