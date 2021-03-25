@@ -57,7 +57,7 @@ private val AppBarHeight = 56.dp
 @Composable
 fun Category(
     state: CategoryState,
-    onAction: (CategoryEvent) -> Unit,
+    onEvent: (CategoryEvent) -> Unit,
     navigator: Navigator,
 ) {
     Drawer(navigator) {
@@ -81,10 +81,10 @@ fun Category(
             lazyListState = lazyListState,
             offset = offset,
             titleHeight = titleHeight,
-            onSubcategoryClick = { onAction(CategoryEvent.SubcategoryClick(it)) },
-            onDishClick = { onAction(CategoryEvent.DishClick(it)) },
-            onAddToCartClick = { onAction(CategoryEvent.AddToCartClick(it)) },
-            onFavoriteClick = { onAction(CategoryEvent.AddToFavoriteClick(it)) }
+            onSubcategoryClick = { onEvent(CategoryEvent.NavigateToSubcategory(it)) },
+            onDishClick = { onEvent(CategoryEvent.NavigateToDish(it)) },
+            onAddToCartClick = { onEvent(CategoryEvent.AddToCart(it)) },
+            onFavoriteClick = { onEvent(CategoryEvent.AddToFavorite(it)) }
         )
 
         Column {
@@ -93,7 +93,7 @@ fun Category(
                 selectedSort = state.selectedSort,
                 selectedColor = selectedColor,
                 offset = offset,
-                onAction = onAction
+                onEvent = onEvent
             )
         }
     }
@@ -251,7 +251,7 @@ private fun CategoryAppBar(
     selectedSort: SortType?,
     selectedColor: Color,
     offset: Int,
-    onAction: (CategoryEvent) -> Unit
+    onEvent: (CategoryEvent) -> Unit
 ) {
     TopAppBar(
         title = { },
@@ -262,7 +262,7 @@ private fun CategoryAppBar(
                         translationX = offset.toFloat(),
                         alpha = 1f + offset * 0.03f
                     ),
-                onNavigateUp = { onAction(CategoryEvent.NavigateUpClick) }
+                onNavigateUp = { onEvent(CategoryEvent.NavigateUp) }
             )
         },
         backgroundColor = Color.Transparent,
@@ -278,7 +278,7 @@ private fun CategoryAppBar(
                 SortType.values().forEach { type ->
                     DropdownMenuItem(
                         onClick = {
-                            onAction(CategoryEvent.SortPick(type))
+                            onEvent(CategoryEvent.Sort(type))
                             expanded = false
                         }
                     ) {

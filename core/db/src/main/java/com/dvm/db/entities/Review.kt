@@ -15,7 +15,4 @@ data class Review(
     val active: Boolean,
     val createdAt: Long,
     val updatedAt: Long
-) {
-//    @PrimaryKey(autoGenerate = true)
-//    private val id: Long? = null
-}
+)

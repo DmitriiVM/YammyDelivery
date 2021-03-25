@@ -53,7 +53,7 @@ class CategoryFragment : Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Category(
                         state = viewModel.state,
-                        onAction = { viewModel.dispatch(it) },
+                        onEvent = { viewModel.dispatch(it) },
                         navigator = requireActivity() as Navigator
                     )
                 }

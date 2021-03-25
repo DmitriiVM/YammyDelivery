@@ -1,9 +1,9 @@
-package com.dvm.menu
+package com.dvm.db.temp
 
 import android.content.Context
 import com.dvm.db.AppDatabase
 
-object Graph {
+object DbGraph {
 
     val categoryDao by lazy {
         database.categoryDao()

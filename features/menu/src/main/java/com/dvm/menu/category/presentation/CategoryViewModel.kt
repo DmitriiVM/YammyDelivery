@@ -10,7 +10,7 @@ import com.dvm.db.dao.CartDao
 import com.dvm.db.dao.CategoryDao
 import com.dvm.db.dao.DishDao
 import com.dvm.db.dao.FavoriteDao
-import com.dvm.menu.Graph
+import com.dvm.db.temp.DbGraph
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.menu.category.presentation.model.CategoryState
@@ -68,26 +68,26 @@ class CategoryViewModel(
     fun dispatch(event: CategoryEvent) {
         viewModelScope.launch {
             when (event) {
-                is CategoryEvent.AddToCartClick -> {
+                is CategoryEvent.AddToCart -> {
                     /*cartDao.addToCart(action.dishId)*/
                 }
-                is CategoryEvent.DishClick -> {
+                is CategoryEvent.NavigateToDish -> {
                     _navigationEvent.emit(CategoryNavigationEvent.ToDetails(event.dishId))
                 }
-                is CategoryEvent.AddToFavoriteClick -> {
+                is CategoryEvent.AddToFavorite -> {
                     /*favoriteDao.addToFavorite(action.dishId)*/
                 }
-                CategoryEvent.NavigateUpClick -> {
+                CategoryEvent.NavigateUp -> {
                     _navigationEvent.emit(CategoryNavigationEvent.Up)
                 }
-                is CategoryEvent.SubcategoryClick -> {
+                is CategoryEvent.NavigateToSubcategory -> {
                     val dishes = dishDao.getDishes(event.id)
                     state = state.copy(
                         dishes = dishes,
                         selectedCategoryId = event.id
                     )
                 }
-                is CategoryEvent.SortPick -> {
+                is CategoryEvent.Sort -> {
                     val dishes = state.dishes
                     val sortedDishes = when (event.sortType) {
                         SortType.ALPHABET_ASC -> dishes.sortedBy { it.name }
@@ -106,10 +106,10 @@ class CategoryViewModel(
 
 class CategoryViewModelFactory(
     private val categoryId: String,
-    private val categoryDao: CategoryDao = Graph.categoryDao,
-    private val dishDao: DishDao = Graph.dishDao,
-    private val favoriteDao: FavoriteDao = Graph.favoriteDao,
-    private val cartDao: CartDao = Graph.cartDao,
+    private val categoryDao: CategoryDao = DbGraph.categoryDao,
+    private val dishDao: DishDao = DbGraph.dishDao,
+    private val favoriteDao: FavoriteDao = DbGraph.favoriteDao,
+    private val cartDao: CartDao = DbGraph.cartDao,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

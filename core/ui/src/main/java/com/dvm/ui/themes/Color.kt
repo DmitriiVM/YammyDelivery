@@ -28,8 +28,8 @@ val onSurface_temp = Color(0xFF00545F)
 //val light_violet = Color(0xFFD6D4FF)
 
 internal val LightColorPalette = lightColors(
-    primary = cyan400,
-    primaryVariant = cyan700,
+    primary = orange400,
+    primaryVariant = orange700,
     secondary = orange400,
     secondaryVariant = orange700,
     background = Color.White,
