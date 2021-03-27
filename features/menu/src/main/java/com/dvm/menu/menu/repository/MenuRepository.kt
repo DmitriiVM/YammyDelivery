@@ -2,12 +2,12 @@ package com.dvm.menu.menu.repository
 
 import com.dvm.db.dao.CategoryDao
 import com.dvm.db.dao.DishDao
-import com.dvm.db.temp.DbGraph
 import com.dvm.menu.menu.domain.model.MenuItem
+import javax.inject.Inject
 
-class CategoryRepository(
-    private val categoryDao: CategoryDao = DbGraph.categoryDao,
-    private val dishDao: DishDao = DbGraph.dishDao
+class MenuRepository @Inject constructor(
+    private val categoryDao: CategoryDao,
+    private val dishDao: DishDao,
 ) {
 
     suspend fun hasSpecialOffers() = dishDao.hasSpecialOffers()

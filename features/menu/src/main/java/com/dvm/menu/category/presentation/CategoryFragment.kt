@@ -1,5 +1,6 @@
 package com.dvm.menu.category.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,17 +15,27 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dvm.appmenu.Navigator
 import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
+import com.dvm.menu.di.MenuComponentHolder
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 class CategoryFragment : Fragment() {
+
+    @Inject
+    lateinit var factory: CategoryViewModelAssistedFactory
 
     private val args: CategoryFragmentArgs by navArgs()
 
     private val viewModel: CategoryViewModel by viewModels {
-        CategoryViewModelFactory(args.id)
+        factory.create(args.id)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        MenuComponentHolder.getComponent().inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

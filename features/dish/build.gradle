@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation project(':module-injector')
     implementation project(":core:db")
     implementation project(":core:ui")
     implementation project(":features:appmenu")
@@ -73,4 +74,7 @@ dependencies {
     implementation(Libs.ROOM_RUNTIME)
     implementation(Libs.ROOM_KTX)
     kapt(Libs.ROOM_COMPILER)
+
+    implementation(Libs.DAGGER)
+    kapt(Libs.DAGGER_COMPILER)
 }

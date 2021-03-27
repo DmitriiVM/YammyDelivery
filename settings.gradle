@@ -11,5 +11,6 @@ include(
         ':core:network',
         ':core:db',
         ':core:ui',
-        ':core:updateservice'
+        ':core:updateservice',
+        ':module-injector'
 )

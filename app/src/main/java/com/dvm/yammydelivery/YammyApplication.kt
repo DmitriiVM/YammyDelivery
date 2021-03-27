@@ -1,14 +1,21 @@
 package com.dvm.yammydelivery
 
 import android.app.Application
+import com.dvm.db.di.DatabaseComponentHolder
+import com.dvm.yammydelivery.di.DaggerAppComponent
 import kotlinx.coroutines.*
 
-class App: Application() {
+class YammyApplication: Application() {
 
     val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
+    val appComponent by lazy {
+        DaggerAppComponent.factory().create(applicationContext)
+    }
+
     override fun onCreate() {
         super.onCreate()
+        DatabaseComponentHolder.init(appComponent.databaseDependencies())
         scope.launch {
 //            UpdateService().update(applicationContext)
         }

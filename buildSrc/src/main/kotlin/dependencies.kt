@@ -6,6 +6,7 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
     const val ROOM = "2.2.6"
+    const val DAGGER = "2.33"
     const val LIFECYCLE = "2.3.0"
 }
 
@@ -44,6 +45,8 @@ object Libs {
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
 
+    const val DAGGER = "com.google.dagger:dagger:${Versions.DAGGER}"
+    const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
 
     const val JUNIT = "junit:junit:4.+"
     const val ANDROID_JUNIT = "androidx.test.ext:junit:1.1.2"

@@ -10,12 +10,14 @@ import com.dvm.db.dao.CartDao
 import com.dvm.db.dao.CategoryDao
 import com.dvm.db.dao.DishDao
 import com.dvm.db.dao.FavoriteDao
-import com.dvm.db.temp.DbGraph
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.SortType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -104,12 +106,12 @@ class CategoryViewModel(
     }
 }
 
-class CategoryViewModelFactory(
-    private val categoryId: String,
-    private val categoryDao: CategoryDao = DbGraph.categoryDao,
-    private val dishDao: DishDao = DbGraph.dishDao,
-    private val favoriteDao: FavoriteDao = DbGraph.favoriteDao,
-    private val cartDao: CartDao = DbGraph.cartDao,
+class CategoryViewModelFactory @AssistedInject constructor(
+    @Assisted private val categoryId: String,
+    private val categoryDao: CategoryDao,
+    private val dishDao: DishDao,
+    private val favoriteDao: FavoriteDao,
+    private val cartDao: CartDao,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -126,6 +128,10 @@ class CategoryViewModelFactory(
     }
 }
 
+@AssistedFactory
+interface CategoryViewModelAssistedFactory {
+    fun create(categoryId: String): CategoryViewModelFactory
+}
 
 
 

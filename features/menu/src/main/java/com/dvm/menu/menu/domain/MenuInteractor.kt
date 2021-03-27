@@ -1,10 +1,11 @@
 package com.dvm.menu.menu.domain
 
 import com.dvm.menu.menu.domain.model.MenuItem
-import com.dvm.menu.menu.repository.CategoryRepository
+import com.dvm.menu.menu.repository.MenuRepository
+import javax.inject.Inject
 
-class MenuInteractor(
-    private val repository: CategoryRepository = CategoryRepository()
+class MenuInteractor @Inject constructor(
+    private val repository: MenuRepository
 ) {
 
     suspend fun getParentCategories(): List<MenuItem> {

@@ -9,19 +9,21 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.db.dao.CartDao
 import com.dvm.db.dao.DishDao
 import com.dvm.db.dao.FavoriteDao
-import com.dvm.db.temp.DbGraph
 import com.dvm.dish.model.DishEvent
 import com.dvm.dish.model.DishNavigationEvent
 import com.dvm.dish.model.DishState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class DishViewModel(
     private val dishId: String,
-    private val dishDao: DishDao = DbGraph.dishDao,
-    private val favoriteDao: FavoriteDao = DbGraph.favoriteDao,
-    private val cartDao: CartDao = DbGraph.cartDao,
+    private val dishDao: DishDao,
+    private val favoriteDao: FavoriteDao,
+    private val cartDao: CartDao
 ): ViewModel() {
 
     var state by mutableStateOf<DishState?>(null)
@@ -64,11 +66,11 @@ class DishViewModel(
     }
 }
 
-class CategoryViewModelFactory(
-    private val dishId: String,
-    private val dishDao: DishDao = DbGraph.dishDao,
-    private val favoriteDao: FavoriteDao = DbGraph.favoriteDao,
-    private val cartDao: CartDao = DbGraph.cartDao,
+class DishViewModelFactory @AssistedInject constructor(
+    @Assisted private val dishId: String,
+    private val dishDao: DishDao,
+    private val favoriteDao: FavoriteDao,
+    private val cartDao: CartDao,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -82,4 +84,9 @@ class CategoryViewModelFactory(
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+}
+
+@AssistedFactory
+interface DishViewModelAssistedFactory {
+    fun create(dishId: String): DishViewModelFactory
 }

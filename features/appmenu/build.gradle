@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation project(':module-injector')
     implementation project(":core:ui")
 
     implementation(Libs.COMPOSE_UI)
@@ -55,4 +56,7 @@ dependencies {
     implementation(Libs.LIFECYCLE_VIEWMODEL)
     implementation(Libs.LIFECYCLE_RUNTIME)
     kapt(Libs.LIFECYCLE_COMPILER)
+
+    implementation(Libs.DAGGER)
+    kapt(Libs.DAGGER_COMPILER)
 }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -40,10 +41,12 @@ android {
 }
 
 dependencies {
+    implementation project(':module-injector')
     implementation project(":features:menu")
     implementation project(':features:dish')
     implementation project(":features:appmenu")
     implementation project(':core:ui')
+    implementation project(':core:db')
     implementation project(':core:updateservice')
 
     implementation(Libs.ANDROID_CORE)
@@ -61,6 +64,13 @@ dependencies {
 
     implementation(Libs.COROUTINES_CORE)
     implementation(Libs.COROUTINES_ANDROID)
+
+    implementation(Libs.DAGGER)
+    kapt(Libs.DAGGER_COMPILER)
+
+    implementation(Libs.ROOM_RUNTIME)
+    implementation(Libs.ROOM_KTX)
+    kapt(Libs.ROOM_COMPILER)
 
     testImplementation(Libs.JUNIT)
     androidTestImplementation(Libs.ANDROID_JUNIT)
