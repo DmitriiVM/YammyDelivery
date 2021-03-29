@@ -3,8 +3,10 @@ package com.dvm.menu.menu_impl.di
 import com.dvm.menu.menu_api.MenuApi
 import com.dvm.menu.menu_impl.category.presentation.CategoryFragment
 import com.dvm.menu.menu_impl.menu.presentation.MenuFragment
+import com.dvm.utils.di.FeatureScope
 import dagger.Component
 
+@FeatureScope
 @Component(
     modules = [MenuModule::class],
     dependencies = [MenuDependencies::class]

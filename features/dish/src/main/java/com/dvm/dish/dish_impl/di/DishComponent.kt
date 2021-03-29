@@ -2,8 +2,10 @@ package com.dvm.dish.dish_impl.di
 
 import com.dvm.dish.dish_api.DishApi
 import com.dvm.dish.dish_impl.presentation.DishFragment
+import com.dvm.utils.di.FeatureScope
 import dagger.Component
 
+@FeatureScope
 @Component(
     modules = [DishModule::class],
     dependencies = [DishDependencies::class]

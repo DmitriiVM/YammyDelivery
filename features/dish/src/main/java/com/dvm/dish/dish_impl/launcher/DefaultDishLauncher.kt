@@ -5,8 +5,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.dvm.dish.dish_api.DishLauncher
 import com.dvm.dish.dish_impl.presentation.DishFragment
+import com.dvm.utils.di.FeatureScope
 import javax.inject.Inject
 
+@FeatureScope
 class DefaultDishLauncher @Inject constructor(): DishLauncher{
     override fun launch(
         dishId: String,
