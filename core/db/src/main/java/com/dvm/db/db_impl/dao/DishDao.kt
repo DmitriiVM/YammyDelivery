@@ -1,11 +1,14 @@
-package com.dvm.db.dao
+package com.dvm.db.db_impl.dao
 
-import androidx.room.*
-import com.dvm.db.entities.Dish
-import com.dvm.db.entities.Review
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.dvm.db.db_api.data.models.Dish
+import com.dvm.db.db_api.data.models.DishDetails
 
 @Dao
-interface DishDao {
+internal interface DishDao {
 
     @Query(
         """
@@ -53,22 +56,3 @@ interface DishDao {
     suspend fun insertDishes(dishes: List<Dish>)
 }
 
-
-data class DishDetails(
-    val id: String,
-    val name: String,
-    val description: String?,
-    val image: String,
-    val oldPrice: Int,
-    val price: Int,
-    val rating: Double,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "dishId"
-    )
-    val review: List<Review>
-) {
-
-    val hasSpecialOffer: Boolean
-        get() = oldPrice != 0 && oldPrice > price
-}

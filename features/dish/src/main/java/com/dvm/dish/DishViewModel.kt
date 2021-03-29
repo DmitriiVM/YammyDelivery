@@ -6,9 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.dao.CartDao
-import com.dvm.db.dao.DishDao
-import com.dvm.db.dao.FavoriteDao
+import com.dvm.db.db_api.data.CartRepository
+import com.dvm.db.db_api.data.DishRepository
+import com.dvm.db.db_api.data.FavoriteRepository
 import com.dvm.dish.model.DishEvent
 import com.dvm.dish.model.DishNavigationEvent
 import com.dvm.dish.model.DishState
@@ -21,9 +21,9 @@ import kotlinx.coroutines.launch
 
 class DishViewModel(
     private val dishId: String,
-    private val dishDao: DishDao,
-    private val favoriteDao: FavoriteDao,
-    private val cartDao: CartDao
+    private val dishRepository: DishRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val cartRepository: CartRepository
 ): ViewModel() {
 
     var state by mutableStateOf<DishState?>(null)
@@ -35,7 +35,7 @@ class DishViewModel(
 
     init {
         viewModelScope.launch {
-            val dish = dishDao.getDish(dishId)
+            val dish = dishRepository.getDish(dishId)
             val hasSpecialOffer = dish.oldPrice > dish.price
             state = DishState(
                 dish = dish,
@@ -68,18 +68,18 @@ class DishViewModel(
 
 class DishViewModelFactory @AssistedInject constructor(
     @Assisted private val dishId: String,
-    private val dishDao: DishDao,
-    private val favoriteDao: FavoriteDao,
-    private val cartDao: CartDao,
+    private val dishRepository: DishRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val cartRepository: CartRepository,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DishViewModel::class.java)) {
             return DishViewModel(
                 dishId = dishId,
-                dishDao = dishDao,
-                favoriteDao = favoriteDao,
-                cartDao = cartDao,
+                dishRepository = dishRepository,
+                favoriteRepository = favoriteRepository,
+                cartRepository = cartRepository,
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

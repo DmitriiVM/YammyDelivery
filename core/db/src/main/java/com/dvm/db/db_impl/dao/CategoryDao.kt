@@ -1,15 +1,15 @@
-package com.dvm.db.dao
+package com.dvm.db.db_impl.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dvm.db.entities.Category
-import com.dvm.db.entities.ParentCategory
-import com.dvm.db.entities.Subcategory
+import com.dvm.db.db_api.data.models.Category
+import com.dvm.db.db_api.data.models.ParentCategory
+import com.dvm.db.db_api.data.models.Subcategory
 
 @Dao
-interface CategoryDao {
+internal interface CategoryDao {
 
     @Query(
         """

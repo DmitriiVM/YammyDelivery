@@ -1,7 +1,7 @@
 package com.dvm.yammydelivery.di
 
 import android.content.Context
-import com.dvm.db.di.DatabaseDependencies
+import com.dvm.db.db_impl.di.DatabaseDependencies
 import com.dvm.dish.di.DishDependencies
 import com.dvm.menu.di.MenuDependencies
 import dagger.BindsInstance

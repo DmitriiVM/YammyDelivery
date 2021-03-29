@@ -1,8 +1,8 @@
 package com.dvm.updateservice
 
-import com.dvm.db.entities.Category
-import com.dvm.db.entities.Dish
-import com.dvm.db.entities.Review
+import com.dvm.db.db_api.data.models.Category
+import com.dvm.db.db_api.data.models.Dish
+import com.dvm.db.db_api.data.models.Review
 import com.dvm.network.response.CategoryResponse
 import com.dvm.network.response.DishResponse
 import com.dvm.network.response.ReviewResponse

@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.appmenu.Drawer
 import com.dvm.appmenu.Navigator
-import com.dvm.db.entities.Dish
-import com.dvm.db.entities.Subcategory
+import com.dvm.db.db_api.data.models.Dish
+import com.dvm.db.db_api.data.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.SortType

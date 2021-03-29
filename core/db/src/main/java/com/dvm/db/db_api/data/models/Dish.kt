@@ -1,7 +1,8 @@
-package com.dvm.db.entities
+package com.dvm.db.db_api.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "dish")
 data class Dish(
@@ -19,6 +20,25 @@ data class Dish(
     val active: Boolean,
     val createdAt: Long,
     val updatedAt: Long
+) {
+
+    val hasSpecialOffer: Boolean
+        get() = oldPrice != 0 && oldPrice > price
+}
+
+data class DishDetails(
+    val id: String,
+    val name: String,
+    val description: String?,
+    val image: String,
+    val oldPrice: Int,
+    val price: Int,
+    val rating: Double,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "dishId"
+    )
+    val review: List<Review>
 ) {
 
     val hasSpecialOffer: Boolean

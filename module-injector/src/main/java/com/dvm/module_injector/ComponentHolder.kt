@@ -4,9 +4,7 @@ interface ComponentHolder<C : BaseAPI, D : BaseDependencies> {
 
     fun init(dependencies: D)
 
-    fun get(): C
-
-    fun reset()
+    fun getApi(): C
 }
 
 interface BaseDependencies

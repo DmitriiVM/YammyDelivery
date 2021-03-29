@@ -1,8 +1,8 @@
 package com.dvm.menu.category.presentation.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.entities.Dish
-import com.dvm.db.entities.Subcategory
+import com.dvm.db.db_api.data.models.Dish
+import com.dvm.db.db_api.data.models.Subcategory
 
 @Immutable
 data class CategoryState(

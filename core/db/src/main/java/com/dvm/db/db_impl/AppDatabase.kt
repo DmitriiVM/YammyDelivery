@@ -1,22 +1,22 @@
-package com.dvm.db
+package com.dvm.db.db_impl
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.dvm.db.dao.*
-import com.dvm.db.entities.Category
-import com.dvm.db.entities.Dish
-import com.dvm.db.entities.Review
+import com.dvm.db.db_api.data.models.*
+import com.dvm.db.db_impl.dao.*
 
 @Database(
     entities = [
         Category::class,
         Dish::class,
-        Review::class
+        Review::class,
+        Cart::class,
+        Favorite::class
     ],
     version = 4,
     exportSchema = false
 )
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun dishDao(): DishDao
     abstract fun reviewDao(): ReviewDao

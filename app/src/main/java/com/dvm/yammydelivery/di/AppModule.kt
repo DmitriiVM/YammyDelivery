@@ -1,9 +1,9 @@
 package com.dvm.yammydelivery.di
 
 import android.content.Context
-import com.dvm.db.dao.*
-import com.dvm.db.di.DatabaseComponentHolder
-import com.dvm.db.di.DatabaseDependencies
+import com.dvm.db.db_api.data.*
+import com.dvm.db.db_impl.di.DatabaseComponentHolder
+import com.dvm.db.db_impl.di.DatabaseDependencies
 import com.dvm.dish.di.DishDependencies
 import com.dvm.menu.di.MenuDependencies
 import dagger.Module
@@ -20,28 +20,28 @@ object AppModule {
     @Provides
     fun provideMenuDependencies(): MenuDependencies = object : MenuDependencies {
 
-        override fun categoryDao(): CategoryDao = DatabaseComponentHolder.get().categoryDao()
+        override fun categoryDao(): CategoryRepository = DatabaseComponentHolder.getApi().categoryRepository()
 
-        override fun dishDao(): DishDao = DatabaseComponentHolder.get().dishDao()
+        override fun dishDao(): DishRepository = DatabaseComponentHolder.getApi().dishRepository()
 
-        override fun favoriteDao(): FavoriteDao = DatabaseComponentHolder.get().favoriteDao()
+        override fun favoriteDao(): FavoriteRepository = DatabaseComponentHolder.getApi().favoriteRepository()
 
-        override fun cartDao(): CartDao = DatabaseComponentHolder.get().cartDao()
+        override fun cartDao(): CartRepository = DatabaseComponentHolder.getApi().cartRepository()
 
-        override fun reviewDao(): ReviewDao = DatabaseComponentHolder.get().reviewDao()
+        override fun reviewDao(): ReviewRepository = DatabaseComponentHolder.getApi().reviewRepository()
     }
 
     @Provides
     fun provideDishDependencies(): DishDependencies = object : DishDependencies {
 
-        override fun categoryDao(): CategoryDao = DatabaseComponentHolder.get().categoryDao()
+        override fun categoryDao(): CategoryRepository = DatabaseComponentHolder.getApi().categoryRepository()
 
-        override fun dishDao(): DishDao = DatabaseComponentHolder.get().dishDao()
+        override fun dishDao(): DishRepository = DatabaseComponentHolder.getApi().dishRepository()
 
-        override fun favoriteDao(): FavoriteDao = DatabaseComponentHolder.get().favoriteDao()
+        override fun favoriteDao(): FavoriteRepository = DatabaseComponentHolder.getApi().favoriteRepository()
 
-        override fun cartDao(): CartDao = DatabaseComponentHolder.get().cartDao()
+        override fun cartDao(): CartRepository = DatabaseComponentHolder.getApi().cartRepository()
 
-        override fun reviewDao(): ReviewDao = DatabaseComponentHolder.get().reviewDao()
+        override fun reviewDao(): ReviewRepository = DatabaseComponentHolder.getApi().reviewRepository()
     }
 }

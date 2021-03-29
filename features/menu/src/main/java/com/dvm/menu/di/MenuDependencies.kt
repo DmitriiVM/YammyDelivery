@@ -1,11 +1,11 @@
 package com.dvm.menu.di
 
-import com.dvm.db.dao.*
+import com.dvm.db.db_api.data.*
 
 interface MenuDependencies {
-    fun categoryDao(): CategoryDao
-    fun dishDao(): DishDao
-    fun favoriteDao(): FavoriteDao
-    fun cartDao(): CartDao
-    fun reviewDao(): ReviewDao
+    fun categoryDao(): CategoryRepository
+    fun dishDao(): DishRepository
+    fun favoriteDao(): FavoriteRepository
+    fun cartDao(): CartRepository
+    fun reviewDao(): ReviewRepository
 }

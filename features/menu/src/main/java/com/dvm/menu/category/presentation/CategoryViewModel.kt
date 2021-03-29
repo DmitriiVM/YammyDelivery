@@ -6,10 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.dao.CartDao
-import com.dvm.db.dao.CategoryDao
-import com.dvm.db.dao.DishDao
-import com.dvm.db.dao.FavoriteDao
+import com.dvm.db.db_api.data.CartRepository
+import com.dvm.db.db_api.data.CategoryRepository
+import com.dvm.db.db_api.data.DishRepository
+import com.dvm.db.db_api.data.FavoriteRepository
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.menu.category.presentation.model.CategoryState
@@ -24,10 +24,10 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val categoryId: String,
-    private val categoryDao: CategoryDao,
-    private val dishDao: DishDao,
-    private val favoriteDao: FavoriteDao,
-    private val cartDao: CartDao,
+    private val categoryRepository: CategoryRepository,
+    private val dishRepository: DishRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
 
     var state by mutableStateOf(CategoryState())
@@ -45,17 +45,17 @@ class CategoryViewModel(
         viewModelScope.launch {
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
-                    val dishes = dishDao.getSpecialOffers()
+                    val dishes = dishRepository.getSpecialOffers()
                     state = CategoryState(
                         title = "Акции",
                         dishes = dishes
                     )
                 }
                 else -> {
-                    val subcategories = categoryDao.getChildCategories(categoryId)
+                    val subcategories = categoryRepository.getChildCategories(categoryId)
                     val subcategoryId = subcategories.firstOrNull()?.id
-                    val dishes = dishDao.getDishes(subcategoryId ?: categoryId)
-                    val title = categoryDao.getCategoryTitle(categoryId)
+                    val dishes = dishRepository.getDishes(subcategoryId ?: categoryId)
+                    val title = categoryRepository.getCategoryTitle(categoryId)
                     state = CategoryState(
                         title = title,
                         subcategories = subcategories,
@@ -71,19 +71,19 @@ class CategoryViewModel(
         viewModelScope.launch {
             when (event) {
                 is CategoryEvent.AddToCart -> {
-                    /*cartDao.addToCart(action.dishId)*/
+                    /*cartRepository.addToCart(action.dishId)*/
                 }
                 is CategoryEvent.NavigateToDish -> {
                     _navigationEvent.emit(CategoryNavigationEvent.ToDetails(event.dishId))
                 }
                 is CategoryEvent.AddToFavorite -> {
-                    /*favoriteDao.addToFavorite(action.dishId)*/
+                    /*favoriteRepository.addToFavorite(action.dishId)*/
                 }
                 CategoryEvent.NavigateUp -> {
                     _navigationEvent.emit(CategoryNavigationEvent.Up)
                 }
                 is CategoryEvent.NavigateToSubcategory -> {
-                    val dishes = dishDao.getDishes(event.id)
+                    val dishes = dishRepository.getDishes(event.id)
                     state = state.copy(
                         dishes = dishes,
                         selectedCategoryId = event.id
@@ -108,20 +108,20 @@ class CategoryViewModel(
 
 class CategoryViewModelFactory @AssistedInject constructor(
     @Assisted private val categoryId: String,
-    private val categoryDao: CategoryDao,
-    private val dishDao: DishDao,
-    private val favoriteDao: FavoriteDao,
-    private val cartDao: CartDao,
+    private val categoryRepository: CategoryRepository,
+    private val dishRepository: DishRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val cartRepository: CartRepository,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
             return CategoryViewModel(
                 categoryId = categoryId,
-                categoryDao = categoryDao,
-                dishDao = dishDao,
-                favoriteDao = favoriteDao,
-                cartDao = cartDao,
+                categoryRepository = categoryRepository,
+                dishRepository = dishRepository,
+                favoriteRepository = favoriteRepository,
+                cartRepository = cartRepository,
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

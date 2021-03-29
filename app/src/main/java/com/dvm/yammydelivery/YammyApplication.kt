@@ -1,7 +1,7 @@
 package com.dvm.yammydelivery
 
 import android.app.Application
-import com.dvm.db.di.DatabaseComponentHolder
+import com.dvm.db.db_impl.di.DatabaseComponentHolder
 import com.dvm.yammydelivery.di.DaggerAppComponent
 import kotlinx.coroutines.*
 

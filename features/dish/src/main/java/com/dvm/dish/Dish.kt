@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.appmenu.Drawer
 import com.dvm.appmenu.Navigator
-import com.dvm.db.dao.DishDetails
-import com.dvm.db.entities.Review
+import com.dvm.db.db_api.data.models.DishDetails
+import com.dvm.db.db_api.data.models.Review
 import com.dvm.dish.model.DishEvent
 import com.dvm.dish.model.DishState
 import dev.chrisbanes.accompanist.coil.CoilImage

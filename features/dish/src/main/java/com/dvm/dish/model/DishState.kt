@@ -1,8 +1,8 @@
 package com.dvm.dish.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.dao.DishDetails
-import com.dvm.db.entities.Review
+import com.dvm.db.db_api.data.models.DishDetails
+import com.dvm.db.db_api.data.models.Review
 
 @Immutable
 data class DishState(
