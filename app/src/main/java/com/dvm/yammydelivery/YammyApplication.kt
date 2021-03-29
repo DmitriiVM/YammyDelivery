@@ -7,7 +7,7 @@ import kotlinx.coroutines.*
 
 class YammyApplication: Application() {
 
-    val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     val appComponent by lazy {
         DaggerAppComponent.factory().create(applicationContext)

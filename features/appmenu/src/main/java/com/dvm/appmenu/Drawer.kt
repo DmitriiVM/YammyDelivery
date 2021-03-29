@@ -157,6 +157,5 @@ private fun DrawerItem(
 interface Navigator {
     fun navigateToDishScreen(dishId: String)
     fun navigateToMenuScreen()
-    fun navigateToSearchScreen()
 }
 

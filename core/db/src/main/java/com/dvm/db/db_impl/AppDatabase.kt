@@ -13,7 +13,7 @@ import com.dvm.db.db_impl.dao.*
         Cart::class,
         Favorite::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 internal abstract class AppDatabase : RoomDatabase() {

@@ -9,7 +9,7 @@ import javax.inject.Singleton
     modules = [DatabaseModule::class],
     dependencies = [DatabaseDependencies::class]
 )
-interface DatabaseComponent: DatabaseApi {
+internal interface DatabaseComponent: DatabaseApi {
 
     companion object {
         fun initAndGet(dependencies: DatabaseDependencies): DatabaseComponent =
