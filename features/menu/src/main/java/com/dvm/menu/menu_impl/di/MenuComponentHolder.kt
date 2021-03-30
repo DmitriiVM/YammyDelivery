@@ -7,11 +7,13 @@ object MenuComponentHolder: ComponentHolder<MenuApi, MenuDependencies> {
 
     private var menuComponent: MenuComponent? = null
 
-    override fun init(dependencies: MenuDependencies) {
+    override lateinit var dependencies: () -> MenuDependencies
+
+    override fun init() {
         if (menuComponent == null){
             synchronized(this){
                 if (menuComponent == null){
-                    menuComponent = MenuComponent.initAndGet(dependencies)
+                    menuComponent = MenuComponent.initAndGet(dependencies())
                 }
             }
         }

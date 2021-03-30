@@ -2,7 +2,9 @@ package com.dvm.module_injector
 
 interface ComponentHolder<C : BaseAPI, D : BaseDependencies> {
 
-    fun init(dependencies: D)
+    val dependencies: () -> BaseDependencies
+
+    fun init()
 
     fun getApi(): C
 }

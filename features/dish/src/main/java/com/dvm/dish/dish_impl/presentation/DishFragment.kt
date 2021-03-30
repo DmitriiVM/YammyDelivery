@@ -36,6 +36,7 @@ internal class DishFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        DishComponentHolder.init()
         DishComponentHolder.getComponent().inject(this)
     }
 

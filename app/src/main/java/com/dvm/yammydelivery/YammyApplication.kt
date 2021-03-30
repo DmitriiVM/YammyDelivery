@@ -3,6 +3,7 @@ package com.dvm.yammydelivery
 import android.app.Application
 import com.dvm.db.db_impl.di.DatabaseComponentHolder
 import com.dvm.yammydelivery.di.DaggerAppComponent
+import com.dvm.yammydelivery.di.provideDependencies
 import kotlinx.coroutines.*
 
 class YammyApplication: Application() {
@@ -15,7 +16,8 @@ class YammyApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DatabaseComponentHolder.init(appComponent.databaseDependencies())
+        provideDependencies(applicationContext)
+        DatabaseComponentHolder.init()
         scope.launch {
 //            UpdateService().update(applicationContext)
         }

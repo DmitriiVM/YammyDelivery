@@ -7,11 +7,13 @@ object DishComponentHolder: ComponentHolder<DishApi, DishDependencies> {
 
     private var dishComponent: DishComponent? = null
 
-    override fun init(dependencies: DishDependencies) {
+    override lateinit var dependencies: () -> DishDependencies
+
+    override fun init() {
         if (dishComponent == null){
             synchronized(this){
                 if (dishComponent == null){
-                    dishComponent = DishComponent.initAndGet(dependencies)
+                    dishComponent = DishComponent.initAndGet(dependencies())
                 }
             }
         }

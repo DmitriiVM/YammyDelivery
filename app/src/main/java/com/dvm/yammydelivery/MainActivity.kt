@@ -17,8 +17,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     }
 
     override fun navigateToMenuScreen() {
-        val dependencies = (application as YammyApplication).appComponent.menuDependencies()
-        MenuComponentHolder.init(dependencies)
+        MenuComponentHolder.init()
         MenuComponentHolder.getApi().menuLauncher().launch(
             containerViewId = R.id.fragmentContainer,
             fragmentManager = supportFragmentManager
@@ -26,8 +25,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     }
 
     override fun navigateToDishScreen(dishId: String) {
-        val dependencies = (application as YammyApplication).appComponent.dishDependencies()
-        DishComponentHolder.init(dependencies)
+        DishComponentHolder.init()
         DishComponentHolder.getApi().dishLauncher().launch(
             dishId = dishId,
             containerViewId = R.id.fragmentContainer,
