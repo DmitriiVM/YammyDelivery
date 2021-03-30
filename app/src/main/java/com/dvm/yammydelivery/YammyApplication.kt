@@ -2,6 +2,7 @@ package com.dvm.yammydelivery
 
 import android.app.Application
 import com.dvm.db.db_impl.di.DatabaseComponentHolder
+import com.dvm.preferences.datastore_impl.di.DatastoreComponentHolder
 import com.dvm.yammydelivery.di.DaggerAppComponent
 import com.dvm.yammydelivery.di.provideDependencies
 import kotlinx.coroutines.*
@@ -17,7 +18,7 @@ class YammyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         provideDependencies(applicationContext)
-        DatabaseComponentHolder.init()
+        initComponentHolders()
         scope.launch {
 //            UpdateService().update(applicationContext)
         }
@@ -26,5 +27,10 @@ class YammyApplication: Application() {
     override fun onTerminate() {
         super.onTerminate()
         scope.cancel()
+    }
+
+    private fun initComponentHolders() {
+        DatabaseComponentHolder.init()
+        DatastoreComponentHolder.init()
     }
 }

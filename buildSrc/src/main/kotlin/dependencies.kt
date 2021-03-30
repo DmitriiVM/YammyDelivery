@@ -8,6 +8,7 @@ object Versions {
     const val ROOM = "2.2.6"
     const val DAGGER = "2.33"
     const val LIFECYCLE = "2.3.0"
+    const val DATASTORE = "1.0.0-alpha08"
 }
 
 object Libs {
@@ -47,6 +48,8 @@ object Libs {
 
     const val DAGGER = "com.google.dagger:dagger:${Versions.DAGGER}"
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
+
+    const val DATASTORE = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
 
     const val JUNIT = "junit:junit:4.+"
     const val ANDROID_JUNIT = "androidx.test.ext:junit:1.1.2"

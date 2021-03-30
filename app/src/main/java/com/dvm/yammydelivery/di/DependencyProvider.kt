@@ -8,11 +8,19 @@ import com.dvm.dish.dish_impl.di.DishComponentHolder
 import com.dvm.dish.dish_impl.di.DishDependencies
 import com.dvm.menu.menu_impl.di.MenuComponentHolder
 import com.dvm.menu.menu_impl.di.MenuDependencies
+import com.dvm.preferences.datastore_impl.di.DatastoreComponentHolder
+import com.dvm.preferences.datastore_impl.di.DatastoreDependencies
 
 internal fun provideDependencies(context: Context) {
 
     DatabaseComponentHolder.dependencies = {
         object : DatabaseDependencies {
+            override fun context(): Context = context
+        }
+    }
+
+    DatastoreComponentHolder.dependencies = {
+        object : DatastoreDependencies {
             override fun context(): Context = context
         }
     }

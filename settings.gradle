@@ -13,5 +13,6 @@ include(
         ':core:ui',
         ':core:updateservice',
         ':core:utils',
+        ':core:datastore',
         ':module-injector'
 )
