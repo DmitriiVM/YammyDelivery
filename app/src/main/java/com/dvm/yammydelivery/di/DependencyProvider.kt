@@ -10,6 +10,9 @@ import com.dvm.dish.dish_impl.di.DishComponentHolder
 import com.dvm.dish.dish_impl.di.DishDependencies
 import com.dvm.menu.menu_impl.di.MenuComponentHolder
 import com.dvm.menu.menu_impl.di.MenuDependencies
+import com.dvm.network.network_impl.di.NetworkComponentHolder
+import com.dvm.network.network_impl.di.NetworkDependencies
+import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.preferences.datastore_impl.di.DatastoreComponentHolder
 import com.dvm.preferences.datastore_impl.di.DatastoreDependencies
 
@@ -24,6 +27,13 @@ internal fun provideDependencies(context: Context) {
     DatastoreComponentHolder.dependencies = {
         object : DatastoreDependencies {
             override fun context(): Context = context
+        }
+    }
+
+    NetworkComponentHolder.dependencies = {
+        object : NetworkDependencies{
+            override fun datastore(): DatastoreRepository =
+                DatastoreComponentHolder.getApi().repository()
         }
     }
 

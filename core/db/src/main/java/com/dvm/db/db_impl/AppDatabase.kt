@@ -3,7 +3,7 @@ package com.dvm.db.db_impl
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.dvm.db.db_api.data.models.*
-import com.dvm.db.db_impl.dao.*
+import com.dvm.db.db_impl.data.dao.*
 
 @Database(
     entities = [

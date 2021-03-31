@@ -2,6 +2,7 @@ package com.dvm.yammydelivery
 
 import android.app.Application
 import com.dvm.db.db_impl.di.DatabaseComponentHolder
+import com.dvm.network.network_impl.di.NetworkComponentHolder
 import com.dvm.preferences.datastore_impl.di.DatastoreComponentHolder
 import com.dvm.yammydelivery.di.DaggerAppComponent
 import com.dvm.yammydelivery.di.provideDependencies
@@ -32,5 +33,6 @@ class YammyApplication: Application() {
     private fun initComponentHolders() {
         DatabaseComponentHolder.init()
         DatastoreComponentHolder.init()
+        NetworkComponentHolder.init()
     }
 }

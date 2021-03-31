@@ -13,16 +13,6 @@ import javax.inject.Singleton
 @Module
 internal interface DatabaseModule {
 
-    companion object {
-        @Singleton
-        @Provides
-        fun provideDatabase(context: Context): AppDatabase =
-            Room
-                .databaseBuilder(context, AppDatabase::class.java, "YammyDatabase")
-                .fallbackToDestructiveMigration()
-                .build()
-    }
-
     @Binds
     fun provideCategoryRepository(repository: DefaultCategoryRepository): CategoryRepository
 
@@ -37,4 +27,14 @@ internal interface DatabaseModule {
 
     @Binds
     fun provideReviewRepository(repository: DefaultReviewRepository): ReviewRepository
+
+    companion object {
+        @Singleton
+        @Provides
+        fun provideDatabase(context: Context): AppDatabase =
+            Room
+                .databaseBuilder(context, AppDatabase::class.java, "YammyDatabase")
+                .fallbackToDestructiveMigration()
+                .build()
+    }
 }
