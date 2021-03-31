@@ -1,6 +1,8 @@
 package com.dvm.yammydelivery.di
 
 import android.content.Context
+import com.dvm.auth.auth_impl.di.AuthComponentHolder
+import com.dvm.auth.auth_impl.di.AuthDependencies
 import com.dvm.db.db_api.data.*
 import com.dvm.db.db_impl.di.DatabaseComponentHolder
 import com.dvm.db.db_impl.di.DatabaseDependencies
@@ -62,6 +64,13 @@ internal fun provideDependencies(context: Context) {
 
             override fun reviewDao(): ReviewRepository =
                 DatabaseComponentHolder.getApi().reviewRepository()
+        }
+    }
+
+    AuthComponentHolder.dependencies = {
+        object : AuthDependencies {
+            override fun temp() = "temp"
+
         }
     }
 }

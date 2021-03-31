@@ -14,7 +14,7 @@ internal class DefaultMenuLauncher @Inject constructor(): MenuLauncher {
     ) {
         fragmentManager.commit {
             addToBackStack("MenuFeature")
-            replace(containerViewId, NavHostFragment())
+            replace(containerViewId, MenuNavHostFragment())
         }
     }
 }
