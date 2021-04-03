@@ -21,6 +21,10 @@ object DishComponentHolder: ComponentHolder<DishApi, DishDependencies> {
 
     override fun getApi(): DishApi = getComponent()
 
+    override fun destroy() {
+        dishComponent = null
+    }
+
     internal fun getComponent(): DishComponent {
         checkNotNull(dishComponent){ "DishComponent is not initialized!"}
         return dishComponent!!

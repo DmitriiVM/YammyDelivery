@@ -21,6 +21,10 @@ object AuthComponentHolder: ComponentHolder<AuthApi, AuthDependencies> {
 
     override fun getApi(): AuthApi = getComponent()
 
+    override fun destroy() {
+        authComponent = null
+    }
+
     internal fun getComponent(): AuthComponent {
         checkNotNull(authComponent){ "AuthComponent is not initialized!"}
         return authComponent!!

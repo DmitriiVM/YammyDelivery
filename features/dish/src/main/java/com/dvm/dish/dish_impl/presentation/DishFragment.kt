@@ -77,6 +77,11 @@ internal class DishFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        DishComponentHolder.destroy()
+        super.onDestroy()
+    }
+
     private fun navigateUp() {
         requireActivity().onBackPressed()
     }

@@ -21,6 +21,10 @@ object MenuComponentHolder: ComponentHolder<MenuApi, MenuDependencies> {
 
     override fun getApi(): MenuApi  = getComponent()
 
+    override fun destroy() {
+        menuComponent = null
+    }
+
     internal fun getComponent(): MenuComponent {
         checkNotNull(menuComponent){ "MenuComponent is not initialized!"}
         return menuComponent!!

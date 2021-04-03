@@ -10,4 +10,9 @@ internal class MenuNavHostFragment: Fragment(R.layout.fragment_menu_nav_host) {
         super.onAttach(context)
         MenuComponentHolder.init()
     }
+
+    override fun onDestroy() {
+        MenuComponentHolder.destroy()
+        super.onDestroy()
+    }
 }

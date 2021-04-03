@@ -20,6 +20,10 @@ object DatastoreComponentHolder: ComponentHolder<DatastoreApi, DatastoreDependen
         }
     }
 
+    override fun destroy() {
+        datastoreComponent = null
+    }
+
     override fun getApi() : DatastoreApi {
         checkNotNull(datastoreComponent) { "DatastoreComponent is not initialized!" }
         return datastoreComponent!!

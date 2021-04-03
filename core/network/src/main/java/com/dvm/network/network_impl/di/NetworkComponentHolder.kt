@@ -20,6 +20,10 @@ object NetworkComponentHolder: ComponentHolder<NetworkApi, NetworkDependencies> 
         }
     }
 
+    override fun destroy() {
+        networkComponent = null
+    }
+
     override fun getApi() : NetworkApi {
         checkNotNull(networkComponent) { "NetworkComponent is not initialized!" }
         return networkComponent!!

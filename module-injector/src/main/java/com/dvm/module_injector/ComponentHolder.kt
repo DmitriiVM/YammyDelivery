@@ -7,6 +7,8 @@ interface ComponentHolder<C : BaseAPI, D : BaseDependencies> {
     fun init()
 
     fun getApi(): C
+
+    fun destroy()
 }
 
 interface BaseDependencies

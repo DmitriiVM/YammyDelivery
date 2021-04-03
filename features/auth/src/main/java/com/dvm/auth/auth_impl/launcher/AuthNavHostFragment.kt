@@ -10,4 +10,9 @@ internal class AuthNavHostFragment: Fragment(R.layout.fragment_auth_nav_host) {
         super.onAttach(context)
         AuthComponentHolder.init()
     }
+
+    override fun onDestroy() {
+        AuthComponentHolder.destroy()
+        super.onDestroy()
+    }
 }

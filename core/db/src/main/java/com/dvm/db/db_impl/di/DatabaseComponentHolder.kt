@@ -20,6 +20,10 @@ object DatabaseComponentHolder: ComponentHolder<DatabaseApi, DatabaseDependencie
         }
     }
 
+    override fun destroy() {
+        databaseComponent = null
+    }
+
     override fun getApi() : DatabaseApi {
         checkNotNull(databaseComponent) { "DatabaseComponent is not initialized!" }
         return databaseComponent!!
