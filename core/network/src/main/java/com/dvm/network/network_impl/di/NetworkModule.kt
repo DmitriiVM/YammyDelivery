@@ -28,10 +28,9 @@ internal interface NetworkModule {
     fun provideProfileService(profileService : DefaultProfileService): ProfileService
 
     companion object{
+
         @Singleton
         @Provides
         fun provideApiService(): ApiService = getRetrofit().create(ApiService::class.java)
-
-
     }
 }

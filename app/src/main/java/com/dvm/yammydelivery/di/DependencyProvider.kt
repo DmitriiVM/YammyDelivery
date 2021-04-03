@@ -10,6 +10,7 @@ import com.dvm.dish.dish_impl.di.DishComponentHolder
 import com.dvm.dish.dish_impl.di.DishDependencies
 import com.dvm.menu.menu_impl.di.MenuComponentHolder
 import com.dvm.menu.menu_impl.di.MenuDependencies
+import com.dvm.network.network_api.services.AuthService
 import com.dvm.network.network_impl.di.NetworkComponentHolder
 import com.dvm.network.network_impl.di.NetworkDependencies
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
@@ -32,6 +33,8 @@ internal fun provideDependencies(context: Context) {
 
     NetworkComponentHolder.dependencies = {
         object : NetworkDependencies{
+            override fun context(): Context = context
+
             override fun datastore(): DatastoreRepository =
                 DatastoreComponentHolder.getApi().repository()
         }
@@ -79,8 +82,11 @@ internal fun provideDependencies(context: Context) {
 
     AuthComponentHolder.dependencies = {
         object : AuthDependencies {
-            override fun temp() = "temp"
+            override fun service(): AuthService =
+                NetworkComponentHolder.getApi().authService()
 
+            override fun datastore(): DatastoreRepository =
+                DatastoreComponentHolder.getApi().repository()
         }
     }
 }

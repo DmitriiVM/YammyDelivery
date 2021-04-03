@@ -1,9 +1,13 @@
-package com.dvm.auth.auth_impl.login.model
+package com.dvm.auth.auth_impl.register.model
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class LoginState(
+data class RegisterState(
+    val firstName: String = "",
+    val firstNameError: String? = null,
+    val lastName: String = "",
+    val lastNameError: String? = null,
     val email: String = "",
     val emailError: String? = null,
     val password: String = "",

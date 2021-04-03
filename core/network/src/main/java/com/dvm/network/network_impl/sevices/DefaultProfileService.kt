@@ -3,6 +3,7 @@ package com.dvm.network.network_impl.sevices
 import com.dvm.network.network_api.response.ProfileResponse
 import com.dvm.network.network_api.services.ProfileService
 import com.dvm.network.network_impl.ApiService
+import com.dvm.network.network_impl.api
 import com.dvm.network.network_impl.request.ChangePasswordRequest
 import com.dvm.network.network_impl.request.EdieProfileRequest
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
@@ -14,33 +15,39 @@ internal class DefaultProfileService @Inject constructor(
 ) : ProfileService {
 
     override suspend fun getProfile(): ProfileResponse =
-        apiService.getProfile(getAccessToken())
+        api {
+            apiService.getProfile(getAccessToken())
+        }
 
     override suspend fun editProfile(
         firstName: String,
         lastName: String,
         email: String
     ): ProfileResponse =
-        apiService.editProfile(
-            token = getAccessToken(),
-            editProfileRequest = EdieProfileRequest(
-                firstName = firstName,
-                lastName = lastName,
-                email = email
+        api {
+            apiService.editProfile(
+                token = getAccessToken(),
+                editProfileRequest = EdieProfileRequest(
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email
+                )
             )
-        )
+        }
 
     override suspend fun changePassword(
         oldPassword: String,
         newPassword: String
     ) =
-        apiService.changePassword(
-            token = getAccessToken(),
-            changePasswordRequest = ChangePasswordRequest(
-                oldPassword = oldPassword,
-                newPassword = newPassword,
+        api {
+            apiService.changePassword(
+                token = getAccessToken(),
+                changePasswordRequest = ChangePasswordRequest(
+                    oldPassword = oldPassword,
+                    newPassword = newPassword,
+                )
             )
-        )
+        }
 
     private suspend fun getAccessToken() = requireNotNull(datastore.getAccessToken())
 }

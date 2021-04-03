@@ -53,4 +53,5 @@ dependencies {
     implementation(Libs.COMPOSE_MATERIAL)
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
+    implementation(Libs.COMPOSE_CONSTRAINT_LAYOUT)
 }

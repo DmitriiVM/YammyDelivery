@@ -27,9 +27,10 @@ object Libs {
     const val COMPOSE_MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
     const val COMPOSE_ICONS = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
     const val COMPOSE_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
-    const val COMPOSE_VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha01"
     const val COMPOSE_ACCOMPANIST_COIL = "dev.chrisbanes.accompanist:accompanist-coil:${Versions.COMPOSE_ACCOMPANIST}"
     const val COMPOSE_ACCOMPANIST_INSETS = "dev.chrisbanes.accompanist:accompanist-insets:${Versions.COMPOSE_ACCOMPANIST}"
+    const val COMPOSE_VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha01"
+    const val COMPOSE_CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
 
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"

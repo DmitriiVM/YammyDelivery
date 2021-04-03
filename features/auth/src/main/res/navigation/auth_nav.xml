@@ -11,10 +11,10 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
+            android:id="@+id/toRegisterFragment"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_passwordRestoreFragment"
+            android:id="@+id/toPasswordRestoreFragment"
             app:destination="@id/passwordRestoreFragment" />
     </fragment>
     <fragment
@@ -26,5 +26,9 @@
         android:id="@+id/registerFragment"
         android:name="com.dvm.auth.auth_impl.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/toLoginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

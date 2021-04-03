@@ -12,10 +12,4 @@ internal interface AuthModule{
     @FeatureScope
     @Binds
     fun provideAuthLauncher(launcher: DefaultAuthLauncher): AuthLauncher
-
-//    companion object {
-//        @Provides
-//        fun provideNavController(fragment: LoginFragment) =
-//            Navigation.findNavController(fragment.requireActivity(), R.id.fragmentContainerView)
-//    }
 }
