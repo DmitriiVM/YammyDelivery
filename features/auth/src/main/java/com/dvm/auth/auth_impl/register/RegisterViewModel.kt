@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.dvm.auth.auth_impl.register.model.RegisterEvent
 import com.dvm.auth.auth_impl.register.model.RegisterState
 import com.dvm.network.network_api.services.AuthService
@@ -14,15 +13,13 @@ import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.di.extensions.isEmailValid
 import com.dvm.utils.di.extensions.isPasswordValid
 import com.dvm.utils.di.extensions.isTextValid
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 internal class RegisterViewModel(
     private val authService: AuthService,
     private val datastore: DatastoreRepository,
-    private val navController: NavController
+//    private val navController: NavController
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterState())
@@ -58,12 +55,12 @@ internal class RegisterViewModel(
                 register()
             }
             RegisterEvent.Login -> {
-                navController.navigate(
-                    RegisterFragmentDirections.toLoginFragment()
-                )
+//                navController.navigate(
+//                    RegisterFragmentDirections.toLoginFragment()
+//                )
             }
             RegisterEvent.NavigateUp -> {
-                navController.navigateUp()
+//                navController.navigateUp()
             }
             RegisterEvent.DismissAlert -> {
                 state = state.copy(alertMessage = null)
@@ -126,7 +123,7 @@ internal class RegisterViewModel(
                 datastore.saveAccessToken(registerData.accessToken)
                 datastore.saveRefreshToken(registerData.refreshToken)
 
-                navController.popBackStack()
+//                navController.popBackStack()
             } catch (exception: Exception) {
                 state = state.copy(
                     alertMessage = exception.message,
@@ -137,10 +134,10 @@ internal class RegisterViewModel(
     }
 }
 
-internal class RegisterViewModelFactory @AssistedInject constructor(
+internal class RegisterViewModelFactory @Inject constructor(
     private val authService: AuthService,
     private val datastore: DatastoreRepository,
-    @Assisted private val navController: NavController
+//    @Assisted private val navController: NavController
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -148,14 +145,14 @@ internal class RegisterViewModelFactory @AssistedInject constructor(
             return RegisterViewModel(
                 authService = authService,
                 datastore = datastore,
-                navController = navController
+//                navController = navController
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-
-@AssistedFactory
-internal interface RegisterViewModelAssistedFactory {
-    fun create(navController: NavController): RegisterViewModelFactory
-}
+//
+//@AssistedFactory
+//internal interface RegisterViewModelAssistedFactory {
+//    fun create(navController: NavController): RegisterViewModelFactory
+//}

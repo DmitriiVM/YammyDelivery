@@ -2,14 +2,17 @@ package com.dvm.dish.dish_impl.di
 
 import com.dvm.dish.dish_api.DishLauncher
 import com.dvm.dish.dish_impl.launcher.DefaultDishLauncher
-import com.dvm.utils.di.FeatureScope
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-interface DishModule{
+@InstallIn(SingletonComponent::class)
+interface DishLauncherModule {
 
-    @FeatureScope
+    @Singleton
     @Binds
     fun provideDishLauncher(launcher: DefaultDishLauncher): DishLauncher
 }

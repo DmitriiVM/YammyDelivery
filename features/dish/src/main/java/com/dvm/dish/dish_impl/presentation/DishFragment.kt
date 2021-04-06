@@ -1,6 +1,5 @@
 package com.dvm.dish.dish_impl.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import com.dvm.appmenu.Navigator
 import com.dvm.dish.dish_impl.Dish
 import com.dvm.dish.dish_impl.DishViewModel
 import com.dvm.dish.dish_impl.DishViewModelAssistedFactory
-import com.dvm.dish.dish_impl.di.DishComponentHolder
 import com.dvm.dish.dish_impl.presentation.model.DishNavigationEvent
 import com.dvm.ui.themes.YammyDeliveryTheme
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +21,7 @@ import javax.inject.Inject
 
 private const val DISH_ID_KEY = "param1"
 
+@AndroidEntryPoint
 internal class DishFragment : Fragment() {
 
     @Inject
@@ -32,12 +32,6 @@ internal class DishFragment : Fragment() {
     private val viewModel: DishViewModel by viewModels {
         requireNotNull(dishId) { "Dish id can't be null" }
         factory.create(dishId!!)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        DishComponentHolder.init()
-        DishComponentHolder.getComponent().inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,11 +69,6 @@ internal class DishFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        DishComponentHolder.destroy()
-        super.onDestroy()
     }
 
     private fun navigateUp() {

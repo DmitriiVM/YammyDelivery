@@ -7,9 +7,12 @@ import com.dvm.network.network_impl.sevices.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 internal interface NetworkModule {
 
     @Binds

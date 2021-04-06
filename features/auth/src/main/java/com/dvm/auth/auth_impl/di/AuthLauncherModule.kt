@@ -2,14 +2,17 @@ package com.dvm.auth.auth_impl.di
 
 import com.dvm.auth.auth_api.AuthLauncher
 import com.dvm.auth.auth_impl.launcher.DefaultAuthLauncher
-import com.dvm.utils.di.FeatureScope
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-internal interface AuthModule{
+@InstallIn(SingletonComponent::class)
+internal interface AuthLauncherModule{
 
-    @FeatureScope
+    @Singleton
     @Binds
     fun provideAuthLauncher(launcher: DefaultAuthLauncher): AuthLauncher
 }

@@ -8,9 +8,13 @@ import com.dvm.db.db_impl.data.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 internal interface DatabaseModule {
 
     @Binds
@@ -31,7 +35,7 @@ internal interface DatabaseModule {
     companion object {
         @Singleton
         @Provides
-        fun provideDatabase(context: Context): AppDatabase =
+        fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
             Room
                 .databaseBuilder(context, AppDatabase::class.java, "YammyDatabase")
                 .fallbackToDestructiveMigration()

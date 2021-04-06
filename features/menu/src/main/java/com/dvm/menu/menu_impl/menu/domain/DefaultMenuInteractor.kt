@@ -3,10 +3,8 @@ package com.dvm.menu.menu_impl.menu.domain
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.menu.menu_impl.menu.domain.model.MenuItem
-import com.dvm.utils.di.FeatureScope
 import javax.inject.Inject
 
-@FeatureScope
 internal class DefaultMenuInteractor @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository

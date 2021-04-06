@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -78,8 +79,8 @@ dependencies {
     implementation(Libs.ROOM_KTX)
     kapt(Libs.ROOM_COMPILER)
 
-    implementation(Libs.DAGGER)
-    kapt(Libs.DAGGER_COMPILER)
+    implementation(Libs.DAGGER_HILT)
+    kapt(Libs.DAGGER_HILT_COMPILER)
     
     def nav_version = "2.3.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

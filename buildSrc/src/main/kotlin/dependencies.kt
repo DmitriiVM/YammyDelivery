@@ -6,7 +6,7 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
     const val ROOM = "2.2.6"
-    const val DAGGER = "2.33"
+    const val DAGGER_HILT = "2.33-beta"
     const val LIFECYCLE = "2.3.0"
     const val DATASTORE = "1.0.0-alpha08"
 }
@@ -47,8 +47,8 @@ object Libs {
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
 
-    const val DAGGER = "com.google.dagger:dagger:${Versions.DAGGER}"
-    const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
+    const val DAGGER_HILT = "com.google.dagger:hilt-android:${Versions.DAGGER_HILT}"
+    const val DAGGER_HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.DAGGER_HILT}"
 
     const val DATASTORE = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
 

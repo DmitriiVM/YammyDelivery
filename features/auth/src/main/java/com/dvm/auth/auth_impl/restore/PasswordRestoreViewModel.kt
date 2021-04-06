@@ -5,17 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import com.dvm.auth.auth_impl.restore.model.RestoreEvent
 import com.dvm.auth.auth_impl.restore.model.RestoreState
 import com.dvm.network.network_api.services.AuthService
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import javax.inject.Inject
 
 internal class PasswordRestoreViewModel(
     private val authService: AuthService,
-    private val navController: NavController
+//    private val navController: NavController
 ): ViewModel() {
 
     var state by mutableStateOf(RestoreState())
@@ -47,26 +44,26 @@ internal class PasswordRestoreViewModel(
         }
     }
 
-    private fun navigateUp() {
-        navController.navigateUp()
-    }
+//    private fun navigateUp() {
+//        navController.navigateUp()
+//    }
 }
 
-internal class PasswordRestoreViewModelFactory @AssistedInject constructor(
+internal class PasswordRestoreViewModelFactory @Inject constructor(
     private val authService: AuthService,
-    @Assisted private val navController: NavController
+//    @Assisted private val navController: NavController
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PasswordRestoreViewModel::class.java)) {
-            return PasswordRestoreViewModel(authService, navController) as T
+            return PasswordRestoreViewModel(authService) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
-
-@AssistedFactory
-internal interface PasswordRestoreViewModelAssistedFactory{
-    fun create(navController: NavController): PasswordRestoreViewModelFactory
-}
+//
+//@AssistedFactory
+//internal interface PasswordRestoreViewModelAssistedFactory{
+//    fun create(navController: NavController): PasswordRestoreViewModelFactory
+//}

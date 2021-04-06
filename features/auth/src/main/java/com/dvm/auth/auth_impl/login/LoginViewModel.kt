@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.dvm.auth.auth_impl.login.model.LoginEvent
@@ -14,19 +13,21 @@ import com.dvm.network.network_api.services.AuthService
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.di.extensions.isEmailValid
 import com.dvm.utils.di.extensions.isPasswordValid
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class LoginViewModel(
+
+@HiltViewModel
+internal class LoginViewModel @Inject constructor(
     private val authService: AuthService,
     private val datastore: DatastoreRepository,
-    private val navController: NavController
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginState())
         private set
+
+    private lateinit var navController: NavController
 
     fun dispatch(event: LoginEvent){
         when (event) {
@@ -100,7 +101,7 @@ internal class LoginViewModel(
                 datastore.saveRefreshToken(loginData.refreshToken)
                 Log.d("mmm", "LoginViewModel :  login --  $loginData")
 
-                navController.popBackStack()
+//                navController.popBackStack()
             } catch (exception: Exception) {
                 state = state.copy(
                     alertMessage = exception.message,
@@ -109,27 +110,8 @@ internal class LoginViewModel(
             }
         }
     }
-}
 
-internal class LoginViewModelFactory @AssistedInject constructor(
-    private val authService: AuthService,
-    private val datastore: DatastoreRepository,
-    @Assisted private val navController: NavController
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
-                authService = authService,
-                datastore = datastore,
-                navController = navController
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+    fun setNavController(navController: NavController) {
+        this.navController = navController
     }
-}
-
-@AssistedFactory
-internal interface LoginViewModelAssistedFactory{
-    fun create(navController: NavController): LoginViewModelFactory
 }
