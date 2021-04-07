@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/dishFragment"
-        android:name="com.dvm.dish.dish_impl.presentation.DishFragment"
+        android:name="com.dvm.dish.presentation.DishFragment"
         android:label="DishFragment">
         <argument
             android:name="id"

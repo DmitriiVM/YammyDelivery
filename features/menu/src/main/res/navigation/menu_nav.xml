@@ -6,7 +6,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/mainFragment"-->
-<!--        android:name="com.dvm.menu.menu_impl.main.MainFragment"-->
+<!--        android:name="com.dvm.menu.main.MainFragment"-->
 <!--        android:label="fragment_main"-->
 <!--        tools:layout="@layout/fragment_main" >-->
 <!--        <action-->
@@ -15,7 +15,7 @@
 <!--    </fragment>-->
 <!--    <fragment-->
 <!--        android:id="@+id/menuFragment"-->
-<!--        android:name="com.dvm.menu.menu_impl.menu.presentation.MenuFragment"-->
+<!--        android:name="com.dvm.menu.menu.presentation.MenuFragment"-->
 <!--        android:label="fragment_menu"-->
 <!--        tools:layout="@layout/fragment_menu" >-->
 <!--        <action-->
@@ -27,12 +27,12 @@
 <!--    </fragment>-->
 <!--    <fragment-->
 <!--        android:id="@+id/searchFragment"-->
-<!--        android:name="com.dvm.menu.menu_impl.search.SearchFragment"-->
+<!--        android:name="com.dvm.menu.search.SearchFragment"-->
 <!--        android:label="fragment_search"-->
 <!--        tools:layout="@layout/fragment_search" />-->
 <!--    <fragment-->
 <!--        android:id="@+id/categoryFragment"-->
-<!--        android:name="com.dvm.menu.menu_impl.category.presentation.CategoryFragment"-->
+<!--        android:name="com.dvm.menu.category.presentation.CategoryFragment"-->
 <!--        android:label="fragment_category"-->
 <!--        tools:layout="@layout/fragment_category" >-->
 <!--        <argument-->

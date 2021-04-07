@@ -1,8 +1,8 @@
 package com.dvm.yammydelivery
 
 import androidx.navigation.NavController
-import com.dvm.auth.auth_impl.login.LoginFragmentDirections
-import com.dvm.menu.menu_impl.menu.presentation.MenuFragmentDirections
+import com.dvm.auth.login.LoginFragmentDirections
+import com.dvm.menu.menu.presentation.MenuFragmentDirections
 import com.dvm.navigation.Destination
 
 

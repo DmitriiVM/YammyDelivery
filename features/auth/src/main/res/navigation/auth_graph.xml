@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.dvm.auth.auth_impl.login.LoginFragment"
+        android:name="com.dvm.auth.login.LoginFragment"
         android:label="LoginFragment">
         <action
             android:id="@+id/toRegister"
@@ -18,11 +18,11 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.dvm.auth.auth_impl.register.RegisterFragment"
+        android:name="com.dvm.auth.register.RegisterFragment"
         android:label="RegisterFragment" />
 
     <fragment
         android:id="@+id/passwordRestoreFragment"
-        android:name="com.dvm.auth.auth_impl.restore.PasswordRestoreFragment"
+        android:name="com.dvm.auth.restore.PasswordRestoreFragment"
         android:label="PasswordRestoreFragment" />
 </navigation>
