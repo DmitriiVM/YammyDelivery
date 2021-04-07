@@ -30,7 +30,7 @@
         android:name="com.dvm.menu.category.presentation.CategoryFragment"
         android:label="CategoryFragment" >
         <argument
-            android:name="id"
+            android:name="categoryId"
             app:argType="string" />
     </fragment>
 

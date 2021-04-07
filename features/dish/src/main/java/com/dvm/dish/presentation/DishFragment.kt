@@ -28,7 +28,7 @@ internal class DishFragment : Fragment() {
     private val args: DishFragmentArgs by navArgs()
 
     private val viewModel: DishViewModel by viewModels {
-        factory.create(args.id)
+        factory.create(args.dishId)
     }
 
     override fun onCreateView(

@@ -17,7 +17,7 @@
         android:id="@+id/toDish"
         app:destination="@id/dish_graph">
         <argument
-            android:name="id"
+            android:name="dishId"
             app:argType="string" />
     </action>
 

@@ -3,42 +3,37 @@ package com.dvm.menu.category.presentation
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
 import com.dvm.menu.category.presentation.model.CategoryEvent
-import com.dvm.menu.category.presentation.model.CategoryNavigationEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.SortType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class CategoryViewModel(
-    private val categoryId: String,
+@HiltViewModel
+internal class CategoryViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(CategoryState())
         private set
 
-    private val _navigationEvent = MutableSharedFlow<CategoryNavigationEvent>()
-    val navigationEvent: SharedFlow<CategoryNavigationEvent>
-        get() = _navigationEvent
+    private val categoryId = requireNotNull(savedState.get<String>("categoryId"))
 
     init {
         loadContent()
@@ -108,35 +103,5 @@ internal class CategoryViewModel(
         }
     }
 }
-
-internal class CategoryViewModelFactory @AssistedInject constructor(
-    @Assisted private val categoryId: String,
-    private val categoryRepository: CategoryRepository,
-    private val dishRepository: DishRepository,
-    private val favoriteRepository: FavoriteRepository,
-    private val cartRepository: CartRepository,
-    private val navigator: Navigator
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
-            return CategoryViewModel(
-                categoryId = categoryId,
-                categoryRepository = categoryRepository,
-                dishRepository = dishRepository,
-                favoriteRepository = favoriteRepository,
-                cartRepository = cartRepository,
-                navigator = navigator
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-@AssistedFactory
-internal interface CategoryViewModelAssistedFactory {
-    fun create(categoryId: String): CategoryViewModelFactory
-}
-
 
 

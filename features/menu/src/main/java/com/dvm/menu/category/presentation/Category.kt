@@ -64,6 +64,7 @@ internal fun Category(
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }
         var offset by remember { mutableStateOf(0) }
+        // TODO rememberSaveable
         var selectedColor by remember {
             mutableStateOf(AccentColors.values().random().color)
         }

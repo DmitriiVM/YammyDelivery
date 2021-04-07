@@ -9,7 +9,7 @@
         android:name="com.dvm.dish.presentation.DishFragment"
         android:label="DishFragment">
         <argument
-            android:name="id"
+            android:name="dishId"
             app:argType="string" />
     </fragment>
 </navigation>
