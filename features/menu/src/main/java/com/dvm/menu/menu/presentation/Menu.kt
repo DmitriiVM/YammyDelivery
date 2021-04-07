@@ -201,6 +201,7 @@ private fun MenuItem(
     }
 }
 
+// TODO
 internal fun getIcon(dishTitle: String): Int {
     return when (dishTitle) {
         "Бургеры и хот-доги" -> R.drawable.icon_hamburger

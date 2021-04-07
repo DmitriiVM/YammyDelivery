@@ -15,7 +15,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 internal class PasswordRestoreFragment : Fragment() {
 
-
     @Inject
     lateinit var navigator: Navigator
 

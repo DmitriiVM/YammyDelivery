@@ -21,12 +21,8 @@ internal class RegisterFragment : Fragment() {
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var factory: RegisterViewModelFactory
 
-    private val model: RegisterViewModel by viewModels {
-        factory
-    }
+    private val model: RegisterViewModel by viewModels()
 
     @OptIn(ExperimentalAnimatedInsets::class)
     override fun onCreateView(

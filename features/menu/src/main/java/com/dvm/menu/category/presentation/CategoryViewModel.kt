@@ -10,12 +10,14 @@ import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
+import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.SortType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +28,7 @@ internal class CategoryViewModel @Inject constructor(
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
+    private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -45,7 +48,7 @@ internal class CategoryViewModel @Inject constructor(
                 MENU_SPECIAL_OFFER -> {
                     val dishes = dishRepository.getSpecialOffers()
                     state = CategoryState(
-                        title = "Акции",
+                        title = stringProvider.getString(R.string.menu_item_title),
                         dishes = dishes
                     )
                 }

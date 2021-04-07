@@ -4,22 +4,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.network.network_api.services.AuthService
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
+import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
 import com.dvm.utils.extensions.isPasswordValid
 import com.dvm.utils.extensions.isTextValid
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class RegisterViewModel(
+@HiltViewModel
+internal class RegisterViewModel @Inject constructor(
     private val authService: AuthService,
     private val datastore: DatastoreRepository,
-//    private val navController: NavController
+    private val stringProvider: StringProvider,
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterState())
@@ -69,10 +72,10 @@ internal class RegisterViewModel(
     }
 
     private fun register() {
-        val emptyField = "Пустое поле"
-        val letters = "Только буквы"
-        val incorrectEmail = "Некорректный e-mail"
-        val incorrectPassword = "Пароль должен состоять из 6 или более букв и цифр"
+        val emptyField = stringProvider.getString(R.string.empty_edit_field)
+        val letters = stringProvider.getString(R.string.only_letters)
+        val incorrectEmail = stringProvider.getString(R.string.IncorrectEmail)
+        val incorrectPassword = stringProvider.getString(R.string.incorrect_password)
 
         val firstNameError = when {
             state.firstName.isEmpty() -> emptyField
@@ -133,26 +136,3 @@ internal class RegisterViewModel(
         }
     }
 }
-
-internal class RegisterViewModelFactory @Inject constructor(
-    private val authService: AuthService,
-    private val datastore: DatastoreRepository,
-//    @Assisted private val navController: NavController
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
-            return RegisterViewModel(
-                authService = authService,
-                datastore = datastore,
-//                navController = navController
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-//
-//@AssistedFactory
-//internal interface RegisterViewModelAssistedFactory {
-//    fun create(navController: NavController): RegisterViewModelFactory
-//}

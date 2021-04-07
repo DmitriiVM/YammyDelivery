@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">ui</string>
+    <string name="empty_edit_field">Пустое поле</string>
+    <string name="IncorrectEmail">Некорректный e-mail</string>
+    <string name="incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
+    <string name="only_letters">Только буквы</string>
+    <string name="menu_item_title">Акции</string>
 </resources>

@@ -6,12 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.services.AuthService
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
+import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
 import com.dvm.utils.extensions.isPasswordValid
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +25,7 @@ import javax.inject.Inject
 internal class LoginViewModel @Inject constructor(
     private val authService: AuthService,
     private val datastore: DatastoreRepository,
+    private val stringProvider: StringProvider,
     private val navigator: Navigator
 ) : ViewModel() {
 
@@ -62,9 +65,9 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun login() {
-        val emptyField = "Пустое поле"
-        val incorrectEmail = "Некорректный e-mail"
-        val incorrectPassword = "Пароль должен состоять из 6 или более букв и цифр"
+        val emptyField = stringProvider.getString(R.string.empty_edit_field)
+        val incorrectEmail = stringProvider.getString(R.string.IncorrectEmail)
+        val incorrectPassword = stringProvider.getString(R.string.incorrect_password)
 
         val emailError = when {
             state.email.isEmpty() -> emptyField
