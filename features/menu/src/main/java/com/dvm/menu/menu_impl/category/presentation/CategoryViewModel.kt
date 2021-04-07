@@ -15,6 +15,8 @@ import com.dvm.menu.menu_impl.category.presentation.model.CategoryNavigationEven
 import com.dvm.menu.menu_impl.category.presentation.model.CategoryState
 import com.dvm.menu.menu_impl.category.presentation.model.SortType
 import com.dvm.menu.menu_impl.common.MENU_SPECIAL_OFFER
+import com.dvm.navigation.Destination
+import com.dvm.navigation.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -28,6 +30,7 @@ internal class CategoryViewModel(
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
+    private val navigator: Navigator
 ) : ViewModel() {
 
     var state by mutableStateOf(CategoryState())
@@ -74,15 +77,15 @@ internal class CategoryViewModel(
                     /*cartRepository.addToCart(action.dishId)*/
                 }
                 is CategoryEvent.NavigateToDish -> {
-                    _navigationEvent.emit(CategoryNavigationEvent.ToDetails(event.dishId))
+                    navigator.navigationTo?.invoke(Destination.Dish(event.dishId))
                 }
                 is CategoryEvent.AddToFavorite -> {
                     /*favoriteRepository.addToFavorite(action.dishId)*/
                 }
                 CategoryEvent.NavigateUp -> {
-                    _navigationEvent.emit(CategoryNavigationEvent.Up)
+                    navigator.navigationTo?.invoke(Destination.Back)
                 }
-                is CategoryEvent.NavigateToSubcategory -> {
+                is CategoryEvent.ChangeSubcategory -> {
                     val dishes = dishRepository.getDishes(event.id)
                     state = state.copy(
                         dishes = dishes,
@@ -112,6 +115,7 @@ internal class CategoryViewModelFactory @AssistedInject constructor(
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
+    private val navigator: Navigator
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -122,6 +126,7 @@ internal class CategoryViewModelFactory @AssistedInject constructor(
                 dishRepository = dishRepository,
                 favoriteRepository = favoriteRepository,
                 cartRepository = cartRepository,
+                navigator = navigator
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

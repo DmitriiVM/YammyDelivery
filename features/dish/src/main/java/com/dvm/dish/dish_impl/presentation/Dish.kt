@@ -30,12 +30,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.appmenu.Drawer
-import com.dvm.appmenu.Navigator
 import com.dvm.db.db_api.data.models.DishDetails
 import com.dvm.db.db_api.data.models.Review
 import com.dvm.dish.R
 import com.dvm.dish.dish_impl.presentation.model.DishEvent
 import com.dvm.dish.dish_impl.presentation.model.DishState
+import com.dvm.navigation.Navigator
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -44,10 +44,10 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 internal fun Dish(
     state: DishState,
-    onEvent: (DishEvent) -> Unit,
     navigator: Navigator,
+    onEvent: (DishEvent) -> Unit,
 ) {
-    Drawer(navigator) {
+    Drawer(navigator = navigator) {
         Box {
             val listState = rememberLazyListState()
 

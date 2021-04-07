@@ -4,28 +4,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.dvm.menu.menu_impl.menu.domain.DefaultMenuInteractor
 import com.dvm.menu.menu_impl.menu.domain.MenuInteractor
 import com.dvm.menu.menu_impl.menu.domain.model.MenuItem
 import com.dvm.menu.menu_impl.menu.presentation.model.MenuEvent
-import com.dvm.menu.menu_impl.menu.presentation.model.MenuNavigationEvent
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import com.dvm.navigation.Destination
+import com.dvm.navigation.Navigator
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class MenuViewModel(
-    private val interactor: MenuInteractor
+@HiltViewModel
+internal class MenuViewModel @Inject constructor(
+    private val interactor: MenuInteractor,
+    private val navigator: Navigator
 ) : ViewModel() {
 
     var menuItems by mutableStateOf(emptyList<MenuItem>())
         private set
-
-    private val _navigationEvent = MutableSharedFlow<MenuNavigationEvent>()
-    val navigationEvent: SharedFlow<MenuNavigationEvent>
-        get() = _navigationEvent
 
     init {
         viewModelScope.launch {
@@ -35,25 +31,17 @@ internal class MenuViewModel(
 
     fun dispatch(event: MenuEvent) {
         viewModelScope.launch {
-            _navigationEvent.emit(
-                when (event) {
-                    is MenuEvent.MenuItemClick -> MenuNavigationEvent.NavigateToCategory(event.id)
-                    MenuEvent.AppMenuClick -> MenuNavigationEvent.OpenAppMenu
-                    MenuEvent.SearchClick -> MenuNavigationEvent.NavigateToSearch
+            when (event) {
+                is MenuEvent.MenuItemClick -> {
+                    navigator.navigationTo?.invoke(Destination.Category(event.id))
                 }
-            )
-        }
-    }
-}
+                MenuEvent.AppMenuClick -> {
 
-internal class MenuViewModelFactory @Inject constructor(
-    private val interactor: DefaultMenuInteractor
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MenuViewModel::class.java)) {
-            return MenuViewModel(interactor) as T
+                }
+                MenuEvent.SearchClick -> {
+                    navigator.navigationTo?.invoke(Destination.Search)
+                }
+            }
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

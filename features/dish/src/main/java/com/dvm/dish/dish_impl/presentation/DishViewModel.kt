@@ -12,6 +12,8 @@ import com.dvm.db.db_api.data.FavoriteRepository
 import com.dvm.dish.dish_impl.presentation.model.DishEvent
 import com.dvm.dish.dish_impl.presentation.model.DishNavigationEvent
 import com.dvm.dish.dish_impl.presentation.model.DishState
+import com.dvm.navigation.Destination
+import com.dvm.navigation.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,7 +25,8 @@ internal class DishViewModel(
     private val dishId: String,
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val navigator: Navigator
 ): ViewModel() {
 
     var state by mutableStateOf<DishState?>(null)
@@ -59,7 +62,7 @@ internal class DishViewModel(
                 DishEvent.ChangeFavorite -> { }
                 DishEvent.AddReview -> { }
                 DishEvent.NavigateUp -> {
-                    _navigationEvent.emit(DishNavigationEvent.Up)
+                    navigator.navigationTo?.invoke(Destination.Back)
                 }
             }
         }
@@ -71,6 +74,7 @@ internal class DishViewModelFactory @AssistedInject constructor(
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
+    private val navigator: Navigator
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -80,6 +84,7 @@ internal class DishViewModelFactory @AssistedInject constructor(
                 dishRepository = dishRepository,
                 favoriteRepository = favoriteRepository,
                 cartRepository = cartRepository,
+                navigator = navigator
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

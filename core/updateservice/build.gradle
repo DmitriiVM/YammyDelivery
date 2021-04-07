@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-    implementation project(':module-injector')
     implementation project(':core:network')
     implementation project(':core:db')
 

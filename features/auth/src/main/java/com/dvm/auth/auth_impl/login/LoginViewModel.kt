@@ -6,13 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.dvm.auth.auth_impl.login.model.LoginEvent
 import com.dvm.auth.auth_impl.login.model.LoginState
+import com.dvm.navigation.Destination
+import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.services.AuthService
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
-import com.dvm.utils.di.extensions.isEmailValid
-import com.dvm.utils.di.extensions.isPasswordValid
+import com.dvm.utils.extensions.isEmailValid
+import com.dvm.utils.extensions.isPasswordValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,12 +23,11 @@ import javax.inject.Inject
 internal class LoginViewModel @Inject constructor(
     private val authService: AuthService,
     private val datastore: DatastoreRepository,
+    private val navigator: Navigator
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginState())
         private set
-
-    private lateinit var navController: NavController
 
     fun dispatch(event: LoginEvent){
         when (event) {
@@ -44,17 +44,13 @@ internal class LoginViewModel @Inject constructor(
                 )
             }
             LoginEvent.NavigateToPasswordRestore -> {
-                navController.navigate(
-                    LoginFragmentDirections.toPasswordRestoreFragment()
-                )
+                navigator.navigationTo?.invoke(Destination.PasswordRestore)
             }
             LoginEvent.NavigateToRegister -> {
-                navController.navigate(
-                    LoginFragmentDirections.toRegisterFragment()
-                )
+                navigator.navigationTo?.invoke(Destination.Register)
             }
             LoginEvent.NavigateUp -> {
-                navController.navigateUp()
+                navigator.navigationTo?.invoke(Destination.Back)
             }
             LoginEvent.Login -> {
                 login()
@@ -109,9 +105,5 @@ internal class LoginViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    fun setNavController(navController: NavController) {
-        this.navController = navController
     }
 }

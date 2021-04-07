@@ -1,4 +1,4 @@
-package com.dvm.utils.di.extensions
+package com.dvm.utils.extensions
 
 import androidx.core.util.PatternsCompat
 import java.util.regex.Pattern

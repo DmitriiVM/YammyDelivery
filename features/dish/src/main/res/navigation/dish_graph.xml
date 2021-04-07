@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dish_graph"
+    app:startDestination="@id/dishFragment">
+
+    <fragment
+        android:id="@+id/dishFragment"
+        android:name="com.dvm.dish.dish_impl.presentation.DishFragment"
+        android:label="DishFragment">
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+</navigation>

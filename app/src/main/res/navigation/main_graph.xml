@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/menu_graph">
+
+    <include app:graph="@navigation/menu_graph" />
+    <action
+        android:id="@+id/toMain"
+        app:destination="@id/menu_graph"/>
+    <action
+        android:id="@+id/toMenu"
+        app:destination="@id/menuFragment" />
+
+    <include app:graph="@navigation/dish_graph" />
+    <action
+        android:id="@+id/toDish"
+        app:destination="@id/dish_graph">
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </action>
+
+    <include app:graph="@navigation/auth_graph" />
+    <action
+        android:id="@+id/toAuth"
+        app:destination="@id/auth_graph"/>
+</navigation>

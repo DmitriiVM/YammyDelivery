@@ -5,10 +5,10 @@ import com.dvm.menu.menu_impl.menu.domain.MenuInteractor
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
 
 @Module
-@InstallIn(FragmentComponent::class)
+@InstallIn(ActivityRetainedComponent::class)
 internal interface MenuModule {
 
     @Binds

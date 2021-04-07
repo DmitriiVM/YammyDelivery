@@ -38,12 +38,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.appmenu.Drawer
-import com.dvm.appmenu.Navigator
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.Subcategory
 import com.dvm.menu.menu_impl.category.presentation.model.CategoryEvent
 import com.dvm.menu.menu_impl.category.presentation.model.CategoryState
 import com.dvm.menu.menu_impl.category.presentation.model.SortType
+import com.dvm.navigation.Navigator
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.AccentColors
@@ -57,10 +57,10 @@ private val AppBarHeight = 56.dp
 @Composable
 internal fun Category(
     state: CategoryState,
-    onEvent: (CategoryEvent) -> Unit,
     navigator: Navigator,
+    onEvent: (CategoryEvent) -> Unit,
 ) {
-    Drawer(navigator) {
+    Drawer(navigator = navigator) {
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }
         var offset by remember { mutableStateOf(0) }
@@ -81,7 +81,7 @@ internal fun Category(
             lazyListState = lazyListState,
             offset = offset,
             titleHeight = titleHeight,
-            onSubcategoryClick = { onEvent(CategoryEvent.NavigateToSubcategory(it)) },
+            onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) },
             onDishClick = { onEvent(CategoryEvent.NavigateToDish(it)) },
             onAddToCartClick = { onEvent(CategoryEvent.AddToCart(it)) },
             onFavoriteClick = { onEvent(CategoryEvent.AddToFavorite(it)) }

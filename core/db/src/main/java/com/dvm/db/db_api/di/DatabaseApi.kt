@@ -1,9 +1,8 @@
 package com.dvm.db.db_api.di
 
 import com.dvm.db.db_api.data.*
-import com.dvm.module_injector.BaseAPI
 
-interface DatabaseApi: BaseAPI {
+interface DatabaseApi{
     fun categoryRepository(): CategoryRepository
     fun dishRepository(): DishRepository
     fun reviewRepository(): ReviewRepository

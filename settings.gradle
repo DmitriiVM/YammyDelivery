@@ -14,5 +14,5 @@ include(
         ':core:updateservice',
         ':core:utils',
         ':core:datastore',
-        ':module-injector'
+        ':navigation'
 )

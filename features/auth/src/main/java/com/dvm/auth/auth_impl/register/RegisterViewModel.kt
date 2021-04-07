@@ -10,9 +10,9 @@ import com.dvm.auth.auth_impl.register.model.RegisterEvent
 import com.dvm.auth.auth_impl.register.model.RegisterState
 import com.dvm.network.network_api.services.AuthService
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
-import com.dvm.utils.di.extensions.isEmailValid
-import com.dvm.utils.di.extensions.isPasswordValid
-import com.dvm.utils.di.extensions.isTextValid
+import com.dvm.utils.extensions.isEmailValid
+import com.dvm.utils.extensions.isPasswordValid
+import com.dvm.utils.extensions.isTextValid
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

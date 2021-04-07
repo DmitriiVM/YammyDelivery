@@ -7,38 +7,19 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.dvm.appmenu.Navigator
-import com.dvm.menu.menu_impl.menu.presentation.model.MenuNavigationEvent
+import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class MenuFragment : Fragment() {
 
     @Inject
-    lateinit var factory: MenuViewModelFactory
+    lateinit var navigator: Navigator
 
-    private val model: MenuViewModel by viewModels { factory }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        model
-            .navigationEvent
-            .onEach { navigation ->
-                when (navigation) {
-                    is MenuNavigationEvent.NavigateToCategory -> navigateToCategory(navigation.id)
-                    MenuNavigationEvent.NavigateToSearch -> navigateToSearch()
-                    MenuNavigationEvent.OpenAppMenu -> openAppMenu()
-                }
-            }
-            .launchIn(lifecycleScope)
-    }
+    private val model: MenuViewModel by viewModels()
 
     @ExperimentalStdlibApi
     @ExperimentalFoundationApi
@@ -54,23 +35,11 @@ internal class MenuFragment : Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     MenuView(
                         menuItems = model.menuItems,
-                        onEvent = { model.dispatch(it) },
-                        navigator = requireActivity() as Navigator
+                        navigator = navigator,
+                        onEvent = { model.dispatch(it) }
                     )
                 }
             }
         }
-    }
-
-    private fun openAppMenu() {
-
-    }
-
-    private fun navigateToSearch() {
-        findNavController().navigate(MenuFragmentDirections.toSearchFragment())
-    }
-
-    private fun navigateToCategory(id: String) {
-        findNavController().navigate(MenuFragmentDirections.toCategoryFragment(id))
     }
 }

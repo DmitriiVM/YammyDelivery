@@ -14,9 +14,9 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu.Drawer
-import com.dvm.appmenu.Navigator
 import com.dvm.auth.auth_impl.login.model.LoginEvent
 import com.dvm.auth.auth_impl.login.model.LoginState
+import com.dvm.navigation.Navigator
 import com.dvm.ui.components.*
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -24,10 +24,10 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 internal fun Login(
     state: LoginState,
-    onEvent: (LoginEvent) -> Unit,
     navigator: Navigator,
+    onEvent: (LoginEvent) -> Unit
 ) {
-    Drawer(navigator) {
+    Drawer(navigator = navigator) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

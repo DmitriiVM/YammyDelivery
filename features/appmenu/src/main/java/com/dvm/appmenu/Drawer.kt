@@ -8,13 +8,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.dvm.navigation.Destination
+import com.dvm.navigation.Navigator
 
 @Composable
 fun Drawer(
-    navigator: Navigator,
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
-    content: @Composable () -> Unit
+    navigator: Navigator,
+    content: @Composable() () -> Unit
 ) {
+
+//    val viewModel: AppMenuViewModel = viewModel()
+
     ModalDrawer(
         drawerState = drawerState,
         content = content,
@@ -29,7 +34,10 @@ fun Drawer(
 
                 DrawerItem(
                     text = "Главная",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Main)
+//                        viewModel.onEvent(DrawerItem.MAIN)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_home),
@@ -40,7 +48,10 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Меню",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Menu)
+//                        viewModel.onEvent(DrawerItem.MENU)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_menu),
@@ -51,7 +62,10 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Избранное",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Favorite)
+//                        viewModel.onEvent(DrawerItem.FAVORITE)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_favorite),
@@ -62,7 +76,10 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Корзина",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Cart)
+//                        viewModel.onEvent(DrawerItem.CART)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_cart),
@@ -73,7 +90,10 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Профиль",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Profile)
+//                        viewModel.onEvent(DrawerItem.PROFILE)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_profile),
@@ -84,7 +104,10 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Заказы",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Orders)
+//                        viewModel.onEvent(DrawerItem.ORDERS)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_order),
@@ -95,7 +118,23 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Уведомления",
-                    onClick = { navigator.navigateToMenuScreen() },
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Notification)
+//                        viewModel.onEvent(DrawerItem.NOTIFICATION)
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_notification),
+                            contentDescription = null,
+                            modifier = modifier
+                        )
+                    }
+                )
+                DrawerItem(
+                    text = "SIGN_IN",
+                    onClick = {
+                        navigator.navigationTo?.invoke(Destination.Auth)
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_notification),
@@ -121,7 +160,7 @@ fun DrawerHeader() {
             Text(text = "Иван Иванов")
             Text(text = "mail@mail.ru")
         }
-        IconButton(onClick = {  }) {
+        IconButton(onClick = { }) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_logout),
                 contentDescription = null,
@@ -154,8 +193,15 @@ private fun DrawerItem(
     }
 }
 
-interface Navigator {
-    fun navigateToDishScreen(dishId: String)
-    fun navigateToMenuScreen()
+enum class DrawerItem {
+    MAIN,
+    MENU,
+    FAVORITE,
+    CART,
+    PROFILE,
+    ORDERS,
+    NOTIFICATION,
+    SIGN_IN,
+    SIGN_OUT
 }
 

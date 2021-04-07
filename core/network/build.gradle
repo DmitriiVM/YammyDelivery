@@ -34,7 +34,6 @@ android {
 }
 
 dependencies {
-    implementation project(':module-injector')
     implementation project(':core:datastore')
 
     implementation(Libs.ANDROID_CORE)

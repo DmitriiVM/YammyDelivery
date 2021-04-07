@@ -43,7 +43,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation(Libs.DATASTORE)
 
     implementation(Libs.DAGGER_HILT)
     kapt(Libs.DAGGER_HILT_COMPILER)
