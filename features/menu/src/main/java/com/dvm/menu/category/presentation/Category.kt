@@ -42,7 +42,7 @@ import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
-import com.dvm.menu.category.presentation.model.SortType
+import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
@@ -91,7 +91,7 @@ internal fun Category(
         Column {
             Spacer(Modifier.statusBarsHeight())
             CategoryAppBar(
-                selectedSort = state.selectedSort,
+                selectedOrder = state.selectedOrder,
                 selectedColor = selectedColor,
                 offset = offset,
                 onEvent = onEvent
@@ -249,7 +249,7 @@ private fun DishListHeader(
 
 @Composable
 private fun CategoryAppBar(
-    selectedSort: SortType?,
+    selectedOrder: OrderType?,
     selectedColor: Color,
     offset: Int,
     onEvent: (CategoryEvent) -> Unit
@@ -276,16 +276,16 @@ private fun CategoryAppBar(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                SortType.values().forEach { type ->
+                OrderType.values().forEach { type ->
                     DropdownMenuItem(
                         onClick = {
-                            onEvent(CategoryEvent.Sort(type))
+                            onEvent(CategoryEvent.Order(type))
                             expanded = false
                         }
                     ) {
                         Text(
                             text = type.title,
-                            color = if (type == selectedSort) selectedColor else Color.Unspecified
+                            color = if (type == selectedOrder) selectedColor else Color.Unspecified
                         )
                     }
                 }

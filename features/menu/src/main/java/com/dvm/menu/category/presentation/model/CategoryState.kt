@@ -10,5 +10,5 @@ internal data class CategoryState(
     val subcategories: List<Subcategory> = emptyList(),
     val selectedCategoryId: String? = null,
     val dishes: List<Dish> = emptyList(),
-    val selectedSort: SortType = SortType.ALPHABET_ASC
+    val selectedOrder: OrderType = OrderType.ALPHABET_ASC
 )

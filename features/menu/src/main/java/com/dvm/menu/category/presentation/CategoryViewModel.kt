@@ -10,10 +10,11 @@ import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
+import com.dvm.db.db_api.data.models.Dish
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
-import com.dvm.menu.category.presentation.model.SortType
+import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
@@ -30,13 +31,14 @@ internal class CategoryViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
-    savedState: SavedStateHandle
+    private val savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(CategoryState())
         private set
 
     private val categoryId = requireNotNull(savedState.get<String>("categoryId"))
+    private val subcategoryId = savedState.get<String>("subcategoryId")
 
     init {
         loadContent()
@@ -54,8 +56,11 @@ internal class CategoryViewModel @Inject constructor(
                 }
                 else -> {
                     val subcategories = categoryRepository.getChildCategories(categoryId)
-                    val subcategoryId = subcategories.firstOrNull()?.id
-                    val dishes = dishRepository.getDishes(subcategoryId ?: categoryId)
+                    val subcategoryId = subcategoryId ?: subcategories.firstOrNull()?.id
+                    var dishes = dishRepository.getDishes(subcategoryId ?: categoryId)
+                    savedState.get<Int>("orderType")?.let {
+                        dishes = dishes.order(OrderType.values()[it])
+                    }
                     val title = categoryRepository.getCategoryTitle(categoryId)
                     state = CategoryState(
                         title = title,
@@ -84,27 +89,33 @@ internal class CategoryViewModel @Inject constructor(
                     navigator.navigationTo?.invoke(Destination.Back)
                 }
                 is CategoryEvent.ChangeSubcategory -> {
-                    val dishes = dishRepository.getDishes(event.id)
+                    val subcategoryId = event.id
+                    val dishes = dishRepository.getDishes(subcategoryId)
                     state = state.copy(
                         dishes = dishes,
-                        selectedCategoryId = event.id
+                        selectedCategoryId = subcategoryId
                     )
+                    savedState.set("subcategoryId", subcategoryId)
                 }
-                is CategoryEvent.Sort -> {
-                    val dishes = state.dishes
-                    val sortedDishes = when (event.sortType) {
-                        SortType.ALPHABET_ASC -> dishes.sortedBy { it.name }
-                        SortType.ALPHABET_DESC -> dishes.sortedByDescending { it.name }
-                        SortType.POPULARITY_ASC -> dishes.sortedBy { it.likes }
-                        SortType.POPULARITY_DESC -> dishes.sortedByDescending { it.likes }
-                        SortType.RATING_ASC -> dishes.sortedBy { it.rating }
-                        SortType.RATING_DESC -> dishes.sortedByDescending { it.rating }
-                    }
-                    state = state.copy(dishes = sortedDishes, selectedSort = event.sortType)
+                is CategoryEvent.Order -> {
+                    val orderType = event.orderType
+                    val dishes = state.dishes.order(orderType)
+                    state = state.copy(dishes = dishes, selectedOrder = orderType)
+                    savedState.set("orderType", orderType.ordinal)
                 }
             }
         }
     }
+
+    private fun List<Dish>.order(orderType: OrderType) =
+        when (orderType) {
+            OrderType.ALPHABET_ASC -> this.sortedBy { it.name }
+            OrderType.ALPHABET_DESC -> this.sortedByDescending { it.name }
+            OrderType.POPULARITY_ASC -> this.sortedBy { it.likes }
+            OrderType.POPULARITY_DESC -> this.sortedByDescending { it.likes }
+            OrderType.RATING_ASC -> this.sortedBy { it.rating }
+            OrderType.RATING_DESC -> this.sortedByDescending { it.rating }
+        }
 }
 
 

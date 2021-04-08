@@ -5,6 +5,6 @@ internal sealed class CategoryEvent {
     data class AddToFavorite(val dishId: String): CategoryEvent()
     data class ChangeSubcategory(val id: String): CategoryEvent()
     data class NavigateToDish(val dishId: String): CategoryEvent()
-    data class Sort(val sortType: SortType): CategoryEvent()
+    data class Order(val orderType: OrderType): CategoryEvent()
     object NavigateUp: CategoryEvent()
 }
