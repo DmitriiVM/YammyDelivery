@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.DishDetails
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface DishDao {
@@ -24,7 +25,7 @@ internal interface DishDao {
         AND active = 1
     """
     )
-    suspend fun getDish(dishId: String): DishDetails
+    fun getDish(dishId: String): Flow<DishDetails>
 
     @Query(
         """

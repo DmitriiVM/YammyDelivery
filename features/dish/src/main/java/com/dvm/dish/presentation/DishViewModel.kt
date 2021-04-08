@@ -17,6 +17,8 @@ import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,14 +39,25 @@ internal class DishViewModel @Inject constructor(
     private val dishId = requireNotNull(savedState.get<String>("dishId"))
 
     init {
-        viewModelScope.launch {
-            val dish = dishRepository.getDish(dishId)
-            val hasSpecialOffer = dish.oldPrice > dish.price
-            state = DishState(
-                dish = dish,
-                hasSpecialOffer = hasSpecialOffer
-            )
-        }
+        dishRepository
+            .getDish(dishId)
+            .onEach { dish ->
+                val hasSpecialOffer = dish.oldPrice > dish.price
+                state = if (state == null){
+                    DishState(
+                        dish = dish,
+                        hasSpecialOffer = hasSpecialOffer,
+                        quantity = savedState.get<Int>("quantity") ?: 1
+                    )
+                } else {
+                    state?.copy(
+                        dish = dish,
+                        hasSpecialOffer = hasSpecialOffer,
+                        quantity = savedState.get<Int>("quantity") ?: 1
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun dispatchEvent(event: DishEvent) {
@@ -53,12 +66,15 @@ internal class DishViewModel @Inject constructor(
                 DishEvent.AddToCart -> {
                 }
                 DishEvent.AddPiece -> {
-                    var quantity = state?.quantity ?: return@launch
-                    state = state?.copy(quantity = ++quantity)
+                    val quantity = 1 + (savedState.get<Int>("quantity") ?: 1)
+                    savedState.set<Int>("quantity", quantity)
+                    state = state?.copy(quantity = quantity)
                 }
                 DishEvent.RemovePiece -> {
-                    var quantity = state?.quantity ?: return@launch
-                    state = state?.copy(quantity = (--quantity).coerceAtLeast(1))
+                    val quantity =
+                        ((savedState.get<Int>("quantity") ?: 1) - 1).coerceAtLeast(1)
+                    savedState.set<Int>("quantity", quantity)
+                    state = state?.copy(quantity = quantity)
                 }
                 DishEvent.ChangeFavorite -> {
                     if (favoriteRepository.isFavorite(dishId)) {

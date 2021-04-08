@@ -4,13 +4,14 @@ import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.DishDetails
 import com.dvm.db.db_impl.AppDatabase
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class DefaultDishRepository @Inject constructor(
     private val database: AppDatabase
 ) : DishRepository{
 
-    override suspend fun getDish(dishId: String): DishDetails =
+    override fun getDish(dishId: String): Flow<DishDetails> =
         database.dishDao().getDish(dishId)
 
     override suspend fun getDishes(category: String): List<Dish> =
