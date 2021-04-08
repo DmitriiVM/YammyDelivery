@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.DishRepository
@@ -17,8 +18,8 @@ import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,33 +31,32 @@ internal class DishViewModel @Inject constructor(
     private val menuApi: MenuApi,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
-    private val savedState: SavedStateHandle
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf<DishState?>(null)
         private set
 
     private val dishId = requireNotNull(savedState.get<String>("dishId"))
+    private val quantity = savedState.getLiveData("", 1)
 
     init {
-        dishRepository
-            .getDish(dishId)
-            .onEach { dish ->
-                val hasSpecialOffer = dish.oldPrice > dish.price
-                state = if (state == null){
-                    DishState(
-                        dish = dish,
-                        hasSpecialOffer = hasSpecialOffer,
-                        quantity = savedState.get<Int>("quantity") ?: 1
-                    )
-                } else {
-                    state?.copy(
-                        dish = dish,
-                        hasSpecialOffer = hasSpecialOffer,
-                        quantity = savedState.get<Int>("quantity") ?: 1
-                    )
-                }
+        combine(
+            dishRepository.getDish(dishId),
+            quantity.asFlow()
+        ) { dish, quantity ->
+            state = if (state == null) {
+                DishState(
+                    dish = dish,
+                    quantity = quantity
+                )
+            } else {
+                state?.copy(
+                    dish = dish,
+                    quantity = quantity
+                )
             }
+        }
             .launchIn(viewModelScope)
     }
 
@@ -64,17 +64,14 @@ internal class DishViewModel @Inject constructor(
         viewModelScope.launch {
             when (event) {
                 DishEvent.AddToCart -> {
+                    val quantity = state?.quantity ?: return@launch
+                    cartRepository.addToCart(dishId, quantity )
                 }
                 DishEvent.AddPiece -> {
-                    val quantity = 1 + (savedState.get<Int>("quantity") ?: 1)
-                    savedState.set<Int>("quantity", quantity)
-                    state = state?.copy(quantity = quantity)
+                    quantity.value = quantity.value?.plus(1)
                 }
                 DishEvent.RemovePiece -> {
-                    val quantity =
-                        ((savedState.get<Int>("quantity") ?: 1) - 1).coerceAtLeast(1)
-                    savedState.set<Int>("quantity", quantity)
-                    state = state?.copy(quantity = quantity)
+                    quantity.value = quantity.value?.minus(1)?.coerceAtLeast(1)
                 }
                 DishEvent.ChangeFavorite -> {
                     if (favoriteRepository.isFavorite(dishId)) {

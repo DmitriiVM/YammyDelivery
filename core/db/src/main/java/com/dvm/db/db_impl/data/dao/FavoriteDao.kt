@@ -15,7 +15,7 @@ internal interface FavoriteDao {
     )
     fun isFavorite(dishId: String): Boolean
 
-    @Insert(entity = Favorite::class, onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(favorite: Favorite)
 
     @Delete

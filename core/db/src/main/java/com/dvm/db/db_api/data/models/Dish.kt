@@ -35,14 +35,10 @@ data class DishDetails(
     val price: Int,
     val rating: Double,
     val isFavorite: Boolean,
-//    val inCart: Boolean,
+    val hasSpecialOffer: Boolean,
     @Relation(
         parentColumn = "id",
         entityColumn = "dishId"
     )
     val reviews: List<Review>
-) {
-
-    val hasSpecialOffer: Boolean
-        get() = oldPrice != 0 && oldPrice > price
-}
+)

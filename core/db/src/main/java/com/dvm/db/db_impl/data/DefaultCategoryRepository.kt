@@ -4,21 +4,21 @@ import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.models.Category
 import com.dvm.db.db_api.data.models.ParentCategory
 import com.dvm.db.db_api.data.models.Subcategory
-import com.dvm.db.db_impl.AppDatabase
+import com.dvm.db.db_impl.data.dao.CategoryDao
 import javax.inject.Inject
 
 internal class DefaultCategoryRepository @Inject constructor(
-    private val database: AppDatabase
+    private val categoryDao: CategoryDao
 ) : CategoryRepository{
     override suspend fun getParentCategories(): List<ParentCategory>  =
-        database.categoryDao().getParentCategories()
+        categoryDao.getParentCategories()
 
     override suspend fun getChildCategories(id: String): List<Subcategory>  =
-        database.categoryDao().getChildCategories(id)
+        categoryDao.getChildCategories(id)
 
     override suspend fun getCategoryTitle(categoryId: String): String  =
-        database.categoryDao().getCategoryTitle(categoryId)
+        categoryDao.getCategoryTitle(categoryId)
 
     override suspend fun insertCategories(categories: List<Category>)  =
-        database.categoryDao().insertCategories(categories)
+        categoryDao.insertCategories(categories)
 }

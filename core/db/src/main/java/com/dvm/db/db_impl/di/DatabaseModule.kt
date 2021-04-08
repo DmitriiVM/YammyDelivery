@@ -40,5 +40,20 @@ internal interface DatabaseModule {
                 .databaseBuilder(context, AppDatabase::class.java, "YammyDatabase")
                 .fallbackToDestructiveMigration()
                 .build()
+
+        @Provides
+        fun provideCartDao(database: AppDatabase) = database.cartDao()
+
+        @Provides
+        fun provideDishDao(database: AppDatabase) = database.dishDao()
+
+        @Provides
+        fun provideCategoryDao(database: AppDatabase) = database.categoryDao()
+
+        @Provides
+        fun provideFavoriteDao(database: AppDatabase) = database.favoriteDao()
+
+        @Provides
+        fun provideReviewDao(database: AppDatabase) = database.reviewDao()
     }
 }

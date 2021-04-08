@@ -7,7 +7,6 @@ import com.dvm.db.db_api.data.models.Review
 @Immutable
 internal data class DishState(
     val dish: DishDetails,
-    val hasSpecialOffer: Boolean = false,
     val quantity: Int = 1,
     val reviews: List<Review> = emptyList(),
     val alertMessage: String? = null

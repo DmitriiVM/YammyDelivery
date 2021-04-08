@@ -3,26 +3,26 @@ package com.dvm.db.db_impl.data
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.DishDetails
-import com.dvm.db.db_impl.AppDatabase
+import com.dvm.db.db_impl.data.dao.DishDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class DefaultDishRepository @Inject constructor(
-    private val database: AppDatabase
+    private val dishDao: DishDao
 ) : DishRepository{
 
     override fun getDish(dishId: String): Flow<DishDetails> =
-        database.dishDao().getDish(dishId)
+        dishDao.getDish(dishId)
 
     override suspend fun getDishes(category: String): List<Dish> =
-        database.dishDao().getDishes(category)
+        dishDao.getDishes(category)
 
     override suspend fun hasSpecialOffers(): Boolean  =
-        database.dishDao().hasSpecialOffers()
+        dishDao.hasSpecialOffers()
 
     override suspend fun getSpecialOffers(): List<Dish>  =
-        database.dishDao().getSpecialOffers()
+        dishDao.getSpecialOffers()
 
     override suspend fun insertDishes(dishes: List<Dish>)  =
-        database.dishDao().insertDishes(dishes)
+        dishDao.insertDishes(dishes)
 }

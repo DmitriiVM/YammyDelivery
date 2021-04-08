@@ -19,7 +19,14 @@ internal interface DishDao {
                 SELECT 1
                 FROM favorite
                 WHERE favorite.dishId = :dishId
-            ) as isFavorite
+            ) as isFavorite,
+            EXISTS(
+                SELECT 1
+                FROM dish
+                WHERE dish.id = :dishId
+                AND dish.oldPrice IS NOT NULL
+                AND dish.oldPrice > dish.price
+            ) as hasSpecialOffer
         FROM dish
         WHERE id = :dishId
         AND active = 1
