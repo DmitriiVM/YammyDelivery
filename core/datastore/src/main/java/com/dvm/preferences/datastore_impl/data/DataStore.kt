@@ -45,13 +45,15 @@ internal class DataStore @Inject constructor(
             }
             .first()
 
-    suspend fun getAccessToken() = get(ACCESS_TOKEN)
+    suspend fun isAuthorized(): Boolean = !getAccessToken().isNullOrBlank()
+
+    suspend fun getAccessToken(): String? = get(ACCESS_TOKEN)?.let { "Bearer $it" }
 
     suspend fun saveAccessToken(accessToken: String) {
         save(ACCESS_TOKEN, accessToken)
     }
 
-    suspend fun getRefreshToken() = get(REFRESH_TOKEN)
+    suspend fun getRefreshToken(): String? = get(REFRESH_TOKEN)
 
     suspend fun saveRefreshToken(refreshToken: String) {
         save(REFRESH_TOKEN, refreshToken)

@@ -18,6 +18,8 @@ import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.network.network_api.api.MenuApi
+import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,6 +31,8 @@ internal class CategoryViewModel @Inject constructor(
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
+    private val datastore: DatastoreRepository,
+    private val menuApi: MenuApi,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
     private val savedState: SavedStateHandle
@@ -77,13 +81,22 @@ internal class CategoryViewModel @Inject constructor(
         viewModelScope.launch {
             when (event) {
                 is CategoryEvent.AddToCart -> {
-                    /*cartRepository.addToCart(action.dishId)*/
+                    if (datastore.isAuthorized()) {
+                        /*cartRepository.addToCart(action.dishId)*/
+                    } else {
+                        false
+                    }
                 }
                 is CategoryEvent.NavigateToDish -> {
                     navigator.navigationTo?.invoke(Destination.Dish(event.dishId))
                 }
                 is CategoryEvent.AddToFavorite -> {
-                    /*favoriteRepository.addToFavorite(action.dishId)*/
+                    if (datastore.isAuthorized()) {
+//                        menuApi.changeFavorite(dishId = event.dishId)
+//                        favoriteRepository.changeFavorite(dishId = event.dishId)
+                    } else {
+                        state = state.copy(alertMessage = "Необходима авторизация. Войти в профиль?")
+                    }
                 }
                 CategoryEvent.NavigateUp -> {
                     navigator.navigationTo?.invoke(Destination.Back)
@@ -102,6 +115,9 @@ internal class CategoryViewModel @Inject constructor(
                     val dishes = state.dishes.order(orderType)
                     state = state.copy(dishes = dishes, selectedOrder = orderType)
                     savedState.set("orderType", orderType.ordinal)
+                }
+                CategoryEvent.DismissAlert -> {
+                    state = state.copy(alertMessage = null)
                 }
             }
         }

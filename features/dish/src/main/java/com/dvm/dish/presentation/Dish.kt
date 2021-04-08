@@ -36,6 +36,8 @@ import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Navigator
+import com.dvm.ui.components.Alert
+import com.dvm.ui.components.AlertButtonOk
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -66,7 +68,7 @@ internal fun Dish(
                         onAddReview = { onEvent(DishEvent.AddReview) }
                     )
                 }
-                items(state.dish.review) { review ->
+                items(state.dish.reviews) { review ->
                     ReviewItem(review)
                 }
                 item {
@@ -84,8 +86,17 @@ internal fun Dish(
                 DishAppBar(
                     onNavigateUp = { onEvent(DishEvent.NavigateUp) },
                     onFavoriteClick = { onEvent(DishEvent.ChangeFavorite) },
-                    checked = state.isFavorite
+                    checked = state.dish.isFavorite
                 )
+            }
+        }
+
+        state.alertMessage?.let {
+            Alert(
+                message = state.alertMessage,
+                onDismiss = { onEvent(DishEvent.DismissAlert) }
+            ) {
+                AlertButtonOk(onDismiss = { onEvent(DishEvent.DismissAlert) })
             }
         }
     }

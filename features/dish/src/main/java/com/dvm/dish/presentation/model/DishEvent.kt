@@ -7,4 +7,5 @@ internal sealed class DishEvent {
     object ChangeFavorite: DishEvent()
     object AddReview: DishEvent()
     object NavigateUp: DishEvent()
+    object DismissAlert : DishEvent()
 }

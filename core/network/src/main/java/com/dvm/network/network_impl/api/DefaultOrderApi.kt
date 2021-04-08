@@ -1,8 +1,8 @@
-package com.dvm.network.network_impl.sevices
+package com.dvm.network.network_impl.api
 
+import com.dvm.network.network_api.api.OrderApi
 import com.dvm.network.network_api.response.OrderResponse
 import com.dvm.network.network_api.response.StatusResponse
-import com.dvm.network.network_api.services.OrderService
 import com.dvm.network.network_impl.ApiService
 import com.dvm.network.network_impl.api
 import com.dvm.network.network_impl.request.CancelOrderRequest
@@ -10,10 +10,10 @@ import com.dvm.network.network_impl.request.CreateOrderRequest
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import javax.inject.Inject
 
-internal class DefaultOrderService @Inject constructor(
+internal class DefaultOrderApi @Inject constructor(
     private val apiService: ApiService,
     private val datastore: DatastoreRepository
-) : OrderService {
+) : OrderApi {
 
     override suspend fun createOrder(
         address: String,

@@ -44,6 +44,8 @@ import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.navigation.Navigator
+import com.dvm.ui.components.Alert
+import com.dvm.ui.components.AlertButtonOk
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.AccentColors
@@ -96,6 +98,15 @@ internal fun Category(
                 offset = offset,
                 onEvent = onEvent
             )
+        }
+
+        state.alertMessage?.let {
+            Alert(
+                message = state.alertMessage,
+                onDismiss = { onEvent(CategoryEvent.DismissAlert) }
+            ) {
+                AlertButtonOk(onDismiss = { onEvent(CategoryEvent.DismissAlert) })
+            }
         }
     }
 }

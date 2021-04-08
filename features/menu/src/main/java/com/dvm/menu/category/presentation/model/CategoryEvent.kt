@@ -6,5 +6,6 @@ internal sealed class CategoryEvent {
     data class ChangeSubcategory(val id: String): CategoryEvent()
     data class NavigateToDish(val dishId: String): CategoryEvent()
     data class Order(val orderType: OrderType): CategoryEvent()
+    object DismissAlert: CategoryEvent()
     object NavigateUp: CategoryEvent()
 }

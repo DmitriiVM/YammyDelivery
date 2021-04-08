@@ -53,7 +53,7 @@ internal interface ApiService {
     @PUT("favorite")
     suspend fun changeFavorite(
         @Header("Authorization") token: String,
-        @Body changeFavoriteRequest: ChangeFavoriteRequest
+        @Body changeFavoriteRequest: List<ChangeFavoriteRequest>
     ) : FavoriteResponse
 
     // cart

@@ -1,9 +1,9 @@
-package com.dvm.network.network_api.services
+package com.dvm.network.network_api.api
 
 import com.dvm.network.network_api.response.OrderResponse
 import com.dvm.network.network_api.response.StatusResponse
 
-interface OrderService {
+interface OrderApi {
 
     suspend fun createOrder(
         address: String,

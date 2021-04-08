@@ -1,11 +1,11 @@
-package com.dvm.network.network_api.services
+package com.dvm.network.network_api.api
 
 import com.dvm.network.network_api.response.CategoryResponse
 import com.dvm.network.network_api.response.DishResponse
 import com.dvm.network.network_api.response.FavoriteResponse
 import com.dvm.network.network_api.response.ReviewResponse
 
-interface MenuService {
+interface MenuApi {
 
     suspend fun getRecommended(): List<String>
 
@@ -16,7 +16,7 @@ interface MenuService {
     suspend fun getFavorite(): FavoriteResponse
 
     suspend fun changeFavorite(
-        dishId: Int,
+        dishId: String,
         favorite: Boolean
     ): FavoriteResponse
 

@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
-import com.dvm.network.network_api.services.AuthService
+import com.dvm.network.network_api.api.AuthApi
 import javax.inject.Inject
 
 internal class PasswordRestoreViewModel(
-    private val authService: AuthService,
+    private val authApi: AuthApi,
 //    private val navController: NavController
 ): ViewModel() {
 
@@ -50,13 +50,13 @@ internal class PasswordRestoreViewModel(
 }
 
 internal class PasswordRestoreViewModelFactory @Inject constructor(
-    private val authService: AuthService,
+    private val authApi: AuthApi,
 //    @Assisted private val navController: NavController
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PasswordRestoreViewModel::class.java)) {
-            return PasswordRestoreViewModel(authService) as T
+            return PasswordRestoreViewModel(authApi) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

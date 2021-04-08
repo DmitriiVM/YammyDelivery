@@ -37,13 +37,13 @@ fun Alert(
 fun AlertButtonOk(
     onDismiss: () -> Unit
 ) {
-    TextButton(onClick = onDismiss) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp, end = 15.dp),
-            contentAlignment = Alignment.CenterEnd
-        ) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp, end = 15.dp),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        TextButton(onClick = onDismiss) {
             Text("Ок")
         }
     }

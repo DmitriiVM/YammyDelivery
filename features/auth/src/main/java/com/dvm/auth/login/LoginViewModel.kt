@@ -11,7 +11,7 @@ import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
-import com.dvm.network.network_api.services.AuthService
+import com.dvm.network.network_api.api.AuthApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
-    private val authService: AuthService,
+    private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator
@@ -92,7 +92,7 @@ internal class LoginViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val loginData = authService.login(
+                val loginData = authApi.login(
                     login = state.email,
                     password = state.password
                 )
@@ -100,7 +100,8 @@ internal class LoginViewModel @Inject constructor(
                 datastore.saveRefreshToken(loginData.refreshToken)
                 Log.d("mmm", "LoginViewModel :  login --  $loginData")
 
-//                navController.popBackStack()
+
+                navigator.navigationTo?.invoke(Destination.Back)
             } catch (exception: Exception) {
                 state = state.copy(
                     alertMessage = exception.message,

@@ -1,11 +1,11 @@
 package com.dvm.network.network_api.di
 
-import com.dvm.network.network_api.services.*
+import com.dvm.network.network_api.api.*
 
 interface NetworkApi {
-    fun authService(): AuthService
-    fun cartService(): CartService
-    fun menuService(): MenuService
-    fun orderService(): OrderService
-    fun profileService(): ProfileService
+    fun authService(): AuthApi
+    fun cartService(): CartApi
+    fun menuService(): MenuApi
+    fun orderService(): OrderApi
+    fun profileService(): ProfileApi
 }

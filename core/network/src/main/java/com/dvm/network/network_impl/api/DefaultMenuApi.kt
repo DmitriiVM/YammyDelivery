@@ -1,10 +1,11 @@
-package com.dvm.network.network_impl.sevices
+package com.dvm.network.network_impl.api
 
+import android.util.Log
+import com.dvm.network.network_api.api.MenuApi
 import com.dvm.network.network_api.response.CategoryResponse
 import com.dvm.network.network_api.response.DishResponse
 import com.dvm.network.network_api.response.FavoriteResponse
 import com.dvm.network.network_api.response.ReviewResponse
-import com.dvm.network.network_api.services.MenuService
 import com.dvm.network.network_impl.ApiService
 import com.dvm.network.network_impl.api
 import com.dvm.network.network_impl.request.AddReviewRequest
@@ -12,10 +13,10 @@ import com.dvm.network.network_impl.request.ChangeFavoriteRequest
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import javax.inject.Inject
 
-internal class DefaultMenuService @Inject constructor(
+internal class DefaultMenuApi @Inject constructor(
     private val apiService: ApiService,
     private val datastore: DatastoreRepository
-) : MenuService {
+) : MenuApi {
 
     override suspend fun getRecommended(): List<String> =
         api {
@@ -24,12 +25,12 @@ internal class DefaultMenuService @Inject constructor(
 
     override suspend fun getCategories(): List<CategoryResponse> =
         api {
-        apiService.getCategories()
-    }
+            apiService.getCategories(limit = 1000)  // TODO temp
+        }
 
     override suspend fun getDishes(): List<DishResponse> =
         api {
-            apiService.getDishes()
+            apiService.getDishes(limit = 1000)  // TODO temp
         }
 
     override suspend fun getFavorite(): FavoriteResponse =
@@ -38,15 +39,18 @@ internal class DefaultMenuService @Inject constructor(
         }
 
     override suspend fun changeFavorite(
-        dishId: Int,
+        dishId: String,
         favorite: Boolean
     ): FavoriteResponse =
         api {
+            Log.d("mmm", "DefaultMenuApi :  changeFavorite --  ${getAccessToken()}")
             apiService.changeFavorite(
                 token = getAccessToken(),
-                changeFavoriteRequest = ChangeFavoriteRequest(
-                    dishId = dishId,
-                    favorite = favorite
+                changeFavoriteRequest = listOf(
+                    ChangeFavoriteRequest(
+                        dishId = dishId,
+                        favorite = favorite
+                    )
                 )
             )
         }

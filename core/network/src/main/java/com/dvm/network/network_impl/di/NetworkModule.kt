@@ -1,9 +1,9 @@
 package com.dvm.network.network_impl.di
 
-import com.dvm.network.network_api.services.*
+import com.dvm.network.network_api.api.*
 import com.dvm.network.network_impl.ApiService
+import com.dvm.network.network_impl.api.*
 import com.dvm.network.network_impl.getRetrofit
-import com.dvm.network.network_impl.sevices.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,19 +16,19 @@ import javax.inject.Singleton
 internal interface NetworkModule {
 
     @Binds
-    fun provideAuthService(authService : DefaultAuthService): AuthService
+    fun provideAuthService(authService : DefaultAuthApi): AuthApi
 
     @Binds
-    fun provideCartService(cartService : DefaultCartService): CartService
+    fun provideCartService(cartService : DefaultCartApi): CartApi
 
     @Binds
-    fun provideMenuService(menuService : DefaultMenuService): MenuService
+    fun provideMenuService(menuService : DefaultMenuApi): MenuApi
 
     @Binds
-    fun provideOrderService(orderService : DefaultOrderService): OrderService
+    fun provideOrderService(orderService : DefaultOrderApi): OrderApi
 
     @Binds
-    fun provideProfileService(profileService : DefaultProfileService): ProfileService
+    fun provideProfileService(profileService : DefaultProfileApi): ProfileApi
 
     companion object{
 

@@ -1,9 +1,9 @@
-package com.dvm.network.network_api.services
+package com.dvm.network.network_api.api
 
 import com.dvm.network.network_api.response.AddressResponse
 import com.dvm.network.network_api.response.CartResponse
 
-interface CartService {
+interface CartApi {
 
     suspend fun getCart(): CartResponse
 

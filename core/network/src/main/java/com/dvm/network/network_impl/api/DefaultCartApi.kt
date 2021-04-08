@@ -1,8 +1,8 @@
-package com.dvm.network.network_impl.sevices
+package com.dvm.network.network_impl.api
 
+import com.dvm.network.network_api.api.CartApi
 import com.dvm.network.network_api.response.AddressResponse
 import com.dvm.network.network_api.response.CartResponse
-import com.dvm.network.network_api.services.CartService
 import com.dvm.network.network_impl.ApiService
 import com.dvm.network.network_impl.api
 import com.dvm.network.network_impl.request.CheckCoordinatesRequest
@@ -11,10 +11,10 @@ import com.dvm.network.network_impl.request.UpdateCartRequest
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import javax.inject.Inject
 
-internal class DefaultCartService @Inject constructor(
+internal class DefaultCartApi @Inject constructor(
     private val apiService: ApiService,
     private val datastore: DatastoreRepository
-) : CartService {
+) : CartApi {
 
     override suspend fun getCart(): CartResponse =
         api {

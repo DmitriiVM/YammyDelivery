@@ -3,9 +3,8 @@ package com.dvm.db.db_api.data.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Favorite")
+@Entity(tableName = "favorite")
 data class Favorite(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
     val dishId: String
 )

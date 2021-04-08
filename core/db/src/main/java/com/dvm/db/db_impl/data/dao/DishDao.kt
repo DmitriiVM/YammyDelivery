@@ -12,7 +12,13 @@ internal interface DishDao {
 
     @Query(
         """
-        SELECT *
+        SELECT
+            *,
+            EXISTS(
+                SELECT 1
+                FROM favorite
+                WHERE favorite.dishId = :dishId
+            ) as isFavorite
         FROM dish
         WHERE id = :dishId
         AND active = 1
@@ -33,7 +39,7 @@ internal interface DishDao {
     @Query(
         """
             SELECT EXISTS(
-                SELECT COUNT(oldPrice)
+                SELECT 1
                 FROM dish
                 WHERE oldPrice > 0
             )

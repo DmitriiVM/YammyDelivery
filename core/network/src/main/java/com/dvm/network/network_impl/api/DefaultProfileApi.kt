@@ -1,7 +1,7 @@
-package com.dvm.network.network_impl.sevices
+package com.dvm.network.network_impl.api
 
+import com.dvm.network.network_api.api.ProfileApi
 import com.dvm.network.network_api.response.ProfileResponse
-import com.dvm.network.network_api.services.ProfileService
 import com.dvm.network.network_impl.ApiService
 import com.dvm.network.network_impl.api
 import com.dvm.network.network_impl.request.ChangePasswordRequest
@@ -9,10 +9,10 @@ import com.dvm.network.network_impl.request.EdieProfileRequest
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import javax.inject.Inject
 
-internal class DefaultProfileService @Inject constructor(
+internal class DefaultProfileApi @Inject constructor(
     private val apiService: ApiService,
     private val datastore: DatastoreRepository
-) : ProfileService {
+) : ProfileApi {
 
     override suspend fun getProfile(): ProfileResponse =
         api {

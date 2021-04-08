@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
-import com.dvm.network.network_api.services.AuthService
+import com.dvm.network.network_api.api.AuthApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class RegisterViewModel @Inject constructor(
-    private val authService: AuthService,
+    private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
 ) : ViewModel() {
@@ -117,7 +117,7 @@ internal class RegisterViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val registerData = authService.register(
+                val registerData = authApi.register(
                     firstName = state.firstName,
                     lastName = state.lastName,
                     email = state.email,

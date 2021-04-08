@@ -3,38 +3,38 @@ package com.dvm.dish.dish_impl
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
+import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
-import com.dvm.dish.presentation.model.DishNavigationEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import com.dvm.network.network_api.api.MenuApi
+import com.dvm.utils.StringProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class DishViewModel(
-    private val dishId: String,
+@HiltViewModel
+internal class DishViewModel @Inject constructor(
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
-    private val navigator: Navigator
-): ViewModel() {
+    private val menuApi: MenuApi,
+    private val stringProvider: StringProvider,
+    private val navigator: Navigator,
+    private val savedState: SavedStateHandle
+) : ViewModel() {
 
     var state by mutableStateOf<DishState?>(null)
         private set
 
-    private val _navigationEvent = MutableSharedFlow<DishNavigationEvent>()
-    val navigationEvent: SharedFlow<DishNavigationEvent>
-        get() = _navigationEvent
+    private val dishId = requireNotNull(savedState.get<String>("dishId"))
 
     init {
         viewModelScope.launch {
@@ -46,11 +46,12 @@ internal class DishViewModel(
             )
         }
     }
-    
-    fun dispatchEvent(event: DishEvent){
+
+    fun dispatchEvent(event: DishEvent) {
         viewModelScope.launch {
             when (event) {
-                DishEvent.AddToCart -> { }
+                DishEvent.AddToCart -> {
+                }
                 DishEvent.AddPiece -> {
                     var quantity = state?.quantity ?: return@launch
                     state = state?.copy(quantity = ++quantity)
@@ -59,39 +60,38 @@ internal class DishViewModel(
                     var quantity = state?.quantity ?: return@launch
                     state = state?.copy(quantity = (--quantity).coerceAtLeast(1))
                 }
-                DishEvent.ChangeFavorite -> { }
-                DishEvent.AddReview -> { }
+                DishEvent.ChangeFavorite -> {
+                    if (favoriteRepository.isFavorite(dishId)) {
+                        favoriteRepository.deleteFromFavorite(dishId)
+                        try {
+                            menuApi.changeFavorite(dishId, false)
+                        } catch (exception: Exception) {  // TODO
+                            favoriteRepository.addToFavorite(dishId)
+                            state = state?.copy(
+                                alertMessage = stringProvider.getString(R.string.add_favorite_error)
+                            )
+                        }
+                    } else {
+                        favoriteRepository.addToFavorite(dishId)
+                        try {
+                            menuApi.changeFavorite(dishId, true)
+                        } catch (exception: Exception) { // TODO
+                            favoriteRepository.deleteFromFavorite(dishId)
+                            state = state?.copy(
+                                alertMessage = stringProvider.getString(R.string.delete_favorite_error)
+                            )
+                        }
+                    }
+                }
+                DishEvent.AddReview -> {
+                }
                 DishEvent.NavigateUp -> {
                     navigator.navigationTo?.invoke(Destination.Back)
+                }
+                DishEvent.DismissAlert -> {
+                    state = state?.copy(alertMessage = null)
                 }
             }
         }
     }
-}
-
-internal class DishViewModelFactory @AssistedInject constructor(
-    @Assisted private val dishId: String,
-    private val dishRepository: DishRepository,
-    private val favoriteRepository: FavoriteRepository,
-    private val cartRepository: CartRepository,
-    private val navigator: Navigator
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DishViewModel::class.java)) {
-            return DishViewModel(
-                dishId = dishId,
-                dishRepository = dishRepository,
-                favoriteRepository = favoriteRepository,
-                cartRepository = cartRepository,
-                navigator = navigator
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-@AssistedFactory
-internal interface DishViewModelAssistedFactory {
-    fun create(dishId: String): DishViewModelFactory
 }

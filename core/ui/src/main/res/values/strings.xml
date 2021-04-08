@@ -4,4 +4,6 @@
     <string name="incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
     <string name="only_letters">Только буквы</string>
     <string name="menu_item_title">Акции</string>
+    <string name="add_favorite_error">Не удалось удалить из избранного. Ошибка интернет-соединения.</string>
+    <string name="delete_favorite_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
 </resources>

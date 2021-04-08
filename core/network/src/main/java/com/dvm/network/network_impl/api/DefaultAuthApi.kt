@@ -1,15 +1,15 @@
-package com.dvm.network.network_impl.sevices
+package com.dvm.network.network_impl.api
 
+import com.dvm.network.network_api.api.AuthApi
 import com.dvm.network.network_api.response.AuthResponse
-import com.dvm.network.network_api.services.AuthService
 import com.dvm.network.network_impl.ApiService
 import com.dvm.network.network_impl.api
 import com.dvm.network.network_impl.request.*
 import javax.inject.Inject
 
-internal class DefaultAuthService @Inject constructor(
+internal class DefaultAuthApi @Inject constructor(
     private val apiService: ApiService
-) : AuthService {
+) : AuthApi {
 
     override suspend fun login(
         login: String,

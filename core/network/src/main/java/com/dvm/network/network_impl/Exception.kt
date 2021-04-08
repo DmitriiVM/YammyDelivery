@@ -1,5 +1,6 @@
 package com.dvm.network.network_impl
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import retrofit2.HttpException
@@ -11,6 +12,7 @@ internal suspend fun <T> api(call: suspend CoroutineScope.() -> T): T =
         try {
             call.invoke(this)
         } catch (exception: Exception) {
+            Log.d("mmm", " :  api --  $exception")
             throw exception.wrap()
         }
     }

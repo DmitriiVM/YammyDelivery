@@ -9,6 +9,8 @@ internal class DefaultDatastoreRepository @Inject constructor(
     private val dataStore: DataStore
 ): DatastoreRepository {
 
+    override suspend fun isAuthorized(): Boolean = dataStore.isAuthorized()
+
     override suspend fun getAccessToken(): String? = dataStore.getAccessToken()
 
     override suspend fun saveAccessToken(token: String) {

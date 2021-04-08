@@ -1,8 +1,8 @@
-package com.dvm.network.network_api.services
+package com.dvm.network.network_api.api
 
 import com.dvm.network.network_api.response.ProfileResponse
 
-interface ProfileService {
+interface ProfileApi {
 
     suspend fun getProfile(): ProfileResponse
 
