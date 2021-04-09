@@ -14,7 +14,7 @@ internal interface HintDao {
         """
             SELECT `query`
             FROM hints
-            ORDER BY date
+            ORDER BY date DESC
         """
     )
     fun hints(): Flow<List<String>>

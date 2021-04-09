@@ -74,6 +74,7 @@ dependencies {
 
     implementation(Libs.LIFECYCLE_VIEWMODEL)
     implementation(Libs.LIFECYCLE_RUNTIME)
+    implementation(Libs.LIFECYCLE_LIVEDATA)
     kapt(Libs.LIFECYCLE_COMPILER)
 
     implementation(Libs.ROOM_RUNTIME)

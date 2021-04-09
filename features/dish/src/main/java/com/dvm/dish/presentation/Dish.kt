@@ -325,7 +325,7 @@ private fun DishDetails(
             }
             Spacer(Modifier.height(30.dp))
 
-            if (dish.hasSpecialOffer) {
+            if (dish.oldPrice > dish.price) {
                 Row(
                     modifier = Modifier.padding(horizontal = 20.dp),
                     verticalAlignment = Alignment.Bottom

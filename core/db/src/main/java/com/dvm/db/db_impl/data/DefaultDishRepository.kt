@@ -16,6 +16,8 @@ internal class DefaultDishRepository @Inject constructor(
     override fun getDish(dishId: String): Flow<DishDetails> =
         dishDao.getDish(dishId)
 
+    override fun search(query: String): Flow<List<DishDetails>> = dishDao.search(query)
+
     override suspend fun getDishes(category: String): List<Dish> = withContext(Dispatchers.IO) {
         dishDao.getDishes(category)
     }

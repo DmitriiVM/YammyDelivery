@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DishRepository {
     fun getDish(dishId: String): Flow<DishDetails>
+    fun search(query: String): Flow<List<DishDetails>>
     suspend fun getDishes(category: String): List<Dish>
     suspend fun hasSpecialOffers(): Boolean
     suspend fun getSpecialOffers(): List<Dish>

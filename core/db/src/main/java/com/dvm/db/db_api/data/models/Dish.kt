@@ -35,7 +35,6 @@ data class DishDetails(
     val price: Int,
     val rating: Double,
     val isFavorite: Boolean,
-    val hasSpecialOffer: Boolean,
     @Relation(
         parentColumn = "id",
         entityColumn = "dishId"

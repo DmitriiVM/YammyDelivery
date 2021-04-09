@@ -19,14 +19,7 @@ internal interface DishDao {
                 SELECT 1
                 FROM favorite
                 WHERE favorite.dishId = :dishId
-            ) as isFavorite,
-            EXISTS(
-                SELECT 1
-                FROM dish
-                WHERE dish.id = :dishId
-                AND dish.oldPrice IS NOT NULL
-                AND dish.oldPrice > dish.price
-            ) as hasSpecialOffer
+            ) as isFavorite
         FROM dish
         WHERE id = :dishId
         AND active = 1
@@ -34,6 +27,7 @@ internal interface DishDao {
     )
     fun getDish(dishId: String): Flow<DishDetails>
 
+    // TODO use dishDetails
     @Query(
         """
         SELECT *
@@ -43,6 +37,22 @@ internal interface DishDao {
     """
     )
     suspend fun getDishes(category: String): List<Dish>
+
+    @Query(
+        """
+        SELECT
+            *,
+            EXISTS(
+                SELECT 1
+                FROM favorite
+                WHERE favorite.dishId = dish.id
+            ) as isFavorite
+        FROM dish
+        WHERE dish.name LIKE '%' || :query || '%'
+        AND dish.active = 1
+        """
+    )
+    fun search(query: String): Flow<List<DishDetails>>
 
     @Query(
         """
