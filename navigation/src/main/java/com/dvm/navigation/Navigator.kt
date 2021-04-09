@@ -7,6 +7,8 @@ import javax.inject.Inject
 class Navigator @Inject constructor() {
 
     var navigationTo: ((Destination) -> Unit)? = null
+
+    fun back() = navigationTo?.invoke(Destination.Back)
 }
 
 sealed class Destination{

@@ -55,5 +55,8 @@ internal interface DatabaseModule {
 
         @Provides
         fun provideReviewDao(database: AppDatabase) = database.reviewDao()
+
+        @Provides
+        fun provideHintDao(database: AppDatabase) = database.hintDao()
     }
 }

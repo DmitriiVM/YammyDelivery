@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TransparentAppBar(
-    title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    title: @Composable () -> Unit = {},
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {

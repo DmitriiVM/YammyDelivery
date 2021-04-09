@@ -11,9 +11,10 @@ import com.dvm.db.db_impl.data.dao.*
         Dish::class,
         Review::class,
         Cart::class,
-        Favorite::class
+        Favorite::class,
+        Hint::class
     ],
-    version = 8,
+    version = 11,
     exportSchema = false
 )
 internal abstract class AppDatabase : RoomDatabase() {
@@ -22,4 +23,5 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun reviewDao(): ReviewDao
     abstract fun favoriteDao(): FavoriteDao
     abstract fun cartDao(): CartDao
+    abstract fun hintDao(): HintDao
 }

@@ -59,8 +59,8 @@ private val AppBarHeight = 56.dp
 @Composable
 internal fun Category(
     state: CategoryState,
-    navigator: Navigator,
     onEvent: (CategoryEvent) -> Unit,
+    navigator: Navigator,
 ) {
     Drawer(navigator = navigator) {
         val lazyListState = rememberLazyListState()
