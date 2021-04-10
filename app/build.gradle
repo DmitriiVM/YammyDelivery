@@ -1,9 +1,9 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin'
-    id 'dagger.hilt.android.plugin'
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "androidx.navigation.safeargs.kotlin"
+    id "dagger.hilt.android.plugin"
 }
 
 android {
@@ -15,14 +15,11 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -30,7 +27,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
         useIR = true
     }
     buildFeatures {
@@ -44,25 +41,23 @@ android {
 
 dependencies {
     implementation project(":features:menu")
-    implementation project(':features:dish')
+    implementation project(":features:dish")
     implementation project(":features:appmenu")
     implementation project(":features:cart")
     implementation project(":features:order")
     implementation project(":features:auth")
     implementation project(":features:appmenu")
-    implementation project(':core:ui')
-    implementation project(':core:utils')
-    implementation project(':core:network')
-    implementation project(':core:db')
-    implementation project(':core:datastore')
-    implementation project(':core:updateservice')
-    implementation project(':navigation')
+    implementation project(":core:ui")
+    implementation project(":core:utils")
+    implementation project(":core:network")
+    implementation project(":core:db")
+    implementation project(":core:datastore")
+    implementation project(":core:updateservice")
+    implementation project(":navigation")
 
     implementation(Libs.ANDROID_CORE)
     implementation(Libs.ANDROID_APPCOMPAT)
     implementation(Libs.ANDROID_MATERIAL)
-    implementation(Libs.ANDROID_LIFECYCLE)
-    implementation(Libs.ANDROID_FRAGMENT)
 
     implementation(Libs.COMPOSE_UI)
     implementation(Libs.COMPOSE_UI_TOOLING)
@@ -81,11 +76,6 @@ dependencies {
     implementation(Libs.ROOM_KTX)
     kapt(Libs.ROOM_COMPILER)
 
-    testImplementation(Libs.JUNIT)
-    androidTestImplementation(Libs.ANDROID_JUNIT)
-    androidTestImplementation(Libs.ANDROID_ESPRESSO)
-
-    def nav_version = "2.3.3"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation(Libs.NAVIGATION_FRAGMENT)
+    implementation(Libs.NAVIGATION_UI)
 }

@@ -9,10 +9,11 @@ object Versions {
     const val DAGGER_HILT = "2.33-beta"
     const val LIFECYCLE = "2.3.0"
     const val DATASTORE = "1.0.0-alpha08"
+    const val NAVIGATION = "2.3.3"
 }
 
 object Libs {
-    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha09"
+    const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha14"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"
@@ -52,6 +53,9 @@ object Libs {
     const val DAGGER_HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.DAGGER_HILT}"
 
     const val DATASTORE = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
+
+    const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+    const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
 
     const val JUNIT = "junit:junit:4.+"
     const val ANDROID_JUNIT = "androidx.test.ext:junit:1.1.2"
