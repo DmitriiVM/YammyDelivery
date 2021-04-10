@@ -10,7 +10,7 @@ import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
-import com.dvm.db.db_api.data.models.Dish
+import com.dvm.db.db_api.data.models.CategoryDish
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
@@ -59,7 +59,7 @@ internal class CategoryViewModel @Inject constructor(
                     )
                 }
                 else -> {
-                    val subcategories = categoryRepository.getChildCategories(categoryId)
+                    val subcategories = categoryRepository.getSubcategories(categoryId)
                     val subcategoryId = subcategoryId ?: subcategories.firstOrNull()?.id
                     var dishes = dishRepository.getDishes(subcategoryId ?: categoryId)
                     savedState.get<Int>("orderType")?.let {
@@ -87,7 +87,7 @@ internal class CategoryViewModel @Inject constructor(
                         false
                     }
                 }
-                is CategoryEvent.NavigateToDish -> {
+                is CategoryEvent.DishClick -> {
                     navigator.navigationTo?.invoke(Destination.Dish(event.dishId))
                 }
                 is CategoryEvent.AddToFavorite -> {
@@ -98,7 +98,7 @@ internal class CategoryViewModel @Inject constructor(
                         state = state.copy(alertMessage = "Необходима авторизация. Войти в профиль?")
                     }
                 }
-                CategoryEvent.NavigateUp -> {
+                CategoryEvent.BackClick -> {
                     navigator.navigationTo?.invoke(Destination.Back)
                 }
                 is CategoryEvent.ChangeSubcategory -> {
@@ -110,7 +110,7 @@ internal class CategoryViewModel @Inject constructor(
                     )
                     savedState.set("subcategoryId", subcategoryId)
                 }
-                is CategoryEvent.Order -> {
+                is CategoryEvent.OrderBy -> {
                     val orderType = event.orderType
                     val dishes = state.dishes.order(orderType)
                     state = state.copy(dishes = dishes, selectedOrder = orderType)
@@ -123,7 +123,7 @@ internal class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun List<Dish>.order(orderType: OrderType) =
+    private fun List<CategoryDish>.order(orderType: OrderType) =
         when (orderType) {
             OrderType.ALPHABET_ASC -> this.sortedBy { it.name }
             OrderType.ALPHABET_DESC -> this.sortedByDescending { it.name }

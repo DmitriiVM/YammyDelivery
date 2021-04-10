@@ -39,7 +39,7 @@ internal fun Login(
                 TransparentAppBar(
                     title = { Text("Вход") },
                     navigationIcon = {
-                        AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.NavigateUp) })
+                        AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.BackClick) })
                     }
                 )
             }
@@ -85,7 +85,7 @@ internal fun Login(
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedButton(
                     enabled = !state.networkCall,
-                    onClick = { onEvent(LoginEvent.NavigateToRegister) },
+                    onClick = { onEvent(LoginEvent.RegisterClick) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Регистрация")
@@ -95,7 +95,7 @@ internal fun Login(
             Column {
                 TextButton(
                     enabled = !state.networkCall,
-                    onClick = { onEvent(LoginEvent.NavigateToPasswordRestore) },
+                    onClick = { onEvent(LoginEvent.PasswordRestoreClick) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Забыли пароль?")

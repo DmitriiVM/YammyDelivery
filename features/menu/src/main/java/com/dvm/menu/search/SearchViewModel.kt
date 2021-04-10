@@ -1,6 +1,5 @@
 package com.dvm.menu.search
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,17 +13,21 @@ import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val navigator: Navigator,
     private val savedState: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     var state by mutableStateOf(SearchState())
         private set
@@ -38,14 +41,20 @@ internal class SearchViewModel @Inject constructor(
             .filter { it.isNotEmpty() }
             .debounce(500)
             .flatMapLatest { query ->
-                dishRepository
-                    .search(query)
-            }
-            .onEach {
-                it.forEach {
-                    Log.d("mmm", "SearchViewModel :   --  ${it}")
+                combine(
+                    dishRepository.search(query),
+                    categoryRepository.searchParentCategory(query),
+                    categoryRepository.searchSubcategory(query),
+                ) { dishes, categories, subcategories ->
+                    Triple(dishes, categories, subcategories)
                 }
-
+            }
+            .onEach { (dishes, categories, subcategories) ->
+                state = state.copy(
+                    dishes = dishes,
+                    categories = categories,
+                    subcategories = subcategories,
+                )
             }
             .launchIn(viewModelScope)
 
@@ -57,13 +66,13 @@ internal class SearchViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun dispatch(event: SearchEvent){
+    fun dispatch(event: SearchEvent) {
 
         when (event) {
-            is SearchEvent.NavigateToDish -> {
+            is SearchEvent.DishClick -> {
                 saveHint()
             }
-            is SearchEvent.NavigateToCategory -> {
+            is SearchEvent.CategoryClick -> {
                 saveHint()
             }
             is SearchEvent.QueryChange -> {
@@ -73,7 +82,7 @@ internal class SearchViewModel @Inject constructor(
             SearchEvent.DismissAlert -> {
 
             }
-            SearchEvent.NavigateUp -> {
+            SearchEvent.BackClick -> {
                 navigator.back()
             }
             is SearchEvent.HintClick -> {

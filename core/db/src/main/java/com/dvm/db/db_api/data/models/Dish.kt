@@ -20,11 +20,18 @@ data class Dish(
     val active: Boolean,
     val createdAt: Long,
     val updatedAt: Long
-) {
+)
 
-    val hasSpecialOffer: Boolean
-        get() = oldPrice != 0 && oldPrice > price
-}
+data class CategoryDish(
+    val id: String,
+    val name: String,
+    val image: String,
+    val oldPrice: Int,
+    val price: Int,
+    val rating: Double,
+    val likes: Int,
+    val isFavorite: Boolean,
+)
 
 data class DishDetails(
     val id: String,

@@ -46,13 +46,13 @@ internal class LoginViewModel @Inject constructor(
                     passwordError = null
                 )
             }
-            LoginEvent.NavigateToPasswordRestore -> {
+            LoginEvent.PasswordRestoreClick -> {
                 navigator.navigationTo?.invoke(Destination.PasswordRestore)
             }
-            LoginEvent.NavigateToRegister -> {
+            LoginEvent.RegisterClick -> {
                 navigator.navigationTo?.invoke(Destination.Register)
             }
-            LoginEvent.NavigateUp -> {
+            LoginEvent.BackClick -> {
                 navigator.navigationTo?.invoke(Destination.Back)
             }
             LoginEvent.Login -> {

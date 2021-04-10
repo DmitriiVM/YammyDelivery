@@ -18,12 +18,7 @@ internal class PasswordRestoreFragment : Fragment() {
     @Inject
     lateinit var navigator: Navigator
 
-    @Inject
-    lateinit var factory: PasswordRestoreViewModelFactory
-
-    private val model: PasswordRestoreViewModel by viewModels {
-        factory
-    }
+    private val model: PasswordRestoreViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

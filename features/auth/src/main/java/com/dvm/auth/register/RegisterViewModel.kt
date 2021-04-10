@@ -62,7 +62,7 @@ internal class RegisterViewModel @Inject constructor(
 //                    RegisterFragmentDirections.toLoginFragment()
 //                )
             }
-            RegisterEvent.NavigateUp -> {
+            RegisterEvent.BackClick -> {
 //                navController.navigateUp()
             }
             RegisterEvent.DismissAlert -> {

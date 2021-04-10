@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dvm.db.db_api.data.models.CategoryDish
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.DishDetails
 import kotlinx.coroutines.flow.Flow
@@ -27,16 +28,21 @@ internal interface DishDao {
     )
     fun getDish(dishId: String): Flow<DishDetails>
 
-    // TODO use dishDetails
     @Query(
         """
-        SELECT *
+        SELECT
+            *,
+            EXISTS(
+                SELECT 1
+                FROM favorite
+                WHERE favorite.dishId = dish.id
+            ) as isFavorite
         FROM dish
         WHERE category IS :category
         AND active = 1
     """
     )
-    suspend fun getDishes(category: String): List<Dish>
+    suspend fun getDishes(category: String): List<CategoryDish>
 
     @Query(
         """
@@ -52,7 +58,7 @@ internal interface DishDao {
         AND dish.active = 1
         """
     )
-    fun search(query: String): Flow<List<DishDetails>>
+    fun search(query: String): Flow<List<CategoryDish>>
 
     @Query(
         """
@@ -68,13 +74,19 @@ internal interface DishDao {
 
     @Query(
         """
-        SELECT *
+        SELECT
+            *,
+            EXISTS(
+                SELECT 1
+                FROM favorite
+                WHERE favorite.dishId = dish.id
+            ) as isFavorite
         FROM dish
         WHERE oldPrice > price
         AND active = 1
     """
     )
-    suspend fun getSpecialOffers(): List<Dish>
+    suspend fun getSpecialOffers(): List<CategoryDish>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDishes(dishes: List<Dish>)

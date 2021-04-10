@@ -38,7 +38,7 @@ fun Registration(
             TransparentAppBar(
                 title = { Text("Регистрация") },
                 navigationIcon = {
-                    AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.NavigateUp) })
+                    AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.BackClick) })
                 }
             )
             Column(

@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.dvm.db.db_api.data.models.Category
 import com.dvm.db.db_api.data.models.ParentCategory
 import com.dvm.db.db_api.data.models.Subcategory
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface CategoryDao {
@@ -20,7 +21,7 @@ internal interface CategoryDao {
         ORDER BY `order`
     """
     )
-    suspend fun getParentCategories(): List<ParentCategory> // TODO flow
+    suspend fun getParentCategories(): List<ParentCategory>
 
     @Query(
         """
@@ -31,7 +32,7 @@ internal interface CategoryDao {
         ORDER BY `order`
     """
     )
-    suspend fun getChildCategories(id: String): List<Subcategory> // TODO flow
+    suspend fun getSubcategories(id: String): List<Subcategory>
 
     @Query(
         """
@@ -41,6 +42,30 @@ internal interface CategoryDao {
         """
     )
     suspend fun getCategoryTitle(categoryId: String): String
+
+    @Query(
+        """
+            SELECT *
+            FROM category
+            WHERE parent IS NULL
+            AND category.name LIKE '%' || :query || '%'
+            AND category.active = 1
+            ORDER BY `name`
+        """
+    )
+    fun searchParentCategory(query: String): Flow<List<ParentCategory>>
+
+    @Query(
+        """
+            SELECT *
+            FROM category
+            WHERE parent IS NOT NULL
+            AND category.name LIKE '%' || :query || '%'
+            AND category.active = 1
+            ORDER BY `name`
+        """
+    )
+    fun searchSubcategory(query: String): Flow<List<Subcategory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCategories(categories: List<Category>)

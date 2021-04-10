@@ -24,5 +24,6 @@ data class ParentCategory(
 
 data class Subcategory(
     val id: String,
-    val name: String
+    val name: String,
+    val parent: String
 )

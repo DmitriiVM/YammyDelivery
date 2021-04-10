@@ -6,6 +6,6 @@ internal sealed class DishEvent {
     object RemovePiece: DishEvent()
     object ChangeFavorite: DishEvent()
     object AddReview: DishEvent()
-    object NavigateUp: DishEvent()
     object DismissAlert : DishEvent()
+    object BackClick: DishEvent()
 }

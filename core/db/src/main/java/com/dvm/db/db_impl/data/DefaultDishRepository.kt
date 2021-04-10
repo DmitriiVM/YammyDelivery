@@ -1,6 +1,7 @@
 package com.dvm.db.db_impl.data
 
 import com.dvm.db.db_api.data.DishRepository
+import com.dvm.db.db_api.data.models.CategoryDish
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.DishDetails
 import com.dvm.db.db_impl.data.dao.DishDao
@@ -16,9 +17,9 @@ internal class DefaultDishRepository @Inject constructor(
     override fun getDish(dishId: String): Flow<DishDetails> =
         dishDao.getDish(dishId)
 
-    override fun search(query: String): Flow<List<DishDetails>> = dishDao.search(query)
+    override fun search(query: String): Flow<List<CategoryDish>> = dishDao.search(query)
 
-    override suspend fun getDishes(category: String): List<Dish> = withContext(Dispatchers.IO) {
+    override suspend fun getDishes(category: String): List<CategoryDish> = withContext(Dispatchers.IO) {
         dishDao.getDishes(category)
     }
 
@@ -26,7 +27,7 @@ internal class DefaultDishRepository @Inject constructor(
         dishDao.hasSpecialOffers()
     }
 
-    override suspend fun getSpecialOffers(): List<Dish>  = withContext(Dispatchers.IO) {
+    override suspend fun getSpecialOffers(): List<CategoryDish>  = withContext(Dispatchers.IO) {
         dishDao.getSpecialOffers()
     }
 

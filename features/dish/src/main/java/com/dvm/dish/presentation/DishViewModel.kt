@@ -98,7 +98,7 @@ internal class DishViewModel @Inject constructor(
                 }
                 DishEvent.AddReview -> {
                 }
-                DishEvent.NavigateUp -> {
+                DishEvent.BackClick -> {
                     navigator.navigationTo?.invoke(Destination.Back)
                 }
                 DishEvent.DismissAlert -> {
