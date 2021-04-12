@@ -30,8 +30,8 @@ class Router(
             is Destination.Dish -> {
                 navController.navigate(MainGraphDirections.toDish(destination.id))
             }
-
             Destination.Cart -> {
+                navController.navigate(MainGraphDirections.toCart())
             }
             Destination.OrderProcess -> {
             }
@@ -39,7 +39,6 @@ class Router(
             }
             is Destination.Order -> {
             }
-
             Destination.Auth -> {
                 navController.navigate(MainGraphDirections.toAuth())
             }

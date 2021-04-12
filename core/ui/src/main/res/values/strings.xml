@@ -1,9 +1,21 @@
 <resources>
-    <string name="empty_edit_field">Пустое поле</string>
-    <string name="IncorrectEmail">Некорректный e-mail</string>
-    <string name="incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
-    <string name="only_letters">Только буквы</string>
+
     <string name="menu_item_title">Акции</string>
     <string name="add_favorite_error">Не удалось удалить из избранного. Ошибка интернет-соединения.</string>
     <string name="delete_favorite_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
+
+    // auth
+    <string name="empty_edit_field">Пустое поле</string>
+    <string name="incorrect_email">Некорректный e-mail</string>
+    <string name="incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
+    <string name="only_letters">Только буквы</string>
+
+    // cart
+    <string name="app_bar_title_cart">Корзина</string>
+    <string name="cart_info_empty_cart">Корзина пуста. Добавьте блюда в корзину, чтобы увидеть их здесь</string>
+    <string name="cart_total_price">Итого</string>
+    <string name="button_create_order">Оформить заказ</string>
+    <string name="button_cancel_promo_code">Отменить</string>
+    <string name="button_apply_promo_code">Применить</string>
+    <string name="cart_promocode_error">Не удалось применить промокод</string>
 </resources>

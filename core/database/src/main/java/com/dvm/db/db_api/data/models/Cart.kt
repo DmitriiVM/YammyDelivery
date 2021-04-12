@@ -9,3 +9,11 @@ class Cart (
     val dishId: String,
     val quantity: Int,
 )
+
+data class CartItem(
+    val dishId: String,
+    val quantity: Int,
+    val name: String,
+    val image: String,
+    val price: Int
+)

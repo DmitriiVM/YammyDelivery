@@ -66,7 +66,7 @@ internal class LoginViewModel @Inject constructor(
 
     private fun login() {
         val emptyField = stringProvider.getString(R.string.empty_edit_field)
-        val incorrectEmail = stringProvider.getString(R.string.IncorrectEmail)
+        val incorrectEmail = stringProvider.getString(R.string.incorrect_email)
         val incorrectPassword = stringProvider.getString(R.string.incorrect_password)
 
         val emailError = when {

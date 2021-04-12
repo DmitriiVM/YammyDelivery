@@ -9,6 +9,7 @@ class Navigator @Inject constructor() {
     var navigationTo: ((Destination) -> Unit)? = null
 
     fun back() = navigationTo?.invoke(Destination.Back)
+    fun goTo(destination: Destination) =  navigationTo?.invoke(destination)
 }
 
 sealed class Destination{

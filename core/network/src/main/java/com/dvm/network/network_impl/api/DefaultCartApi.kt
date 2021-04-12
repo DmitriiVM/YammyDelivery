@@ -5,6 +5,7 @@ import com.dvm.network.network_api.response.AddressResponse
 import com.dvm.network.network_api.response.CartResponse
 import com.dvm.network.network_impl.ApiService
 import com.dvm.network.network_impl.api
+import com.dvm.network.network_impl.request.CartItem
 import com.dvm.network.network_impl.request.CheckCoordinatesRequest
 import com.dvm.network.network_impl.request.CheckInputRequest
 import com.dvm.network.network_impl.request.UpdateCartRequest
@@ -30,7 +31,12 @@ internal class DefaultCartApi @Inject constructor(
                 token = getAccessToken(),
                 updateCartRequest = UpdateCartRequest(
                     promocode = promocode,
-                    items = items
+                    items = items.map {
+                        CartItem(
+                            id = it.key,
+                            amount = it.value
+                        )
+                    }
                 )
             )
         }

@@ -25,4 +25,9 @@
     <action
         android:id="@+id/toAuth"
         app:destination="@id/auth_graph"/>
+
+    <include app:graph="@navigation/cart_graph" />
+    <action
+        android:id="@+id/toCart"
+        app:destination="@id/cart_graph"/>
 </navigation>
