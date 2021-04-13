@@ -2,13 +2,17 @@ package com.dvm.network.network_impl.di
 
 import com.dvm.network.network_api.api.*
 import com.dvm.network.network_impl.ApiService
+import com.dvm.network.network_impl.TokenAuthenticator
 import com.dvm.network.network_impl.api.*
-import com.dvm.network.network_impl.getRetrofit
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -16,24 +20,39 @@ import javax.inject.Singleton
 internal interface NetworkModule {
 
     @Binds
-    fun provideAuthService(authService : DefaultAuthApi): AuthApi
+    fun provideAuthService(authService: DefaultAuthApi): AuthApi
 
     @Binds
-    fun provideCartService(cartService : DefaultCartApi): CartApi
+    fun provideCartService(cartService: DefaultCartApi): CartApi
 
     @Binds
-    fun provideMenuService(menuService : DefaultMenuApi): MenuApi
+    fun provideMenuService(menuService: DefaultMenuApi): MenuApi
 
     @Binds
-    fun provideOrderService(orderService : DefaultOrderApi): OrderApi
+    fun provideOrderService(orderService: DefaultOrderApi): OrderApi
 
     @Binds
-    fun provideProfileService(profileService : DefaultProfileApi): ProfileApi
+    fun provideProfileService(profileService: DefaultProfileApi): ProfileApi
 
-    companion object{
+    companion object {
+        private const val BASE_URL = "https://sandbox.skill-branch.ru/"
 
         @Singleton
         @Provides
-        fun provideApiService(): ApiService = getRetrofit().create(ApiService::class.java)
+        fun provideApiService(client: OkHttpClient): ApiService =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiService::class.java)
+
+        @Singleton
+        @Provides
+        fun provideOkHttpClient(authenticator: TokenAuthenticator): OkHttpClient =
+            OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .authenticator(authenticator)
+                .build()
     }
 }

@@ -76,6 +76,8 @@ dependencies {
     implementation(Libs.ROOM_KTX)
     kapt(Libs.ROOM_COMPILER)
 
+    implementation(Libs.RETROFIT)
+
     implementation(Libs.NAVIGATION_FRAGMENT)
     implementation(Libs.NAVIGATION_UI)
 }

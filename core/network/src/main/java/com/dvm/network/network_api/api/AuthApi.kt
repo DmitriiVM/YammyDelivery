@@ -1,6 +1,7 @@
 package com.dvm.network.network_api.api
 
 import com.dvm.network.network_api.response.AuthResponse
+import com.dvm.network.network_api.response.TokenResponse
 
 interface AuthApi {
 
@@ -28,4 +29,8 @@ interface AuthApi {
         code: String,
         password: String
     )
+
+    suspend fun refreshToken(
+        refreshToken: String
+    ): TokenResponse
 }

@@ -69,4 +69,11 @@ internal class DefaultAuthApi @Inject constructor(
                 )
             )
         }
+
+    override suspend fun refreshToken(refreshToken: String) =
+        api {
+            apiService.refreshToken(
+                RefreshTokenRequest(refreshToken)
+            )
+        }
 }
