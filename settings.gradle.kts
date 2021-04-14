@@ -9,7 +9,7 @@ include(
         ":features:profile",
         ":features:appmenu",
         ":core:network",
-        ':core:database',
+        ":core:database",
         ":core:ui",
         ":core:updateservice",
         ":core:utils",

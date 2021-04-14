@@ -1,37 +1,37 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id("com.android.library")
+    id("kotlin-android")
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion(30)
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion(23)
+        targetSdkVersion(30)
+        versionCode = 1
+        versionName = "1.0"
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
+        getByName("release") {
+            minifyEnabled(false)
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility(JavaVersion.VERSION_1_8)
+        targetCompatibility(JavaVersion.VERSION_1_8)
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
         useIR = true
     }
     buildFeatures {
-        compose true
+        compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion(Versions.COMPOSE)
-        kotlinCompilerVersion(Versions.KOTLIN)
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerVersion = Versions.KOTLIN
     }
 }
 
