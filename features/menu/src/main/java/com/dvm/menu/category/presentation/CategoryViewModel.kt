@@ -54,7 +54,7 @@ internal class CategoryViewModel @Inject constructor(
                 MENU_SPECIAL_OFFER -> {
                     val dishes = dishRepository.getSpecialOffers()
                     state = CategoryState(
-                        title = stringProvider.getString(R.string.menu_item_title),
+                        title = stringProvider.getString(R.string.menu_item_special_offer),
                         dishes = dishes
                     )
                 }

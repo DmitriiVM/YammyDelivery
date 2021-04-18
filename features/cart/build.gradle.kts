@@ -68,5 +68,4 @@ dependencies {
     kapt(Libs.DAGGER_HILT_COMPILER)
 
     implementation(Libs.NAVIGATION_FRAGMENT)
-
 }

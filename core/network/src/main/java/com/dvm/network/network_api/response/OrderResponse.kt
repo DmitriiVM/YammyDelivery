@@ -4,7 +4,7 @@ data class OrderResponse(
     val id: String,
     val total: Int,
     val address: String,
-    val statusId: Int,
+    val statusId: String,
     val active: Boolean,
     val completed: Boolean,
     val createdAt: Long,

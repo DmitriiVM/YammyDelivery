@@ -13,6 +13,8 @@ internal suspend fun <T> api(call: suspend CoroutineScope.() -> T): T =
             call.invoke(this)
         } catch (exception: Exception) {
             Log.d("mmm", " :  api --  $exception")
+            Log.d("mmm", " :  api --  ${exception.message}")
+            Log.d("mmm", " :  api --  ${exception.localizedMessage}")
             throw exception.wrap()
         }
     }

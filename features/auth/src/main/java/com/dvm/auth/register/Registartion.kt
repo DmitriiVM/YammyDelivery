@@ -45,9 +45,9 @@ fun Registration(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center
             ) {
-                val lastNameFocusRequest = remember { FocusRequester() }
-                val emailFocusRequest = remember { FocusRequester() }
-                val passwordFocusRequest = remember { FocusRequester() }
+                val lastNameFocus = remember { FocusRequester() }
+                val emailFocus = remember { FocusRequester() }
+                val passwordFocus = remember { FocusRequester() }
 
                 EditTextField(
                     text = state.firstName,
@@ -57,7 +57,7 @@ fun Registration(
                     onValueChange = { onEvent(RegisterEvent.FirstNameTextChanged(it)) },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
-                        onNext = { lastNameFocusRequest.requestFocus() }
+                        onNext = { lastNameFocus.requestFocus() }
                     )
                 )
                 EditTextField(
@@ -66,10 +66,10 @@ fun Registration(
                     error = state.lastNameError,
                     enabled = !state.networkCall,
                     onValueChange = { onEvent(RegisterEvent.LastNameTextChanged(it)) },
-                    modifier = Modifier.focusRequester(lastNameFocusRequest),
+                    modifier = Modifier.focusRequester(lastNameFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
-                        onNext = { emailFocusRequest.requestFocus() }
+                        onNext = { emailFocus.requestFocus() }
                     )
                 )
                 EditTextField(
@@ -78,10 +78,10 @@ fun Registration(
                     error = state.emailError,
                     enabled = !state.networkCall,
                     onValueChange = { onEvent(RegisterEvent.EmailTextChanged(it)) },
-                    modifier = Modifier.focusRequester(emailFocusRequest),
+                    modifier = Modifier.focusRequester(emailFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
-                        onNext = { passwordFocusRequest.requestFocus() }
+                        onNext = { passwordFocus.requestFocus() }
                     )
                 )
                 EditTextField(
@@ -90,7 +90,7 @@ fun Registration(
                     error = state.passwordError,
                     enabled = !state.networkCall,
                     onValueChange = { onEvent(RegisterEvent.PasswordTextChanged(it)) },
-                    modifier = Modifier.focusRequester(passwordFocusRequest),
+                    modifier = Modifier.focusRequester(passwordFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
                         onDone = { onEvent(RegisterEvent.Register) }

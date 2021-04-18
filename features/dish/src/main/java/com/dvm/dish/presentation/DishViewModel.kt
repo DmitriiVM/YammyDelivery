@@ -81,7 +81,7 @@ internal class DishViewModel @Inject constructor(
                         } catch (exception: Exception) {  // TODO
                             favoriteRepository.addToFavorite(dishId)
                             state = state?.copy(
-                                alertMessage = stringProvider.getString(R.string.add_favorite_error)
+                                alertMessage = stringProvider.getString(R.string.message_favorite_add_error)
                             )
                         }
                     } else {
@@ -91,7 +91,7 @@ internal class DishViewModel @Inject constructor(
                         } catch (exception: Exception) { // TODO
                             favoriteRepository.deleteFromFavorite(dishId)
                             state = state?.copy(
-                                alertMessage = stringProvider.getString(R.string.delete_favorite_error)
+                                alertMessage = stringProvider.getString(R.string.message_favorite_delete_error)
                             )
                         }
                     }

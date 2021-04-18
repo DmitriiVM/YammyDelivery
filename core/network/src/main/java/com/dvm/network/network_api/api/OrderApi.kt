@@ -7,11 +7,11 @@ interface OrderApi {
 
     suspend fun createOrder(
         address: String,
-        entrance: Int,
-        floor: Int,
-        apartment: String,
-        intercom: String,
-        comment: String
+        entrance: Int?,
+        floor: Int?,
+        apartment: String?,
+        intercom: String?,
+        comment: String?,
     ): OrderResponse
 
     suspend fun getOrders(): List<OrderResponse>

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
-    app:startDestination="@id/menu_graph">
+    app:startDestination="@id/order_graph">
 
     <include app:graph="@navigation/menu_graph" />
     <action
@@ -30,4 +30,9 @@
     <action
         android:id="@+id/toCart"
         app:destination="@id/cart_graph"/>
+
+    <include app:graph="@navigation/order_graph" />
+    <action
+        android:id="@+id/toOrder"
+        app:destination="@id/order_graph"/>
 </navigation>

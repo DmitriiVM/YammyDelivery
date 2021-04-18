@@ -17,11 +17,11 @@ internal class DefaultOrderApi @Inject constructor(
 
     override suspend fun createOrder(
         address: String,
-        entrance: Int,
-        floor: Int,
-        apartment: String,
-        intercom: String,
-        comment: String
+        entrance: Int?,
+        floor: Int?,
+        apartment: String?,
+        intercom: String?,
+        comment: String?,
     ): OrderResponse =
         api {
             apiService.createOrder(

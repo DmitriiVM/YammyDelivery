@@ -96,7 +96,7 @@ internal class CartViewModel @Inject constructor(
                         promoCodeText.value = promocodeText
                         appliedPromoCode.value = true
                     } else {
-                        state = state.copy(alertMessage = stringProvider.getString(R.string.cart_promocode_error))
+                        state = state.copy(alertMessage = stringProvider.getString(R.string.message_cart_promocode_fail))
                     }
                 }
             }

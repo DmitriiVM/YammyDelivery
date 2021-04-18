@@ -45,7 +45,7 @@ internal fun Cart(
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(
-                title = { Text(stringResource(R.string.app_bar_title_cart)) },
+                title = { Text(stringResource(R.string.appbar_cart)) },
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch {
@@ -61,7 +61,7 @@ internal fun Cart(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.cart_info_empty_cart),
+                        text = stringResource(R.string.message_cart_info_empty_cart),
                         modifier = Modifier.padding(20.dp),
                         textAlign = TextAlign.Center
                     )
@@ -214,9 +214,9 @@ private fun PromoCode(
             enabled = promoCode.trim().isNotEmpty(),
         ) {
             if (appliedPromoCode) {
-                Text(stringResource(R.string.button_cancel_promo_code))
+                Text(stringResource(R.string.button_cart_cancel_promocode))
             } else {
-                Text(stringResource(R.string.button_apply_promo_code))
+                Text(stringResource(R.string.button_cart_apply_promocode))
             }
         }
     }
@@ -235,14 +235,14 @@ private fun BottomContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(stringResource(R.string.cart_total_price))
+            Text(stringResource(R.string.text_cart_total_price))
             Text(totalPrice.toString())
         }
         Button(
             onClick = onClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(stringResource(R.string.button_create_order))
+            Text(stringResource(R.string.button_cart_create_order))
         }
         Spacer(modifier = Modifier.navigationBarsHeight())
     }
