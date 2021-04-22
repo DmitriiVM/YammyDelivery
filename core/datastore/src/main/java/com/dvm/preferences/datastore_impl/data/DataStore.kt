@@ -2,10 +2,7 @@ package com.dvm.preferences.datastore_impl.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
@@ -24,6 +21,7 @@ internal class DataStore @Inject constructor(
 
     private val ACCESS_TOKEN = stringPreferencesKey("access_token")
     private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+    private val UPDATE_ERROR = booleanPreferencesKey("update_error")
 
     private suspend fun <T> save(key: Preferences.Key<T>, value: T) {
         context.dataStore.edit { settings ->
@@ -58,4 +56,10 @@ internal class DataStore @Inject constructor(
     suspend fun saveRefreshToken(refreshToken: String) {
         save(REFRESH_TOKEN, refreshToken)
     }
+
+    suspend fun saveUpdateError(error: Boolean) {
+        save(UPDATE_ERROR, error)
+    }
+
+    suspend fun isUpdateError(): Boolean = get(UPDATE_ERROR) ?: false
 }

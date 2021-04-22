@@ -17,10 +17,9 @@ object Libs {
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"
-    const val ANDROID_APPCOMPAT = "androidx.appcompat:appcompat:1.2.0"
+    const val ANDROID_APPCOMPAT = "androidx.appcompat:appcompat:1.3.0-rc01"
     const val ANDROID_MATERIAL = "com.google.android.material:material:1.3.0"
-    const val ANDROID_LIFECYCLE = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-rc01"
-    const val ANDROID_FRAGMENT = "androidx.fragment:fragment-ktx:1.2.5"
+    const val ANDROID_FRAGMENT = "androidx.fragment:fragment-ktx:1.3.3"
 
     const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
     const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
@@ -32,6 +31,7 @@ object Libs {
     const val COMPOSE_ACCOMPANIST_INSETS = "dev.chrisbanes.accompanist:accompanist-insets:${Versions.COMPOSE_ACCOMPANIST}"
     const val COMPOSE_VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha01"
     const val COMPOSE_CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
+    const val COMPOSE_LOTTIE = "com.airbnb.android:lottie-compose:1.0.0-beta03-1"
 
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"

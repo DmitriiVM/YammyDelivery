@@ -6,4 +6,6 @@ interface DatastoreRepository {
     suspend fun saveAccessToken(token: String)
     suspend fun getRefreshToken(): String?
     suspend fun saveRefreshToken(token: String)
+    suspend fun saveUpdateError(error: Boolean)
+    suspend fun isUpdateError(): Boolean
 }

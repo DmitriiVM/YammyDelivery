@@ -14,5 +14,6 @@ include(
         ":core:updateservice",
         ":core:utils",
         ":core:datastore",
-        ":navigation"
+        ":navigation",
+        ":features:splash"
 )

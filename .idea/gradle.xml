@@ -28,6 +28,7 @@
             <option value="$PROJECT_DIR$/features/menu" />
             <option value="$PROJECT_DIR$/features/order" />
             <option value="$PROJECT_DIR$/features/profile" />
+            <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/navigation" />
           </set>
         </option>

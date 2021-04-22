@@ -5,7 +5,6 @@ import com.dvm.auth.login.LoginFragmentDirections
 import com.dvm.menu.menu.presentation.MenuFragmentDirections
 import com.dvm.navigation.Destination
 
-
 class Router(
     private val navController: NavController
 ) {
