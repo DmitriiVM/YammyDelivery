@@ -5,11 +5,12 @@ import com.dvm.auth.login.LoginFragmentDirections
 import com.dvm.menu.menu.presentation.MenuFragmentDirections
 import com.dvm.navigation.Destination
 
-class Router(
-    private val navController: NavController
-) {
+internal object Router {
 
-    fun navigateTo(destination: Destination) {
+    fun navigateTo(
+        navController: NavController,
+        destination: Destination
+    ) {
         when (destination) {
             Destination.Main -> {
                 navController.navigate(MainGraphDirections.toMain())

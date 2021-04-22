@@ -8,9 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var router : Router
+internal class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var navigator : Navigator
@@ -22,7 +20,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        router = Router(findNavController(R.id.fragmentContainerView))
-        navigator.navigationTo = { router.navigateTo(it) }
+        navigator.navigationTo = { destination ->
+            Router.navigateTo(
+                navController = findNavController(R.id.fragmentContainerView),
+                destination = destination
+            )
+        }
     }
 }
