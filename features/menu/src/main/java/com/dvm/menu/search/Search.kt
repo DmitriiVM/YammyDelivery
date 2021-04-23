@@ -110,7 +110,6 @@ private fun SearchResult(
                 dish = dish,
                 onDishClick = { onEvent(SearchEvent.SubcategoryClick(it)) },
                 onAddToCartClick = { onEvent(SearchEvent.AddToCart(it)) },
-                onFavoriteClick = { onEvent(SearchEvent.AddToFavorite(it)) }
             )
         }
     }

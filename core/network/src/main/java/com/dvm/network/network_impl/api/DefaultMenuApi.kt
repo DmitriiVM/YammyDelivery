@@ -1,6 +1,5 @@
 package com.dvm.network.network_impl.api
 
-import android.util.Log
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.network.network_api.response.CategoryResponse
 import com.dvm.network.network_api.response.DishResponse
@@ -38,12 +37,11 @@ internal class DefaultMenuApi @Inject constructor(
             apiService.getFavorite(getAccessToken())
         }
 
-    override suspend fun changeFavorite(
+    override suspend fun toggleFavorite(
         dishId: String,
         favorite: Boolean
-    ): FavoriteResponse =
+    ) =
         api {
-            Log.d("mmm", "DefaultMenuApi :  changeFavorite --  ${getAccessToken()}")
             apiService.changeFavorite(
                 token = getAccessToken(),
                 changeFavoriteRequest = listOf(

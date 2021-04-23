@@ -72,10 +72,10 @@ internal class RegisterViewModel @Inject constructor(
     }
 
     private fun register() {
-        val emptyField = stringProvider.getString(R.string.field_error_empty)
-        val letters = stringProvider.getString(R.string.field_error_letters_allowed)
-        val incorrectEmail = stringProvider.getString(R.string.field_error_incorrect_email)
-        val incorrectPassword = stringProvider.getString(R.string.field_error_incorrect_password)
+        val emptyField = stringProvider.getString(R.string.auth_field_error_empty)
+        val letters = stringProvider.getString(R.string.auth_field_error_letters_allowed)
+        val incorrectEmail = stringProvider.getString(R.string.auth_field_error_incorrect_email)
+        val incorrectPassword = stringProvider.getString(R.string.auth_field_error_incorrect_password)
 
         val firstNameError = when {
             state.firstName.isEmpty() -> emptyField

@@ -3,6 +3,7 @@ package com.dvm.updateservice
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.ReviewRepository
+import com.dvm.db.db_api.data.models.Recommended
 import com.dvm.network.network_api.api.MenuApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -20,11 +21,8 @@ class UpdateService @Inject constructor(
     // TODO exception
     suspend fun update() = withContext(Dispatchers.IO) {
         val categories = async { menuApi.getCategories() }
+        val recommended = menuApi.getRecommended()
         val dishes = menuApi.getDishes()
-        dishes.forEach {
-//            Log.d("mmm", "UpdateService :  update --  $it")
-        }
-
         val reviews =
             dishes
                 .map {
@@ -40,7 +38,8 @@ class UpdateService @Inject constructor(
                 .flatten()
 
         categoryRepository.insertCategories(categories.await().map { it.toDbEntity() })
-        dishRepository.insertDishes(dishes.map { it.toDbEntity() })
+        dishRepository.insertDishes(dishes.filter { it.active }.map { it.toDbEntity() })
+        dishRepository.insertRecommended(recommended.map { Recommended(it) })
         reviewRepository.insertReviews(reviews.map { it.toDbEntity() })
     }
 }

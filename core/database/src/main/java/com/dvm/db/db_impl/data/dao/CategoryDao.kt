@@ -14,23 +14,23 @@ internal interface CategoryDao {
 
     @Query(
         """
-        SELECT *
-        FROM category
-        WHERE parent IS NULL
-        AND active = 1
-        ORDER BY `order`
-    """
+            SELECT *
+            FROM category
+            WHERE parent IS NULL
+            AND active = 1
+            ORDER BY `order`
+        """
     )
     suspend fun getParentCategories(): List<ParentCategory>
 
     @Query(
         """
-        SELECT *
-        FROM category
-        WHERE parent IS :id
-        AND active = 1
-        ORDER BY `order`
-    """
+            SELECT *
+            FROM category
+            WHERE parent IS :id
+            AND active = 1
+            ORDER BY `order`
+        """
     )
     suspend fun getSubcategories(id: String): List<Subcategory>
 

@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -51,7 +52,13 @@ internal interface NetworkModule {
         @Provides
         fun provideOkHttpClient(authenticator: TokenAuthenticator): OkHttpClient =
             OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .addInterceptor(
+                    HttpLoggingInterceptor()
+                        .apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+                )
                 .authenticator(authenticator)
                 .build()
     }

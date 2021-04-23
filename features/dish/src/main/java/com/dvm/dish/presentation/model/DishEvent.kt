@@ -4,7 +4,7 @@ internal sealed class DishEvent {
     object AddToCart: DishEvent()
     object AddPiece: DishEvent()
     object RemovePiece: DishEvent()
-    object ChangeFavorite: DishEvent()
+    object ToggleFavorite: DishEvent()
     object AddReview: DishEvent()
     object DismissAlert : DishEvent()
     object BackClick: DishEvent()

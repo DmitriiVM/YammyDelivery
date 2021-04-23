@@ -16,6 +16,7 @@ import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.MenuApi
+import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
@@ -29,6 +30,7 @@ internal class DishViewModel @Inject constructor(
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
     private val menuApi: MenuApi,
+    private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
@@ -65,7 +67,7 @@ internal class DishViewModel @Inject constructor(
             when (event) {
                 DishEvent.AddToCart -> {
                     val quantity = state?.quantity ?: return@launch
-                    cartRepository.addToCart(dishId, quantity )
+                    cartRepository.addToCart(dishId, quantity)
                 }
                 DishEvent.AddPiece -> {
                     quantity.value = quantity.value?.plus(1)
@@ -73,30 +75,11 @@ internal class DishViewModel @Inject constructor(
                 DishEvent.RemovePiece -> {
                     quantity.value = quantity.value?.minus(1)?.coerceAtLeast(1)
                 }
-                DishEvent.ChangeFavorite -> {
-                    if (favoriteRepository.isFavorite(dishId)) {
-                        favoriteRepository.deleteFromFavorite(dishId)
-                        try {
-                            menuApi.changeFavorite(dishId, false)
-                        } catch (exception: Exception) {  // TODO
-                            favoriteRepository.addToFavorite(dishId)
-                            state = state?.copy(
-                                alertMessage = stringProvider.getString(R.string.message_favorite_add_error)
-                            )
-                        }
-                    } else {
-                        favoriteRepository.addToFavorite(dishId)
-                        try {
-                            menuApi.changeFavorite(dishId, true)
-                        } catch (exception: Exception) { // TODO
-                            favoriteRepository.deleteFromFavorite(dishId)
-                            state = state?.copy(
-                                alertMessage = stringProvider.getString(R.string.message_favorite_delete_error)
-                            )
-                        }
-                    }
+                DishEvent.ToggleFavorite -> {
+                    toggleFavorite()
                 }
                 DishEvent.AddReview -> {
+                    addReview()
                 }
                 DishEvent.BackClick -> {
                     navigator.navigationTo?.invoke(Destination.Back)
@@ -105,6 +88,41 @@ internal class DishViewModel @Inject constructor(
                     state = state?.copy(alertMessage = null)
                 }
             }
+        }
+    }
+
+    private fun addReview() {
+
+    }
+
+    private suspend fun toggleFavorite() {
+        if (datastore.isAuthorized()) {
+            if (favoriteRepository.isFavorite(dishId)) {
+                favoriteRepository.deleteFromFavorite(dishId)
+                try {
+                    menuApi.toggleFavorite(dishId, false)
+                } catch (exception: Exception) {  // TODO
+                    favoriteRepository.addToFavorite(dishId)
+                    state = state?.copy(
+                        alertMessage = stringProvider.getString(R.string.message_favorite_add_error)
+                    )
+                }
+
+            } else {
+                favoriteRepository.addToFavorite(dishId)
+                try {
+                    menuApi.toggleFavorite(dishId, true)
+                } catch (exception: Exception) { // TODO
+                    favoriteRepository.deleteFromFavorite(dishId)
+                    state = state?.copy(
+                        alertMessage = stringProvider.getString(R.string.message_favorite_delete_error)
+                    )
+                }
+            }
+        } else {
+            state = state?.copy(
+                alertMessage = stringProvider.getString(R.string.message_need_auth)  // TODO  add auth action
+            )
         }
     }
 }

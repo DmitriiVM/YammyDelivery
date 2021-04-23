@@ -3,7 +3,6 @@ package com.dvm.menu.common.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -30,8 +29,7 @@ internal fun DishItem(
     dish: CategoryDish,
     modifier: Modifier = Modifier,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String) -> Unit,
-    onFavoriteClick: (dishId: String) -> Unit
+    onAddToCartClick: (dishId: String) -> Unit
 ) {
     Card(
         elevation = 1.dp,
@@ -135,11 +133,7 @@ internal fun DishItem(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(top = 12.dp, end = 12.dp)
-                        .size(20.dp)
-                        .selectable(selected = selected) {
-                            selected = !selected
-                            onFavoriteClick(dish.id)
-                        },
+                        .size(20.dp),
                     tint = if (selected) MaterialTheme.colors.secondary else Color.LightGray
                 )
             }

@@ -8,7 +8,6 @@ internal sealed class SearchEvent {
     data class DishClick(val dishId: String) : SearchEvent()
     data class RemoveHintClick(val hint: String) : SearchEvent()
     data class AddToCart(val dishId: String) : SearchEvent()
-    data class AddToFavorite(val dishId: String) : SearchEvent()
     object DismissAlert : SearchEvent()
     object BackClick : SearchEvent()
 }

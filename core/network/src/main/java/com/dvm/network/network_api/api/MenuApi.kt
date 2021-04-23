@@ -15,10 +15,10 @@ interface MenuApi {
 
     suspend fun getFavorite(): FavoriteResponse
 
-    suspend fun changeFavorite(
+    suspend fun toggleFavorite(
         dishId: String,
         favorite: Boolean
-    ): FavoriteResponse
+    )
 
     suspend fun getReviews(dishId: String): List<ReviewResponse>
 

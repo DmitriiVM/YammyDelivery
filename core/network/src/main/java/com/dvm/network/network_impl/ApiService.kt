@@ -50,11 +50,11 @@ internal interface ApiService {
         @Query("limit") limit: Int? = null
     ): FavoriteResponse
 
-    @PUT("favorite")
+    @PUT("favorite/change")
     suspend fun changeFavorite(
         @Header("Authorization") token: String,
         @Body changeFavoriteRequest: List<ChangeFavoriteRequest>
-    ) : FavoriteResponse
+    )
 
     // cart
 

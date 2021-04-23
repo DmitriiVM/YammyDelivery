@@ -43,7 +43,7 @@ internal fun Ordering(
         Column(Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())
             TransparentAppBar(
-                title = { Text(stringResource(R.string.appbar_ordering)) },
+                title = { Text(stringResource(R.string.ordering_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack {
                         onEvent(OrderingEvent.BackClick)
@@ -81,7 +81,7 @@ internal fun Ordering(
                     keyboardActions = KeyboardActions(
                         onNext = { entranceFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.field_ordering_address)) }
+                    startText = { Text(stringResource(R.string.ordering_field_address)) }
                 )
 
                 Spacer(modifier = Modifier.height(25.dp))
@@ -99,9 +99,9 @@ internal fun Ordering(
                         }
                     ) {
                         if (isEditing) {
-                            Text(stringResource(R.string.button_ordering_apply))
+                            Text(stringResource(R.string.ordering_button_apply))
                         } else {
-                            Text(stringResource(R.string.button_ordering_fill))
+                            Text(stringResource(R.string.ordering_button_fill))
                         }
                     }
                     Button(
@@ -110,7 +110,7 @@ internal fun Ordering(
                             .padding(start = 4.dp),
                         onClick = { onEvent(OrderingEvent.MapButtonClick) }
                     ) {
-                        Text(stringResource(R.string.button_ordering_use_map))
+                        Text(stringResource(R.string.ordering_button_use_map))
                     }
                 }
                 Spacer(Modifier.height(8.dp))
@@ -125,7 +125,7 @@ internal fun Ordering(
                     keyboardActions = KeyboardActions(
                         onNext = { floorFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.field_ordering_entrance)) }
+                    startText = { Text(stringResource(R.string.ordering_field_entrance)) }
                 )
                 OrderingTextField(
                     value = fields.floor,
@@ -138,7 +138,7 @@ internal fun Ordering(
                     keyboardActions = KeyboardActions(
                         onNext = { apartmentFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.field_ordering_floor)) }
+                    startText = { Text(stringResource(R.string.ordering_field_floor)) }
                 )
                 OrderingTextField(
                     value = fields.apartment,
@@ -150,7 +150,7 @@ internal fun Ordering(
                     keyboardActions = KeyboardActions(
                         onNext = { intercomFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.field_ordering_apartment)) }
+                    startText = { Text(stringResource(R.string.ordering_field_apartment)) }
                 )
                 OrderingTextField(
                     value = fields.intercom,
@@ -162,7 +162,7 @@ internal fun Ordering(
                     keyboardActions = KeyboardActions(
                         onNext = { commentFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.field_ordering_intercom)) }
+                    startText = { Text(stringResource(R.string.ordering_field_intercom)) }
                 )
                 OrderingTextField(
                     value = fields.comment,
@@ -176,7 +176,7 @@ internal fun Ordering(
                             keyboardController?.hideSoftwareKeyboard()
                         }
                     ),
-                    startText = { Text(stringResource(R.string.field_ordering_comment)) }
+                    startText = { Text(stringResource(R.string.ordering_field_comment)) }
                 )
             }
             Button(
@@ -187,7 +187,7 @@ internal fun Ordering(
                     .navigationBarsWithImePadding(),
                 onClick = { onEvent(OrderingEvent.MakeOrder(fields)) }
             ) {
-                Text(stringResource(R.string.button_ordering_create_order))
+                Text(stringResource(R.string.ordering_button_create_order))
             }
         }
     }

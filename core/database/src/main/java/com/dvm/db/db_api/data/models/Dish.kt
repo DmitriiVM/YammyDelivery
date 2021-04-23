@@ -1,5 +1,6 @@
 package com.dvm.db.db_api.data.models
 
+import androidx.room.DatabaseView
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
@@ -17,11 +18,22 @@ data class Dish(
     val commentsCount: Int,
     val likes: Int,
     val category: String,
-    val active: Boolean,
     val createdAt: Long,
     val updatedAt: Long
 )
 
+@DatabaseView(
+    """
+        SELECT
+            *,
+            EXISTS(
+                SELECT 1
+                FROM favorite
+                WHERE favorite.dishId = dish.id
+            ) as isFavorite
+        FROM dish
+    """
+)
 data class CategoryDish(
     val id: String,
     val name: String,

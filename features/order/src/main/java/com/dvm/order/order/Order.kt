@@ -28,7 +28,7 @@ internal fun Ordering(
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(
-                title = { Text(stringResource(R.string.appbar_order)) },
+                title = { Text(stringResource(R.string.order_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack {
                         onEvent(OrderEvent.BackClick)

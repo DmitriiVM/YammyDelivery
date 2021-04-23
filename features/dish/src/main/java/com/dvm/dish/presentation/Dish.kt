@@ -85,7 +85,7 @@ internal fun Dish(
                 Spacer(Modifier.statusBarsHeight())
                 DishAppBar(
                     onNavigateUp = { onEvent(DishEvent.BackClick) },
-                    onFavoriteClick = { onEvent(DishEvent.ChangeFavorite) },
+                    onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) },
                     checked = state.dish.isFavorite
                 )
             }

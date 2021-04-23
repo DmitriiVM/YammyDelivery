@@ -4,6 +4,7 @@ import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.models.CategoryDish
 import com.dvm.db.db_api.data.models.Dish
 import com.dvm.db.db_api.data.models.DishDetails
+import com.dvm.db.db_api.data.models.Recommended
 import com.dvm.db.db_impl.data.dao.DishDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -33,5 +34,15 @@ internal class DefaultDishRepository @Inject constructor(
 
     override suspend fun insertDishes(dishes: List<Dish>)  = withContext(Dispatchers.IO) {
         dishDao.insertDishes(dishes)
+    }
+
+    override fun recommended(): Flow<List<CategoryDish>> =  dishDao.recommended()
+
+    override fun best(): Flow<List<CategoryDish>> = dishDao.best()
+
+    override fun popular(): Flow<List<CategoryDish>> = dishDao.popular()
+
+    override suspend fun insertRecommended(dishIds: List<Recommended>) {
+        dishDao.insertRecommended(dishIds)
     }
 }

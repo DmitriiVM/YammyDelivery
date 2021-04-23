@@ -90,14 +90,6 @@ internal class CategoryViewModel @Inject constructor(
                 is CategoryEvent.DishClick -> {
                     navigator.navigationTo?.invoke(Destination.Dish(event.dishId))
                 }
-                is CategoryEvent.AddToFavorite -> {
-                    if (datastore.isAuthorized()) {
-//                        menuApi.changeFavorite(dishId = event.dishId)
-//                        favoriteRepository.changeFavorite(dishId = event.dishId)
-                    } else {
-                        state = state.copy(alertMessage = "Необходима авторизация. Войти в профиль?")
-                    }
-                }
                 CategoryEvent.BackClick -> {
                     navigator.navigationTo?.invoke(Destination.Back)
                 }

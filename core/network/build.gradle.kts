@@ -41,6 +41,7 @@ dependencies {
     implementation(Libs.RETROFIT)
     implementation(Libs.RETROFIT_GSON_CONVERTER)
     implementation(Libs.GSON)
+    implementation(Libs.LOGGING_INTERCEPTOR)
 
     implementation(Libs.DAGGER_HILT)
     kapt(Libs.DAGGER_HILT_COMPILER)

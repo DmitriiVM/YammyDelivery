@@ -26,9 +26,6 @@ internal interface  CartDao {
     )
     fun cartItems(): Flow<List<CartItem>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToCart(cart: Cart)
-
     @Query(
         """
             DELETE 
@@ -45,4 +42,7 @@ internal interface  CartDao {
         """
     )
     suspend fun clearCart()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addToCart(cart: Cart)
 }

@@ -44,8 +44,8 @@ internal interface HintDao {
             DELETE
             FROM hints
             WHERE date = (
-              SELECT MIN(date)
-              FROM hints
+                SELECT MIN(date)
+                FROM hints
             )
         """
     )

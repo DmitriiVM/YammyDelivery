@@ -31,7 +31,6 @@ fun DishResponse.toDbEntity() =
         commentsCount = commentsCount,
         likes = likes,
         category = category,
-        active = active,
         createdAt = createdAt,
         updatedAt = updatedAt
     )

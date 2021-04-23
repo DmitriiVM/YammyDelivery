@@ -16,7 +16,7 @@ class TokenAuthenticator @Inject constructor(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        if (response.code() != 401) return null
+        if (response.code != 401) return null
 
         // we don't usually use runBlocking, but Authenticator doesn't allow us to use another scope
         // and this method is not worse then other blocking calls
@@ -36,7 +36,7 @@ class TokenAuthenticator @Inject constructor(
 
         newAccessToken ?: return null
 
-        return response.request()
+        return response.request
             .newBuilder()
             .header("Authorization", newAccessToken)
             .build()

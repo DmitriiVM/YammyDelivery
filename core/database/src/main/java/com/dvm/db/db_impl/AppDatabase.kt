@@ -12,9 +12,11 @@ import com.dvm.db.db_impl.data.dao.*
         Review::class,
         Cart::class,
         Favorite::class,
-        Hint::class
+        Hint::class,
+        Recommended::class
     ],
-    version = 11,
+    views = [CategoryDish::class],
+    version = 1,
     exportSchema = false
 )
 internal abstract class AppDatabase : RoomDatabase() {

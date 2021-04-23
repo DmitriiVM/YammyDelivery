@@ -7,11 +7,11 @@ import com.dvm.db.db_api.data.models.Favorite
 internal interface FavoriteDao {
 
     @Query(
-      """
-        SELECT 1
-        FROM favorite
-        WHERE dishId = :dishId
-      """
+        """
+            SELECT 1
+            FROM favorite
+            WHERE dishId = :dishId
+        """
     )
     fun isFavorite(dishId: String): Boolean
 

@@ -73,7 +73,6 @@ internal fun Category(
             onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) },
             onDishClick = { onEvent(CategoryEvent.DishClick(it)) },
             onAddToCartClick = { onEvent(CategoryEvent.AddToCart(it)) },
-            onFavoriteClick = { onEvent(CategoryEvent.AddToFavorite(it)) }
         )
 
         Column {
@@ -109,8 +108,7 @@ private fun CategoryContent(
     onColorSelected: (Color) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String) -> Unit,
-    onFavoriteClick: (dishId: String) -> Unit
+    onAddToCartClick: (dishId: String) -> Unit
 ) {
     Box {
         val color = remember { Animatable(Color.White) }
@@ -130,8 +128,7 @@ private fun CategoryContent(
             titleHeight = titleHeight,
             selectedColor = selectedColor,
             onDishClick = onDishClick,
-            onAddToCartClick = onAddToCartClick,
-            onFavoriteClick = onFavoriteClick
+            onAddToCartClick = onAddToCartClick
         )
 
         val subcategories = state.subcategories
@@ -164,8 +161,7 @@ private fun DishList(
     titleHeight: MutableState<Int>,
     selectedColor: Color,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String) -> Unit,
-    onFavoriteClick: (dishId: String) -> Unit
+    onAddToCartClick: (dishId: String) -> Unit
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -198,8 +194,7 @@ private fun DishList(
                                 dish = dish,
                                 modifier = Modifier.width(itemWidth),
                                 onDishClick = onDishClick,
-                                onAddToCartClick = onAddToCartClick,
-                                onFavoriteClick = onFavoriteClick
+                                onAddToCartClick = onAddToCartClick
                             )
                         }
                     }
