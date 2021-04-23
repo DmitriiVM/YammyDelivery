@@ -100,6 +100,18 @@ internal interface DishDao {
     )
     fun popular(): Flow<List<CategoryDish>>
 
+    @Query(
+        """
+            SELECT *
+            FROM categorydish
+            WHERE id IN (
+                SELECT dishId
+                FROM favorite
+            )
+        """
+    )
+    fun favorite(): Flow<List<CategoryDish>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRecommended(dishIds: List<Recommended>)
 

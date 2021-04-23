@@ -31,6 +31,8 @@
 
     <string name="order_appbar_title">Заказ</string>
 
+    <string name="favorite_appbar_title">Избранное</string>
+
     <string name="main_see_all">См. все</string>
     <string name="main_popular">Популярное</string>
     <string name="main_best">Лучшее</string>
@@ -41,5 +43,6 @@
     <string name="message_favorite_delete_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
     <string name="message_dish_added_to_cart">Блюдо \"%s\" добавлено в корзину</string>
     <string name="message_need_auth">Необходима авторизация. Войти в профиль?</string>
+
 
 </resources>

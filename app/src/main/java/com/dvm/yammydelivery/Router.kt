@@ -22,7 +22,7 @@ internal object Router {
                 navController.navigate(MenuFragmentDirections.toSearch())
             }
             Destination.Favorite -> {
-
+                navController.navigate(MainGraphDirections.toFavorite())
             }
             is Destination.Category -> {
                 navController.navigate(MenuFragmentDirections.toCategory(destination.id))

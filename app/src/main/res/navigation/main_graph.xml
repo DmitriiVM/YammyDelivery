@@ -41,4 +41,16 @@
         android:id="@+id/toOrder"
         app:destination="@id/order_graph"/>
 
+
+
+
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.dvm.menu.main.FavoriteFragment"
+        android:label="FavoriteFragment" />
+    <action
+        android:id="@+id/toFavorite"
+        app:destination="@id/favoriteFragment"/>
+
 </navigation>

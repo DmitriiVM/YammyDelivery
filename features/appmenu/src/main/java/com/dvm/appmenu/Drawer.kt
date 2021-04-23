@@ -35,7 +35,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Главная",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Main)
+                        navigator.goTo(Destination.Main)
 //                        viewModel.onEvent(DrawerItem.MAIN)
                     },
                     icon = {
@@ -49,7 +49,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Меню",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Menu)
+                        navigator.goTo(Destination.Menu)
 //                        viewModel.onEvent(DrawerItem.MENU)
                     },
                     icon = {
@@ -63,7 +63,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Избранное",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Favorite)
+                        navigator.goTo(Destination.Favorite)
 //                        viewModel.onEvent(DrawerItem.FAVORITE)
                     },
                     icon = {
@@ -77,7 +77,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Корзина",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Cart)
+                        navigator.goTo(Destination.Cart)
 //                        viewModel.onEvent(DrawerItem.CART)
                     },
                     icon = {
@@ -91,7 +91,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Профиль",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Profile)
+                        navigator.goTo(Destination.Profile)
 //                        viewModel.onEvent(DrawerItem.PROFILE)
                     },
                     icon = {
@@ -105,7 +105,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Заказы",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Orders)
+                        navigator.goTo(Destination.Orders)
 //                        viewModel.onEvent(DrawerItem.ORDERS)
                     },
                     icon = {
@@ -119,7 +119,7 @@ fun Drawer(
                 DrawerItem(
                     text = "Уведомления",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Notification)
+                        navigator.goTo(Destination.Notification)
 //                        viewModel.onEvent(DrawerItem.NOTIFICATION)
                     },
                     icon = {
@@ -133,7 +133,7 @@ fun Drawer(
                 DrawerItem(
                     text = "SIGN_IN",
                     onClick = {
-                        navigator.navigationTo?.invoke(Destination.Auth)
+                        navigator.goTo(Destination.Auth)
                     },
                     icon = {
                         Icon(

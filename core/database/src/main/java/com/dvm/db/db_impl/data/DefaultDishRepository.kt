@@ -42,6 +42,8 @@ internal class DefaultDishRepository @Inject constructor(
 
     override fun popular(): Flow<List<CategoryDish>> = dishDao.popular()
 
+    override fun favorite(): Flow<List<CategoryDish>> = dishDao.favorite()
+
     override suspend fun insertRecommended(dishIds: List<Recommended>) {
         dishDao.insertRecommended(dishIds)
     }

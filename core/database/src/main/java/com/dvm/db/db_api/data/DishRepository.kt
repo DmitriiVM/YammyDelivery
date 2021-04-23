@@ -17,4 +17,5 @@ interface DishRepository {
     fun recommended(): Flow<List<CategoryDish>>
     fun best(): Flow<List<CategoryDish>>
     fun popular(): Flow<List<CategoryDish>>
+    fun favorite(): Flow<List<CategoryDish>>
 }
