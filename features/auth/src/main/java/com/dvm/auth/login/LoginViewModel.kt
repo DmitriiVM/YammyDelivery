@@ -9,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
+import com.dvm.db.db_api.data.FavoriteRepository
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.AuthApi
+import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
@@ -20,10 +22,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
     private val authApi: AuthApi,
+    private val menuApi: MenuApi,
+    private val favoriteRepository: FavoriteRepository,
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator
@@ -98,8 +101,8 @@ internal class LoginViewModel @Inject constructor(
                 )
                 datastore.saveAccessToken(loginData.accessToken)
                 datastore.saveRefreshToken(loginData.refreshToken)
-                Log.d("mmm", "LoginViewModel :  login --  $loginData")
 
+                syncFavorites()
 
                 navigator.navigationTo?.invoke(Destination.Back)
             } catch (exception: Exception) {
@@ -109,5 +112,23 @@ internal class LoginViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private suspend fun syncFavorites(){
+        val remoteFavorites = menuApi.getFavorite().map { it.dishId }
+        val localFavorites = favoriteRepository.getFavorites()
+        val favoritesToLocal = remoteFavorites.filter { !localFavorites.contains(it) }
+        val favoritesToRemote = localFavorites.filter { !remoteFavorites.contains(it) }
+
+        favoriteRepository.addListToFavorite(favoritesToLocal)
+        try {
+            menuApi.changeFavorite(favoritesToRemote.associateWith { true })
+        } catch (exception: Exception) {
+            Log.e(TAG, "Can't change favorites on server: $exception")
+        }
+    }
+
+    companion object {
+        private const val TAG = "LoginViewModel"
     }
 }

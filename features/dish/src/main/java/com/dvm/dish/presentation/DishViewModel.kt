@@ -1,5 +1,6 @@
-package com.dvm.dish.dish_impl
+package com.dvm.dish.presentation
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,14 +11,12 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
-import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
-import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -31,7 +30,6 @@ internal class DishViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val menuApi: MenuApi,
     private val datastore: DatastoreRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -96,33 +94,22 @@ internal class DishViewModel @Inject constructor(
     }
 
     private suspend fun toggleFavorite() {
-        if (datastore.isAuthorized()) {
-            if (favoriteRepository.isFavorite(dishId)) {
-                favoriteRepository.deleteFromFavorite(dishId)
-                try {
-                    menuApi.toggleFavorite(dishId, false)
-                } catch (exception: Exception) {  // TODO
-                    favoriteRepository.addToFavorite(dishId)
-                    state = state?.copy(
-                        alertMessage = stringProvider.getString(R.string.message_favorite_add_error)
-                    )
-                }
-
-            } else {
-                favoriteRepository.addToFavorite(dishId)
-                try {
-                    menuApi.toggleFavorite(dishId, true)
-                } catch (exception: Exception) { // TODO
-                    favoriteRepository.deleteFromFavorite(dishId)
-                    state = state?.copy(
-                        alertMessage = stringProvider.getString(R.string.message_favorite_delete_error)
-                    )
-                }
-            }
+        val currentIsFavorite = favoriteRepository.isFavorite(dishId)
+        if (currentIsFavorite) {
+            favoriteRepository.deleteFromFavorite(dishId)
         } else {
-            state = state?.copy(
-                alertMessage = stringProvider.getString(R.string.message_need_auth)  // TODO  add auth action
-            )
+            favoriteRepository.addToFavorite(dishId)
         }
+        if (datastore.isAuthorized()){
+            try {
+                menuApi.changeFavorite(mapOf(dishId to !currentIsFavorite))
+            } catch (exception: Exception) {
+                Log.e(TAG, "Can't change favorite status: $exception")
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "DishViewModel"
     }
 }

@@ -10,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.sharp.Add
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -122,7 +122,6 @@ internal fun DishItem(
                         .padding(vertical = 3.dp, horizontal = 5.dp)
                 )
             }
-            var selected by remember { mutableStateOf(false) }  // temp
             Box(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -134,7 +133,7 @@ internal fun DishItem(
                     modifier = Modifier
                         .padding(top = 12.dp, end = 12.dp)
                         .size(20.dp),
-                    tint = if (selected) MaterialTheme.colors.secondary else Color.LightGray
+                    tint = if (dish.isFavorite) MaterialTheme.colors.secondary else Color.LightGray
                 )
             }
         }

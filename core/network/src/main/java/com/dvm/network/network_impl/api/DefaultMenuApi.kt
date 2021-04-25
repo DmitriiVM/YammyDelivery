@@ -32,24 +32,23 @@ internal class DefaultMenuApi @Inject constructor(
             apiService.getDishes(limit = 1000)  // TODO temp
         }
 
-    override suspend fun getFavorite(): FavoriteResponse =
+    override suspend fun getFavorite(): List<FavoriteResponse> =
         api {
             apiService.getFavorite(getAccessToken())
         }
 
-    override suspend fun toggleFavorite(
-        dishId: String,
-        favorite: Boolean
+    override suspend fun changeFavorite(
+        favorites: Map<String, Boolean>
     ) =
         api {
             apiService.changeFavorite(
                 token = getAccessToken(),
-                changeFavoriteRequest = listOf(
+                changeFavoriteRequest = favorites.map {
                     ChangeFavoriteRequest(
-                        dishId = dishId,
-                        favorite = favorite
+                        dishId = it.key,
+                        favorite = it.value
                     )
-                )
+                }
             )
         }
 

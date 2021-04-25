@@ -15,9 +15,20 @@ internal interface FavoriteDao {
     )
     fun isFavorite(dishId: String): Boolean
 
+    @Query(
+        """
+            SELECT dishId
+            FROM favorite
+        """
+    )
+    suspend fun getFavorites(): List<String>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(favorite: Favorite)
+    suspend fun insert(favorite: Favorite)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertList(favorites: List<Favorite>)
 
     @Delete
-    fun delete(favorite: Favorite)
+    suspend fun delete(favorite: Favorite)
 }

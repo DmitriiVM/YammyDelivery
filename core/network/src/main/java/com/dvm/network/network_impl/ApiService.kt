@@ -48,7 +48,7 @@ internal interface ApiService {
         @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null
-    ): FavoriteResponse
+    ): List<FavoriteResponse>
 
     @PUT("favorite/change")
     suspend fun changeFavorite(

@@ -13,12 +13,9 @@ interface MenuApi {
 
     suspend fun getDishes(): List<DishResponse>
 
-    suspend fun getFavorite(): FavoriteResponse
+    suspend fun getFavorite(): List<FavoriteResponse>
 
-    suspend fun toggleFavorite(
-        dishId: String,
-        favorite: Boolean
-    )
+    suspend fun changeFavorite(favorites: Map<String, Boolean>)
 
     suspend fun getReviews(dishId: String): List<ReviewResponse>
 
