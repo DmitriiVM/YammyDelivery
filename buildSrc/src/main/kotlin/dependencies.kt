@@ -58,6 +58,9 @@ object Libs {
     const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
     const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
 
+    const val FIREBASE_BOM = "com.google.firebase:firebase-bom:27.1.0"
+    const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging"
+
     const val JUNIT = "junit:junit:4.+"
     const val ANDROID_JUNIT = "androidx.test.ext:junit:1.1.2"
     const val ANDROID_ESPRESSO = "androidx.test.espresso:espresso-core:3.3.0"

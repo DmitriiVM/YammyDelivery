@@ -32,6 +32,9 @@ internal interface DatabaseModule {
     @Binds
     fun provideReviewRepository(repository: DefaultReviewRepository): ReviewRepository
 
+    @Binds
+    fun provideNotificationRepository(repository: DefaultNotificationRepository): NotificationRepository
+
     companion object {
         @Singleton
         @Provides
@@ -58,5 +61,8 @@ internal interface DatabaseModule {
 
         @Provides
         fun provideHintDao(database: AppDatabase) = database.hintDao()
+
+        @Provides
+        fun provideNotificationDao(database: AppDatabase) = database.notificationDao()
     }
 }

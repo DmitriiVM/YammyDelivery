@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/features/cart" />
             <option value="$PROJECT_DIR$/features/dish" />
             <option value="$PROJECT_DIR$/features/menu" />
+            <option value="$PROJECT_DIR$/features/notifications" />
             <option value="$PROJECT_DIR$/features/order" />
             <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/splash" />

@@ -55,6 +55,7 @@ internal object Router {
             }
 
             Destination.Notification -> {
+                navController.navigate(MainGraphDirections.toNotifications())
             }
             Destination.Back -> {
                 navController.navigateUp()

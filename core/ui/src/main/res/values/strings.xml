@@ -33,6 +33,8 @@
 
     <string name="favorite_appbar_title">Избранное</string>
 
+    <string name="notification_appbar_title">Уведомления</string>
+
     <string name="main_see_all">См. все</string>
     <string name="main_popular">Популярное</string>
     <string name="main_best">Лучшее</string>

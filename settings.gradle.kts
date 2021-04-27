@@ -1,6 +1,7 @@
 rootProject.name = "YammyDelivery"
 include(
         ":app",
+        ":features:splash",
         ":features:menu",
         ":features:dish",
         ":features:cart",
@@ -8,12 +9,12 @@ include(
         ":features:auth",
         ":features:profile",
         ":features:appmenu",
+        ":features:notifications",
         ":core:network",
         ":core:database",
         ":core:ui",
         ":core:updateservice",
         ":core:utils",
         ":core:datastore",
-        ":navigation",
-        ":features:splash"
+        ":navigation"
 )

@@ -1,33 +1,38 @@
 package com.dvm.navigation
 
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityRetainedScoped
+@Singleton
 class Navigator @Inject constructor() {
 
     var navigationTo: ((Destination) -> Unit)? = null
+    var currentDestination: Destination? = null
+        private set
 
     fun back() = navigationTo?.invoke(Destination.Back)
-    fun goTo(destination: Destination) =  navigationTo?.invoke(destination)
+    fun goTo(destination: Destination) {
+        currentDestination = destination
+        navigationTo?.invoke(destination)
+    }
 }
 
-sealed class Destination{
-    object Main: Destination()
-    object Menu: Destination()
-    object Search: Destination()
-    object Favorite: Destination()
-    object Orders: Destination()
-    object OrderProcess: Destination()
-    object Auth: Destination()
-    object Register: Destination()
-    object PasswordRestore: Destination()
-    object PasswordChange: Destination()
-    object Profile: Destination()
-    object Cart: Destination()
-    object Notification: Destination()
-    data class Category(val id: String): Destination()
-    data class Dish(val id: String): Destination()
-    data class Order(val id: String): Destination()
-    object Back: Destination()
+sealed class Destination {
+    object Main : Destination()
+    object Menu : Destination()
+    object Search : Destination()
+    object Favorite : Destination()
+    object Orders : Destination()
+    object OrderProcess : Destination()
+    object Auth : Destination()
+    object Register : Destination()
+    object PasswordRestore : Destination()
+    object PasswordChange : Destination()
+    object Profile : Destination()
+    object Cart : Destination()
+    object Notification : Destination()
+    data class Category(val id: String) : Destination()
+    data class Dish(val id: String) : Destination()
+    data class Order(val id: String) : Destination()
+    object Back : Destination()
 }

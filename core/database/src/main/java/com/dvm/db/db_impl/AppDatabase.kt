@@ -13,10 +13,11 @@ import com.dvm.db.db_impl.data.dao.*
         Cart::class,
         Favorite::class,
         Hint::class,
-        Recommended::class
+        Recommended::class,
+        Notification::class
     ],
     views = [CategoryDish::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 internal abstract class AppDatabase : RoomDatabase() {
@@ -26,4 +27,5 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
     abstract fun cartDao(): CartDao
     abstract fun hintDao(): HintDao
+    abstract fun notificationDao(): NotificationDao
 }
