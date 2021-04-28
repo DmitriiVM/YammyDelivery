@@ -33,11 +33,14 @@ internal object Router {
             Destination.Cart -> {
                 navController.navigate(MainGraphDirections.toCart())
             }
-            Destination.OrderProcess -> {
+            Destination.Ordering -> {
+                navController.navigate(MainGraphDirections.toOrdering())
             }
             Destination.Orders -> {
+                navController.navigate(MainGraphDirections.toOrders())
             }
             is Destination.Order -> {
+//                navController.navigate(OrdersFragmentDirections.toOrder())
             }
             Destination.Auth -> {
                 navController.navigate(MainGraphDirections.toAuth())
@@ -52,6 +55,7 @@ internal object Router {
 
             }
             Destination.Profile -> {
+                navController.navigate(MainGraphDirections.toProfile())
             }
 
             Destination.Notification -> {

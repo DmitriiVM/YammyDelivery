@@ -35,6 +35,9 @@ internal interface DatabaseModule {
     @Binds
     fun provideNotificationRepository(repository: DefaultNotificationRepository): NotificationRepository
 
+    @Binds
+    fun provideProfileRepository(repository: DefaultProfileRepository): ProfileRepository
+
     companion object {
         @Singleton
         @Provides
@@ -64,5 +67,8 @@ internal interface DatabaseModule {
 
         @Provides
         fun provideNotificationDao(database: AppDatabase) = database.notificationDao()
+
+        @Provides
+        fun provideProfileDao(database: AppDatabase) = database.profileDao()
     }
 }

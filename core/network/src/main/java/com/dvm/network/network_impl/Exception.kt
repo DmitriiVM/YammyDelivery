@@ -23,7 +23,7 @@ private fun Exception.wrap(): Exception =
     when (this) {
         is HttpException -> {
             when (this.code()) {
-                400 -> Exception("Некорректный запрос")
+                400 -> Exception("Некорректный запрос")  // неверный старый пароль
 //                402 -> Exception("Пользователь не найден")
                 else -> Exception("Что-то пошло не так. Мы уже работаем над этим.")
             }

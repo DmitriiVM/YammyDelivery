@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":features:cart"))
     implementation(project(":features:order"))
     implementation(project(":features:auth"))
+    implementation(project(":features:profile"))
     implementation(project(":features:appmenu"))
     implementation(project(":features:splash"))
     implementation(project(":features:notifications"))

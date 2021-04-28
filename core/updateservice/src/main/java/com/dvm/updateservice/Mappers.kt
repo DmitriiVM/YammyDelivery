@@ -2,9 +2,11 @@ package com.dvm.updateservice
 
 import com.dvm.db.db_api.data.models.Category
 import com.dvm.db.db_api.data.models.Dish
+import com.dvm.db.db_api.data.models.Profile
 import com.dvm.db.db_api.data.models.Review
 import com.dvm.network.network_api.response.CategoryResponse
 import com.dvm.network.network_api.response.DishResponse
+import com.dvm.network.network_api.response.ProfileResponse
 import com.dvm.network.network_api.response.ReviewResponse
 
 fun CategoryResponse.toDbEntity() =
@@ -45,4 +47,11 @@ fun ReviewResponse.toDbEntity() =
         active = active,
         createdAt = createdAt,
         updatedAt = updatedAt
+    )
+
+fun ProfileResponse.toDbEntity() =
+    Profile(
+        firstName = firstName,
+        lastName = lastName,
+        email = email
     )

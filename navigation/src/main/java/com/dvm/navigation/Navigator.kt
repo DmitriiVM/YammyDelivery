@@ -23,7 +23,7 @@ sealed class Destination {
     object Search : Destination()
     object Favorite : Destination()
     object Orders : Destination()
-    object OrderProcess : Destination()
+    object Ordering : Destination()
     object Auth : Destination()
     object Register : Destination()
     object PasswordRestore : Destination()

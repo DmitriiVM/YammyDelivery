@@ -17,10 +17,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 fun ProgressButton(
     text: String,
     progress: Boolean = false,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = Modifier.fillMaxWidth()
     ) {
 

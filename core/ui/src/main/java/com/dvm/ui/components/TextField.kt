@@ -1,15 +1,13 @@
 package com.dvm.ui.components
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,19 +21,23 @@ fun EditTextField(
     error: String?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    readOnly: Boolean = false,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors()
 ) {
     OutlinedTextField(
         value = text,
         onValueChange = onValueChange,
         label = { Text(label) },
         enabled = enabled,
+        readOnly = readOnly,
         isError = !error.isNullOrEmpty(),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().focusable(false),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        colors = colors
     )
     if (!error.isNullOrEmpty()) {
         Row(modifier = Modifier.fillMaxWidth()) {
