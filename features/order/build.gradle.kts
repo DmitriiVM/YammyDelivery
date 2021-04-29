@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
 }
 
@@ -42,6 +43,7 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
+    implementation(project(":core:updateservice"))
     implementation(project(":core:ui"))
     implementation(project(":core:utils"))
     implementation(project(":features:appmenu"))
@@ -69,4 +71,5 @@ dependencies {
     kapt(Libs.DAGGER_HILT_COMPILER)
 
     implementation(Libs.NAVIGATION_FRAGMENT)
+    implementation(Libs.NAVIGATION_UI)
 }

@@ -1,6 +1,7 @@
 package com.dvm.order.orders.model
 
 internal sealed class OrdersEvent {
-    object DismissAlert : OrdersEvent()
+    data class SelectStatus(val status: OrderStatus) : OrdersEvent()
+    class OrderClick(val orderId: String) : OrdersEvent()
     object BackClick: OrdersEvent()
 }

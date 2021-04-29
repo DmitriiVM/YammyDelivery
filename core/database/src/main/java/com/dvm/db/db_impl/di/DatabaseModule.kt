@@ -38,6 +38,9 @@ internal interface DatabaseModule {
     @Binds
     fun provideProfileRepository(repository: DefaultProfileRepository): ProfileRepository
 
+    @Binds
+    fun provideOrderRepository(repository: DefaultOrderRepository): OrderRepository
+
     companion object {
         @Singleton
         @Provides
@@ -70,5 +73,8 @@ internal interface DatabaseModule {
 
         @Provides
         fun provideProfileDao(database: AppDatabase) = database.profileDao()
+
+        @Provides
+        fun provideOrderDao(database: AppDatabase) = database.orderDao()
     }
 }

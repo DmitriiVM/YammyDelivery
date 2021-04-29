@@ -17,7 +17,7 @@ import com.dvm.ui.components.TransparentAppBar
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
-internal fun Ordering(
+internal fun Order(
     state: OrderState,
     navigator: Navigator,
     onEvent: (com.dvm.order.order.model.OrderEvent) -> Unit,

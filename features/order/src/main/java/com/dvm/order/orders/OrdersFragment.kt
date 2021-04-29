@@ -30,13 +30,11 @@ internal class OrdersFragment: Fragment() {
                 requireActivity().window
             ) {
                 ProvideWindowInsets(consumeWindowInsets = false) {
-                    viewModel.state.let { state ->
-//                        Cart(
-//                            state = state,
-//                            navigator = navigator,
-//                            onEvent = { viewModel.dispatchEvent(it) }
-//                        )
-                    }
+                    Ordering(
+                        state = viewModel.state,
+                        onEvent = { viewModel.dispatchEvent(it) },
+                        navigator = navigator
+                    )
                 }
             }
         }

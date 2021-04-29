@@ -32,7 +32,7 @@ internal class NotificationFragment: Fragment() {
                 requireActivity().window
             ) {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-                    Login(
+                    Notifications(
                         state = model.state,
                         navigator = navigator,
                         onEvent = { model.dispatch(it) }

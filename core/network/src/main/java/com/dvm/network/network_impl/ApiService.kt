@@ -137,7 +137,7 @@ internal interface ApiService {
 
 
     // timeout
-    @GET("orders/status")
+    @GET("orders/statuses")
     suspend fun getStatuses(
         @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
     ): List<StatusResponse>

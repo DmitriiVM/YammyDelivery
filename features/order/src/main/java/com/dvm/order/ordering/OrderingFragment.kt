@@ -32,13 +32,11 @@ internal class OrderingFragment: Fragment() {
                 requireActivity().window
             ) {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-                    viewModel.state.let { state ->
-                        Ordering(
-                            state = state,
-                            navigator = navigator,
-                            onEvent = { viewModel.dispatchEvent(it) }
-                        )
-                    }
+                    Ordering(
+                        state = viewModel.state,
+                        navigator = navigator,
+                        onEvent = { viewModel.dispatchEvent(it) }
+                    )
                 }
             }
         }

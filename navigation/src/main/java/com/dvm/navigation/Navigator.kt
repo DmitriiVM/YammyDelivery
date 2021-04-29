@@ -18,6 +18,9 @@ class Navigator @Inject constructor() {
 }
 
 sealed class Destination {
+    data class Category(val id: String) : Destination()
+    data class Dish(val id: String) : Destination()
+    data class Order(val id: String) : Destination()
     object Main : Destination()
     object Menu : Destination()
     object Search : Destination()
@@ -31,8 +34,5 @@ sealed class Destination {
     object Profile : Destination()
     object Cart : Destination()
     object Notification : Destination()
-    data class Category(val id: String) : Destination()
-    data class Dish(val id: String) : Destination()
-    data class Order(val id: String) : Destination()
     object Back : Destination()
 }

@@ -1,7 +1,7 @@
 package com.dvm.network.network_api.response
 
 data class StatusResponse(
-    val id: Int,
+    val id: String,
     val name: String,
     val cancelable: Boolean,
     val active: Boolean,

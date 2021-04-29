@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import com.dvm.auth.login.LoginFragmentDirections
 import com.dvm.menu.menu.presentation.MenuFragmentDirections
 import com.dvm.navigation.Destination
+import com.dvm.order.orders.OrdersFragmentDirections
 
 internal object Router {
 
@@ -40,7 +41,7 @@ internal object Router {
                 navController.navigate(MainGraphDirections.toOrders())
             }
             is Destination.Order -> {
-//                navController.navigate(OrdersFragmentDirections.toOrder())
+                navController.navigate(OrdersFragmentDirections.toOrder(destination.id))
             }
             Destination.Auth -> {
                 navController.navigate(MainGraphDirections.toAuth())

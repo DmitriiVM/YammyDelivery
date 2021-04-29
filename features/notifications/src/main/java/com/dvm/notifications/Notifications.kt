@@ -26,7 +26,7 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Login(
+internal fun Notifications(
     state: NotificationState,
     onEvent: (NotificationEvent) -> Unit,
     navigator: Navigator

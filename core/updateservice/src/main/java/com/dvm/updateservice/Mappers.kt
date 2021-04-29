@@ -1,13 +1,7 @@
 package com.dvm.updateservice
 
-import com.dvm.db.db_api.data.models.Category
-import com.dvm.db.db_api.data.models.Dish
-import com.dvm.db.db_api.data.models.Profile
-import com.dvm.db.db_api.data.models.Review
-import com.dvm.network.network_api.response.CategoryResponse
-import com.dvm.network.network_api.response.DishResponse
-import com.dvm.network.network_api.response.ProfileResponse
-import com.dvm.network.network_api.response.ReviewResponse
+import com.dvm.db.db_api.data.models.*
+import com.dvm.network.network_api.response.*
 
 fun CategoryResponse.toDbEntity() =
     Category(
@@ -54,4 +48,36 @@ fun ProfileResponse.toDbEntity() =
         firstName = firstName,
         lastName = lastName,
         email = email
+    )
+
+fun OrderResponse.toDbEntity() =
+    Order(
+        id = id,
+        total = total,
+        address = address,
+        statusId = statusId,
+        active = active,
+        completed = completed,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+    )
+
+fun OrderItemResponse.toDbEntity(orderId: String) =
+    OrderItem(
+        name = name,
+        orderId = orderId,
+        image = image,
+        amount = amount,
+        price = price,
+        dishId = dishId,
+    )
+
+fun StatusResponse.toDbEntity() =
+    OrderStatus(
+        id = id,
+        name = name,
+        cancelable = cancelable,
+        active = active,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
     )

@@ -2,16 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/orders_graph"
-    app:startDestination="@id/ordersFragment">
+    app:startDestination="@id/orderFragment">
 
-    <fragment
-        android:id="@+id/ordersFragment"
-        android:name="com.dvm.order.orders.OrdersFragment"
-        android:label="OrdersFragment" >
-        <action
-            android:id="@+id/toOrder"
-            app:destination="@id/orderFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/ordersFragment"-->
+<!--        android:name="com.dvm.order.orders.OrdersFragment"-->
+<!--        android:label="OrdersFragment" >-->
+<!--        <action-->
+<!--            android:id="@+id/toOrder"-->
+<!--            app:destination="@id/orderFragment" />-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/orderFragment"
