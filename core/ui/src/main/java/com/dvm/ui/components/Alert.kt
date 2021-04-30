@@ -34,8 +34,9 @@ fun Alert(
 }
 
 @Composable
-fun AlertButtonOk(
-    onDismiss: () -> Unit
+fun AlertButton(
+    text: @Composable () -> Unit = { Text("Ок") },
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -43,8 +44,8 @@ fun AlertButtonOk(
             .padding(bottom = 10.dp, end = 15.dp),
         contentAlignment = Alignment.CenterEnd
     ) {
-        TextButton(onClick = onDismiss) {
-            Text("Ок")
+        TextButton(onClick = onClick) {
+            text()
         }
     }
 }

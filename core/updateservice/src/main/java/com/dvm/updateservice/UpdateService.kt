@@ -7,6 +7,7 @@ import com.dvm.network.network_api.api.OrderApi
 import com.dvm.network.network_api.api.ProfileApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -21,36 +22,26 @@ class UpdateService @Inject constructor(
     private val orderApi: OrderApi,
 ) {
 
-    // TODO exception
     suspend fun update() = withContext(Dispatchers.IO) {
-        val categories = async { menuApi.getCategories() }
-        val recommended = async { menuApi.getRecommended() }
-        val profile = async { profileApi.getProfile() }
-
-
-        val dishes = menuApi.getDishes()
-        val reviews =
-            dishes
-                .map {
-                    async {
-                        try {
-                            menuApi.getReviews(dishId = it.id)
-                        } catch (e: Exception) {
-                            emptyList()
-                        }
-                    }
+        try {
+            val categories = async { menuApi.getCategories() }
+            val recommended = async { menuApi.getRecommended() }
+            val profile = async { profileApi.getProfile() }
+            val dishes = menuApi.getDishes()
+            val reviews =
+                dishes.map {
+                    async { menuApi.getReviews(dishId = it.id) }
                 }
-                .map { it.await() }
-                .flatten()
 
-        updateOrders()
-        categoryRepository.insertCategories(categories.await().map { it.toDbEntity() })
-        dishRepository.insertDishes(dishes.filter { it.active }.map { it.toDbEntity() })
-        dishRepository.insertRecommended(recommended.await().map { Recommended(it) })
-        reviewRepository.insertReviews(reviews.map { it.toDbEntity() })
-        profileRepository.updateProfile(profile.await().toDbEntity())
-
-
+            updateOrders()
+            categoryRepository.insertCategories(categories.await().map { it.toDbEntity() })
+            dishRepository.insertDishes(dishes.filter { it.active }.map { it.toDbEntity() })
+            dishRepository.insertRecommended(recommended.await().map { Recommended(it) })
+            reviewRepository.insertReviews(reviews.awaitAll().flatten().map { it.toDbEntity() })
+            profileRepository.updateProfile(profile.await().toDbEntity())
+        } catch (exception: Exception) {
+            // TODO
+        }
     }
 
     suspend fun updateOrders() = withContext(Dispatchers.IO) {
@@ -58,6 +49,7 @@ class UpdateService @Inject constructor(
         val orders = orderApi.getOrders()
         // delete inactive
         orderRepository.insertOrderStatuses(statuses.await().map { it.toDbEntity() })
+        orderRepository.insertOrders(orders.map { it.toDbEntity() })
         orderRepository.insertOrderItems(
             orders.map { order ->
                 order.items.map {
@@ -65,6 +57,5 @@ class UpdateService @Inject constructor(
                 }
             }.flatten()
         )
-        orderRepository.insertOrders(orders.map { it.toDbEntity() })
     }
 }

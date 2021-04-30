@@ -21,7 +21,7 @@ import com.dvm.menu.search.model.FavoriteEvent
 import com.dvm.menu.search.model.FavoriteState
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButtonOk
+import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.TransparentAppBar
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -73,7 +73,7 @@ internal fun Favorite(
             message = state.alertMessage,
             onDismiss = { onEvent(FavoriteEvent.DismissAlert) }
         ) {
-            AlertButtonOk(onDismiss = { onEvent(FavoriteEvent.DismissAlert) })
+            AlertButton(onClick = { onEvent(FavoriteEvent.DismissAlert) })
         }
     }
 }

@@ -37,7 +37,7 @@ import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButtonOk
+import com.dvm.ui.components.AlertButton
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -96,7 +96,7 @@ internal fun Dish(
                 message = state.alertMessage,
                 onDismiss = { onEvent(DishEvent.DismissAlert) }
             ) {
-                AlertButtonOk(onDismiss = { onEvent(DishEvent.DismissAlert) })
+                AlertButton(onClick = { onEvent(DishEvent.DismissAlert) })
             }
         }
     }

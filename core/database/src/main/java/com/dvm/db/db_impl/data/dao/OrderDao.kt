@@ -42,13 +42,7 @@ internal interface OrderDao {
 
     @Query(
         """
-            SELECT
-                *,
-                (
-                    SELECT name
-                    FROM order_status
-                    WHERE order_status.id = statusId
-                ) as status
+            SELECT *
             FROM orders
             WHERE id = :orderId
         """

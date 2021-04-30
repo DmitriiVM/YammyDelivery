@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dvm.db.db_api.data.models.Cart
 import com.dvm.db.db_api.data.models.CartItem
+import com.dvm.db.db_api.data.models.CartItemDetails
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -24,7 +24,15 @@ internal interface  CartDao {
             ORDER BY dish.name
         """
     )
-    fun cartItems(): Flow<List<CartItem>>
+    fun cartItems(): Flow<List<CartItemDetails>>
+
+    @Query(
+        """
+            SELECT COUNT()
+            FROM cart
+        """
+    )
+    suspend fun getCount(): Int
 
     @Query(
         """
@@ -44,5 +52,8 @@ internal interface  CartDao {
     suspend fun clearCart()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToCart(cart: Cart)
+    suspend fun addToCart(cart: CartItem)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addToCart(cart: List<CartItem>)
 }

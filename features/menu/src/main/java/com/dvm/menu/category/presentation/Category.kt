@@ -32,7 +32,7 @@ import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButtonOk
+import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.AccentColors
@@ -90,7 +90,7 @@ internal fun Category(
                 message = state.alertMessage,
                 onDismiss = { onEvent(CategoryEvent.DismissAlert) }
             ) {
-                AlertButtonOk(onDismiss = { onEvent(CategoryEvent.DismissAlert) })
+                AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
             }
         }
     }

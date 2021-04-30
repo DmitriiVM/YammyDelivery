@@ -201,7 +201,7 @@ internal fun Ordering(
         Alert(
             message = state.alertMessage,
             onDismiss = onDismiss,
-            buttons = { AlertButtonOk(onDismiss) }
+            buttons = { AlertButton(onClick = onDismiss) }
         )
     }
 }

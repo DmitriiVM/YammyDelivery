@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.dvm.appmenu.Drawer
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
-import com.dvm.db.db_api.data.models.CartItem
+import com.dvm.db.db_api.data.models.CartItemDetails
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.LoadingScrim
@@ -100,14 +100,14 @@ internal fun Cart(
             }
         }
     }
-    if (state.loading) {
+    if (state.networkCall) {
         LoadingScrim()
     }
 }
 
 @Composable
 private fun CartItem(
-    item: CartItem,
+    item: CartItemDetails,
     onDishClick: (String) -> Unit,
     onAddPiece: () -> Unit,
     onRemovePiece: () -> Unit,

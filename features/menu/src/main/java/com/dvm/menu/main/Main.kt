@@ -23,7 +23,7 @@ import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButtonOk
+import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.TransparentAppBar
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
@@ -129,7 +129,7 @@ internal fun Search(
             message = state.alertMessage,
             onDismiss = { onEvent(MainEvent.DismissAlert) }
         ) {
-            AlertButtonOk(onDismiss = { onEvent(MainEvent.DismissAlert) })
+            AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })
         }
     }
 }

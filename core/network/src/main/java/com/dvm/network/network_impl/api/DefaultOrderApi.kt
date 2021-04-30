@@ -47,7 +47,7 @@ internal class DefaultOrderApi @Inject constructor(
             apiService.getStatuses()
         }
 
-    override suspend fun cancelOrder(orderId: Int): OrderResponse =
+    override suspend fun cancelOrder(orderId: String): OrderResponse =
         api {
             apiService.cancelOrder(
                 token = getAccessToken(),

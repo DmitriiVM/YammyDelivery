@@ -18,5 +18,5 @@ interface OrderApi {
 
     suspend fun getStatuses(): List<StatusResponse>
 
-    suspend fun cancelOrder(orderId: Int): OrderResponse
+    suspend fun cancelOrder(orderId: String): OrderResponse
 }

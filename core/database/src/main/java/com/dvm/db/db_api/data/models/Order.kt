@@ -28,7 +28,13 @@ data class OrderWithItems(
     val createdAt: Long,
     val total: Int,
     val address: String,
-    val status: String,
+    val statusId: String,
+    val completed: Boolean,
+    @Relation(
+        parentColumn = "statusId",
+        entityColumn = "id"
+    )
+    val status: OrderStatus,
     @Relation(
         parentColumn = "id",
         entityColumn = "orderId"

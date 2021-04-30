@@ -43,10 +43,17 @@
     <string name="main_recommended">Рекомендуем</string>
     <string name="main_message_update_error">Не удалось обновить данные.</string>
 
+    <string name="order_message_order_canceled">Заказ успешно отменен</string>
+    <string name="order_message_cart_not_empty">Ваша корзина уже содержит %s. Очистить корзину?</string>
+    <plurals name="order_message_plural_dish">
+        <item quantity="one">%d блюдо</item>
+        <item quantity="few">%d блюда</item>
+        <item quantity="other">%d блюд</item>
+    </plurals>
+
     <string name="message_favorite_add_error">Не удалось удалить из избранного. Ошибка интернет-соединения.</string>
     <string name="message_favorite_delete_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
     <string name="message_dish_added_to_cart">Блюдо \"%s\" добавлено в корзину</string>
     <string name="message_need_auth">Необходима авторизация. Войти в профиль?</string>
-
 
 </resources>

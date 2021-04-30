@@ -4,13 +4,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "cart")
-class Cart (
+class CartItem (
     @PrimaryKey
     val dishId: String,
     val quantity: Int,
 )
 
-data class CartItem(
+data class CartItemDetails(
     val dishId: String,
     val quantity: Int,
     val name: String,

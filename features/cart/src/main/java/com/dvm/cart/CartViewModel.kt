@@ -125,7 +125,7 @@ internal class CartViewModel @Inject constructor(
         viewModelScope.launch {
             if (datastore.isAuthorized()) {
                 try {
-                    state = state.copy(loading = true)
+                    state = state.copy(networkCall = true)
                     val cart = cartApi.updateCart(
                         promocode = promoCode,
                         items = state.items.associate { it.dishId to it.quantity }
@@ -134,7 +134,7 @@ internal class CartViewModel @Inject constructor(
                 } catch (exception: Exception) {
                     state = state.copy(alertMessage = exception.message)
                 } finally {
-                    state = state.copy(loading = false)
+                    state = state.copy(networkCall = false)
                 }
             } else {
                 navigator.goTo(Destination.Auth)
