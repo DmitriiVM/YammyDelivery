@@ -4,8 +4,13 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class RestoreState(
-    val login: String ="",
-    val pincode: String ="",
-    val password: String ="",
-    val confirmPassword: String ="",
+    val screen: Screen = Screen.EMAIL,
+    val alertMessage: String? = null,
+    val networkCall: Boolean = false
 )
+
+enum class Screen{
+    EMAIL,
+    CODE,
+    PASSWORD
+}

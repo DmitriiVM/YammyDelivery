@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.sp
 fun EditTextField(
     text: String,
     label: String,
-    error: String?,
     modifier: Modifier = Modifier,
+    error: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     onValueChange: (String) -> Unit,

@@ -92,22 +92,16 @@ internal interface ApiService {
         @Body registerRequest: RegisterRequest
     ): AuthResponse
 
-    // Ответ 200 - код отправлен на почту
-    // Ответ 400 - код уже был отправлен менее 3 минут назад
     @POST("auth/recovery/email")
     suspend fun sendEmail(
         @Body sendEmailRequest: SendEmailRequest
     )
 
-    // Ответ 200 - код верный
-    // Ответ 400 - код неверный
     @POST("auth/recovery/code")
     suspend fun sendCode(
         @Body sendCodeRequest: SendCodeRequest
     )
 
-    // Ответ 200 - пароль изменен
-    // Ответ 402 - время действия кода истекло
     @POST("auth/recovery/password")
     suspend fun resetPassword(
         @Body resetPasswordRequest: ResetPasswordRequest

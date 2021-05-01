@@ -2,11 +2,6 @@
 
     <string name="menu_item_special_offer">Акции</string>
 
-    <string name="auth_field_error_empty">Пустое поле</string>
-    <string name="auth_field_error_incorrect_email">Некорректный e-mail</string>
-    <string name="auth_field_error_incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
-    <string name="auth_field_error_letters_allowed">Только буквы</string>
-
     <string name="cart_appbar_title">Корзина</string>
     <string name="cart_total_price">Итого</string>
     <string name="cart_button_create_order">Оформить заказ</string>
@@ -55,5 +50,23 @@
     <string name="message_favorite_delete_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
     <string name="message_dish_added_to_cart">Блюдо \"%s\" добавлено в корзину</string>
     <string name="message_need_auth">Необходима авторизация. Войти в профиль?</string>
+
+    <string name="auth_field_error_empty">Пустое поле</string>
+    <string name="auth_field_error_incorrect_email">Некорректный e-mail</string>
+    <string name="auth_field_error_incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
+    <string name="auth_field_error_letters_allowed">Только буквы</string>
+
+    <string name="password_restoration_appbar_title">Восстановление пароля</string>
+    <string name="password_restoration_message_already_sent">Код уже был отправлен менее 3 минут назад</string>
+    <string name="password_restoration_message_wrong_code">Код неверный</string>
+    <string name="password_restoration_message_expired_code">Время действия кода истекло</string>
+    <string name="password_restoration_email_description">Введите электронную почту, которую вы использовали при регистрации, и мы вышлем на нее код для восттановления пароля</string>
+    <string name="password_restoration_email_button">Отправить</string>
+    <string name="password_restoration_email_label">Email</string>
+    <string name="password_restoration_code_description">Введите проверочный код</string>
+    <string name="password_restoration_password_description">Введите новый пароль</string>
+    <string name="password_restoration_password_button">Сохранить</string>
+    <string name="password_restoration_password_label">Пароль</string>
+    <string name="password_restoration_confirm_password_label">Повторите пароль</string>
 
 </resources>
