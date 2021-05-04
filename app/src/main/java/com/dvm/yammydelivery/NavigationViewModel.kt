@@ -133,6 +133,12 @@ internal class NavigationViewModel @Inject constructor(
         }
     }
 
+    fun navigateToNotification(){
+        navController?.let {
+            navigateTo( it, Destination.Notification)
+        }
+    }
+
     companion object {
         private const val POPUP_TO_DESTINATION_ID = "popUpToDestinationId"
         private const val TARGET_DESTINATION = "targetDestination"

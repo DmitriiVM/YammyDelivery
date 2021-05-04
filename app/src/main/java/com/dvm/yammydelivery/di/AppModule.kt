@@ -1,5 +1,8 @@
 package com.dvm.yammydelivery.di
 
+import com.dvm.utils.AppLauncher
+import com.dvm.yammydelivery.DefaultAppLauncher
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,14 +10,17 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+interface AppModule {
 
-    @Singleton
-    @Provides
-    fun provideApplicationScope(): CoroutineScope =
-        CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    @Binds
+    fun provideAppLauncher(appLauncher: DefaultAppLauncher): AppLauncher
+
+    companion object {
+        @Provides
+        fun provideApplicationScope(): CoroutineScope =
+            CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    }
 }

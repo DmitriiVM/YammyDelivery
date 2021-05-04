@@ -1,4 +1,4 @@
-package com.dvm.yammydelivery.notifications
+package com.dvm.notifications
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -9,8 +9,7 @@ import com.dvm.db.db_api.data.NotificationRepository
 import com.dvm.db.db_api.data.models.Notification
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.yammydelivery.MainActivity
-import com.dvm.yammydelivery.R
+import com.dvm.utils.AppLauncher
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +28,9 @@ class NotificationService : FirebaseMessagingService() {
 
     @Inject
     lateinit var scope: CoroutineScope
+
+    @Inject
+    lateinit var appLauncher: AppLauncher
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -74,9 +76,10 @@ class NotificationService : FirebaseMessagingService() {
                 PendingIntent.getActivity(
                     this,
                     title.hashCode(),
-                    Intent(this, MainActivity::class.java)
+                    appLauncher.getLauncherIntent(this)
+                        .putExtra("notification", true)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
             .build()

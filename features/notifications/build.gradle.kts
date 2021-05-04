@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -69,4 +70,7 @@ dependencies {
 
     implementation(Libs.NAVIGATION_FRAGMENT)
     implementation(Libs.NAVIGATION_UI)
+
+    implementation(platform(Libs.FIREBASE_BOM))
+    implementation(Libs.FIREBASE_MESSAGING)
 }
