@@ -77,7 +77,7 @@ class NotificationService : FirebaseMessagingService() {
                     this,
                     title.hashCode(),
                     appLauncher.getLauncherIntent(this)
-                        .putExtra("notification", true)
+                        .putExtra(NOTIFICATION_EXTRA, true)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
@@ -90,5 +90,6 @@ class NotificationService : FirebaseMessagingService() {
     companion object {
         private const val CHANNEL_NAME = "Yammy Delivery"
         private const val CHANNEL_ID = "yammy_delivery"
+        const val NOTIFICATION_EXTRA = "notification"
     }
 }
