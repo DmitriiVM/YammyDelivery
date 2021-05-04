@@ -2,52 +2,61 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
-    app:startDestination="@id/auth_graph">
+    app:startDestination="@id/mainFragment">
+<!--    app:startDestination="@id/splashFragment">-->
 
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.dvm.splash.SplashFragment"
         android:label="SplashFragment" />
 
-    <include app:graph="@navigation/menu_graph" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.dvm.menu.main.MainFragment"
+        android:label="MainFragment" />
     <action
         android:id="@+id/toMain"
-        app:destination="@id/menu_graph" />
+        app:destination="@id/mainFragment" />
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.dvm.menu.menu.presentation.MenuFragment"
+        android:label="MenuFragment" />
     <action
         android:id="@+id/toMenu"
         app:destination="@id/menuFragment" />
 
-    <include app:graph="@navigation/dish_graph" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.dvm.menu.search.SearchFragment"
+        android:label="SearchFragment" />
+    <action
+        android:id="@+id/toSearch"
+        app:destination="@id/searchFragment" />
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.dvm.menu.category.presentation.CategoryFragment"
+        android:label="CategoryFragment" />
+    <action
+        android:id="@+id/toCategory"
+        app:destination="@id/categoryFragment">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+    </action>
+
+    <fragment
+        android:id="@+id/dishFragment"
+        android:name="com.dvm.dish.presentation.DishFragment"
+        android:label="DishFragment" />
     <action
         android:id="@+id/toDish"
-        app:destination="@id/dish_graph">
+        app:destination="@id/dishFragment">
         <argument
             android:name="dishId"
             app:argType="string" />
     </action>
-
-    <include app:graph="@navigation/auth_graph" />
-    <action
-        android:id="@+id/toAuth"
-        app:destination="@id/auth_graph" />
-
-    <include app:graph="@navigation/cart_graph" />
-    <action
-        android:id="@+id/toCart"
-        app:destination="@id/cart_graph" />
-
-<!--    <include app:graph="@navigation/orders_graph" />-->
-<!--    <action-->
-<!--        android:id="@+id/toOrders"-->
-<!--        app:destination="@id/orders_graph" />-->
-
-    <fragment
-        android:id="@+id/orderingFragment"
-        android:name="com.dvm.order.ordering.OrderingFragment"
-        android:label="OrderingFragment"/>
-    <action
-        android:id="@+id/toOrdering"
-        app:destination="@id/orderingFragment" />
 
     <fragment
         android:id="@+id/favoriteFragment"
@@ -57,16 +66,6 @@
         android:id="@+id/toFavorite"
         app:destination="@id/favoriteFragment" />
 
-
-    <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.dvm.notifications.NotificationFragment"
-        android:label="NotificationFragment" />
-    <action
-        android:id="@+id/toNotifications"
-        app:destination="@id/notificationFragment" />
-
-
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.dvm.profile.ProfileFragment"
@@ -75,32 +74,71 @@
         android:id="@+id/toProfile"
         app:destination="@id/profileFragment" />
 
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.dvm.auth.login.LoginFragment"
+        android:label="LoginFragment" />
+    <action
+        android:id="@+id/toLogin"
+        app:destination="@id/loginFragment"/>
 
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.dvm.auth.register.RegisterFragment"
+        android:label="RegisterFragment" />
+    <action
+        android:id="@+id/toRegister"
+        app:destination="@id/registerFragment" />
 
+    <fragment
+        android:id="@+id/passwordRestoreFragment"
+        android:name="com.dvm.auth.restore.PasswordRestoreFragment"
+        android:label="PasswordRestoreFragment" />
+    <action
+        android:id="@+id/toRestorePassword"
+        app:destination="@id/passwordRestoreFragment" />
 
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.dvm.cart.CartFragment"
+        android:label="CartFragment" />
+    <action
+        android:id="@+id/toCart"
+        app:destination="@id/cartFragment" />
+
+    <fragment
+        android:id="@+id/orderingFragment"
+        android:name="com.dvm.order.ordering.OrderingFragment"
+        android:label="OrderingFragment" />
+    <action
+        android:id="@+id/toOrdering"
+        app:destination="@id/orderingFragment" />
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.dvm.order.orders.OrdersFragment"
+        android:label="OrdersFragment" />
     <action
         android:id="@+id/toOrders"
         app:destination="@id/ordersFragment" />
 
     <fragment
-        android:id="@+id/ordersFragment"
-        android:name="com.dvm.order.orders.OrdersFragment"
-        android:label="OrdersFragment">
-        <action
-            android:id="@+id/toOrder"
-            app:destination="@id/orderFragment" >
-            <argument
-                android:name="orderId"
-                app:argType="string" />
-        </action>
-    </fragment>
-
-
-    <fragment
         android:id="@+id/orderFragment"
         android:name="com.dvm.order.order.OrderFragment"
         android:label="OrderFragment" />
+    <action
+        android:id="@+id/toOrder"
+        app:destination="@id/orderFragment">
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+    </action>
 
-
-
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.dvm.notifications.NotificationFragment"
+        android:label="NotificationFragment" />
+    <action
+        android:id="@+id/toNotifications"
+        app:destination="@id/notificationFragment" />
 </navigation>

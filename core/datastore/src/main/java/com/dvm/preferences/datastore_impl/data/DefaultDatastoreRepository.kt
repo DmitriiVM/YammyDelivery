@@ -23,8 +23,8 @@ internal class DefaultDatastoreRepository @Inject constructor(
         dataStore.saveRefreshToken(token)
     }
 
-    override suspend fun saveUpdateError(error: Boolean) {
-        dataStore.saveUpdateError(error)
+    override suspend fun setUpdateError(error: Boolean) {
+        dataStore.setUpdateError(error)
     }
 
     override suspend fun isUpdateError(): Boolean = dataStore.isUpdateError()

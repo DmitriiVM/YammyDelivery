@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.OrderRepository
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.OrderApi
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent

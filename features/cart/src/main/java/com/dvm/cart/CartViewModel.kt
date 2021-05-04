@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
 import com.dvm.db.db_api.data.CartRepository
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.CartApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
@@ -137,7 +137,7 @@ internal class CartViewModel @Inject constructor(
                     state = state.copy(networkCall = false)
                 }
             } else {
-                navigator.goTo(Destination.Auth)
+                navigator.goTo(Destination.Login)
             }
         }
     }

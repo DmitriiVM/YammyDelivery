@@ -13,7 +13,6 @@ import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
@@ -80,7 +79,7 @@ internal class DishViewModel @Inject constructor(
                     addReview()
                 }
                 DishEvent.BackClick -> {
-                    navigator.navigationTo?.invoke(Destination.Back)
+                    navigator.back()
                 }
                 DishEvent.DismissAlert -> {
                     state = state?.copy(alertMessage = null)

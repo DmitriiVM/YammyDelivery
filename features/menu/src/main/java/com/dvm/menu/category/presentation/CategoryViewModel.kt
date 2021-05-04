@@ -16,8 +16,8 @@ import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
@@ -88,10 +88,10 @@ internal class CategoryViewModel @Inject constructor(
                     }
                 }
                 is CategoryEvent.DishClick -> {
-                    navigator.navigationTo?.invoke(Destination.Dish(event.dishId))
+                    navigator.goTo(Destination.Dish(event.dishId))
                 }
                 CategoryEvent.BackClick -> {
-                    navigator.navigationTo?.invoke(Destination.Back)
+                    navigator.back()
                 }
                 is CategoryEvent.ChangeSubcategory -> {
                     val subcategoryId = event.id

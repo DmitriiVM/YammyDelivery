@@ -7,8 +7,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dvm.db.db_api.data.NotificationRepository
 import com.dvm.db.db_api.data.models.Notification
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.yammydelivery.MainActivity
 import com.dvm.yammydelivery.R
 import com.google.firebase.messaging.FirebaseMessagingService

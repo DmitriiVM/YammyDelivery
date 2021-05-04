@@ -2,8 +2,8 @@ package com.dvm.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.updateservice.UpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,13 +26,13 @@ internal class SplashViewModel @Inject constructor(
                     withTimeout(TIMEOUT){
                         updateService.update()
                     }
-                    datastore.saveUpdateError(false)
+                    datastore.setUpdateError(false)
                 }
                 if (updateDuration < MIN_SPLASH_DURATION){
                     delay(MIN_SPLASH_DURATION - updateDuration)
                 }
             } catch (exception: Exception) {
-                datastore.saveUpdateError(true)
+                datastore.setUpdateError(true)
             } finally {
                 navigator.goTo(Destination.Main)
             }

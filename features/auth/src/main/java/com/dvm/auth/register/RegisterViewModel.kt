@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
+import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.AuthApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
@@ -23,6 +25,7 @@ internal class RegisterViewModel @Inject constructor(
     private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
+    private val navigator: Navigator
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterState())
@@ -58,12 +61,10 @@ internal class RegisterViewModel @Inject constructor(
                 register()
             }
             RegisterEvent.Login -> {
-//                navController.navigate(
-//                    RegisterFragmentDirections.toLoginFragment()
-//                )
+                navigator.goTo(Destination.Login)
             }
             RegisterEvent.BackClick -> {
-//                navController.navigateUp()
+                navigator.back()
             }
             RegisterEvent.DismissAlert -> {
                 state = state.copy(alertMessage = null)

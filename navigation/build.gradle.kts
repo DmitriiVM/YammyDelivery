@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -34,4 +35,7 @@ dependencies {
 
     implementation(Libs.DAGGER_HILT)
     kapt(Libs.DAGGER_HILT_COMPILER)
+
+    implementation(Libs.COROUTINES_CORE)
+    implementation(Libs.COROUTINES_ANDROID)
 }

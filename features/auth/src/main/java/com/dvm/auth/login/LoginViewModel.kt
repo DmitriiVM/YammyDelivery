@@ -10,8 +10,8 @@ import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.db.db_api.data.FavoriteRepository
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.AuthApi
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
@@ -35,7 +35,7 @@ internal class LoginViewModel @Inject constructor(
     var state by mutableStateOf(LoginState())
         private set
 
-    fun dispatch(event: LoginEvent){
+    fun dispatch(event: LoginEvent) {
         when (event) {
             is LoginEvent.LoginTextChanged -> {
                 state = state.copy(
@@ -50,13 +50,13 @@ internal class LoginViewModel @Inject constructor(
                 )
             }
             LoginEvent.PasswordRestoreClick -> {
-                navigator.navigationTo?.invoke(Destination.PasswordRestore)
+                navigator.goTo(Destination.PasswordRestore)
             }
             LoginEvent.RegisterClick -> {
-                navigator.navigationTo?.invoke(Destination.Register)
+                navigator.goTo(Destination.Register)
             }
             LoginEvent.BackClick -> {
-                navigator.navigationTo?.invoke(Destination.Back)
+                navigator.back()
             }
             LoginEvent.Login -> {
                 login()
@@ -104,7 +104,7 @@ internal class LoginViewModel @Inject constructor(
 
                 syncFavorites()
 
-                navigator.navigationTo?.invoke(Destination.Back)
+                navigator.goTo(Destination.LoginTarget)
             } catch (exception: Exception) {
                 state = state.copy(
                     alertMessage = exception.message,
@@ -114,7 +114,7 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun syncFavorites(){
+    private suspend fun syncFavorites() {
         val remoteFavorites = menuApi.getFavorite().map { it.dishId }
         val localFavorites = favoriteRepository.getFavorites()
         val favoritesToLocal = remoteFavorites.filter { !localFavorites.contains(it) }

@@ -10,8 +10,8 @@ import com.dvm.db.db_api.data.DishRepository
 import com.dvm.menu.R
 import com.dvm.menu.search.model.FavoriteEvent
 import com.dvm.menu.search.model.FavoriteState
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

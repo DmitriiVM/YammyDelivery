@@ -43,7 +43,7 @@ internal class DataStore @Inject constructor(
             }
             .first()
 
-    suspend fun isAuthorized(): Boolean = !getAccessToken().isNullOrBlank()
+    suspend fun isAuthorized(): Boolean = !get(ACCESS_TOKEN).isNullOrBlank()
 
     suspend fun getAccessToken(): String? = get(ACCESS_TOKEN)?.let { "Bearer $it" }
 
@@ -57,7 +57,7 @@ internal class DataStore @Inject constructor(
         save(REFRESH_TOKEN, refreshToken)
     }
 
-    suspend fun saveUpdateError(error: Boolean) {
+    suspend fun setUpdateError(error: Boolean) {
         save(UPDATE_ERROR, error)
     }
 

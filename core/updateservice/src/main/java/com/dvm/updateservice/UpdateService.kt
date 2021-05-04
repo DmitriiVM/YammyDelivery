@@ -1,5 +1,6 @@
 package com.dvm.updateservice
 
+import android.util.Log
 import com.dvm.db.db_api.data.*
 import com.dvm.db.db_api.data.models.Recommended
 import com.dvm.network.network_api.api.MenuApi
@@ -7,7 +8,6 @@ import com.dvm.network.network_api.api.OrderApi
 import com.dvm.network.network_api.api.ProfileApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,19 +27,30 @@ class UpdateService @Inject constructor(
             val categories = async { menuApi.getCategories() }
             val recommended = async { menuApi.getRecommended() }
             val profile = async { profileApi.getProfile() }
+
             val dishes = menuApi.getDishes()
             val reviews =
-                dishes.map {
-                    async { menuApi.getReviews(dishId = it.id) }
-                }
+                dishes
+                    .map {
+                        async {
+                            try {
+                                menuApi.getReviews(dishId = it.id)
+                            } catch (e: Exception) {
+                                emptyList()
+                            }
+                        }
+                    }
+                    .map { it.await() }
+                    .flatten()
 
             updateOrders()
             categoryRepository.insertCategories(categories.await().map { it.toDbEntity() })
             dishRepository.insertDishes(dishes.filter { it.active }.map { it.toDbEntity() })
             dishRepository.insertRecommended(recommended.await().map { Recommended(it) })
-            reviewRepository.insertReviews(reviews.awaitAll().flatten().map { it.toDbEntity() })
+            reviewRepository.insertReviews(reviews.map { it.toDbEntity() })
             profileRepository.updateProfile(profile.await().toDbEntity())
         } catch (exception: Exception) {
+            Log.d("mmm", "UpdateService :  update --  $exception")
             // TODO
         }
     }

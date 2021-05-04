@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.menu.menu.domain.MenuInteractor
 import com.dvm.menu.menu.domain.model.MenuItem
 import com.dvm.menu.menu.presentation.model.MenuEvent
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,13 +33,13 @@ internal class MenuViewModel @Inject constructor(
         viewModelScope.launch {
             when (event) {
                 is MenuEvent.MenuItemClick -> {
-                    navigator.navigationTo?.invoke(Destination.Category(event.id))
+                    navigator.goTo(Destination.Category(event.id))
                 }
                 MenuEvent.AppMenuClick -> {
 
                 }
                 MenuEvent.SearchClick -> {
-                    navigator.navigationTo?.invoke(Destination.Search)
+                    navigator.goTo(Destination.Search)
                 }
             }
         }

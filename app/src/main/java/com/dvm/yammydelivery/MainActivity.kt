@@ -1,17 +1,15 @@
 package com.dvm.yammydelivery
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import com.dvm.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var navigator : Navigator
+    private val viewModel: NavigationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +18,11 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        navigator.navigationTo = { destination ->
-            Router.navigateTo(
-                navController = findNavController(R.id.fragmentContainerView),
-                destination = destination
-            )
-        }
+        viewModel.navController = findNavController(R.id.fragmentContainerView)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.navController = null
     }
 }

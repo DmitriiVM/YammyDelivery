@@ -10,8 +10,8 @@ import com.dvm.db.db_api.data.DishRepository
 import com.dvm.menu.R
 import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +42,7 @@ internal class MainViewModel @Inject constructor(
                 state = state.copy(
                     alertMessage = stringProvider.getString(R.string.main_message_update_error)
                 )
+                datastore.setUpdateError(false)
             }
         }
         combine(

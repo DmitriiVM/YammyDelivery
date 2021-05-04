@@ -4,12 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.dvm.navigation.Destination
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
+import kotlinx.coroutines.launch
 
 @Composable
 fun Drawer(
@@ -19,6 +21,8 @@ fun Drawer(
 ) {
 
 //    val viewModel: AppMenuViewModel = viewModel()
+
+    val scope = rememberCoroutineScope()
 
     ModalDrawer(
         drawerState = drawerState,
@@ -35,7 +39,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Главная",
                     onClick = {
-                        navigator.goTo(Destination.Main)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Main)
+                        }
 //                        viewModel.onEvent(DrawerItem.MAIN)
                     },
                     icon = {
@@ -49,7 +56,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Меню",
                     onClick = {
-                        navigator.goTo(Destination.Menu)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Menu)
+                        }
 //                        viewModel.onEvent(DrawerItem.MENU)
                     },
                     icon = {
@@ -63,7 +73,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Избранное",
                     onClick = {
-                        navigator.goTo(Destination.Favorite)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Favorite)
+                        }
 //                        viewModel.onEvent(DrawerItem.FAVORITE)
                     },
                     icon = {
@@ -77,7 +90,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Корзина",
                     onClick = {
-                        navigator.goTo(Destination.Cart)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Cart)
+                        }
 //                        viewModel.onEvent(DrawerItem.CART)
                     },
                     icon = {
@@ -91,7 +107,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Профиль",
                     onClick = {
-                        navigator.goTo(Destination.Profile)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Profile)
+                        }
 //                        viewModel.onEvent(DrawerItem.PROFILE)
                     },
                     icon = {
@@ -105,7 +124,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Заказы",
                     onClick = {
-                        navigator.goTo(Destination.Orders)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Orders)
+                        }
 //                        viewModel.onEvent(DrawerItem.ORDERS)
                     },
                     icon = {
@@ -119,7 +141,10 @@ fun Drawer(
                 DrawerItem(
                     text = "Уведомления",
                     onClick = {
-                        navigator.goTo(Destination.Notification)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Notification)
+                        }
 //                        viewModel.onEvent(DrawerItem.NOTIFICATION)
                     },
                     icon = {
@@ -133,7 +158,10 @@ fun Drawer(
                 DrawerItem(
                     text = "SIGN_IN",
                     onClick = {
-                        navigator.goTo(Destination.Auth)
+                        scope.launch {
+                            drawerState.close()
+                            navigator.goTo(Destination.Login)
+                        }
                     },
                     icon = {
                         Icon(
