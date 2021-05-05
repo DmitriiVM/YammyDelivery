@@ -19,7 +19,7 @@ sealed class Destination(val private: Boolean = false): Parcelable {
     @Parcelize
     object Favorite : Destination()
     @Parcelize
-    object Orders : Destination()
+    object Orders : Destination(true)
     @Parcelize
     object Ordering : Destination()
     @Parcelize
@@ -33,7 +33,7 @@ sealed class Destination(val private: Boolean = false): Parcelable {
     @Parcelize
     object Cart : Destination()
     @Parcelize
-    object Notification : Destination()
+    object Notification : Destination(true)
     @Parcelize
     object Back : Destination()
     @Parcelize

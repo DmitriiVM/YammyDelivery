@@ -12,7 +12,6 @@ import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,9 +23,8 @@ internal class NavigationViewModel @Inject constructor(
 
     var navController: NavController? = null
 
-    private var popUpToDestinationId: Int?
-        get() = savedStateHandle.get(POPUP_TO_DESTINATION_ID)
-        set(value) = savedStateHandle.set(POPUP_TO_DESTINATION_ID, value)
+    private val currentDestination
+        get() = navController?.currentBackStackEntry?.destination?.id
 
     private var targetDestination: Destination?
         get() = savedStateHandle.get(TARGET_DESTINATION)
@@ -38,7 +36,6 @@ internal class NavigationViewModel @Inject constructor(
                 val navController = navController ?: return@onEach
 
                 if (destination.private && !datastore.isAuthorized()) {
-                    popUpToDestinationId = navController.currentDestination?.id
                     targetDestination = destination
                     navController.navigate(MainGraphDirections.toLogin())
                 } else {
@@ -51,6 +48,12 @@ internal class NavigationViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun navigateToNotification() {
+        navController?.let {
+            navigateTo(it, Destination.Notification)
+        }
+    }
+
     private fun navigateTo(
         navController: NavController,
         destination: Destination,
@@ -58,7 +61,7 @@ internal class NavigationViewModel @Inject constructor(
     ) {
         when (destination) {
             Destination.Main -> {
-                if (navController.currentBackStackEntry?.destination?.id == R.id.splashFragment) {
+                if (currentDestination == R.id.splashFragment) {
                     navController.popBackStack()
                 }
                 navController.navigate(MainGraphDirections.toMain(), navOptions)
@@ -79,10 +82,6 @@ internal class NavigationViewModel @Inject constructor(
                 navController.navigate(MainGraphDirections.toDish(destination.id), navOptions)
             }
             Destination.Favorite -> {
-                viewModelScope.launch {
-                    datastore.saveAccessToken("")
-                }
-
                 navController.navigate(MainGraphDirections.toFavorite(), navOptions)
             }
             Destination.Cart -> {
@@ -117,13 +116,13 @@ internal class NavigationViewModel @Inject constructor(
             }
             is Destination.LoginTarget -> {
                 val targetDestination = targetDestination
-                val popUpToDestinationId = popUpToDestinationId
-                if ((targetDestination != null && popUpToDestinationId != null)) {
+                val currentDestination = currentDestination
+                if (targetDestination != null && currentDestination != null) {
                     navigateTo(
                         navController = navController,
                         destination = targetDestination,
                         navOptions = NavOptions.Builder()
-                            .setPopUpTo(popUpToDestinationId, false)
+                            .setPopUpTo(currentDestination, true)
                             .build()
                     )
                 } else {
@@ -133,14 +132,7 @@ internal class NavigationViewModel @Inject constructor(
         }
     }
 
-    fun navigateToNotification(){
-        navController?.let {
-            navigateTo( it, Destination.Notification)
-        }
-    }
-
     companion object {
-        private const val POPUP_TO_DESTINATION_ID = "popUpToDestinationId"
         private const val TARGET_DESTINATION = "targetDestination"
     }
 }
