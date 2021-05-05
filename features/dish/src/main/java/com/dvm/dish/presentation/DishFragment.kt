@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.dvm.dish.dish_impl.Dish
 import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
@@ -19,7 +20,14 @@ internal class DishFragment : Fragment() {
     @Inject
     lateinit var navigator: Navigator
 
-    private val viewModel: DishViewModel by viewModels()
+    @Inject
+    lateinit var factory: DishViewModelAssistedFactory
+
+    private val args: DishFragmentArgs by navArgs()
+
+    private val viewModel: DishViewModel by viewModels {
+        factory.create(args.dishId, this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

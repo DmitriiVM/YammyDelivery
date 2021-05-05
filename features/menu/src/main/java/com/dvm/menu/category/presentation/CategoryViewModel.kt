@@ -1,11 +1,14 @@
 package com.dvm.menu.category.presentation
 
+import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.savedstate.SavedStateRegistryOwner
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.CategoryRepository
 import com.dvm.db.db_api.data.DishRepository
@@ -21,12 +24,13 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-internal class CategoryViewModel @Inject constructor(
+internal class CategoryViewModel(
+    private val categoryId: String,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
@@ -41,7 +45,6 @@ internal class CategoryViewModel @Inject constructor(
     var state by mutableStateOf(CategoryState())
         private set
 
-    private val categoryId = requireNotNull(savedState.get<String>("categoryId"))
     private val subcategoryId = savedState.get<String>("subcategoryId")
 
     init {
@@ -126,4 +129,50 @@ internal class CategoryViewModel @Inject constructor(
         }
 }
 
+internal class CategoryViewModelFactory @AssistedInject constructor(
+    @Assisted private val categoryId: String,
+    @Assisted owner: SavedStateRegistryOwner,
+    @Assisted defaultArgs: Bundle? = null,
+    private val navigator: Navigator,
+    private val categoryRepository: CategoryRepository,
+    private val dishRepository: DishRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val cartRepository: CartRepository,
+    private val datastore: DatastoreRepository,
+    private val menuApi: MenuApi,
+    private val stringProvider: StringProvider,
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+
+    override fun <T : ViewModel?> create(
+        key: String,
+        modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T {
+        if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CategoryViewModel(
+                categoryId = categoryId,
+                categoryRepository = categoryRepository,
+                dishRepository = dishRepository,
+                favoriteRepository = favoriteRepository,
+                cartRepository = cartRepository,
+                datastore = datastore,
+                menuApi = menuApi,
+                stringProvider = stringProvider,
+                navigator = navigator,
+                savedState = handle
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+@AssistedFactory
+internal interface CategoryViewModelAssistedFactory {
+    fun create(
+        categoryId: String,
+        owner: SavedStateRegistryOwner,
+        defaultArgs: Bundle? = null
+    ): CategoryViewModelFactory
+}
 

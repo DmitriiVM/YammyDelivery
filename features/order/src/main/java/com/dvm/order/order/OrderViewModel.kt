@@ -1,13 +1,15 @@
 package com.dvm.order.order
 
+import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.db_api.data.CartRepository
-import com.dvm.db.db_api.data.OrderRepository
+import androidx.savedstate.SavedStateRegistryOwner
+import com.dvm.db.db_api.data.*
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.network_api.api.OrderApi
@@ -16,15 +18,16 @@ import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.updateservice.toDbEntity
 import com.dvm.utils.StringProvider
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-internal class OrderViewModel @Inject constructor(
+internal class OrderViewModel(
+    private val orderId: String,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
@@ -35,8 +38,6 @@ internal class OrderViewModel @Inject constructor(
 
     var state by mutableStateOf(OrderState())
         private set
-
-    private val orderId = requireNotNull(savedState.get<String>("orderId"))
 
     init {
         orderRepository
@@ -120,4 +121,45 @@ internal class OrderViewModel @Inject constructor(
             navigator.goTo(Destination.Cart)
         }
     }
+}
+
+internal class OrderViewModelFactory @AssistedInject constructor(
+    @Assisted private val orderId: String,
+    @Assisted owner: SavedStateRegistryOwner,
+    @Assisted defaultArgs: Bundle? = null,
+    private val orderRepository: OrderRepository,
+    private val cartRepository: CartRepository,
+    private val orderApi: OrderApi,
+    private val stringProvider: StringProvider,
+    private val navigator: Navigator,
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+
+    override fun <T : ViewModel?> create(
+        key: String,
+        modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T {
+        if (modelClass.isAssignableFrom(OrderViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return OrderViewModel(
+                orderId = orderId,
+                orderRepository = orderRepository,
+                cartRepository = cartRepository,
+                orderApi = orderApi,
+                stringProvider = stringProvider,
+                navigator = navigator,
+                savedState = handle
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+@AssistedFactory
+internal interface OrderViewModelAssistedFactory {
+    fun create(
+        orderId: String,
+        owner: SavedStateRegistryOwner,
+        defaultArgs: Bundle? = null
+    ): OrderViewModelFactory
 }

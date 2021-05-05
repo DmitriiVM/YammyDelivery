@@ -1,13 +1,12 @@
 package com.dvm.dish.presentation
 
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.dvm.db.db_api.data.CartRepository
 import com.dvm.db.db_api.data.DishRepository
 import com.dvm.db.db_api.data.FavoriteRepository
@@ -16,14 +15,15 @@ import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Navigator
 import com.dvm.network.network_api.api.MenuApi
 import com.dvm.preferences.datastore_api.data.DatastoreRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-internal class DishViewModel @Inject constructor(
+internal class DishViewModel(
+    private val dishId: String,
     private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
@@ -36,7 +36,6 @@ internal class DishViewModel @Inject constructor(
     var state by mutableStateOf<DishState?>(null)
         private set
 
-    private val dishId = requireNotNull(savedState.get<String>("dishId"))
     private val quantity = savedState.getLiveData("", 1)
 
     init {
@@ -99,7 +98,7 @@ internal class DishViewModel @Inject constructor(
         } else {
             favoriteRepository.addToFavorite(dishId)
         }
-        if (datastore.isAuthorized()){
+        if (datastore.isAuthorized()) {
             try {
                 menuApi.changeFavorite(mapOf(dishId to !currentIsFavorite))
             } catch (exception: Exception) {
@@ -111,4 +110,46 @@ internal class DishViewModel @Inject constructor(
     companion object {
         private const val TAG = "DishViewModel"
     }
+}
+
+internal class DishViewModelFactory @AssistedInject constructor(
+    @Assisted private val dishId: String,
+    @Assisted owner: SavedStateRegistryOwner,
+    @Assisted defaultArgs: Bundle? = null,
+    private val dishRepository: DishRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val cartRepository: CartRepository,
+    private val menuApi: MenuApi,
+    private val datastore: DatastoreRepository,
+    private val navigator: Navigator
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+
+    override fun <T : ViewModel?> create(
+        key: String,
+        modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T {
+        if (modelClass.isAssignableFrom(DishViewModel::class.java)) {
+            return DishViewModel(
+                dishId = dishId,
+                dishRepository = dishRepository,
+                favoriteRepository = favoriteRepository,
+                cartRepository = cartRepository,
+                menuApi = menuApi,
+                datastore = datastore,
+                navigator = navigator,
+                savedState = handle
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+@AssistedFactory
+internal interface DishViewModelAssistedFactory {
+    fun create(
+        dishId: String,
+        owner: SavedStateRegistryOwner,
+        defaultArgs: Bundle? = null
+    ): DishViewModelFactory
 }
