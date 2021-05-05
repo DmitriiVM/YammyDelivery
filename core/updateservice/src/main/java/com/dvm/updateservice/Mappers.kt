@@ -1,7 +1,7 @@
 package com.dvm.updateservice
 
-import com.dvm.db.db_api.data.models.*
-import com.dvm.network.network_api.response.*
+import com.dvm.db.api.data.models.*
+import com.dvm.network.api.response.*
 
 fun CategoryResponse.toDbEntity() =
     Category(

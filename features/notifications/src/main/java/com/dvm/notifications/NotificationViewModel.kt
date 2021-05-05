@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.db_api.data.NotificationRepository
+import com.dvm.db.api.data.NotificationRepository
 import com.dvm.navigation.Navigator
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
-import com.dvm.preferences.datastore_api.data.DatastoreRepository
+import com.dvm.preferences.api.data.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn

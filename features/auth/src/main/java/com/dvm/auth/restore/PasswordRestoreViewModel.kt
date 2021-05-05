@@ -10,8 +10,8 @@ import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
 import com.dvm.navigation.Navigator
-import com.dvm.network.network_api.api.AuthApi
-import com.dvm.network.network_impl.isCode
+import com.dvm.network.api.api.AuthApi
+import com.dvm.network.impl.isCode
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

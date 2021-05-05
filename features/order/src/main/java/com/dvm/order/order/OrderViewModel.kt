@@ -9,10 +9,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
-import com.dvm.db.db_api.data.*
+import com.dvm.db.api.data.*
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.network_api.api.OrderApi
+import com.dvm.network.api.api.OrderApi
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState

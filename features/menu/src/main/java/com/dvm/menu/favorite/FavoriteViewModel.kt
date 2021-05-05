@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.db_api.data.CartRepository
-import com.dvm.db.db_api.data.DishRepository
+import com.dvm.db.api.data.CartRepository
+import com.dvm.db.api.data.DishRepository
 import com.dvm.menu.R
 import com.dvm.menu.search.model.FavoriteEvent
 import com.dvm.menu.search.model.FavoriteState

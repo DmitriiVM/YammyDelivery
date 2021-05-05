@@ -1,11 +1,11 @@
 package com.dvm.updateservice
 
 import android.util.Log
-import com.dvm.db.db_api.data.*
-import com.dvm.db.db_api.data.models.Recommended
-import com.dvm.network.network_api.api.MenuApi
-import com.dvm.network.network_api.api.OrderApi
-import com.dvm.network.network_api.api.ProfileApi
+import com.dvm.db.api.data.*
+import com.dvm.db.api.data.models.Recommended
+import com.dvm.network.api.api.MenuApi
+import com.dvm.network.api.api.OrderApi
+import com.dvm.network.api.api.ProfileApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext

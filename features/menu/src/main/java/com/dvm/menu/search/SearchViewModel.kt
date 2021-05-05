@@ -7,8 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.db_api.data.CategoryRepository
-import com.dvm.db.db_api.data.DishRepository
+import com.dvm.db.api.data.CategoryRepository
+import com.dvm.db.api.data.DishRepository
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.Navigator

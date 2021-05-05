@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.preferences.datastore_api.data.DatastoreRepository
+import com.dvm.preferences.api.data.DatastoreRepository
 import com.dvm.updateservice.UpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

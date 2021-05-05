@@ -2,11 +2,12 @@ package com.dvm.notifications
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.dvm.db.db_api.data.NotificationRepository
-import com.dvm.db.db_api.data.models.Notification
+import com.dvm.db.api.data.NotificationRepository
+import com.dvm.db.api.data.models.Notification
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.AppLauncher
@@ -22,21 +23,22 @@ class NotificationService : FirebaseMessagingService() {
 
     @Inject
     lateinit var navigator: Navigator
-
+    @Inject
+    lateinit var scope: CoroutineScope
+    @Inject
+    lateinit var appLauncher: AppLauncher
     @Inject
     lateinit var notificationRepository: NotificationRepository
 
-    @Inject
-    lateinit var scope: CoroutineScope
-
-    @Inject
-    lateinit var appLauncher: AppLauncher
+    override fun onNewToken(token: String) {
+        Log.d(NOTIFICATION_SERVICE, "Refreshed token: $token")
+    }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val title = message.data["title"].orEmpty()
-        val text = message.data["text"].orEmpty()
+        val title = message.data[NOTIFICATION_TITLE].orEmpty()
+        val text = message.data[NOTIFICATION_TEXT].orEmpty()
 
         scope.launch {
             notificationRepository.insertNotification(
@@ -88,8 +90,11 @@ class NotificationService : FirebaseMessagingService() {
     }
 
     companion object {
+        private const val NOTIFICATION_SERVICE = "NotificationService"
         private const val CHANNEL_NAME = "Yammy Delivery"
         private const val CHANNEL_ID = "yammy_delivery"
+        private const val NOTIFICATION_TITLE = "title"
+        private const val NOTIFICATION_TEXT = "text"
         const val NOTIFICATION_EXTRA = "notification"
     }
 }

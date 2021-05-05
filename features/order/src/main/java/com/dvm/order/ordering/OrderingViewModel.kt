@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.navigation.Navigator
-import com.dvm.network.network_api.api.OrderApi
+import com.dvm.network.api.api.OrderApi
 import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingState
 import dagger.hilt.android.lifecycle.HiltViewModel

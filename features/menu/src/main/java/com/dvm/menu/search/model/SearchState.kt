@@ -1,9 +1,9 @@
 package com.dvm.menu.search.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.db_api.data.models.CategoryDish
-import com.dvm.db.db_api.data.models.ParentCategory
-import com.dvm.db.db_api.data.models.Subcategory
+import com.dvm.db.api.data.models.CategoryDish
+import com.dvm.db.api.data.models.ParentCategory
+import com.dvm.db.api.data.models.Subcategory
 
 @Immutable
 internal data class SearchState(

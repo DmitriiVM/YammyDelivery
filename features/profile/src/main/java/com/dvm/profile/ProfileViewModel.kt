@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.db_api.data.ProfileRepository
-import com.dvm.db.db_api.data.models.Profile
+import com.dvm.db.api.data.ProfileRepository
+import com.dvm.db.api.data.models.Profile
 import com.dvm.navigation.Navigator
-import com.dvm.network.network_api.api.ProfileApi
-import com.dvm.preferences.datastore_api.data.DatastoreRepository
+import com.dvm.network.api.api.ProfileApi
+import com.dvm.preferences.api.data.DatastoreRepository
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
 import com.dvm.utils.StringProvider

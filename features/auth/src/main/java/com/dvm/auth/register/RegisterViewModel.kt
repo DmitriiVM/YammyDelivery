@@ -10,8 +10,8 @@ import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.network_api.api.AuthApi
-import com.dvm.preferences.datastore_api.data.DatastoreRepository
+import com.dvm.network.api.api.AuthApi
+import com.dvm.preferences.api.data.DatastoreRepository
 import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
 import com.dvm.utils.extensions.isPasswordValid
