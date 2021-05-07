@@ -4,7 +4,6 @@ import com.dvm.network.api.api.OrderApi
 import com.dvm.network.api.response.OrderResponse
 import com.dvm.network.api.response.StatusResponse
 import com.dvm.network.impl.ApiService
-import com.dvm.network.impl.api
 import com.dvm.network.impl.request.CancelOrderRequest
 import com.dvm.network.impl.request.CreateOrderRequest
 import com.dvm.preferences.api.data.DatastoreRepository
@@ -23,37 +22,33 @@ internal class DefaultOrderApi @Inject constructor(
         intercom: String?,
         comment: String?,
     ): OrderResponse =
-        api {
-            apiService.createOrder(
-                token = getAccessToken(),
-                createOrderRequest = CreateOrderRequest(
-                    address = address,
-                    entrance = entrance,
-                    floor = floor,
-                    apartment = apartment,
-                    intercom = intercom,
-                    comment = comment,
-                )
+        apiService.createOrder(
+            token = getAccessToken(),
+            createOrderRequest = CreateOrderRequest(
+                address = address,
+                entrance = entrance,
+                floor = floor,
+                apartment = apartment,
+                intercom = intercom,
+                comment = comment,
             )
-        }
+        )
 
-    override suspend fun getOrders(): List<OrderResponse> =
-        api {
-            apiService.getOrders(getAccessToken())
-        }
+    override suspend fun getOrders(limit: Int?): List<OrderResponse> =
+        apiService.getOrders(
+            token = getAccessToken(),
+            ifModifiedSince = datastore.getLastUpdateTime(),
+            limit = limit
+        )
 
-    override suspend fun getStatuses(): List<StatusResponse>  =
-        api {
-            apiService.getStatuses()
-        }
+    override suspend fun getStatuses(): List<StatusResponse> =
+        apiService.getStatuses(datastore.getLastUpdateTime())
 
     override suspend fun cancelOrder(orderId: String): OrderResponse =
-        api {
-            apiService.cancelOrder(
-                token = getAccessToken(),
-                cancelOrderRequest = CancelOrderRequest(orderId)
-            )
-        }
+        apiService.cancelOrder(
+            token = getAccessToken(),
+            cancelOrderRequest = CancelOrderRequest(orderId)
+        )
 
     private suspend fun getAccessToken() = requireNotNull(datastore.getAccessToken())
 }

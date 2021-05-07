@@ -28,4 +28,10 @@ internal class DefaultDatastoreRepository @Inject constructor(
     }
 
     override suspend fun isUpdateError(): Boolean = dataStore.isUpdateError()
+
+    override suspend fun setLastUpdateTime(time: Long) {
+        dataStore.setLastUpdateTime(time)
+    }
+
+    override suspend fun getLastUpdateTime(): Long = dataStore.getLastUpdateTime()
 }

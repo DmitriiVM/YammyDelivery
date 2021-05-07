@@ -31,7 +31,6 @@ android {
 
 dependencies {
     implementation(project(":core:datastore"))
-    implementation(project(":core:utils"))
 
     implementation(Libs.ANDROID_CORE)
 

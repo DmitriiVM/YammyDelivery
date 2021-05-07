@@ -15,7 +15,7 @@ interface CartApi {
     suspend fun checkInput(address: String): AddressResponse
 
     suspend fun checkCoordinates(
-        lat: Long,
-        lon: Long
+        latitude: Long,
+        longitude: Long
     ): AddressResponse
 }

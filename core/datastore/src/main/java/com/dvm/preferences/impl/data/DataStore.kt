@@ -22,6 +22,7 @@ internal class DataStore @Inject constructor(
     private val ACCESS_TOKEN = stringPreferencesKey("access_token")
     private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     private val UPDATE_ERROR = booleanPreferencesKey("update_error")
+    private val LAST_UPDATE_TIME = longPreferencesKey("last_update_time")
 
     private suspend fun <T> save(key: Preferences.Key<T>, value: T) {
         context.dataStore.edit { settings ->
@@ -62,4 +63,10 @@ internal class DataStore @Inject constructor(
     }
 
     suspend fun isUpdateError(): Boolean = get(UPDATE_ERROR) ?: false
+
+    suspend fun setLastUpdateTime(time: Long) {
+        save(LAST_UPDATE_TIME, time)
+    }
+
+    suspend fun getLastUpdateTime(): Long = get(LAST_UPDATE_TIME) ?: 0
 }

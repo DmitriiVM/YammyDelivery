@@ -6,6 +6,7 @@ import com.dvm.db.api.data.models.Recommended
 import com.dvm.network.api.api.MenuApi
 import com.dvm.network.api.api.OrderApi
 import com.dvm.network.api.api.ProfileApi
+import com.dvm.preferences.api.data.DatastoreRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -20,6 +21,7 @@ class UpdateService @Inject constructor(
     private val menuApi: MenuApi,
     private val profileApi: ProfileApi,
     private val orderApi: OrderApi,
+    private val datastore: DatastoreRepository
 ) {
 
     suspend fun update() = withContext(Dispatchers.IO) {
@@ -49,6 +51,8 @@ class UpdateService @Inject constructor(
             dishRepository.insertRecommended(recommended.await().map { Recommended(it) })
             reviewRepository.insertReviews(reviews.map { it.toDbEntity() })
             profileRepository.updateProfile(profile.await().toDbEntity())
+
+            datastore.setLastUpdateTime(System.currentTimeMillis())
         } catch (exception: Exception) {
             Log.d("mmm", "UpdateService :  update --  $exception")
             // TODO

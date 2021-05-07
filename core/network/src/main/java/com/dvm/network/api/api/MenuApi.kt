@@ -9,15 +9,18 @@ interface MenuApi {
 
     suspend fun getRecommended(): List<String>
 
-    suspend fun getCategories(): List<CategoryResponse>
+    suspend fun getCategories(limit: Int? = 500): List<CategoryResponse>
 
-    suspend fun getDishes(): List<DishResponse>
+    suspend fun getDishes(limit: Int? = 500): List<DishResponse>
 
-    suspend fun getFavorite(): List<FavoriteResponse>
+    suspend fun getFavorite(limit: Int? = 500): List<FavoriteResponse>
 
     suspend fun changeFavorite(favorites: Map<String, Boolean>)
 
-    suspend fun getReviews(dishId: String): List<ReviewResponse>
+    suspend fun getReviews(
+        dishId: String,
+        limit: Int? = 500
+    ): List<ReviewResponse>
 
     suspend fun addReview(
         dishId: String,

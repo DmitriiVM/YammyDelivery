@@ -4,7 +4,6 @@ import com.dvm.network.api.api.CartApi
 import com.dvm.network.api.response.AddressResponse
 import com.dvm.network.api.response.CartResponse
 import com.dvm.network.impl.ApiService
-import com.dvm.network.impl.api
 import com.dvm.network.impl.request.CartItem
 import com.dvm.network.impl.request.CheckCoordinatesRequest
 import com.dvm.network.impl.request.CheckInputRequest
@@ -18,45 +17,35 @@ internal class DefaultCartApi @Inject constructor(
 ) : CartApi {
 
     override suspend fun getCart(): CartResponse =
-        api {
-            apiService.getCart(getAccessToken())
-        }
+        apiService.getCart(getAccessToken())
 
     override suspend fun updateCart(
         promocode: String,
         items: Map<String, Int>
     ): CartResponse =
-        api {
-            apiService.updateCart(
-                token = getAccessToken(),
-                updateCartRequest = UpdateCartRequest(
-                    promocode = promocode,
-                    items = items.map {
-                        CartItem(
-                            id = it.key,
-                            amount = it.value
-                        )
-                    }
-                )
+        apiService.updateCart(
+            token = getAccessToken(),
+            updateCartRequest = UpdateCartRequest(
+                promocode = promocode,
+                items = items.map { item ->
+                    CartItem(
+                        id = item.key,
+                        amount = item.value
+                    )
+                }
             )
-        }
+        )
+
+    override suspend fun checkCoordinates(
+        latitude: Long,
+        longitude: Long
+    ): AddressResponse =
+        apiService.checkCoordinates(
+            CheckCoordinatesRequest(latitude, longitude)
+        )
 
     override suspend fun checkInput(address: String): AddressResponse =
-        api {
-            apiService.checkInput(
-                checkInputRequest = CheckInputRequest(address)
-            )
-        }
+        apiService.checkInput(CheckInputRequest(address))
 
-    override suspend fun checkCoordinates(lat: Long, lon: Long): AddressResponse =
-        api {
-            apiService.checkCoordinates(
-                checkCoordinatesRequest = CheckCoordinatesRequest(lat, lon)
-            )
-        }
-
-    private suspend fun getAccessToken() =
-        api {
-            requireNotNull(datastore.getAccessToken())
-        }
+    private suspend fun getAccessToken() = requireNotNull(datastore.getAccessToken())
 }

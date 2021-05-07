@@ -6,8 +6,6 @@ import retrofit2.http.*
 
 internal interface ApiService {
 
-    // main
-
     @GET("main/recommend")
     suspend fun getRecommended(): List<String>
 
@@ -15,7 +13,7 @@ internal interface ApiService {
     suspend fun getCategories(
         @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = 100
+        @Query("limit") limit: Int? = null
     ): List<CategoryResponse>
 
     @GET("dishes")
@@ -27,20 +25,18 @@ internal interface ApiService {
 
     @GET("reviews/{dishId}")
     suspend fun getReviews(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Path("dishId") dishId: String,
+        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
         @Query("offset") offset: Int? = null,
         @Query("limit") limit: Int? = null
     ): List<ReviewResponse>
 
     @POST("reviews/{dishId}")
     suspend fun addReview(
-        @Header("Authorization") token: String,
         @Path("dishId") dishId: String,
+        @Header("Authorization") token: String,
         @Body addReviewRequest: AddReviewRequest
     )
-
-    // favorite
 
     @GET("favorite")
     suspend fun getFavorite(
@@ -55,8 +51,6 @@ internal interface ApiService {
         @Header("Authorization") token: String,
         @Body changeFavoriteRequest: List<ChangeFavoriteRequest>
     )
-
-    // cart
 
     @GET("cart")
     suspend fun getCart(
@@ -78,9 +72,6 @@ internal interface ApiService {
     suspend fun checkCoordinates(
         @Body checkCoordinatesRequest: CheckCoordinatesRequest
     ): AddressResponse
-
-
-    // auth
 
     @POST("auth/login")
     suspend fun login(
@@ -112,9 +103,6 @@ internal interface ApiService {
         @Body rerTokenRequest: RefreshTokenRequest
     ): TokenResponse
 
-
-    // order
-
     @POST("orders/new")
     suspend fun createOrder(
         @Header("Authorization") token: String,
@@ -129,33 +117,28 @@ internal interface ApiService {
         @Query("limit") limit: Int? = null,
     ): List<OrderResponse>
 
-
-    // timeout
     @GET("orders/statuses")
     suspend fun getStatuses(
         @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
     ): List<StatusResponse>
-    
+
     @PUT("orders/cancel")
     suspend fun cancelOrder(
         @Header("Authorization") token: String,
         @Body cancelOrderRequest: CancelOrderRequest
     ): OrderResponse
 
-
-    // profile
-
     @GET("profile")
     suspend fun getProfile(
         @Header("Authorization") token: String
     ): ProfileResponse
-    
+
     @PUT("profile")
     suspend fun editProfile(
         @Header("Authorization") token: String,
         @Body editProfileRequest: EdieProfileRequest
     ): ProfileResponse
-    
+
     @PUT("profile/password")
     suspend fun changePassword(
         @Header("Authorization") token: String,

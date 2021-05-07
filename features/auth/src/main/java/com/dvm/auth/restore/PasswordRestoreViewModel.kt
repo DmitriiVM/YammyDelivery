@@ -11,8 +11,9 @@ import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
 import com.dvm.navigation.Navigator
 import com.dvm.network.api.api.AuthApi
-import com.dvm.network.impl.isCode
 import com.dvm.utils.StringProvider
+import com.dvm.utils.extensions.getErrorMessage
+import com.dvm.utils.extensions.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +22,7 @@ import javax.inject.Inject
 internal class PasswordRestoreViewModel @Inject constructor(
     private val authApi: AuthApi,
     private val navigator: Navigator,
-    private val stringProvider: StringProvider
+    private val stringProvider: StringProvider,
 ) : ViewModel() {
 
     var state by mutableStateOf(RestoreState())
@@ -66,10 +67,10 @@ internal class PasswordRestoreViewModel @Inject constructor(
             } catch (exception: Exception) {
                 state = state.copy(
                     networkCall = false,
-                    alertMessage = if (exception.isCode(400)) {
+                    alertMessage = if (exception.hasCode(400)) {
                         stringProvider.getString(R.string.password_restoration_message_already_sent)
                     } else {
-                        exception.message
+                        exception.getErrorMessage(stringProvider)
                     }
                 )
             }
@@ -88,7 +89,7 @@ internal class PasswordRestoreViewModel @Inject constructor(
             } catch (exception: Exception) {
                 state = state.copy(
                     networkCall = false,
-                    alertMessage = if (exception.isCode(400)) {
+                    alertMessage = if (exception.hasCode(400)) {
                         stringProvider.getString(R.string.password_restoration_message_wrong_code)
                     } else {
                         exception.message
@@ -115,7 +116,7 @@ internal class PasswordRestoreViewModel @Inject constructor(
             } catch (exception: Exception) {
                 state = state.copy(
                     networkCall = false,
-                    alertMessage = if (exception.isCode(402)) {
+                    alertMessage = if (exception.hasCode(402)) {
                         stringProvider.getString(R.string.password_restoration_message_expired_code)
                     } else {
                         exception.message

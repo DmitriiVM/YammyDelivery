@@ -46,11 +46,6 @@
         <item quantity="other">%d блюд</item>
     </plurals>
 
-    <string name="message_favorite_add_error">Не удалось удалить из избранного. Ошибка интернет-соединения.</string>
-    <string name="message_favorite_delete_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
-    <string name="message_dish_added_to_cart">Блюдо \"%s\" добавлено в корзину</string>
-    <string name="message_need_auth">Необходима авторизация. Войти в профиль?</string>
-
     <string name="auth_field_error_empty">Пустое поле</string>
     <string name="auth_field_error_incorrect_email">Некорректный e-mail</string>
     <string name="auth_field_error_incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
@@ -68,5 +63,13 @@
     <string name="password_restoration_password_button">Сохранить</string>
     <string name="password_restoration_password_label">Пароль</string>
     <string name="password_restoration_confirm_password_label">Повторите пароль</string>
+
+    <string name="message_favorite_add_error">Не удалось удалить из избранного. Ошибка интернет-соединения.</string>
+    <string name="message_favorite_delete_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
+    <string name="message_dish_added_to_cart">Блюдо \"%s\" добавлено в корзину</string>
+    <string name="message_need_auth">Необходима авторизация. Войти в профиль?</string>
+    <string name="message_network_timeout">Ошибка. Попробуйте позже</string>
+    <string name="message_network_error">Нет доступа к интернету. Попробуйте позже</string>
+    <string name="message_unknown_error">Что-то пошло не так. Мы уже работаем над этим.</string>
 
 </resources>

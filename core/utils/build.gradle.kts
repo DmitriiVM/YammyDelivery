@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
+    implementation(project(":core:network"))
 
     implementation(Libs.ANDROID_CORE)
 

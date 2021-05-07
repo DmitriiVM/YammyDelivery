@@ -2,6 +2,7 @@ package com.dvm.network.impl.di
 
 import com.dvm.network.api.api.*
 import com.dvm.network.impl.ApiService
+import com.dvm.network.impl.ExceptionCallAdapterFactory
 import com.dvm.network.impl.TokenAuthenticator
 import com.dvm.network.impl.api.*
 import dagger.Binds
@@ -36,14 +37,14 @@ internal interface NetworkModule {
     fun provideProfileService(profileService: DefaultProfileApi): ProfileApi
 
     companion object {
-        private const val BASE_URL = "https://sandbox.skill-branch.ru/"
 
         @Singleton
         @Provides
         fun provideApiService(client: OkHttpClient): ApiService =
             Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl("https://sandbox.skill-branch.ru/")
                 .client(client)
+                .addCallAdapterFactory(ExceptionCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)
@@ -57,7 +58,7 @@ internal interface NetworkModule {
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(
                     HttpLoggingInterceptor()
-                        .apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+                        .setLevel(HttpLoggingInterceptor.Level.BODY)
                 )
                 .authenticator(authenticator)
                 .build()

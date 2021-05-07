@@ -8,4 +8,6 @@ interface DatastoreRepository {
     suspend fun saveRefreshToken(token: String)
     suspend fun setUpdateError(error: Boolean)
     suspend fun isUpdateError(): Boolean
+    suspend fun setLastUpdateTime(time: Long)
+    suspend fun getLastUpdateTime(): Long
 }

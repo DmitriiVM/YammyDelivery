@@ -14,7 +14,7 @@ interface OrderApi {
         comment: String?,
     ): OrderResponse
 
-    suspend fun getOrders(): List<OrderResponse>
+    suspend fun getOrders(limit: Int? = 500): List<OrderResponse>
 
     suspend fun getStatuses(): List<StatusResponse>
 

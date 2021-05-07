@@ -10,7 +10,7 @@ import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
 
-class TokenAuthenticator @Inject constructor(
+internal class TokenAuthenticator @Inject constructor(
     private val datastore: DatastoreRepository,
     private val authApi: Lazy<AuthApi>
 ) : Authenticator {
@@ -18,8 +18,6 @@ class TokenAuthenticator @Inject constructor(
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.code != 401) return null
 
-        // we don't usually use runBlocking, but Authenticator doesn't allow us to use another scope
-        // and this method is not worse then other blocking calls
         val newAccessToken = runBlocking {
             val refreshToken = datastore.getRefreshToken()
             refreshToken ?: return@runBlocking null
@@ -33,12 +31,11 @@ class TokenAuthenticator @Inject constructor(
 
             tokens.accessToken
         }
-
         newAccessToken ?: return null
 
         return response.request
             .newBuilder()
-            .header("Authorization", newAccessToken)
+            .header("Authorization", "Bearer $newAccessToken")
             .build()
     }
 }
