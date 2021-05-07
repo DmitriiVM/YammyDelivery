@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.data.CartRepository
-import com.dvm.db.api.data.DishRepository
+import com.dvm.db.api.CartRepository
+import com.dvm.db.api.DishRepository
 import com.dvm.menu.R
 import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,7 +1,7 @@
 package com.dvm.network.impl
 
-import com.dvm.network.api.api.AuthApi
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.network.api.AuthApi
+import com.dvm.preferences.api.DatastoreRepository
 import dagger.Lazy
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator

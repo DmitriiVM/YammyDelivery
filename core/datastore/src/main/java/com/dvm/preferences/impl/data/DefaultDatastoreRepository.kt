@@ -1,6 +1,6 @@
 package com.dvm.preferences.impl.data
 
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

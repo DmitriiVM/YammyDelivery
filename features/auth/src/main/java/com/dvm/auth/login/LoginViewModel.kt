@@ -9,12 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
-import com.dvm.db.api.data.FavoriteRepository
+import com.dvm.db.api.FavoriteRepository
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.api.api.AuthApi
-import com.dvm.network.api.api.MenuApi
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.network.api.AuthApi
+import com.dvm.network.api.MenuApi
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.isEmailValid
 import com.dvm.utils.extensions.isPasswordValid

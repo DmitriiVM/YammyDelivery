@@ -3,7 +3,7 @@ package com.dvm.db.impl.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.dvm.db.api.data.models.Notification
+import com.dvm.db.api.models.Notification
 import kotlinx.coroutines.flow.Flow
 
 @Dao

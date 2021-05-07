@@ -1,7 +1,7 @@
 package com.dvm.db.impl.data
 
-import com.dvm.db.api.data.FavoriteRepository
-import com.dvm.db.api.data.models.Favorite
+import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.models.Favorite
 import com.dvm.db.impl.data.dao.FavoriteDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -4,9 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dvm.db.api.data.models.Category
-import com.dvm.db.api.data.models.ParentCategory
-import com.dvm.db.api.data.models.Subcategory
+import com.dvm.db.api.models.Category
+import com.dvm.db.api.models.ParentCategory
+import com.dvm.db.api.models.Subcategory
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package com.dvm.db.api.data.models
+package com.dvm.db.api.models
 
 import androidx.room.DatabaseView
 import androidx.room.Entity

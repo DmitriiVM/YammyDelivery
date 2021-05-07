@@ -1,9 +1,9 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
-import com.dvm.db.api.data.models.CategoryDish
-import com.dvm.db.api.data.models.Dish
-import com.dvm.db.api.data.models.DishDetails
-import com.dvm.db.api.data.models.Recommended
+import com.dvm.db.api.models.CategoryDish
+import com.dvm.db.api.models.Dish
+import com.dvm.db.api.models.DishDetails
+import com.dvm.db.api.models.Recommended
 import kotlinx.coroutines.flow.Flow
 
 interface DishRepository {

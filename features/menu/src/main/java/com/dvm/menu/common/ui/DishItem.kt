@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dvm.db.api.data.models.CategoryDish
+import com.dvm.db.api.models.CategoryDish
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable

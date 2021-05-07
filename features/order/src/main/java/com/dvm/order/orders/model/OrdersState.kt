@@ -1,6 +1,6 @@
 package com.dvm.order.orders.model
 
-import com.dvm.db.api.data.models.OrderData
+import com.dvm.db.api.models.OrderData
 import javax.annotation.concurrent.Immutable
 
 @Immutable

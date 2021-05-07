@@ -1,6 +1,6 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
-import com.dvm.db.api.data.models.CartItemDetails
+import com.dvm.db.api.models.CartItemDetails
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {

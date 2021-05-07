@@ -1,4 +1,4 @@
-package com.dvm.network.api.api
+package com.dvm.network.api
 
 import com.dvm.network.api.response.CategoryResponse
 import com.dvm.network.api.response.DishResponse

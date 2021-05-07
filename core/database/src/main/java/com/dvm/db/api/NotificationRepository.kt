@@ -1,6 +1,6 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
-import com.dvm.db.api.data.models.Notification
+import com.dvm.db.api.models.Notification
 import kotlinx.coroutines.flow.Flow
 
 interface NotificationRepository {

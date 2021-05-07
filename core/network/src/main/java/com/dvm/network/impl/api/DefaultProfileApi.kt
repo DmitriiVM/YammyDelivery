@@ -1,11 +1,11 @@
 package com.dvm.network.impl.api
 
-import com.dvm.network.api.api.ProfileApi
+import com.dvm.network.api.ProfileApi
 import com.dvm.network.api.response.ProfileResponse
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.request.ChangePasswordRequest
 import com.dvm.network.impl.request.EdieProfileRequest
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultProfileApi @Inject constructor(

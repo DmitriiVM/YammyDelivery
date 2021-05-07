@@ -10,7 +10,7 @@ import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
 import com.dvm.navigation.Navigator
-import com.dvm.network.api.api.AuthApi
+import com.dvm.network.api.AuthApi
 import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.getErrorMessage
 import com.dvm.utils.extensions.hasCode

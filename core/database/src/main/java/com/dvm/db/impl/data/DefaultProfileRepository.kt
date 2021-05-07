@@ -1,7 +1,7 @@
 package com.dvm.db.impl.data
 
-import com.dvm.db.api.data.ProfileRepository
-import com.dvm.db.api.data.models.Profile
+import com.dvm.db.api.ProfileRepository
+import com.dvm.db.api.models.Profile
 import com.dvm.db.impl.data.dao.ProfileDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

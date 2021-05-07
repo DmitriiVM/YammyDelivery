@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu.Drawer
-import com.dvm.db.api.data.models.CategoryDish
+import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.MainEvent

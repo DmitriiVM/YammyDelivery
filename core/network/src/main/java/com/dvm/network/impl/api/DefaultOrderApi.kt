@@ -1,12 +1,12 @@
 package com.dvm.network.impl.api
 
-import com.dvm.network.api.api.OrderApi
+import com.dvm.network.api.OrderApi
 import com.dvm.network.api.response.OrderResponse
 import com.dvm.network.api.response.StatusResponse
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.request.CancelOrderRequest
 import com.dvm.network.impl.request.CreateOrderRequest
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultOrderApi @Inject constructor(

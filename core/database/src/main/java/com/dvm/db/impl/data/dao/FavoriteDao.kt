@@ -1,7 +1,7 @@
 package com.dvm.db.impl.data.dao
 
 import androidx.room.*
-import com.dvm.db.api.data.models.Favorite
+import com.dvm.db.api.models.Favorite
 
 @Dao
 internal interface FavoriteDao {

@@ -1,4 +1,4 @@
-package com.dvm.network.api.api
+package com.dvm.network.api
 
 import com.dvm.network.api.response.OrderResponse
 import com.dvm.network.api.response.StatusResponse

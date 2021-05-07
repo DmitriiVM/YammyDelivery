@@ -1,6 +1,6 @@
 package com.dvm.network.impl.api
 
-import com.dvm.network.api.api.MenuApi
+import com.dvm.network.api.MenuApi
 import com.dvm.network.api.response.CategoryResponse
 import com.dvm.network.api.response.DishResponse
 import com.dvm.network.api.response.FavoriteResponse
@@ -8,7 +8,7 @@ import com.dvm.network.api.response.ReviewResponse
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.request.AddReviewRequest
 import com.dvm.network.impl.request.ChangeFavoriteRequest
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultMenuApi @Inject constructor(

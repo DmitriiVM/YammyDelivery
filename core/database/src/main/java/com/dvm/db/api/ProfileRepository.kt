@@ -1,6 +1,6 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
-import com.dvm.db.api.data.models.Profile
+import com.dvm.db.api.models.Profile
 import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {

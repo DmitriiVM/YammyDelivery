@@ -1,7 +1,7 @@
 package com.dvm.cart.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.api.data.models.CartItemDetails
+import com.dvm.db.api.models.CartItemDetails
 
 @Immutable
 internal data class CartState(

@@ -1,14 +1,14 @@
 package com.dvm.db.impl.data
 
-import com.dvm.db.api.data.NotificationRepository
-import com.dvm.db.api.data.models.Notification
+import com.dvm.db.api.NotificationRepository
+import com.dvm.db.api.models.Notification
 import com.dvm.db.impl.data.dao.NotificationDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class DefaultNotificationRepository @Inject constructor(
     private val notificationDao: NotificationDao
-) : NotificationRepository{
+) : NotificationRepository {
 
     override fun notifications(): Flow<List<Notification>> = notificationDao.notifications()
 

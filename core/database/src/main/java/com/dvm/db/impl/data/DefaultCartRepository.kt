@@ -1,8 +1,8 @@
 package com.dvm.db.impl.data
 
-import com.dvm.db.api.data.CartRepository
-import com.dvm.db.api.data.models.CartItem
-import com.dvm.db.api.data.models.CartItemDetails
+import com.dvm.db.api.CartRepository
+import com.dvm.db.api.models.CartItem
+import com.dvm.db.api.models.CartItemDetails
 import com.dvm.db.impl.data.dao.CartDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

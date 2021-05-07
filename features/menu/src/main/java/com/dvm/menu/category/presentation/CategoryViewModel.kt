@@ -9,11 +9,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
-import com.dvm.db.api.data.CartRepository
-import com.dvm.db.api.data.CategoryRepository
-import com.dvm.db.api.data.DishRepository
-import com.dvm.db.api.data.FavoriteRepository
-import com.dvm.db.api.data.models.CategoryDish
+import com.dvm.db.api.CartRepository
+import com.dvm.db.api.CategoryRepository
+import com.dvm.db.api.DishRepository
+import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
@@ -21,8 +21,8 @@ import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.api.api.MenuApi
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.network.api.MenuApi
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.StringProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dvm.db.api.data.models.CartItem
-import com.dvm.db.api.data.models.CartItemDetails
+import com.dvm.db.api.models.CartItem
+import com.dvm.db.api.models.CartItemDetails
 import kotlinx.coroutines.flow.Flow
 
 @Dao

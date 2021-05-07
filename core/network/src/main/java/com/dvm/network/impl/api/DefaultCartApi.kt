@@ -1,6 +1,6 @@
 package com.dvm.network.impl.api
 
-import com.dvm.network.api.api.CartApi
+import com.dvm.network.api.CartApi
 import com.dvm.network.api.response.AddressResponse
 import com.dvm.network.api.response.CartResponse
 import com.dvm.network.impl.ApiService
@@ -8,7 +8,7 @@ import com.dvm.network.impl.request.CartItem
 import com.dvm.network.impl.request.CheckCoordinatesRequest
 import com.dvm.network.impl.request.CheckInputRequest
 import com.dvm.network.impl.request.UpdateCartRequest
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultCartApi @Inject constructor(

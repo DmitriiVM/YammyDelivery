@@ -1,8 +1,8 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
-import com.dvm.db.api.data.models.Category
-import com.dvm.db.api.data.models.ParentCategory
-import com.dvm.db.api.data.models.Subcategory
+import com.dvm.db.api.models.Category
+import com.dvm.db.api.models.ParentCategory
+import com.dvm.db.api.models.Subcategory
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {

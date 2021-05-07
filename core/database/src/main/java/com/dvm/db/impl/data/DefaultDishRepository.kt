@@ -1,10 +1,10 @@
 package com.dvm.db.impl.data
 
-import com.dvm.db.api.data.DishRepository
-import com.dvm.db.api.data.models.CategoryDish
-import com.dvm.db.api.data.models.Dish
-import com.dvm.db.api.data.models.DishDetails
-import com.dvm.db.api.data.models.Recommended
+import com.dvm.db.api.DishRepository
+import com.dvm.db.api.models.CategoryDish
+import com.dvm.db.api.models.Dish
+import com.dvm.db.api.models.DishDetails
+import com.dvm.db.api.models.Recommended
 import com.dvm.db.impl.data.dao.DishDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 internal class DefaultDishRepository @Inject constructor(
     private val dishDao: DishDao
-) : DishRepository{
+) : DishRepository {
 
     override fun getDish(dishId: String): Flow<DishDetails> =
         dishDao.getDish(dishId)

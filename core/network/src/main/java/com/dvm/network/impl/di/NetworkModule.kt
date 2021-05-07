@@ -1,6 +1,6 @@
 package com.dvm.network.impl.di
 
-import com.dvm.network.api.api.*
+import com.dvm.network.api.*
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.ExceptionCallAdapterFactory
 import com.dvm.network.impl.TokenAuthenticator

@@ -1,6 +1,6 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
-import com.dvm.db.api.data.models.*
+import com.dvm.db.api.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface OrderRepository {

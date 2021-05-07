@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dvm.db.api.data.models.Profile
+import com.dvm.db.api.models.Profile
 import kotlinx.coroutines.flow.Flow
 
 @Dao

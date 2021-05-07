@@ -2,7 +2,7 @@ package com.dvm.db.impl
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.dvm.db.api.data.models.*
+import com.dvm.db.api.models.*
 import com.dvm.db.impl.data.dao.*
 
 @Database(

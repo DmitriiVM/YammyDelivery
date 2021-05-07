@@ -1,4 +1,4 @@
-package com.dvm.db.api.data
+package com.dvm.db.api
 
 interface FavoriteRepository {
     suspend fun isFavorite(dishId: String): Boolean

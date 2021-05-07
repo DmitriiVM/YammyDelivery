@@ -1,4 +1,4 @@
-package com.dvm.db.api.data.models
+package com.dvm.db.api.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

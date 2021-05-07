@@ -2,7 +2,7 @@ package com.dvm.db.impl.di
 
 import android.content.Context
 import androidx.room.Room
-import com.dvm.db.api.data.*
+import com.dvm.db.api.*
 import com.dvm.db.impl.AppDatabase
 import com.dvm.db.impl.data.*
 import dagger.Binds

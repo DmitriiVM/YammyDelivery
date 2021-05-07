@@ -30,8 +30,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.appmenu.Drawer
-import com.dvm.db.api.data.models.DishDetails
-import com.dvm.db.api.data.models.Review
+import com.dvm.db.api.models.DishDetails
+import com.dvm.db.api.models.Review
 import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState

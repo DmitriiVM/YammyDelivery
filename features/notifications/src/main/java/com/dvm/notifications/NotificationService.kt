@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.dvm.db.api.data.NotificationRepository
-import com.dvm.db.api.data.models.Notification
+import com.dvm.db.api.NotificationRepository
+import com.dvm.db.api.models.Notification
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.AppLauncher

@@ -3,7 +3,7 @@ package com.dvm.db.impl.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.dvm.db.api.data.models.Review
+import com.dvm.db.api.models.Review
 
 @Dao
 internal interface ReviewDao {

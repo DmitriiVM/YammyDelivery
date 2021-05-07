@@ -1,10 +1,10 @@
 package com.dvm.db.impl.data
 
-import com.dvm.db.api.data.CategoryRepository
-import com.dvm.db.api.data.models.Category
-import com.dvm.db.api.data.models.Hint
-import com.dvm.db.api.data.models.ParentCategory
-import com.dvm.db.api.data.models.Subcategory
+import com.dvm.db.api.CategoryRepository
+import com.dvm.db.api.models.Category
+import com.dvm.db.api.models.Hint
+import com.dvm.db.api.models.ParentCategory
+import com.dvm.db.api.models.Subcategory
 import com.dvm.db.impl.data.dao.CategoryDao
 import com.dvm.db.impl.data.dao.HintDao
 import kotlinx.coroutines.Dispatchers

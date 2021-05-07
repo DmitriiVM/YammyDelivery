@@ -1,7 +1,7 @@
 package com.dvm.menu.menu.domain
 
-import com.dvm.db.api.data.CategoryRepository
-import com.dvm.db.api.data.DishRepository
+import com.dvm.db.api.CategoryRepository
+import com.dvm.db.api.DishRepository
 import com.dvm.menu.menu.domain.model.MenuItem
 import javax.inject.Inject
 

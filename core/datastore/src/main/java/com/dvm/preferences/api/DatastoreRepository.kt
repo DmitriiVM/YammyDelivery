@@ -1,4 +1,4 @@
-package com.dvm.preferences.api.data
+package com.dvm.preferences.api
 
 interface DatastoreRepository {
     suspend fun isAuthorized(): Boolean

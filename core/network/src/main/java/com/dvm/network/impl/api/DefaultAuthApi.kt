@@ -1,6 +1,6 @@
 package com.dvm.network.impl.api
 
-import com.dvm.network.api.api.AuthApi
+import com.dvm.network.api.AuthApi
 import com.dvm.network.api.response.AuthResponse
 import com.dvm.network.api.response.TokenResponse
 import com.dvm.network.impl.ApiService

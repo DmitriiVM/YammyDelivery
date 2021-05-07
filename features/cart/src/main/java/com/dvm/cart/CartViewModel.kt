@@ -9,11 +9,11 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
-import com.dvm.db.api.data.CartRepository
+import com.dvm.db.api.CartRepository
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.api.api.CartApi
-import com.dvm.preferences.api.data.DatastoreRepository
+import com.dvm.network.api.CartApi
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
