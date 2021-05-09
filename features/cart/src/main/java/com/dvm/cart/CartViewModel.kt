@@ -66,28 +66,13 @@ internal class CartViewModel @Inject constructor(
                 promoCode.value = event.text
             }
             is CartEvent.AddPiece -> {
-                state.items.firstOrNull { it.dishId == event.dishId }?.quantity?.let { quantity ->
-                    viewModelScope.launch {
-                        cartRepository.addToCart(
-                            dishId = event.dishId,
-                            quantity = quantity + 1
-                        )
-                    }
+                viewModelScope.launch {
+                    cartRepository.addPiece(event.dishId)
                 }
             }
             is CartEvent.RemovePiece -> {
-                state.items.firstOrNull { it.dishId == event.dishId }?.quantity?.let { quantity ->
-                    viewModelScope.launch {
-                        val newQuantity = quantity - 1
-                        if (newQuantity > 0) {
-                            cartRepository.addToCart(
-                                dishId = event.dishId,
-                                quantity = newQuantity
-                            )
-                        } else {
-                            cartRepository.removeItem(event.dishId)
-                        }
-                    }
+                viewModelScope.launch {
+                    cartRepository.removePiece(event.dishId)
                 }
             }
             CartEvent.ApplyPromoCode -> {

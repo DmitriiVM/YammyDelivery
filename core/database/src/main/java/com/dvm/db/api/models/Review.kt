@@ -12,7 +12,5 @@ data class Review(
     val date: String,
     val rating: Int,
     val text: String,
-    val active: Boolean,
-    val createdAt: Long,
-    val updatedAt: Long
+    val active: Boolean
 )

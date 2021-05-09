@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.DishRepository
+import com.dvm.db.api.models.CartItem
 import com.dvm.menu.R
 import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
@@ -73,7 +74,8 @@ internal class MainViewModel @Inject constructor(
             }
             is MainEvent.AddToCart -> {
                 viewModelScope.launch {
-                    cartRepository.addToCart(event.dishId, 1)
+                    val cartItem = CartItem(event.dishId, 1)
+                    cartRepository.addToCart(cartItem)
                 }
                 state = state.copy(
                     alertMessage = stringProvider.getString(

@@ -1,4 +1,4 @@
-package com.dvm.db.impl.data.dao
+package com.dvm.db.impl.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -41,7 +41,7 @@ internal interface CategoryDao {
             WHERE id = :categoryId
         """
     )
-    suspend fun getCategoryTitle(categoryId: String): String
+    suspend fun getTitle(categoryId: String): String
 
     @Query(
         """

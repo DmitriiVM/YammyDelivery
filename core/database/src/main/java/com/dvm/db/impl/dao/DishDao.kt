@@ -1,9 +1,6 @@
-package com.dvm.db.impl.data.dao
+package com.dvm.db.impl.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.dvm.db.api.models.CategoryDish
 import com.dvm.db.api.models.Dish
 import com.dvm.db.api.models.DishDetails
@@ -13,14 +10,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 internal interface DishDao {
 
+    @Transaction
     @Query(
         """
             SELECT *
-            FROM categorydish
+            FROM category_dish
             WHERE id = :dishId
         """
     )
-    fun getDish(dishId: String): Flow<DishDetails>
+    fun dish(dishId: String): Flow<DishDetails>
 
     @Query(
         """
@@ -40,7 +38,7 @@ internal interface DishDao {
     @Query(
         """
             SELECT *
-            FROM categorydish
+            FROM category_dish
             WHERE name LIKE '%' || :query || '%'
         """
     )
@@ -60,7 +58,7 @@ internal interface DishDao {
     @Query(
         """
             SELECT *
-            FROM categorydish
+            FROM category_dish
             WHERE oldPrice > price
         """
     )
@@ -69,9 +67,8 @@ internal interface DishDao {
     @Query(
         """
             SELECT *
-            FROM categorydish
-            JOIN recommended
-            ON id = recommended.dishId
+            FROM category_dish
+            JOIN recommended ON id = recommended.dishId
         """
     )
     fun recommended(): Flow<List<CategoryDish>>
@@ -79,7 +76,7 @@ internal interface DishDao {
     @Query(
         """
             SELECT *
-            FROM categorydish
+            FROM category_dish
             WHERE rating > 3.5
             LIMIT 10
         """
@@ -89,7 +86,7 @@ internal interface DishDao {
     @Query(
         """
             SELECT *
-            FROM categorydish
+            FROM category_dish
             WHERE id IN (
                 SELECT id
                 FROM dish                
@@ -103,7 +100,7 @@ internal interface DishDao {
     @Query(
         """
             SELECT *
-            FROM categorydish
+            FROM category_dish
             WHERE id IN (
                 SELECT dishId
                 FROM favorite

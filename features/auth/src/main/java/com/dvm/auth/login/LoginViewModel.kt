@@ -10,6 +10,7 @@ import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.models.Favorite
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
@@ -120,7 +121,7 @@ internal class LoginViewModel @Inject constructor(
         val favoritesToLocal = remoteFavorites.filter { !localFavorites.contains(it) }
         val favoritesToRemote = localFavorites.filter { !remoteFavorites.contains(it) }
 
-        favoriteRepository.addListToFavorite(favoritesToLocal)
+        favoriteRepository.addListToFavorite(favoritesToLocal.map { Favorite(it) })
         try {
             menuApi.changeFavorite(favoritesToRemote.associateWith { true })
         } catch (exception: Exception) {

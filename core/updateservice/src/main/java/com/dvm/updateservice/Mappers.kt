@@ -2,6 +2,7 @@ package com.dvm.updateservice
 
 import com.dvm.db.api.models.*
 import com.dvm.network.api.response.*
+import java.util.*
 
 fun CategoryResponse.toDbEntity() =
     Category(
@@ -10,9 +11,7 @@ fun CategoryResponse.toDbEntity() =
         order = order,
         parent = parent,
         icon = icon,
-        active = active,
-        createdAt = createdAt,
-        updatedAt = updatedAt
+        active = active
     )
 
 fun DishResponse.toDbEntity() =
@@ -26,9 +25,7 @@ fun DishResponse.toDbEntity() =
         rating = rating,
         commentsCount = commentsCount,
         likes = likes,
-        category = category,
-        createdAt = createdAt,
-        updatedAt = updatedAt
+        category = category
     )
 
 fun ReviewResponse.toDbEntity() =
@@ -38,9 +35,7 @@ fun ReviewResponse.toDbEntity() =
         date = date,
         rating = rating,
         text = text,
-        active = active,
-        createdAt = createdAt,
-        updatedAt = updatedAt
+        active = active
     )
 
 fun ProfileResponse.toDbEntity() =
@@ -58,8 +53,7 @@ fun OrderResponse.toDbEntity() =
         statusId = statusId,
         active = active,
         completed = completed,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
+        createdAt = Date(createdAt)
     )
 
 fun OrderItemResponse.toDbEntity(orderId: String) =
@@ -77,7 +71,5 @@ fun StatusResponse.toDbEntity() =
         id = id,
         name = name,
         cancelable = cancelable,
-        active = active,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
+        active = active
     )

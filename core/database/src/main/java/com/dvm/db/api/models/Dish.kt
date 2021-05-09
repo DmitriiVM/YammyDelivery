@@ -17,32 +17,7 @@ data class Dish(
     val rating: Double,
     val commentsCount: Int,
     val likes: Int,
-    val category: String,
-    val createdAt: Long,
-    val updatedAt: Long
-)
-
-@DatabaseView(
-    """
-        SELECT
-            *,
-            EXISTS(
-                SELECT 1
-                FROM favorite
-                WHERE favorite.dishId = dish.id
-            ) as isFavorite
-        FROM dish
-    """
-)
-data class CategoryDish(
-    val id: String,
-    val name: String,
-    val image: String,
-    val oldPrice: Int,
-    val price: Int,
-    val rating: Double,
-    val likes: Int,
-    val isFavorite: Boolean,
+    val category: String
 )
 
 data class DishDetails(
@@ -59,4 +34,28 @@ data class DishDetails(
         entityColumn = "dishId"
     )
     val reviews: List<Review>
+)
+
+@DatabaseView(
+    value = """
+        SELECT
+            *,
+            EXISTS(
+                SELECT 1
+                FROM favorite
+                WHERE favorite.dishId = dish.id
+            ) as isFavorite
+        FROM dish
+    """,
+    viewName = "category_dish"
+)
+data class CategoryDish(
+    val id: String,
+    val name: String,
+    val image: String,
+    val oldPrice: Int,
+    val price: Int,
+    val rating: Double,
+    val likes: Int,
+    val isFavorite: Boolean,
 )

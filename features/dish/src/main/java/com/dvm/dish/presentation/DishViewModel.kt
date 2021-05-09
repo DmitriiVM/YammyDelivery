@@ -10,6 +10,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.DishRepository
 import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.models.CartItem
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.navigation.Navigator
@@ -40,7 +41,7 @@ internal class DishViewModel(
 
     init {
         combine(
-            dishRepository.getDish(dishId),
+            dishRepository.dish(dishId),
             quantity.asFlow()
         ) { dish, quantity ->
             state = if (state == null) {
@@ -63,7 +64,8 @@ internal class DishViewModel(
             when (event) {
                 DishEvent.AddToCart -> {
                     val quantity = state?.quantity ?: return@launch
-                    cartRepository.addToCart(dishId, quantity)
+                    val cartItem = CartItem(dishId, quantity)
+                    cartRepository.addToCart(cartItem)
                 }
                 DishEvent.AddPiece -> {
                     quantity.value = quantity.value?.plus(1)

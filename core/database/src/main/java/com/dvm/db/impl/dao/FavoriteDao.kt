@@ -1,4 +1,4 @@
-package com.dvm.db.impl.data.dao
+package com.dvm.db.impl.dao
 
 import androidx.room.*
 import com.dvm.db.api.models.Favorite

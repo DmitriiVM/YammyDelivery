@@ -3,6 +3,7 @@ package com.dvm.db.api.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import java.util.*
 
 @Entity(tableName = "orders")
 data class Order(
@@ -13,13 +14,12 @@ data class Order(
     val statusId: String,
     val active: Boolean,
     val completed: Boolean,
-    val createdAt: Long,
-    val updatedAt: Long,
+    val createdAt: Date
 )
 
 data class OrderData(
     val id: String,
-    val createdAt: Long,
+    val createdAt: Date,
     val total: Int,
     val address: String,
     val status: String,
@@ -27,7 +27,7 @@ data class OrderData(
 
 data class OrderWithItems(
     val id: String,
-    val createdAt: Long,
+    val createdAt: Date,
     val total: Int,
     val address: String,
     val statusId: String,

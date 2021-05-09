@@ -2,8 +2,10 @@ package com.dvm.db.impl
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.dvm.db.api.models.*
-import com.dvm.db.impl.data.dao.*
+import com.dvm.db.impl.dao.*
+import com.dvm.db.impl.data.DateConverter
 
 @Database(
     entities = [
@@ -21,9 +23,10 @@ import com.dvm.db.impl.data.dao.*
         OrderStatus::class
     ],
     views = [CategoryDish::class],
-    version = 9,
+    version = 1,
     exportSchema = false
 )
+@TypeConverters(DateConverter::class)
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun dishDao(): DishDao

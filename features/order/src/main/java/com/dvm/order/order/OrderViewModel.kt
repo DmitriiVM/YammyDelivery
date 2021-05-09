@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.OrderRepository
-import com.dvm.db.api.data.*
+import com.dvm.db.api.models.CartItem
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.OrderApi
@@ -118,7 +118,10 @@ internal class OrderViewModel(
     private fun orderAgain() {
         viewModelScope.launch {
             val orderItems = state.order?.items.orEmpty()
-            val cartItems = orderItems.map { it.dishId to it.amount }
+            val cartItems =
+                orderItems
+                    .map { it.dishId to it.amount }
+                    .map { CartItem(it.first, it.second) }  // check
             cartRepository.addToCart(cartItems)
             navigator.goTo(Destination.Cart)
         }

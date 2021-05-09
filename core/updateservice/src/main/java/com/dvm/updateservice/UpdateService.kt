@@ -28,7 +28,9 @@ class UpdateService @Inject constructor(
         try {
             val categories = async { menuApi.getCategories() }
             val recommended = async { menuApi.getRecommended() }
-            val profile = async { profileApi.getProfile() }
+            val profile = datastore.getAccessToken()?.let{
+                async { profileApi.getProfile() }
+            }
 
             val dishes = menuApi.getDishes()
             val reviews =
@@ -50,7 +52,9 @@ class UpdateService @Inject constructor(
             dishRepository.insertDishes(dishes.filter { it.active }.map { it.toDbEntity() })
             dishRepository.insertRecommended(recommended.await().map { Recommended(it) })
             reviewRepository.insertReviews(reviews.map { it.toDbEntity() })
-            profileRepository.updateProfile(profile.await().toDbEntity())
+            profile?.let {
+                profileRepository.updateProfile(profile.await().toDbEntity())
+            }
 
             datastore.setLastUpdateTime(System.currentTimeMillis())
         } catch (exception: Exception) {
@@ -60,17 +64,19 @@ class UpdateService @Inject constructor(
     }
 
     suspend fun updateOrders() = withContext(Dispatchers.IO) {
-        val statuses = async { orderApi.getStatuses() }
-        val orders = orderApi.getOrders()
-        // delete inactive
-        orderRepository.insertOrderStatuses(statuses.await().map { it.toDbEntity() })
-        orderRepository.insertOrders(orders.map { it.toDbEntity() })
-        orderRepository.insertOrderItems(
-            orders.map { order ->
-                order.items.map {
-                    it.toDbEntity(order.id)
-                }
-            }.flatten()
-        )
+        if (datastore.getAccessToken() != null){
+            val statuses = async { orderApi.getStatuses() }
+            val orders = orderApi.getOrders()
+            // delete inactive
+            orderRepository.insertOrderStatuses(statuses.await().map { it.toDbEntity() })
+            orderRepository.insertOrders(orders.map { it.toDbEntity() })
+            orderRepository.insertOrderItems(
+                orders.map { order ->
+                    order.items.map {
+                        it.toDbEntity(order.id)
+                    }
+                }.flatten()
+            )
+        }
     }
 }

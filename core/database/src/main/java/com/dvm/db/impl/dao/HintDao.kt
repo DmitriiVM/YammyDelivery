@@ -1,4 +1,4 @@
-package com.dvm.db.impl.data.dao
+package com.dvm.db.impl.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -27,9 +27,6 @@ internal interface HintDao {
     )
     suspend fun hintCount(): Int
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(hint: Hint)
-
     @Query(
         """
             DELETE 
@@ -50,4 +47,7 @@ internal interface HintDao {
         """
     )
     suspend fun deleteOldest()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(hint: Hint)
 }

@@ -1,7 +1,8 @@
-package com.dvm.db.impl.data.dao
+package com.dvm.db.impl.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dvm.db.api.models.Notification
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,6 @@ interface NotificationDao {
     )
     suspend fun setSeen(id: List<Int>)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNotification(notification: Notification)
 }

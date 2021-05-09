@@ -68,5 +68,6 @@ internal class DataStore @Inject constructor(
         save(LAST_UPDATE_TIME, time)
     }
 
-    suspend fun getLastUpdateTime(): Long = get(LAST_UPDATE_TIME) ?: 0
+    suspend fun getLastUpdateTime(): Long = 0
+//    suspend fun getLastUpdateTime(): Long = get(LAST_UPDATE_TIME) ?: 0
 }

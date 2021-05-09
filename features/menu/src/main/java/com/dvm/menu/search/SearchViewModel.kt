@@ -9,6 +9,8 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.CategoryRepository
 import com.dvm.db.api.DishRepository
+import com.dvm.db.api.HintRepository
+import com.dvm.db.api.models.Hint
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.Navigator
@@ -17,6 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @FlowPreview
@@ -25,6 +28,7 @@ import javax.inject.Inject
 internal class SearchViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
+    private val hintRepository: HintRepository,
     private val navigator: Navigator,
     private val savedState: SavedStateHandle
 ) : ViewModel() {
@@ -58,7 +62,7 @@ internal class SearchViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        categoryRepository
+        hintRepository
             .hints()
             .onEach { hints ->
                 state = state.copy(hints = hints)
@@ -90,7 +94,7 @@ internal class SearchViewModel @Inject constructor(
             }
             is SearchEvent.RemoveHintClick -> {
                 viewModelScope.launch {
-                    categoryRepository.removeHint(event.hint)
+                    hintRepository.delete(event.hint)
                 }
             }
         }
@@ -99,7 +103,10 @@ internal class SearchViewModel @Inject constructor(
 
     private fun saveHint() {
         viewModelScope.launch {
-            categoryRepository.saveHint(state.query)
+            if (hintRepository.hintCount() >= 5) {
+                hintRepository.deleteOldest()
+            }
+            hintRepository.insert(Hint(state.query, Date(System.currentTimeMillis()) ))
         }
     }
 }

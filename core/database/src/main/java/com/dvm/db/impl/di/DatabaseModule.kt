@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.dvm.db.api.*
 import com.dvm.db.impl.AppDatabase
-import com.dvm.db.impl.data.*
+import com.dvm.db.impl.repositories.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -40,6 +40,9 @@ internal interface DatabaseModule {
 
     @Binds
     fun provideOrderRepository(repository: DefaultOrderRepository): OrderRepository
+
+    @Binds
+    fun provideHintRepository(repository: DefaultHintRepository): HintRepository
 
     companion object {
         @Singleton

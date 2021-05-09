@@ -1,9 +1,6 @@
-package com.dvm.db.impl.data.dao
+package com.dvm.db.impl.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.dvm.db.api.models.*
 import kotlinx.coroutines.flow.Flow
 
@@ -40,6 +37,7 @@ internal interface OrderDao {
     )
     fun completedOrders(): Flow<List<OrderData>>
 
+    @Transaction
     @Query(
         """
             SELECT *
