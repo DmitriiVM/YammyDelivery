@@ -102,7 +102,11 @@ internal class DishViewModel(
         }
         if (datastore.isAuthorized()) {
             try {
-                menuApi.changeFavorite(mapOf(dishId to !currentIsFavorite))
+                val token = requireNotNull(datastore.getAccessToken())
+                menuApi.changeFavorite(
+                    token = token,
+                    favorites = mapOf(dishId to !currentIsFavorite)
+                )
             } catch (exception: Exception) {
                 Log.e(TAG, "Can't change favorite status: $exception")
             }

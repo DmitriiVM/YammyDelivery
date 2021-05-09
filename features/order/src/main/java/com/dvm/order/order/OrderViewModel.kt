@@ -18,6 +18,7 @@ import com.dvm.network.api.OrderApi
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.toDbEntity
 import com.dvm.utils.StringProvider
 import dagger.assisted.Assisted
@@ -33,6 +34,7 @@ internal class OrderViewModel(
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
+    private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
@@ -79,8 +81,12 @@ internal class OrderViewModel(
         state = state.copy(networkCall = true)
         viewModelScope.launch {
             try {
+                val token = requireNotNull(datastore.getAccessToken())
                 val orderId = requireNotNull(state.order?.id)
-                val order = orderApi.cancelOrder(orderId)
+                val order = orderApi.cancelOrder(
+                    token = token,
+                    orderId = orderId
+                )
                 orderRepository.insertOrders(listOf(order.toDbEntity()))
 
                 state = state.copy(
@@ -135,6 +141,7 @@ internal class OrderViewModelFactory @AssistedInject constructor(
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
+    private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
@@ -151,6 +158,7 @@ internal class OrderViewModelFactory @AssistedInject constructor(
                 orderRepository = orderRepository,
                 cartRepository = cartRepository,
                 orderApi = orderApi,
+                datastore = datastore,
                 stringProvider = stringProvider,
                 navigator = navigator,
                 savedState = handle

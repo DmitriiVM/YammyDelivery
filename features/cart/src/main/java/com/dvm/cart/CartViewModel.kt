@@ -111,7 +111,9 @@ internal class CartViewModel @Inject constructor(
             if (datastore.isAuthorized()) {
                 try {
                     state = state.copy(networkCall = true)
+                    val token = requireNotNull(datastore.getAccessToken())
                     val cart = cartApi.updateCart(
+                        token = token,
                         promocode = promoCode,
                         items = state.items.associate { it.dishId to it.quantity }
                     )

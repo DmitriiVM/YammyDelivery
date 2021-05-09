@@ -5,9 +5,10 @@ import com.dvm.network.api.response.CartResponse
 
 interface CartApi {
 
-    suspend fun getCart(): CartResponse
+    suspend fun getCart(token: String): CartResponse
 
     suspend fun updateCart(
+        token: String,
         promocode: String,
         items: Map<String, Int>
     ): CartResponse

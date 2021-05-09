@@ -8,39 +8,50 @@ import com.dvm.network.api.response.ReviewResponse
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.request.AddReviewRequest
 import com.dvm.network.impl.request.ChangeFavoriteRequest
-import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultMenuApi @Inject constructor(
-    private val apiService: ApiService,
-    private val datastore: DatastoreRepository
+    private val apiService: ApiService
 ) : MenuApi {
 
     override suspend fun getRecommended(): List<String> = apiService.getRecommended()
 
-    override suspend fun getCategories(limit: Int?): List<CategoryResponse> =
+    override suspend fun getCategories(
+        lastUpdateTime: Long?,
+        limit: Int?
+    ): List<CategoryResponse> =
         apiService.getCategories(
-            ifModifiedSince = datastore.getLastUpdateTime(),
+            ifModifiedSince = lastUpdateTime,
             limit = limit
         )
 
-    override suspend fun getDishes(limit: Int?): List<DishResponse> =
+    override suspend fun getDishes(
+        lastUpdateTime: Long?,
+        limit: Int?
+    ): List<DishResponse> =
         apiService.getDishes(
-            ifModifiedSince = datastore.getLastUpdateTime(),
+            ifModifiedSince = lastUpdateTime,
             limit = limit
         )
 
-    override suspend fun getFavorite(limit: Int?): List<FavoriteResponse> =
+    override suspend fun getFavorite(
+        token: String,
+        lastUpdateTime: Long?,
+        limit: Int?
+    ): List<FavoriteResponse> =
         apiService.getFavorite(
-            token = getAccessToken(),
-            ifModifiedSince = datastore.getLastUpdateTime(),
+            token = token,
+            ifModifiedSince = lastUpdateTime,
             limit = limit
         )
 
 
-    override suspend fun changeFavorite(favorites: Map<String, Boolean>) {
+    override suspend fun changeFavorite(
+        token: String,
+        favorites: Map<String, Boolean>
+    ) {
         apiService.changeFavorite(
-            token = getAccessToken(),
+            token = token,
             changeFavoriteRequest = favorites.map { favorite ->
                 ChangeFavoriteRequest(
                     dishId = favorite.key,
@@ -52,21 +63,23 @@ internal class DefaultMenuApi @Inject constructor(
 
     override suspend fun getReviews(
         dishId: String,
+        lastUpdateTime: Long?,
         limit: Int?
     ): List<ReviewResponse> =
         apiService.getReviews(
-            ifModifiedSince = datastore.getLastUpdateTime(),
+            ifModifiedSince = lastUpdateTime,
             dishId = dishId,
             limit = limit
         )
 
     override suspend fun addReview(
+        token: String,
         dishId: String,
         rating: Int,
         text: String
     ) {
         apiService.addReview(
-            token = getAccessToken(),
+            token = token,
             dishId = dishId,
             addReviewRequest = AddReviewRequest(
                 rating = rating,
@@ -74,6 +87,4 @@ internal class DefaultMenuApi @Inject constructor(
             )
         )
     }
-
-    private suspend fun getAccessToken() = requireNotNull(datastore.getAccessToken())
 }

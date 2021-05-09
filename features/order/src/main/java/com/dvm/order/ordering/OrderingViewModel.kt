@@ -10,6 +10,7 @@ import com.dvm.navigation.Navigator
 import com.dvm.network.api.OrderApi
 import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingState
+import com.dvm.preferences.api.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class OrderingViewModel @Inject constructor(
     private val orderApi: OrderApi,
+    private val datastore: DatastoreRepository,
     private val navigator: Navigator
 ) : ViewModel() {
 
@@ -29,7 +31,9 @@ internal class OrderingViewModel @Inject constructor(
                 state = state.copy(networkCall = true)
                 viewModelScope.launch {
                     try {
+                        val token = requireNotNull(datastore.getAccessToken())
                         val order = orderApi.createOrder(
+                            token = token,
                             address = event.fields.address,
                             entrance = event.fields.entrance.toIntOrNull(),
                             floor = event.fields.floor.toIntOrNull(),

@@ -5,24 +5,25 @@ import com.dvm.network.api.response.ProfileResponse
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.request.ChangePasswordRequest
 import com.dvm.network.impl.request.EdieProfileRequest
-import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultProfileApi @Inject constructor(
-    private val apiService: ApiService,
-    private val datastore: DatastoreRepository
+    private val apiService: ApiService
 ) : ProfileApi {
 
-    override suspend fun getProfile(): ProfileResponse =
-        apiService.getProfile(getAccessToken())
+    override suspend fun getProfile(
+        token: String
+    ): ProfileResponse =
+        apiService.getProfile(token)
 
     override suspend fun editProfile(
+        token: String,
         firstName: String,
         lastName: String,
         email: String
     ): ProfileResponse =
         apiService.editProfile(
-            token = getAccessToken(),
+            token = token,
             editProfileRequest = EdieProfileRequest(
                 firstName = firstName,
                 lastName = lastName,
@@ -32,17 +33,16 @@ internal class DefaultProfileApi @Inject constructor(
 
 
     override suspend fun changePassword(
+        token: String,
         oldPassword: String,
         newPassword: String
     ) {
         apiService.changePassword(
-            token = getAccessToken(),
+            token = token,
             changePasswordRequest = ChangePasswordRequest(
                 oldPassword = oldPassword,
                 newPassword = newPassword,
             )
         )
     }
-
-    private suspend fun getAccessToken() = requireNotNull(datastore.getAccessToken())
 }

@@ -8,23 +8,22 @@ import com.dvm.network.impl.request.CartItem
 import com.dvm.network.impl.request.CheckCoordinatesRequest
 import com.dvm.network.impl.request.CheckInputRequest
 import com.dvm.network.impl.request.UpdateCartRequest
-import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject
 
 internal class DefaultCartApi @Inject constructor(
-    private val apiService: ApiService,
-    private val datastore: DatastoreRepository
+    private val apiService: ApiService
 ) : CartApi {
 
-    override suspend fun getCart(): CartResponse =
-        apiService.getCart(getAccessToken())
+    override suspend fun getCart(token: String): CartResponse =
+        apiService.getCart(token)
 
     override suspend fun updateCart(
+        token: String,
         promocode: String,
         items: Map<String, Int>
     ): CartResponse =
         apiService.updateCart(
-            token = getAccessToken(),
+            token = token,
             updateCartRequest = UpdateCartRequest(
                 promocode = promocode,
                 items = items.map { item ->
@@ -46,6 +45,4 @@ internal class DefaultCartApi @Inject constructor(
 
     override suspend fun checkInput(address: String): AddressResponse =
         apiService.checkInput(CheckInputRequest(address))
-
-    private suspend fun getAccessToken() = requireNotNull(datastore.getAccessToken())
 }

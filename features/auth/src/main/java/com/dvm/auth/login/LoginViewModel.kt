@@ -116,14 +116,23 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private suspend fun syncFavorites() {
-        val remoteFavorites = menuApi.getFavorite().map { it.dishId }
+        val token = requireNotNull(datastore.getAccessToken())
+        val lastUpdateTime = datastore.getLastUpdateTime()
+        val remoteFavorites = menuApi.getFavorite(
+            token = token,
+            lastUpdateTime = lastUpdateTime
+        )
+            .map { it.dishId }
         val localFavorites = favoriteRepository.getFavorites()
         val favoritesToLocal = remoteFavorites.filter { !localFavorites.contains(it) }
         val favoritesToRemote = localFavorites.filter { !remoteFavorites.contains(it) }
 
         favoriteRepository.addListToFavorite(favoritesToLocal.map { Favorite(it) })
         try {
-            menuApi.changeFavorite(favoritesToRemote.associateWith { true })
+            menuApi.changeFavorite(
+                token = token,
+                favorites = favoritesToRemote.associateWith { true }
+            )
         } catch (exception: Exception) {
             Log.e(TAG, "Can't change favorites on server: $exception")
         }

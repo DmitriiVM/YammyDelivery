@@ -6,6 +6,7 @@ import com.dvm.network.api.response.StatusResponse
 interface OrderApi {
 
     suspend fun createOrder(
+        token: String,
         address: String,
         entrance: Int?,
         floor: Int?,
@@ -14,9 +15,18 @@ interface OrderApi {
         comment: String?,
     ): OrderResponse
 
-    suspend fun getOrders(limit: Int? = 500): List<OrderResponse>
+    suspend fun getOrders(
+        token: String,
+        lastUpdateTime: Long?,
+        limit: Int? = 500
+    ): List<OrderResponse>
 
-    suspend fun getStatuses(): List<StatusResponse>
+    suspend fun getStatuses(
+        lastUpdateTime: Long?
+    ): List<StatusResponse>
 
-    suspend fun cancelOrder(orderId: String): OrderResponse
+    suspend fun cancelOrder(
+        token: String,
+        orderId: String
+    ): OrderResponse
 }

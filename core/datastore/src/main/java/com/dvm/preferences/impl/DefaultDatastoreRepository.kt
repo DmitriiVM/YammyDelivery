@@ -1,4 +1,4 @@
-package com.dvm.preferences.impl.data
+package com.dvm.preferences.impl
 
 import com.dvm.preferences.api.DatastoreRepository
 import javax.inject.Inject

@@ -105,7 +105,9 @@ internal class ProfileViewModel @Inject constructor(
         state = state.copy(networkCall = true)
         viewModelScope.launch {
             try {
+                val token = requireNotNull(datastore.getAccessToken())
                 profileApi.changePassword(
+                    token = token,
                     oldPassword = oldPassword,
                     newPassword = newPassword
                 )
@@ -160,7 +162,9 @@ internal class ProfileViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
+                val token = requireNotNull(datastore.getAccessToken())
                 val profile = profileApi.editProfile(
+                    token = token,
                     firstName = state.firstName,
                     lastName = state.lastName,
                     email = state.email

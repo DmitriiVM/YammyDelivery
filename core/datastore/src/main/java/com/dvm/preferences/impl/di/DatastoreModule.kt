@@ -1,7 +1,7 @@
 package com.dvm.preferences.impl.di
 
 import com.dvm.preferences.api.DatastoreRepository
-import com.dvm.preferences.impl.data.DefaultDatastoreRepository
+import com.dvm.preferences.impl.DefaultDatastoreRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

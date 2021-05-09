@@ -1,4 +1,4 @@
-package com.dvm.preferences.impl.data
+package com.dvm.preferences.impl
 
 import android.content.Context
 import androidx.datastore.core.DataStore
