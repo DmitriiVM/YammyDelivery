@@ -47,6 +47,15 @@ internal interface OrderDao {
     )
     fun order(orderId: String): Flow<OrderWithItems>
 
+    @Query(
+        """
+            DELETE 
+            FROM orders
+            WHERE active = 0
+        """
+    )
+    suspend fun deleteInactiveOrders()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrders(order: List<Order>)
 

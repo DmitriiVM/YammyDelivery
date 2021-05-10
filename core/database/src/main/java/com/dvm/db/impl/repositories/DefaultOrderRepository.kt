@@ -18,6 +18,11 @@ internal class DefaultOrderRepository @Inject constructor(
 
     override fun order(orderId: String): Flow<OrderWithItems> = orderDao.order(orderId)
 
+    override suspend fun deleteInactiveOrders() =
+        withContext(Dispatchers.IO) {
+            orderDao.deleteInactiveOrders()
+        }
+
     override suspend fun insertOrders(orders: List<Order>) =
         withContext(Dispatchers.IO) {
             orderDao.insertOrders(orders)

@@ -15,7 +15,7 @@ import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
 import com.dvm.preferences.api.DatastoreRepository
-import com.dvm.updateservice.UpdateService
+import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
