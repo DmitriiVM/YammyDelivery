@@ -12,8 +12,8 @@ import com.dvm.auth.restore.model.Screen
 import com.dvm.navigation.Navigator
 import com.dvm.network.api.AuthApi
 import com.dvm.utils.StringProvider
-import com.dvm.utils.extensions.getErrorMessage
-import com.dvm.utils.extensions.hasCode
+import com.dvm.utils.getErrorMessage
+import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

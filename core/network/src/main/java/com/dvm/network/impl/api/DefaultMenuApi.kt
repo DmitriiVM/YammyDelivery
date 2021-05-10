@@ -6,6 +6,7 @@ import com.dvm.network.api.response.DishResponse
 import com.dvm.network.api.response.FavoriteResponse
 import com.dvm.network.api.response.ReviewResponse
 import com.dvm.network.impl.ApiService
+import com.dvm.network.impl.getModified
 import com.dvm.network.impl.request.AddReviewRequest
 import com.dvm.network.impl.request.ChangeFavoriteRequest
 import javax.inject.Inject
@@ -19,32 +20,34 @@ internal class DefaultMenuApi @Inject constructor(
     override suspend fun getCategories(
         lastUpdateTime: Long?,
         limit: Int?
-    ): List<CategoryResponse> =
+    ): List<CategoryResponse> = getModified {
         apiService.getCategories(
             ifModifiedSince = lastUpdateTime,
             limit = limit
         )
+    } ?: emptyList()
 
     override suspend fun getDishes(
         lastUpdateTime: Long?,
         limit: Int?
-    ): List<DishResponse> =
+    ): List<DishResponse> = getModified {
         apiService.getDishes(
             ifModifiedSince = lastUpdateTime,
             limit = limit
         )
+    } ?: emptyList()
 
     override suspend fun getFavorite(
         token: String,
         lastUpdateTime: Long?,
         limit: Int?
-    ): List<FavoriteResponse> =
+    ): List<FavoriteResponse> = getModified {
         apiService.getFavorite(
             token = token,
             ifModifiedSince = lastUpdateTime,
             limit = limit
         )
-
+    } ?: emptyList()
 
     override suspend fun changeFavorite(
         token: String,
@@ -65,12 +68,13 @@ internal class DefaultMenuApi @Inject constructor(
         dishId: String,
         lastUpdateTime: Long?,
         limit: Int?
-    ): List<ReviewResponse> =
+    ): List<ReviewResponse> = getModified {
         apiService.getReviews(
             ifModifiedSince = lastUpdateTime,
             dishId = dishId,
             limit = limit
         )
+    } ?: emptyList()
 
     override suspend fun addReview(
         token: String,

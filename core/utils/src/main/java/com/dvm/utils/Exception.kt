@@ -1,8 +1,15 @@
-package com.dvm.utils.extensions
+package com.dvm.utils
 
-import com.dvm.network.impl.AppException
-import com.dvm.utils.R
-import com.dvm.utils.StringProvider
+sealed class AppException : Exception() {
+    data class ApiException(
+        override val message: String,
+        val code: Int
+    ) : AppException()
+
+    object TimeoutException : AppException()
+    object NetworkException : AppException()
+    object UnknownException : AppException()
+}
 
 fun Exception.getErrorMessage(stringProvider: StringProvider) =
     when (this) {

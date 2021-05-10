@@ -1,5 +1,6 @@
 package com.dvm.network.impl
 
+import com.dvm.utils.AppException
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.*
