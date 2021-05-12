@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.dvm.menu.menu.presentation.MenuFragment"
+        android:name="com.dvm.menu.menu.MenuFragment"
         android:label="MenuFragment" />
     <action
         android:id="@+id/toMenu"
@@ -44,6 +44,10 @@
         <argument
             android:name="categoryId"
             app:argType="string" />
+        <argument
+            android:name="subcategoryId"
+            app:argType="string"
+            app:nullable="true"/>
     </action>
 
     <fragment
@@ -60,7 +64,7 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.dvm.menu.main.FavoriteFragment"
+        android:name="com.dvm.menu.favorite.FavoriteFragment"
         android:label="FavoriteFragment" />
     <action
         android:id="@+id/toFavorite"

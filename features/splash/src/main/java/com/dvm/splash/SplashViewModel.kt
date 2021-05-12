@@ -18,17 +18,18 @@ internal class SplashViewModel @Inject constructor(
     private val updateService: UpdateService,
     private val datastore: DatastoreRepository,
     private val navigator: Navigator,
-): ViewModel(){
+) : ViewModel() {
+
     init {
         viewModelScope.launch {
             try {
                 val updateDuration = measureTimeMillis {
-                    withTimeout(TIMEOUT){
+                    withTimeout(TIMEOUT) {
                         updateService.update()
                     }
                     datastore.setUpdateError(false)
                 }
-                if (updateDuration < MIN_SPLASH_DURATION){
+                if (updateDuration < MIN_SPLASH_DURATION) {
                     delay(MIN_SPLASH_DURATION - updateDuration)
                 }
             } catch (exception: Exception) {
@@ -38,7 +39,8 @@ internal class SplashViewModel @Inject constructor(
             }
         }
     }
-    companion object{
+
+    companion object {
         private const val TIMEOUT = 10000L
         private const val MIN_SPLASH_DURATION = 3000L
     }

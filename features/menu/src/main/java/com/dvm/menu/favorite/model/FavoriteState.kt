@@ -1,4 +1,4 @@
-package com.dvm.menu.search.model
+package com.dvm.menu.favorite.model
 
 import androidx.compose.runtime.Immutable
 import com.dvm.db.api.models.CategoryDish

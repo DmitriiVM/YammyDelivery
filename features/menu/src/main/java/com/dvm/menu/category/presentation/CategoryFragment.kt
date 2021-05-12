@@ -7,7 +7,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,14 +19,7 @@ internal class CategoryFragment : Fragment() {
     @Inject
     lateinit var navigator: Navigator
 
-    @Inject
-    lateinit var factory: CategoryViewModelAssistedFactory
-
-    private val args: CategoryFragmentArgs by navArgs()
-
-    private val viewModel: CategoryViewModel by viewModels {
-        factory.create(args.categoryId, this)
-    }
+    private val viewModel: CategoryViewModel by viewModels()
 
     @ExperimentalFoundationApi
     override fun onCreateView(

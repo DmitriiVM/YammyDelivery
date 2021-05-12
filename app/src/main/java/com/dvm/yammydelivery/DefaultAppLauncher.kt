@@ -6,6 +6,7 @@ import com.dvm.utils.AppLauncher
 import javax.inject.Inject
 
 class DefaultAppLauncher @Inject constructor(): AppLauncher {
+
     override fun getLauncherIntent(context: Context): Intent =
         Intent(context, MainActivity::class.java)
 }

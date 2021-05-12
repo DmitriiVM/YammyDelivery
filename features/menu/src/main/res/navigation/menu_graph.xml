@@ -8,6 +8,10 @@
         <argument
             android:name="categoryId"
             app:argType="string" />
+        <argument
+            android:name="subcategoryId"
+            app:argType="string"
+            app:nullable="true"/>
     </fragment>
 
 </navigation>

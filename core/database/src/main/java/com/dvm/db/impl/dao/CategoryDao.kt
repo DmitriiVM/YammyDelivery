@@ -50,7 +50,7 @@ internal interface CategoryDao {
             WHERE parent IS NULL
             AND category.name LIKE '%' || :query || '%'
             AND category.active = 1
-            ORDER BY `name`
+            ORDER BY name
         """
     )
     fun searchParentCategory(query: String): Flow<List<ParentCategory>>
@@ -62,7 +62,7 @@ internal interface CategoryDao {
             WHERE parent IS NOT NULL
             AND category.name LIKE '%' || :query || '%'
             AND category.active = 1
-            ORDER BY `name`
+            ORDER BY name
         """
     )
     fun searchSubcategory(query: String): Flow<List<Subcategory>>

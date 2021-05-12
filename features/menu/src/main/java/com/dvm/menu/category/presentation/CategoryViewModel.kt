@@ -1,18 +1,16 @@
 package com.dvm.menu.category.presentation
 
-import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.CategoryRepository
 import com.dvm.db.api.DishRepository
-import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.models.CartItem
 import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryEvent
@@ -21,99 +19,89 @@ import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.api.MenuApi
-import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.StringProvider
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class CategoryViewModel(
-    private val categoryId: String,
+@HiltViewModel
+internal class CategoryViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
-    private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
-    private val datastore: DatastoreRepository,
-    private val menuApi: MenuApi,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
-    private val savedState: SavedStateHandle
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(CategoryState())
         private set
 
-    private val subcategoryId = savedState.get<String>("subcategoryId")
+    private val categoryId = savedState.getLiveData<String>("categoryId")
+    private val subcategoryId = savedState.getLiveData<String?>("subcategoryId", null)
+    private val orderType = savedState.getLiveData("orderType", OrderType.ALPHABET_ASC)
 
     init {
-        loadContent()
-    }
-
-    private fun loadContent() {
-        viewModelScope.launch {
+        combine(
+            categoryId.asFlow(),
+            subcategoryId.asFlow()
+                .distinctUntilChanged(),
+            orderType.asFlow()
+                .distinctUntilChanged()
+        ) { categoryId, subcategoryId, orderType ->
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
-                    val dishes = dishRepository.getSpecialOffers()
                     state = CategoryState(
                         title = stringProvider.getString(R.string.menu_item_special_offer),
-                        dishes = dishes
+                        dishes = dishRepository.getSpecialOffers().order(orderType)
                     )
                 }
                 else -> {
                     val subcategories = categoryRepository.getSubcategories(categoryId)
-                    val subcategoryId = subcategoryId ?: subcategories.firstOrNull()?.id
-                    var dishes = dishRepository.getDishes(subcategoryId ?: categoryId)
-                    savedState.get<Int>("orderType")?.let {
-                        dishes = dishes.order(OrderType.values()[it])
-                    }
+                    val selectedId = subcategoryId ?: subcategories.firstOrNull()?.id ?: categoryId
+                    val dishes = dishRepository.getDishes(selectedId)
                     val title = categoryRepository.getCategoryTitle(categoryId)
                     state = CategoryState(
                         title = title,
                         subcategories = subcategories,
-                        dishes = dishes,
-                        selectedCategoryId = subcategoryId
+                        dishes = dishes.order(orderType),
+                        selectedCategoryId = selectedId
                     )
                 }
             }
         }
+            .launchIn(viewModelScope)
     }
 
     fun dispatch(event: CategoryEvent) {
-        viewModelScope.launch {
-            when (event) {
-                is CategoryEvent.AddToCart -> {
-                    if (datastore.isAuthorized()) {
-                        /*cartRepository.addToCart(action.dishId)*/
-                    } else {
-                        false
-                    }
-                }
-                is CategoryEvent.DishClick -> {
-                    navigator.goTo(Destination.Dish(event.dishId))
-                }
-                CategoryEvent.BackClick -> {
-                    navigator.back()
-                }
-                is CategoryEvent.ChangeSubcategory -> {
-                    val subcategoryId = event.id
-                    val dishes = dishRepository.getDishes(subcategoryId)
-                    state = state.copy(
-                        dishes = dishes,
-                        selectedCategoryId = subcategoryId
+        when (event) {
+            is CategoryEvent.AddToCart -> {
+                viewModelScope.launch {
+                    cartRepository.addToCart(
+                        CartItem(
+                            dishId = event.dishId,
+                            quantity = 1
+                        )
                     )
-                    savedState.set("subcategoryId", subcategoryId)
                 }
-                is CategoryEvent.OrderBy -> {
-                    val orderType = event.orderType
-                    val dishes = state.dishes.order(orderType)
-                    state = state.copy(dishes = dishes, selectedOrder = orderType)
-                    savedState.set("orderType", orderType.ordinal)
-                }
-                CategoryEvent.DismissAlert -> {
-                    state = state.copy(alertMessage = null)
-                }
+            }
+            is CategoryEvent.DishClick -> {
+                navigator.goTo(Destination.Dish(event.dishId))
+            }
+            is CategoryEvent.ChangeSubcategory -> {
+                subcategoryId.value = event.id
+            }
+            is CategoryEvent.OrderBy -> {
+                orderType.value = event.orderType
+            }
+            CategoryEvent.DismissAlert -> {
+                state = state.copy(alertMessage = null)
+            }
+            CategoryEvent.BackClick -> {
+                navigator.back()
             }
         }
     }
@@ -128,51 +116,3 @@ internal class CategoryViewModel(
             OrderType.RATING_DESC -> this.sortedByDescending { it.rating }
         }
 }
-
-internal class CategoryViewModelFactory @AssistedInject constructor(
-    @Assisted private val categoryId: String,
-    @Assisted owner: SavedStateRegistryOwner,
-    @Assisted defaultArgs: Bundle? = null,
-    private val navigator: Navigator,
-    private val categoryRepository: CategoryRepository,
-    private val dishRepository: DishRepository,
-    private val favoriteRepository: FavoriteRepository,
-    private val cartRepository: CartRepository,
-    private val datastore: DatastoreRepository,
-    private val menuApi: MenuApi,
-    private val stringProvider: StringProvider,
-) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
-
-    override fun <T : ViewModel?> create(
-        key: String,
-        modelClass: Class<T>,
-        handle: SavedStateHandle
-    ): T {
-        if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return CategoryViewModel(
-                categoryId = categoryId,
-                categoryRepository = categoryRepository,
-                dishRepository = dishRepository,
-                favoriteRepository = favoriteRepository,
-                cartRepository = cartRepository,
-                datastore = datastore,
-                menuApi = menuApi,
-                stringProvider = stringProvider,
-                navigator = navigator,
-                savedState = handle
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-@AssistedFactory
-internal interface CategoryViewModelAssistedFactory {
-    fun create(
-        categoryId: String,
-        owner: SavedStateRegistryOwner,
-        defaultArgs: Bundle? = null
-    ): CategoryViewModelFactory
-}
-

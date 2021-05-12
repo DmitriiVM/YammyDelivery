@@ -5,11 +5,15 @@ import kotlinx.parcelize.Parcelize
 
 sealed class Destination(val private: Boolean = false): Parcelable {
     @Parcelize
-    data class Category(val id: String) : Destination()
+    data class Category(
+        val categoryId: String,
+        val subcategoryId: String? = null
+    ) : Destination()
+
     @Parcelize
-    data class Dish(val id: String) : Destination()
+    data class Dish(val dishId: String) : Destination()
     @Parcelize
-    data class Order(val id: String) : Destination()
+    data class Order(val orderId: String) : Destination()
     @Parcelize
     object Main : Destination()
     @Parcelize

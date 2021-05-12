@@ -1,4 +1,4 @@
-package com.dvm.menu.menu.presentation
+package com.dvm.menu.menu
 
 import android.os.Bundle
 import android.view.LayoutInflater

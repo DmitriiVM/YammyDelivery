@@ -1,4 +1,4 @@
-package com.dvm.menu.menu.presentation
+package com.dvm.menu.menu
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,15 +25,15 @@ import androidx.compose.ui.unit.dp
 import com.dvm.appmenu.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
-import com.dvm.menu.menu.domain.model.MenuItem
-import com.dvm.menu.menu.presentation.model.MenuEvent
+import com.dvm.menu.menu.model.MenuEvent
+import com.dvm.menu.menu.model.MenuItem
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.light_blue
 import com.dvm.ui.themes.light_green
 import com.dvm.ui.themes.light_violet
 import com.dvm.ui.themes.temp
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
@@ -102,13 +102,9 @@ private fun MenuContent(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
-        modifier = Modifier.padding(horizontal = 10.dp)
+        modifier = Modifier.navigationBarsPadding(),
+        contentPadding = PaddingValues(top = 20.dp, start = 10.dp, end = 10.dp)
     ) {
-
-        items(3) {
-            Spacer(Modifier.height(20.dp))
-        }
-
         itemsIndexed(menuItems) { index, item ->
             MenuItem(
                 index = index,
@@ -116,10 +112,6 @@ private fun MenuContent(
                 modifier = Modifier.fillParentMaxWidth(),
                 onItemClick = onItemClick
             )
-        }
-
-        items(3) {
-            Spacer(Modifier.navigationBarsHeight())
         }
     }
 }
@@ -201,7 +193,8 @@ private fun MenuItem(
     }
 }
 
-// TODO
+// It's not the right way, but this app is not for production
+// and I don't like icons that comes from server
 internal fun getIcon(dishTitle: String): Int {
     return when (dishTitle) {
         "Бургеры и хот-доги" -> R.drawable.icon_hamburger

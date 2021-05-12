@@ -7,13 +7,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.dvm.db.api.CartRepository
 import com.dvm.db.api.CategoryRepository
 import com.dvm.db.api.DishRepository
 import com.dvm.db.api.HintRepository
+import com.dvm.db.api.models.CartItem
 import com.dvm.db.api.models.Hint
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -29,8 +32,9 @@ internal class SearchViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val hintRepository: HintRepository,
+    private val cartRepository: CartRepository,
     private val navigator: Navigator,
-    private val savedState: SavedStateHandle
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(SearchState())
@@ -62,51 +66,78 @@ internal class SearchViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        hintRepository
-            .hints()
-            .onEach { hints ->
-                state = state.copy(hints = hints)
-            }
+        combine(
+            query.asFlow(),
+            hintRepository.hints()
+        ) { query, hints ->
+            state = state.copy(
+                query = query,
+                hints = hints
+            )
+        }
             .launchIn(viewModelScope)
     }
 
     fun dispatch(event: SearchEvent) {
-
         when (event) {
             is SearchEvent.DishClick -> {
-                saveHint()
+                saveHint(event.name)
+                navigator.goTo(Destination.Dish(event.dishId))
             }
             is SearchEvent.CategoryClick -> {
-                saveHint()
+                saveHint(event.name)
+                navigator.goTo(Destination.Category(event.categoryId))
+            }
+            is SearchEvent.SubcategoryClick -> {
+                saveHint(event.name)
+                navigator.goTo(
+                    Destination.Category(
+                        categoryId = event.categoryId,
+                        subcategoryId = event.subcategoryId
+                    )
+                )
             }
             is SearchEvent.QueryChange -> {
                 query.value = event.query
-                state = state.copy(query = event.query)
-            }
-            SearchEvent.DismissAlert -> {
-
-            }
-            SearchEvent.BackClick -> {
-                navigator.back()
             }
             is SearchEvent.HintClick -> {
-                state = state.copy(query = event.hint)
+                query.value = event.hint
             }
             is SearchEvent.RemoveHintClick -> {
                 viewModelScope.launch {
                     hintRepository.delete(event.hint)
                 }
             }
+            is SearchEvent.AddToCart -> {
+                viewModelScope.launch {
+                    cartRepository.addToCart(
+                        CartItem(
+                            dishId = event.dishId,
+                            quantity = 1
+                        )
+                    )
+                }
+            }
+            SearchEvent.RemoveQueryClick -> {
+                state = state.copy(query = "")
+            }
+            SearchEvent.BackClick -> {
+                navigator.back()
+            }
         }
-//            .exhaustive
     }
 
-    private fun saveHint() {
+    private fun saveHint(name: String) {
         viewModelScope.launch {
             if (hintRepository.hintCount() >= 5) {
                 hintRepository.deleteOldest()
             }
-            hintRepository.insert(Hint(state.query, Date(System.currentTimeMillis()) ))
+            hintRepository.insert(
+                Hint(
+                    query = name.trim(),
+                    date = Date(System.currentTimeMillis())
+                )
+            )
         }
     }
 }

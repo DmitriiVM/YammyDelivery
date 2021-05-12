@@ -17,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import com.dvm.appmenu.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
-import com.dvm.menu.search.model.FavoriteEvent
-import com.dvm.menu.search.model.FavoriteState
+import com.dvm.menu.favorite.model.FavoriteEvent
+import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton

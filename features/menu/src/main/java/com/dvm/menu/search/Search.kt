@@ -1,6 +1,7 @@
 package com.dvm.menu.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu.Drawer
 import com.dvm.menu.common.ui.DishItem
@@ -43,10 +45,10 @@ internal fun Search(
             ) {
                 OutlinedTextField(
                     value = state.query,
-                    onValueChange = { onEvent(SearchEvent.QueryChange(it)) },
+                    onValueChange = { onEvent(SearchEvent.QueryChange(it.trimStart())) },
                     modifier = Modifier
                 )
-                IconButton(onClick = { }) {
+                IconButton(onClick = { onEvent(SearchEvent.RemoveQueryClick) }) {
                     Icon(
                         imageVector = Icons.Default.Cancel,
                         contentDescription = null
@@ -94,52 +96,52 @@ private fun SearchResult(
         items(state.categories) { category ->
             SearchCategoryItem(
                 name = category.name,
-                categoryId = category.id,
-                onCategoryClick = { onEvent(SearchEvent.CategoryClick(it)) }
+                onCategoryClick = {
+                    onEvent(
+                        SearchEvent.CategoryClick(
+                            categoryId = category.id,
+                            name = category.name
+                        )
+                    )
+                }
             )
         }
         items(state.subcategories) { subcategory ->
             SearchCategoryItem(
                 name = subcategory.name,
-                categoryId = subcategory.id,
-                onCategoryClick = { onEvent(SearchEvent.SubcategoryClick(it)) }
+                modifier = Modifier.background(Color.Yellow),
+                onCategoryClick = {
+                    onEvent(
+                        SearchEvent.SubcategoryClick(
+                            subcategory.parent,
+                            subcategory.id,
+                            subcategory.name
+                        )
+                    )
+                }
             )
         }
         items(state.dishes) { dish ->
             DishItem(
                 dish = dish,
-                onDishClick = { onEvent(SearchEvent.SubcategoryClick(it)) },
+                onDishClick = { onEvent(SearchEvent.DishClick(it, dish.name)) },
                 onAddToCartClick = { onEvent(SearchEvent.AddToCart(it)) },
             )
         }
     }
-
-//                Crossfade(targetState = state.dishes) {
-//                    LazyColumn(modifier = Modifier.fillMaxSize()){
-//                        items(state.categories){ categories ->
-//
-//                        }
-//                        items(state.subcategories){ subcategories ->
-//
-//                        }
-//                        items(state.dishes){ dishes ->
-//
-//                        }
-//                    }
-//                }
 }
 
 @Composable
 fun SearchCategoryItem(
+    modifier: Modifier = Modifier,
     name: String,
-    categoryId: String,
-    onCategoryClick: (String) -> Unit
+    onCategoryClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable {
-                onCategoryClick(categoryId)
+                onCategoryClick()
             }
     ) {
         Text(text = name)

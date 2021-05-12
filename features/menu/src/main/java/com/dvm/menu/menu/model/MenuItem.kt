@@ -1,4 +1,4 @@
-package com.dvm.menu.menu.domain.model
+package com.dvm.menu.menu.model
 
 internal sealed class MenuItem {
     data class Item(

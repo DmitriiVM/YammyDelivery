@@ -1,4 +1,4 @@
-package com.dvm.menu.search.model
+package com.dvm.menu.favorite.model
 
 internal sealed class FavoriteEvent {
     data class DishClick(val dishId: String) : FavoriteEvent()

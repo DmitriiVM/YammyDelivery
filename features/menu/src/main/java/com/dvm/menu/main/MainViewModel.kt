@@ -28,10 +28,10 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val datastore: DatastoreRepository,
-    private val dishRepository: DishRepository,
     private val cartRepository: CartRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
+    dishRepository: DishRepository,
 ) : ViewModel() {
 
     var state by mutableStateOf(MainState())
@@ -46,6 +46,7 @@ internal class MainViewModel @Inject constructor(
                 datastore.setUpdateError(false)
             }
         }
+
         combine(
             dishRepository.recommended(),
             dishRepository.best(),
@@ -61,17 +62,7 @@ internal class MainViewModel @Inject constructor(
     }
 
     fun dispatch(event: MainEvent) {
-
         when (event) {
-            is MainEvent.DishClick -> {
-                navigator.goTo(Destination.Dish(event.dishId))
-            }
-            MainEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
-            }
-            MainEvent.BackClick -> {
-                navigator.back()
-            }
             is MainEvent.AddToCart -> {
                 viewModelScope.launch {
                     val cartItem = CartItem(event.dishId, 1)
@@ -84,11 +75,20 @@ internal class MainViewModel @Inject constructor(
                     )
                 )
             }
+            is MainEvent.DishClick -> {
+                navigator.goTo(Destination.Dish(event.dishId))
+            }
             MainEvent.CartClick -> {
                 navigator.goTo(Destination.Cart)
             }
             MainEvent.SeeAllClick -> {
                 navigator.goTo(Destination.Menu)
+            }
+            MainEvent.DismissAlert -> {
+                state = state.copy(alertMessage = null)
+            }
+            MainEvent.BackClick -> {
+                navigator.back()
             }
         }
     }

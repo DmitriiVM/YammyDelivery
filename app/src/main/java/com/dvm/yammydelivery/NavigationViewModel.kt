@@ -1,11 +1,12 @@
 package com.dvm.yammydelivery
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.dvm.menu.menu.presentation.MenuFragmentDirections
+import com.dvm.menu.menu.MenuFragmentDirections
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
@@ -73,13 +74,17 @@ internal class NavigationViewModel @Inject constructor(
                 navController.navigate(MenuFragmentDirections.toSearch(), navOptions)
             }
             is Destination.Category -> {
+                Log.d("mmm", "NavigationViewModel :  navigateTo --  ${destination.subcategoryId}")
                 navController.navigate(
-                    MenuFragmentDirections.toCategory(destination.id),
+                    MenuFragmentDirections.toCategory(
+                        categoryId = destination.categoryId,
+                        subcategoryId = destination.subcategoryId
+                    ),
                     navOptions
                 )
             }
             is Destination.Dish -> {
-                navController.navigate(MainGraphDirections.toDish(destination.id), navOptions)
+                navController.navigate(MainGraphDirections.toDish(destination.dishId), navOptions)
             }
             Destination.Favorite -> {
                 navController.navigate(MainGraphDirections.toFavorite(), navOptions)
@@ -94,7 +99,7 @@ internal class NavigationViewModel @Inject constructor(
                 navController.navigate(MainGraphDirections.toOrders(), navOptions)
             }
             is Destination.Order -> {
-                navController.navigate(MainGraphDirections.toOrder(destination.id), navOptions)
+                navController.navigate(MainGraphDirections.toOrder(destination.orderId), navOptions)
             }
             Destination.Login -> {
                 navController.navigate(MainGraphDirections.toLogin(), navOptions)

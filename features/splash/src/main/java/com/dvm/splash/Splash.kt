@@ -18,7 +18,8 @@ internal fun Splash() {
         contentAlignment = Alignment.Center
     ) {
         val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.splash) }
-        val animationState = rememberLottieAnimationState(autoPlay = true, repeatCount = Integer.MAX_VALUE)
+        val animationState =
+            rememberLottieAnimationState(autoPlay = true, repeatCount = Integer.MAX_VALUE)
         LottieAnimation(
             spec = animationSpec,
             animationState = animationState,

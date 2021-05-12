@@ -40,6 +40,7 @@ internal interface DishDao {
             SELECT *
             FROM category_dish
             WHERE name LIKE '%' || :query || '%'
+            ORDER BY name
         """
     )
     fun search(query: String): Flow<List<CategoryDish>>

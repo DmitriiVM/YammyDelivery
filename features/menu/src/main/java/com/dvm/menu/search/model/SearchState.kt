@@ -11,6 +11,5 @@ internal data class SearchState(
     val dishes: List<CategoryDish> = emptyList(),
     val categories: List<ParentCategory> = emptyList(),
     val subcategories: List<Subcategory> = emptyList(),
-    val hints: List<String> = emptyList(),
-    val alertMessage: String? = null
+    val hints: List<String> = emptyList()
 )
