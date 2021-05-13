@@ -1,5 +1,7 @@
 package com.dvm.menu.category.presentation
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,20 +21,21 @@ import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class CategoryViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val cartRepository: CartRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -55,7 +58,7 @@ internal class CategoryViewModel @Inject constructor(
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     state = CategoryState(
-                        title = stringProvider.getString(R.string.menu_item_special_offer),
+                        title = context.getString(R.string.menu_item_special_offer),
                         dishes = dishRepository.getSpecialOffers().order(orderType)
                     )
                 }

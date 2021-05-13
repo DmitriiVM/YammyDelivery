@@ -1,5 +1,7 @@
 package com.dvm.auth.register
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,22 +15,23 @@ import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
-import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class RegisterViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -103,10 +106,10 @@ internal class RegisterViewModel @Inject constructor(
         password: String
     ) {
 
-        val firstNameError = firstName.getTextFieldErrorOrNull(stringProvider)
-        val lastNameError = lastName.getTextFieldErrorOrNull(stringProvider)
-        val emailError = email.getEmailErrorOrNull(stringProvider)
-        val passwordError = password.getPasswordErrorOrNull(stringProvider)
+        val firstNameError = firstName.getTextFieldErrorOrNull(context)
+        val lastNameError = lastName.getTextFieldErrorOrNull(context)
+        val emailError = email.getEmailErrorOrNull(context)
+        val passwordError = password.getPasswordErrorOrNull(context)
 
         if (
             !firstNameError.isNullOrEmpty() ||

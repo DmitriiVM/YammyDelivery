@@ -1,5 +1,7 @@
 package com.dvm.auth.login
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,6 +9,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.db.api.ProfileRepository
@@ -16,23 +19,24 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
-import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val authApi: AuthApi,
     private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,
     private val updateService: UpdateService,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -44,6 +48,7 @@ internal class LoginViewModel @Inject constructor(
     private val passwordError = savedState.getLiveData("login_password_error", "")
 
     init {
+        state = state.copy(alertMessage = context.getString(R.string.message_network_error))
         combine(
             emailError.asFlow()
                 .distinctUntilChanged(),
@@ -92,8 +97,8 @@ internal class LoginViewModel @Inject constructor(
         password: String
     ) {
 
-        val emailError = email.getEmailErrorOrNull(stringProvider)
-        val passwordError = password.getPasswordErrorOrNull(stringProvider)
+        val emailError = email.getEmailErrorOrNull(context)
+        val passwordError = password.getPasswordErrorOrNull(context)
 
         if (!emailError.isNullOrEmpty() || !passwordError.isNullOrEmpty()) {
             this.emailError.value = emailError

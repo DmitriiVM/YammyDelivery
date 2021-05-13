@@ -1,5 +1,7 @@
 package com.dvm.order.order
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,22 +22,23 @@ import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.toDbEntity
-import com.dvm.utils.StringProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+@SuppressLint("StaticFieldLeak")
 internal class OrderViewModel(
     orderId: String,
+    private val context: Context,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
     private val datastore: DatastoreRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator
 ) : ViewModel() {
 
@@ -88,7 +91,7 @@ internal class OrderViewModel(
 
                 state = state.copy(
                     networkCall = false,
-                    alertMessage = stringProvider.getString(R.string.order_message_order_canceled)
+                    alertMessage = context.getString(R.string.order_message_order_canceled)
                 )
             } catch (exception: Exception) {
                 state = state.copy(
@@ -107,11 +110,12 @@ internal class OrderViewModel(
                 return@launch
             }
             state = state.copy(
-                actionAlertMessage = stringProvider.getString(
+                actionAlertMessage = context.getString(
                     R.string.order_message_cart_not_empty,
-                    stringProvider.getQuantityString(
+                    context.resources.getQuantityString(
                         R.plurals.order_message_plural_dish,
-                        cartCount
+                        cartCount,
+                        cartCount,
                     )
                 )
             )
@@ -136,6 +140,7 @@ internal class OrderViewModel(
 }
 
 internal class OrderViewModelFactory @AssistedInject constructor(
+    @ApplicationContext private val context: Context,
     @Assisted private val orderId: String,
     @Assisted owner: SavedStateRegistryOwner,
     @Assisted defaultArgs: Bundle? = null,
@@ -143,7 +148,6 @@ internal class OrderViewModelFactory @AssistedInject constructor(
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
     private val datastore: DatastoreRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator,
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
@@ -156,11 +160,11 @@ internal class OrderViewModelFactory @AssistedInject constructor(
             @Suppress("UNCHECKED_CAST")
             return OrderViewModel(
                 orderId = orderId,
+                context = context,
                 orderRepository = orderRepository,
                 cartRepository = cartRepository,
                 orderApi = orderApi,
                 datastore = datastore,
-                stringProvider = stringProvider,
                 navigator = navigator
             ) as T
         }

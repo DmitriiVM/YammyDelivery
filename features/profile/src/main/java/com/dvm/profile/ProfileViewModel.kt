@@ -1,5 +1,7 @@
 package com.dvm.profile
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,22 +14,23 @@ import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
-import com.dvm.utils.StringProvider
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class ProfileViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val profileApi: ProfileApi,
     private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator
 ) : ViewModel() {
 
@@ -120,11 +123,11 @@ internal class ProfileViewModel @Inject constructor(
     private fun saveProfile() {
 
         val firstNameError =
-            state.firstName.getTextFieldErrorOrNull(stringProvider)
+            state.firstName.getTextFieldErrorOrNull(context)
         val lastNameError =
-            state.lastName.getTextFieldErrorOrNull(stringProvider)
+            state.lastName.getTextFieldErrorOrNull(context)
         val emailError =
-            state.email.getEmailErrorOrNull(stringProvider)
+            state.email.getEmailErrorOrNull(context)
 
         if (
             !firstNameError.isNullOrEmpty() ||

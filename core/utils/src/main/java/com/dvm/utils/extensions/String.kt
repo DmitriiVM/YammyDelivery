@@ -1,26 +1,25 @@
 package com.dvm.utils.extensions
 
+import android.content.Context
 import androidx.core.util.PatternsCompat
 import com.dvm.utils.R
-import com.dvm.utils.StringProvider
 import java.util.regex.Pattern
 
-
-fun String.getTextFieldErrorOrNull(stringProvider: StringProvider)= when {
-    isEmpty() -> stringProvider.getString(emptyField)
-    !isTextValid() -> stringProvider.getString(letters)
+fun String.getTextFieldErrorOrNull(context: Context)= when {
+    isEmpty() -> context.getString(emptyField)
+    !isTextValid() -> context.getString(letters)
     else -> null
 }
 
-fun String.getEmailErrorOrNull(stringProvider: StringProvider)= when {
-    isEmpty() -> stringProvider.getString(emptyField)
-    !isEmailValid() -> stringProvider.getString(incorrectEmail)
+fun String.getEmailErrorOrNull(context: Context)= when {
+    isEmpty() -> context.getString(emptyField)
+    !isEmailValid() -> context.getString(incorrectEmail)
     else -> null
 }
 
-fun String.getPasswordErrorOrNull(stringProvider: StringProvider)= when {
-    isEmpty() -> stringProvider.getString(emptyField)
-    !isPasswordValid() -> stringProvider.getString(incorrectPassword)
+fun String.getPasswordErrorOrNull(context: Context)= when {
+    isEmpty() -> context.getString(emptyField)
+    !isPasswordValid() -> context.getString(incorrectPassword)
     else -> null
 }
 

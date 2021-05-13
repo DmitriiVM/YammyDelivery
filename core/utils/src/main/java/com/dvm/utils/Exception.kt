@@ -1,5 +1,7 @@
 package com.dvm.utils
 
+import android.content.Context
+
 sealed class AppException : Exception() {
     data class ApiException(
         override val message: String,
@@ -11,12 +13,12 @@ sealed class AppException : Exception() {
     object UnknownException : AppException()
 }
 
-fun Exception.getErrorMessage(stringProvider: StringProvider) =
+fun Exception.getErrorMessage(context: Context) =
     when (this) {
         is AppException.ApiException -> this.message
-        is AppException.TimeoutException -> stringProvider.getString(R.string.message_network_timeout)
-        is AppException.NetworkException -> stringProvider.getString(R.string.message_network_error)
-        else -> stringProvider.getString(R.string.message_unknown_error)
+        is AppException.TimeoutException -> context.getString(R.string.message_network_timeout)
+        is AppException.NetworkException -> context.getString(R.string.message_network_error)
+        else -> context.getString(R.string.message_unknown_error)
     }
 
 fun Exception.hasCode(code: Int) =

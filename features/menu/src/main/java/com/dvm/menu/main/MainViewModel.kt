@@ -1,5 +1,7 @@
 package com.dvm.menu.main
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,8 +16,8 @@ import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
-import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.combine
@@ -23,13 +25,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @FlowPreview
 @ExperimentalCoroutinesApi
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val datastore: DatastoreRepository,
     private val cartRepository: CartRepository,
-    private val stringProvider: StringProvider,
     private val navigator: Navigator,
     dishRepository: DishRepository,
 ) : ViewModel() {
@@ -41,7 +44,7 @@ internal class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (datastore.isUpdateError()) {
                 state = state.copy(
-                    alertMessage = stringProvider.getString(R.string.main_message_update_error)
+                    alertMessage = context.getString(R.string.main_message_update_error)
                 )
                 datastore.setUpdateError(false)
             }
@@ -69,9 +72,11 @@ internal class MainViewModel @Inject constructor(
                     cartRepository.addToCart(cartItem)
                 }
                 state = state.copy(
-                    alertMessage = stringProvider.getString(
-                        resId = R.string.message_dish_added_to_cart,
-                        event.name
+                    alertMessage = String.format(
+                        context.getString(
+                            R.string.message_dish_added_to_cart,
+                            event.name
+                        )
                     )
                 )
             }

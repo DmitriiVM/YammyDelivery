@@ -25,12 +25,12 @@ import kotlinx.coroutines.launch
 
 internal class DishViewModel(
     private val dishId: String,
-    private val dishRepository: DishRepository,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
     private val menuApi: MenuApi,
     private val datastore: DatastoreRepository,
     private val navigator: Navigator,
+    dishRepository: DishRepository,
     savedState: SavedStateHandle
 ) : ViewModel() {
 
