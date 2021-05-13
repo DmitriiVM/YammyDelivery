@@ -1,15 +1,15 @@
 object Versions {
-    const val KOTLIN = "1.4.30"
-    const val COMPOSE = "1.0.0-beta01"
+    const val KOTLIN = "1.4.32"
+    const val COMPOSE = "1.0.0-beta06"
     const val COMPOSE_ACCOMPANIST = "0.6.1"
-    const val COROUTINES = "1.4.2"
+    const val COROUTINES = "1.4.3"
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
     const val ROOM = "2.2.6"
     const val DAGGER_HILT = "2.33-beta"
-    const val LIFECYCLE = "2.3.0"
+    const val LIFECYCLE = "2.3.1"
     const val DATASTORE = "1.0.0-alpha08"
-    const val NAVIGATION = "2.3.3"
+    const val NAVIGATION = "2.3.5"
 }
 
 object Libs {
@@ -29,8 +29,8 @@ object Libs {
     const val COMPOSE_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
     const val COMPOSE_ACCOMPANIST_COIL = "dev.chrisbanes.accompanist:accompanist-coil:${Versions.COMPOSE_ACCOMPANIST}"
     const val COMPOSE_ACCOMPANIST_INSETS = "dev.chrisbanes.accompanist:accompanist-insets:${Versions.COMPOSE_ACCOMPANIST}"
-    const val COMPOSE_VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha01"
-    const val COMPOSE_CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
+    const val COMPOSE_VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
+    const val COMPOSE_CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha06"
     const val COMPOSE_LOTTIE = "com.airbnb.android:lottie-compose:1.0.0-beta03-1"
 
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
