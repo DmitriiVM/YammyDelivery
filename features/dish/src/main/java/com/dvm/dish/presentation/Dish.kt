@@ -53,6 +53,8 @@ internal fun Dish(
         Box {
             val listState = rememberLazyListState()
 
+            state.dish ?: return@Box
+
             DishImage(
                 imageUrl = state.dish.image,
                 listState = listState
@@ -61,7 +63,8 @@ internal fun Dish(
             LazyColumn(state = listState) {
                 item {
                     DishContent(
-                        state = state,
+                        dish = state.dish,
+                        quantity = state.quantity,
                         onAddPeace = { onEvent(DishEvent.AddPiece) },
                         onRemovePeace = { onEvent(DishEvent.RemovePiece) },
                         onAddToCart = { onEvent(DishEvent.AddToCart) },
@@ -90,14 +93,14 @@ internal fun Dish(
                 )
             }
         }
+    }
 
-        state.alertMessage?.let {
-            Alert(
-                message = state.alertMessage,
-                onDismiss = { onEvent(DishEvent.DismissAlert) }
-            ) {
-                AlertButton(onClick = { onEvent(DishEvent.DismissAlert) })
-            }
+    state.alertMessage?.let {
+        Alert(
+            message = state.alertMessage,
+            onDismiss = { onEvent(DishEvent.DismissAlert) }
+        ) {
+            AlertButton(onClick = { onEvent(DishEvent.DismissAlert) })
         }
     }
 }
@@ -173,7 +176,8 @@ private fun DishImage(
 
 @Composable
 private fun DishContent(
-    state: DishState,
+    dish: DishDetails,
+    quantity: Int,
     onAddPeace: () -> Unit,
     onRemovePeace: () -> Unit,
     onAddToCart: () -> Unit,
@@ -191,7 +195,7 @@ private fun DishContent(
     ) {
         Column(Modifier.fillMaxWidth()) {
             DishDetails(
-                dish = state.dish,
+                dish = dish,
                 onAddToCart = onAddToCart,
                 modifier = Modifier
             )
@@ -209,14 +213,14 @@ private fun DishContent(
             contentAlignment = Alignment.Center
         ) {
             QuantityButton(
-                quantity = state.quantity,
+                quantity = quantity,
                 onAdd = { onAddPeace() },
                 onRemove = { onRemovePeace() }
             )
         }
     }
     ReviewHeader(
-        rating = state.dish.rating,
+        rating = dish.rating,
         onAddReview = onAddReview
     )
 }

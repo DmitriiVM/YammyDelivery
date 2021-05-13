@@ -13,8 +13,8 @@ import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
 import com.dvm.utils.StringProvider
-import com.dvm.utils.extensions.isEmailValid
-import com.dvm.utils.extensions.isTextValid
+import com.dvm.utils.extensions.getEmailErrorOrNull
+import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -35,12 +35,6 @@ internal class ProfileViewModel @Inject constructor(
         private set
 
     init {
-//        viewModelScope.launch {
-//            if (!datastore.isAuthorized()){
-//                navigator.goTo(Destination.Auth)
-//            }
-//        }
-
         profileRepository
             .profile()
             .filterNotNull()
@@ -74,20 +68,11 @@ internal class ProfileViewModel @Inject constructor(
                     lastNameError = null
                 )
             }
-            is ProfileEvent.ChangeIsEditing -> {
+            is ProfileEvent.ChangeEditingMode -> {
                 state = state.copy(isEditing = event.editing)
             }
-            ProfileEvent.ChangePasswordClick -> {
+            ProfileEvent.ChangeButtonClick -> {
                 state = state.copy(passwordChanging = true)
-            }
-            ProfileEvent.SaveProfile -> {
-                saveProfile()
-            }
-            ProfileEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
-            }
-            ProfileEvent.BackClick -> {
-                navigator.back()
             }
             is ProfileEvent.ChangePassword -> {
                 changePassword(
@@ -95,8 +80,17 @@ internal class ProfileViewModel @Inject constructor(
                     oldPassword = event.oldPassword
                 )
             }
+            ProfileEvent.SaveProfile -> {
+                saveProfile()
+            }
             ProfileEvent.DismissPasswordDialog -> {
                 state = state.copy(passwordChanging = false)
+            }
+            ProfileEvent.DismissAlert -> {
+                state = state.copy(alertMessage = null)
+            }
+            ProfileEvent.BackClick -> {
+                navigator.back()
             }
         }
     }
@@ -105,9 +99,8 @@ internal class ProfileViewModel @Inject constructor(
         state = state.copy(networkCall = true)
         viewModelScope.launch {
             try {
-                val token = requireNotNull(datastore.getAccessToken())
                 profileApi.changePassword(
-                    token = token,
+                    token = requireNotNull(datastore.getAccessToken()),
                     oldPassword = oldPassword,
                     newPassword = newPassword
                 )
@@ -125,25 +118,13 @@ internal class ProfileViewModel @Inject constructor(
     }
 
     private fun saveProfile() {
-        val emptyField = stringProvider.getString(R.string.auth_field_error_empty)
-        val letters = stringProvider.getString(R.string.auth_field_error_letters_allowed)
-        val incorrectEmail = stringProvider.getString(R.string.auth_field_error_incorrect_email)
 
-        val firstNameError = when {
-            state.firstName.isEmpty() -> emptyField
-            !state.firstName.isTextValid() -> letters
-            else -> null
-        }
-        val lastNameError = when {
-            state.lastName.isEmpty() -> emptyField
-            !state.lastName.isTextValid() -> letters
-            else -> null
-        }
-        val emailError = when {
-            state.email.isEmpty() -> emptyField
-            !state.email.isEmailValid() -> incorrectEmail
-            else -> null
-        }
+        val firstNameError =
+            state.firstName.getTextFieldErrorOrNull(stringProvider)
+        val lastNameError =
+            state.lastName.getTextFieldErrorOrNull(stringProvider)
+        val emailError =
+            state.email.getEmailErrorOrNull(stringProvider)
 
         if (
             !firstNameError.isNullOrEmpty() ||
@@ -162,9 +143,8 @@ internal class ProfileViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val token = requireNotNull(datastore.getAccessToken())
                 val profile = profileApi.editProfile(
-                    token = token,
+                    token = requireNotNull(datastore.getAccessToken()),
                     firstName = state.firstName,
                     lastName = state.lastName,
                     email = state.email

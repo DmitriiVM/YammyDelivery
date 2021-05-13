@@ -34,27 +34,20 @@ internal class DishViewModel(
     savedState: SavedStateHandle
 ) : ViewModel() {
 
-    var state by mutableStateOf<DishState?>(null)
+    var state by mutableStateOf(DishState())
         private set
 
-    private val quantity = savedState.getLiveData("", 1)
+    private val quantity = savedState.getLiveData("quantity", 1)
 
     init {
         combine(
             dishRepository.dish(dishId),
             quantity.asFlow()
         ) { dish, quantity ->
-            state = if (state == null) {
-                DishState(
-                    dish = dish,
-                    quantity = quantity
-                )
-            } else {
-                state?.copy(
-                    dish = dish,
-                    quantity = quantity
-                )
-            }
+            state = state.copy(
+                dish = dish,
+                quantity = quantity
+            )
         }
             .launchIn(viewModelScope)
     }
@@ -63,15 +56,19 @@ internal class DishViewModel(
         viewModelScope.launch {
             when (event) {
                 DishEvent.AddToCart -> {
-                    val quantity = state?.quantity ?: return@launch
-                    val cartItem = CartItem(dishId, quantity)
-                    cartRepository.addToCart(cartItem)
+                    cartRepository.addToCart(
+                        CartItem(
+                            dishId = dishId,
+                            quantity = state.quantity
+                        )
+                    )
+                }
+                DishEvent.RemovePiece -> {
+                    val newValue = quantity.value?.minus(1)
+                    quantity.value = newValue?.coerceAtLeast(1)
                 }
                 DishEvent.AddPiece -> {
                     quantity.value = quantity.value?.plus(1)
-                }
-                DishEvent.RemovePiece -> {
-                    quantity.value = quantity.value?.minus(1)?.coerceAtLeast(1)
                 }
                 DishEvent.ToggleFavorite -> {
                     toggleFavorite()
@@ -79,38 +76,39 @@ internal class DishViewModel(
                 DishEvent.AddReview -> {
                     addReview()
                 }
+                DishEvent.DismissAlert -> {
+                    state = state.copy(alertMessage = null)
+                }
                 DishEvent.BackClick -> {
                     navigator.back()
-                }
-                DishEvent.DismissAlert -> {
-                    state = state?.copy(alertMessage = null)
                 }
             }
         }
     }
 
-    private fun addReview() {
-
-    }
-
     private suspend fun toggleFavorite() {
+
         val currentIsFavorite = favoriteRepository.isFavorite(dishId)
         if (currentIsFavorite) {
             favoriteRepository.deleteFromFavorite(dishId)
         } else {
             favoriteRepository.addToFavorite(dishId)
         }
-        if (datastore.isAuthorized()) {
-            try {
-                val token = requireNotNull(datastore.getAccessToken())
-                menuApi.changeFavorite(
-                    token = token,
-                    favorites = mapOf(dishId to !currentIsFavorite)
-                )
-            } catch (exception: Exception) {
-                Log.e(TAG, "Can't change favorite status: $exception")
-            }
+
+        if (!datastore.isAuthorized()) return
+        try {
+            menuApi.changeFavorite(
+                token = requireNotNull(datastore.getAccessToken()),
+                favorites = mapOf(dishId to !currentIsFavorite)
+            )
+        } catch (exception: Exception) {
+            Log.e(TAG, "Can't change favorite status: $exception")
         }
+
+    }
+
+    private fun addReview() {
+
     }
 
     companion object {

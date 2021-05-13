@@ -38,6 +38,13 @@
     <string name="main_recommended">Рекомендуем</string>
     <string name="main_message_update_error">Не удалось обновить данные.</string>
 
+    <string name="category_order_alphabet_asc">По алфавиту ▲</string>
+    <string name="category_order_alphabet_desc">По алфавиту ▼</string>
+    <string name="category_order_popularity_asc">По популярности ▲</string>
+    <string name="category_order_popularity_desc">По популярности ▼</string>
+    <string name="category_order_rating_asc">По рейтингу ▲</string>
+    <string name="category_order_rating_desc">По рейтингу ▼</string>
+
     <string name="order_message_order_canceled">Заказ успешно отменен</string>
     <string name="order_message_cart_not_empty">Ваша корзина уже содержит %s. Очистить корзину?</string>
     <plurals name="order_message_plural_dish">

@@ -1,12 +1,19 @@
 package com.dvm.auth.register.model
 
 sealed class RegisterEvent {
+
+    data class Register(
+        val firstName: String,
+        val lastName: String,
+        val email: String,
+        val password: String
+    ): RegisterEvent()
+
     object Login: RegisterEvent()
-    object Register: RegisterEvent()
     object DismissAlert: RegisterEvent()
-    data class FirstNameTextChanged(val firstName: String): RegisterEvent()
-    data class LastNameTextChanged(val lastName: String): RegisterEvent()
-    data class EmailTextChanged(val email: String): RegisterEvent()
-    data class PasswordTextChanged(val password: String): RegisterEvent()
+    object FirstNameTextChanged: RegisterEvent()
+    object LastNameTextChanged: RegisterEvent()
+    object EmailTextChanged: RegisterEvent()
+    object PasswordTextChanged: RegisterEvent()
     object BackClick: RegisterEvent()
 }

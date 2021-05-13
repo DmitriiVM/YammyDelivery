@@ -10,17 +10,16 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.OrderRepository
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.network.api.OrderApi
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
-import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
-import com.dvm.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,11 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class OrdersViewModel @Inject constructor(
     private val orderRepository: OrderRepository,
-    private val orderApi: OrderApi,
-    private val datastore: DatastoreRepository,
     private val updateService: UpdateService,
-    private val stringProvider: StringProvider,
-    private val appScope: CoroutineScope,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -44,45 +39,46 @@ internal class OrdersViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-//            if (!datastore.isAuthorized()) {
-//                navigator.goTo(Destination.Auth)
-//            }
-        }
-//        appScope.launch {
-//            updateService.updateOrders()
-//        }
+            state = state.copy(networkCall = true)
+            try {
+                updateService.updateOrders()
+            } catch (exception: Exception) {
+                state = state.copy(alertMessage = exception.message)
+            } finally {
+                state = state.copy(networkCall = false)
+            }
 
-        status
-            .asFlow()
-            .distinctUntilChanged()
-            .flatMapLatest { status ->
-                when (status) {
-                    OrderStatus.ACTUAL -> orderRepository.activeOrders()
-                    OrderStatus.COMPLETED -> orderRepository.completedOrders()
-                }
-                    .map { orders ->
-                        status to orders
+            status
+                .asFlow()
+                .distinctUntilChanged()
+                .flatMapLatest { status ->
+                    when (status) {
+                        OrderStatus.ACTUAL -> orderRepository.activeOrders()
+                        OrderStatus.COMPLETED -> orderRepository.completedOrders()
                     }
-            }
-            .onEach { (status, orders) ->
-                state = state.copy(
-                    status = status,
-                    orders = orders
-                )
-            }
-            .launchIn(viewModelScope)
+                        .map { orders ->
+                            status to orders
+                        }
+                }
+                .collect { (status, orders) ->
+                    state = state.copy(
+                        status = status,
+                        orders = orders
+                    )
+                }
+        }
     }
 
     fun dispatchEvent(event: OrdersEvent) {
         when (event) {
-            OrdersEvent.BackClick -> {
-                navigator.back()
+            is OrdersEvent.OrderClick -> {
+                navigator.goTo(Destination.Order(event.orderId))
             }
             is OrdersEvent.SelectStatus -> {
                 status.value = event.status
             }
-            is OrdersEvent.OrderClick -> {
-                navigator.goTo(Destination.Order(event.orderId))
+            OrdersEvent.BackClick -> {
+                navigator.back()
             }
         }
     }

@@ -1,11 +1,16 @@
 package com.dvm.auth.login.model
 
 sealed class LoginEvent {
-    object Login: LoginEvent()
+
+    data class Login(
+        val email: String,
+        val password: String
+    ): LoginEvent()
+
     object RegisterClick: LoginEvent()
     object PasswordRestoreClick: LoginEvent()
     object DismissAlert: LoginEvent()
-    data class LoginTextChanged(val login: String): LoginEvent()
-    data class PasswordTextChanged(val password: String): LoginEvent()
+    object LoginTextChanged: LoginEvent()
+    object PasswordTextChanged: LoginEvent()
     object BackClick: LoginEvent()
 }

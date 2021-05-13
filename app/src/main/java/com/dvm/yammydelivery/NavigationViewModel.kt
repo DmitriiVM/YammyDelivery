@@ -1,6 +1,5 @@
 package com.dvm.yammydelivery
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -40,6 +39,14 @@ internal class NavigationViewModel @Inject constructor(
                     targetDestination = destination
                     navController.navigate(MainGraphDirections.toLogin())
                 } else {
+                    if (
+                        destination !is Destination.Login &&
+                        destination !is Destination.Register &&
+                        destination !is Destination.PasswordRestore &&
+                        destination !is Destination.LoginTarget
+                    ) {
+                        targetDestination = null
+                    }
                     navigateTo(
                         navController = navController,
                         destination = destination
@@ -74,7 +81,6 @@ internal class NavigationViewModel @Inject constructor(
                 navController.navigate(MenuFragmentDirections.toSearch(), navOptions)
             }
             is Destination.Category -> {
-                Log.d("mmm", "NavigationViewModel :  navigateTo --  ${destination.subcategoryId}")
                 navController.navigate(
                     MenuFragmentDirections.toCategory(
                         categoryId = destination.categoryId,
@@ -131,7 +137,7 @@ internal class NavigationViewModel @Inject constructor(
                             .build()
                     )
                 } else {
-                    navController.navigate(MainGraphDirections.toProfile())
+                    navController.navigateUp()
                 }
             }
         }

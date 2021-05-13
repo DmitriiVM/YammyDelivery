@@ -3,7 +3,9 @@ package com.dvm.auth.restore
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.auth.R
 import com.dvm.auth.restore.model.RestoreEvent
@@ -15,6 +17,9 @@ import com.dvm.utils.StringProvider
 import com.dvm.utils.getErrorMessage
 import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,10 +28,20 @@ internal class PasswordRestoreViewModel @Inject constructor(
     private val authApi: AuthApi,
     private val navigator: Navigator,
     private val stringProvider: StringProvider,
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(RestoreState())
         private set
+
+    private val screen = savedState.getLiveData("password_restoration_screen", Screen.EMAIL)
+
+    init {
+        screen.asFlow()
+            .distinctUntilChanged()
+            .onEach { state = state.copy(screen = it) }
+            .launchIn(viewModelScope)
+    }
 
     fun dispatch(event: RestoreEvent) {
         when (event) {
@@ -60,10 +75,8 @@ internal class PasswordRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 authApi.sendEmail(email)
-                state = state.copy(
-                    networkCall = false,
-                    screen = Screen.CODE
-                )
+                state = state.copy(networkCall = false)
+                screen.value = Screen.CODE
             } catch (exception: Exception) {
                 state = state.copy(
                     networkCall = false,
@@ -82,10 +95,8 @@ internal class PasswordRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 authApi.sendCode(email, code)
-                state = state.copy(
-                    networkCall = false,
-                    screen = Screen.PASSWORD
-                )
+                state = state.copy(networkCall = false)
+                screen.value = Screen.PASSWORD
             } catch (exception: Exception) {
                 state = state.copy(
                     networkCall = false,

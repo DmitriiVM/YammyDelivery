@@ -1,54 +1,70 @@
 package com.dvm.auth.login
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
-import com.dvm.db.api.FavoriteRepository
-import com.dvm.db.api.models.Favorite
+import com.dvm.db.api.ProfileRepository
+import com.dvm.db.api.models.Profile
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
-import com.dvm.network.api.MenuApi
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.StringProvider
-import com.dvm.utils.extensions.isEmailValid
-import com.dvm.utils.extensions.isPasswordValid
+import com.dvm.utils.extensions.getEmailErrorOrNull
+import com.dvm.utils.extensions.getPasswordErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
     private val authApi: AuthApi,
-    private val menuApi: MenuApi,
-    private val favoriteRepository: FavoriteRepository,
+    private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,
+    private val updateService: UpdateService,
     private val stringProvider: StringProvider,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginState())
         private set
 
+    private val emailError = savedState.getLiveData("login_email_error", "")
+    private val passwordError = savedState.getLiveData("login_password_error", "")
+
+    init {
+        combine(
+            emailError.asFlow()
+                .distinctUntilChanged(),
+            passwordError.asFlow()
+                .distinctUntilChanged()
+        ) { emailError, passwordError ->
+            state = state.copy(
+                emailError = emailError,
+                passwordError = passwordError
+            )
+        }
+            .launchIn(viewModelScope)
+    }
+
     fun dispatch(event: LoginEvent) {
         when (event) {
             is LoginEvent.LoginTextChanged -> {
-                state = state.copy(
-                    email = event.login,
-                    emailError = null
-                )
+                emailError.value = null
             }
             is LoginEvent.PasswordTextChanged -> {
-                state = state.copy(
-                    password = event.password,
-                    passwordError = null
-                )
+                passwordError.value = null
             }
             LoginEvent.PasswordRestoreClick -> {
                 navigator.goTo(Destination.PasswordRestore)
@@ -56,39 +72,32 @@ internal class LoginViewModel @Inject constructor(
             LoginEvent.RegisterClick -> {
                 navigator.goTo(Destination.Register)
             }
-            LoginEvent.BackClick -> {
-                navigator.back()
-            }
-            LoginEvent.Login -> {
-                login()
+            is LoginEvent.Login -> {
+                login(
+                    email = event.email,
+                    password = event.password
+                )
             }
             LoginEvent.DismissAlert -> {
                 state = state.copy(alertMessage = null)
             }
+            LoginEvent.BackClick -> {
+                navigator.back()
+            }
         }
     }
 
-    private fun login() {
-        val emptyField = stringProvider.getString(R.string.auth_field_error_empty)
-        val incorrectEmail = stringProvider.getString(R.string.auth_field_error_incorrect_email)
-        val incorrectPassword = stringProvider.getString(R.string.auth_field_error_incorrect_password)
+    private fun login(
+        email: String,
+        password: String
+    ) {
 
-        val emailError = when {
-            state.email.isEmpty() -> emptyField
-            !state.email.isEmailValid() -> incorrectEmail
-            else -> null
-        }
-        val passwordError = when {
-            state.password.isEmpty() -> emptyField
-            !state.password.isPasswordValid() -> incorrectPassword
-            else -> null
-        }
+        val emailError = email.getEmailErrorOrNull(stringProvider)
+        val passwordError = password.getPasswordErrorOrNull(stringProvider)
 
         if (!emailError.isNullOrEmpty() || !passwordError.isNullOrEmpty()) {
-            state = state.copy(
-                emailError = emailError,
-                passwordError = passwordError
-            )
+            this.emailError.value = emailError
+            this.passwordError.value = passwordError
             return
         }
 
@@ -97,14 +106,20 @@ internal class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val loginData = authApi.login(
-                    login = state.email,
-                    password = state.password
+                    login = email,
+                    password = password
                 )
+
                 datastore.saveAccessToken(loginData.accessToken)
                 datastore.saveRefreshToken(loginData.refreshToken)
-
-                syncFavorites()
-
+                profileRepository.updateProfile(
+                    Profile(
+                        firstName = loginData.firstName,
+                        lastName = loginData.lastName,
+                        email = loginData.email
+                    )
+                )
+                updateService.syncFavorites()
                 navigator.goTo(Destination.LoginTarget)
             } catch (exception: Exception) {
                 state = state.copy(
@@ -113,32 +128,5 @@ internal class LoginViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    private suspend fun syncFavorites() {
-        val token = requireNotNull(datastore.getAccessToken())
-        val lastUpdateTime = datastore.getLastUpdateTime()
-        val remoteFavorites = menuApi.getFavorite(
-            token = token,
-            lastUpdateTime = lastUpdateTime
-        )
-            .map { it.dishId }
-        val localFavorites = favoriteRepository.getFavorites()
-        val favoritesToLocal = remoteFavorites.filter { !localFavorites.contains(it) }
-        val favoritesToRemote = localFavorites.filter { !remoteFavorites.contains(it) }
-
-        favoriteRepository.addListToFavorite(favoritesToLocal.map { Favorite(it) })
-        try {
-            menuApi.changeFavorite(
-                token = token,
-                favorites = favoritesToRemote.associateWith { true }
-            )
-        } catch (exception: Exception) {
-            Log.e(TAG, "Can't change favorites on server: $exception")
-        }
-    }
-
-    companion object {
-        private const val TAG = "LoginViewModel"
     }
 }

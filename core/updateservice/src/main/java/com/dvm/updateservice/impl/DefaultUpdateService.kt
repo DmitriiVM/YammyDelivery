@@ -1,6 +1,7 @@
 package com.dvm.updateservice.impl
 
 import com.dvm.db.api.*
+import com.dvm.db.api.models.Favorite
 import com.dvm.db.api.models.Recommended
 import com.dvm.network.api.MenuApi
 import com.dvm.network.api.OrderApi
@@ -17,6 +18,7 @@ internal class DefaultUpdateService @Inject constructor(
     private val reviewRepository: ReviewRepository,
     private val profileRepository: ProfileRepository,
     private val orderRepository: OrderRepository,
+    private val favoriteRepository: FavoriteRepository,
     private val menuApi: MenuApi,
     private val profileApi: ProfileApi,
     private val orderApi: OrderApi,
@@ -96,5 +98,30 @@ internal class DefaultUpdateService @Inject constructor(
                     .map { it.toDbEntity() }
             )
         }
+    }
+
+    override suspend fun syncFavorites() = withContext(Dispatchers.IO) {
+        val token = requireNotNull(datastore.getAccessToken())
+        val lastUpdateTime = datastore.getLastUpdateTime()
+
+        val remoteFavorites = menuApi.getFavorite(
+            token = token,
+            lastUpdateTime = lastUpdateTime
+        )
+            .map { it.dishId }
+        val localFavorites = favoriteRepository.getFavorites()
+        val favoritesToLocal =
+            remoteFavorites
+                .filter { !localFavorites.contains(it) }
+        val favoritesToRemote =
+            localFavorites
+                .filter { !remoteFavorites.contains(it) }
+
+        favoriteRepository.addListToFavorite(favoritesToLocal.map { Favorite(it) })
+
+        menuApi.changeFavorite(
+            token = token,
+            favorites = favoritesToRemote.associateWith { true }
+        )
     }
 }

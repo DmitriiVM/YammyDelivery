@@ -28,7 +28,7 @@ internal class CartViewModel @Inject constructor(
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
     private val navigator: Navigator,
-    savedState: SavedStateHandle
+    private val savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(CartState())
@@ -38,23 +38,34 @@ internal class CartViewModel @Inject constructor(
     private val promoCodeText = savedState.getLiveData("cart_promocode_description", "")
     private val appliedPromoCode = savedState.getLiveData("cart_promocode_applied", false)
 
+    private var resumeOrderAfterLogin: Boolean
+        get() = savedState.get("resume_order") ?: false
+        set(value) = savedState.set("resume_order", value)
+
     init {
         combine(
             cartRepository.cartItems(),
             promoCode.asFlow(),
             promoCodeText.asFlow(),
             appliedPromoCode.asFlow()
-        ) { items, promoCode, promoCodeDescription, appliedPromoCode ->
+        ) { items, promoCode, promoCodeText, appliedPromoCode ->
             val totalPrice = items.sumBy { it.price * it.quantity }
             state = state.copy(
                 items = items,
                 totalPrice = totalPrice,
                 promoCode = promoCode,
-                promoCodeText = promoCodeDescription,
+                promoCodeText = promoCodeText,
                 appliedPromoCode = appliedPromoCode,
             )
         }
             .launchIn(viewModelScope)
+    }
+
+    fun onResume() {
+        if (resumeOrderAfterLogin){
+            makeOrder()
+            resumeOrderAfterLogin = false
+        }
     }
 
     fun dispatchEvent(event: CartEvent) {
@@ -77,7 +88,7 @@ internal class CartViewModel @Inject constructor(
             }
             CartEvent.ApplyPromoCode -> {
                 updateCart(state.promoCode) { promocode, promocodeText ->
-                    if (promocode == "promocode"){
+                    if (promocode == "promocode") {
                         promoCodeText.value = promocodeText
                         appliedPromoCode.value = true
                     } else {
@@ -86,16 +97,14 @@ internal class CartViewModel @Inject constructor(
                 }
             }
             CartEvent.CancelPromoCode -> {
-                updateCart("") { _,_ ->
+                updateCart("") { _, _ ->
                     promoCode.value = ""
                     promoCodeText.value = ""
                     appliedPromoCode.value = false
                 }
             }
             CartEvent.CreateOrder -> {
-                updateCart(state.promoCode) { _,_ ->
-                    navigator.goTo(Destination.Orders)
-                }
+                makeOrder()
             }
             CartEvent.DismissAlert -> {
                 state = state.copy(alertMessage = null)
@@ -106,24 +115,32 @@ internal class CartViewModel @Inject constructor(
         }
     }
 
+    private fun makeOrder() {
+        updateCart(state.promoCode) { _, _ ->
+            navigator.goTo(Destination.Ordering)
+        }
+    }
+
     private fun updateCart(promoCode: String, onUpdated: (String, String) -> Unit) {
         viewModelScope.launch {
             if (datastore.isAuthorized()) {
                 try {
                     state = state.copy(networkCall = true)
-                    val token = requireNotNull(datastore.getAccessToken())
                     val cart = cartApi.updateCart(
-                        token = token,
+                        token = requireNotNull(datastore.getAccessToken()),
                         promocode = promoCode,
                         items = state.items.associate { it.dishId to it.quantity }
                     )
+                    state = state.copy(networkCall = false)
                     onUpdated(cart.promocode, cart.promotext)
                 } catch (exception: Exception) {
-                    state = state.copy(alertMessage = exception.message)
-                } finally {
-                    state = state.copy(networkCall = false)
+                    state = state.copy(
+                        alertMessage = exception.message,
+                        networkCall = false
+                    )
                 }
             } else {
+                resumeOrderAfterLogin = true
                 navigator.goTo(Destination.Login)
             }
         }

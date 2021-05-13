@@ -62,6 +62,8 @@ internal fun Profile(
             )
             Spacer(modifier = Modifier.height(40.dp))
 
+
+
             val lastNameFocus = remember { FocusRequester() }
             val emailFocus = remember { FocusRequester() }
 
@@ -125,7 +127,7 @@ internal fun Profile(
                 ProgressButton(
                     "Изменить",
                     progress = state.networkCall,
-                    onClick = { onEvent(ProfileEvent.ChangeIsEditing(true)) }
+                    onClick = { onEvent(ProfileEvent.ChangeEditingMode(true)) }
                 )
             }
 
@@ -134,7 +136,7 @@ internal fun Profile(
                 OutlinedButton(
                     enabled = !state.networkCall,
                     onClick = {
-                        onEvent(ProfileEvent.ChangeIsEditing(false))
+                        onEvent(ProfileEvent.ChangeEditingMode(false))
                         keyboardController?.hideSoftwareKeyboard()
                     },
                     modifier = Modifier
@@ -146,7 +148,7 @@ internal fun Profile(
             } else {
                 OutlinedButton(
                     enabled = !state.networkCall,
-                    onClick = { onEvent(ProfileEvent.ChangePasswordClick) },
+                    onClick = { onEvent(ProfileEvent.ChangeButtonClick) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .navigationBarsWithImePadding()

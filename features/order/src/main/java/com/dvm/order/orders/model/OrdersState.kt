@@ -6,7 +6,9 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 internal data class OrdersState(
     val status: OrderStatus = OrderStatus.ACTUAL,
-    val orders: List<OrderData> = emptyList()
+    val orders: List<OrderData> = emptyList(),
+    val networkCall: Boolean = false,
+    val alertMessage: String? = null
 )
 
 internal enum class OrderStatus{

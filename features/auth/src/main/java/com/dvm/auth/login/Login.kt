@@ -6,8 +6,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -45,29 +45,46 @@ internal fun Login(
             }
 
             Column {
+
+                var email by rememberSaveable { mutableStateOf("") }
+                var password by rememberSaveable { mutableStateOf("") }
+
                 val passwordFocusRequest = remember { FocusRequester() }
 
                 EditTextField(
-                    text = state.email,
+                    text = email,
                     label = "E-mail",
                     error = state.emailError,
                     enabled = !state.networkCall,
-                    onValueChange = { onEvent(LoginEvent.LoginTextChanged(it)) },
+                    onValueChange = {
+                        email = it
+                        onEvent(LoginEvent.LoginTextChanged)
+                    },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
                         onNext = { passwordFocusRequest.requestFocus() }
                     )
                 )
                 EditTextField(
-                    text = state.password,
+                    text = password,
                     label = "Пароль",
                     error = state.passwordError,
                     enabled = !state.networkCall,
-                    onValueChange = { onEvent(LoginEvent.PasswordTextChanged(it)) },
+                    onValueChange = {
+                        password = it
+                        onEvent(LoginEvent.PasswordTextChanged)
+                    },
                     modifier = Modifier.focusRequester(passwordFocusRequest),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
-                        onDone = { onEvent(LoginEvent.Login) }
+                        onDone = {
+                            onEvent(
+                                LoginEvent.Login(
+                                    email = email,
+                                    password = password,
+                                )
+                            )
+                        }
                     )
                 )
                 Spacer(modifier = Modifier.height(30.dp))
@@ -77,7 +94,12 @@ internal fun Login(
                     progress = state.networkCall,
                     onClick = {
                         if (!state.networkCall) {
-                            onEvent(LoginEvent.Login)
+                            onEvent(
+                                LoginEvent.Login(
+                                    email = email,
+                                    password = password,
+                                )
+                            )
                         }
                     }
                 )

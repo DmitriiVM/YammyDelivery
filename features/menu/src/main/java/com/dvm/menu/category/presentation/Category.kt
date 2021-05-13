@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu.Drawer
 import com.dvm.db.api.models.Subcategory
@@ -177,7 +178,10 @@ private fun DishList(
                 lazyListState.scrollToItem(0, -offset)
             }
 
-            LazyColumn(state = lazyListState) {
+            LazyColumn(
+                state = lazyListState,
+                modifier = Modifier.fillMaxSize()
+            ) {
                 item {
                     DishListHeader(
                         state = state,
@@ -201,7 +205,7 @@ private fun DishList(
                 }
                 if (chunkedDishes.size < 3) {
                     item {
-                        Spacer(modifier = Modifier.height(1000.dp))
+                        Spacer(modifier = Modifier.height(700.dp)) // todo
                     }
                 }
                 item { Spacer(Modifier.navigationBarsHeight()) }
@@ -276,7 +280,7 @@ private fun CategoryAppBar(
                         }
                     ) {
                         Text(
-                            text = type.title,
+                            text = stringResource(type.stringResource),
                             color = if (type == selectedOrder) selectedColor else Color.Unspecified
                         )
                     }

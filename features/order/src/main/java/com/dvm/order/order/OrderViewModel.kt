@@ -30,14 +30,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 internal class OrderViewModel(
-    private val orderId: String,
+    orderId: String,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
-    private val navigator: Navigator,
-    savedState: SavedStateHandle
+    private val navigator: Navigator
 ) : ViewModel() {
 
     var state by mutableStateOf(OrderState())
@@ -56,7 +55,7 @@ internal class OrderViewModel(
             OrderEvent.CancelOrder -> {
                 cancelOrder()
             }
-            OrderEvent.ReorderClick -> {
+            OrderEvent.OrderAgainClick -> {
                 checkCart()
             }
             OrderEvent.OrderAgain -> {
@@ -81,11 +80,9 @@ internal class OrderViewModel(
         state = state.copy(networkCall = true)
         viewModelScope.launch {
             try {
-                val token = requireNotNull(datastore.getAccessToken())
-                val orderId = requireNotNull(state.order?.id)
                 val order = orderApi.cancelOrder(
-                    token = token,
-                    orderId = orderId
+                    token = requireNotNull(datastore.getAccessToken()),
+                    orderId = requireNotNull(state.order?.id)
                 )
                 orderRepository.insertOrders(listOf(order.toDbEntity()))
 
@@ -126,8 +123,12 @@ internal class OrderViewModel(
             val orderItems = state.order?.items.orEmpty()
             val cartItems =
                 orderItems
-                    .map { it.dishId to it.amount }
-                    .map { CartItem(it.first, it.second) }  // check
+                    .map {
+                        CartItem(
+                            dishId = it.dishId,
+                            quantity = it.amount
+                        )
+                    }
             cartRepository.addToCart(cartItems)
             navigator.goTo(Destination.Cart)
         }
@@ -160,8 +161,7 @@ internal class OrderViewModelFactory @AssistedInject constructor(
                 orderApi = orderApi,
                 datastore = datastore,
                 stringProvider = stringProvider,
-                navigator = navigator,
-                savedState = handle
+                navigator = navigator
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

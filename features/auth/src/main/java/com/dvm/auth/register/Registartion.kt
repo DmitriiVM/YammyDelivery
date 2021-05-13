@@ -5,8 +5,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -33,7 +33,7 @@ fun Registration(
                 .fillMaxSize()
                 .padding(15.dp),
 
-        ) {
+            ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(
                 title = { Text("Регистрация") },
@@ -45,27 +45,39 @@ fun Registration(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center
             ) {
+
+                var firstName by rememberSaveable { mutableStateOf("") }
+                var lastName by rememberSaveable { mutableStateOf("") }
+                var email by rememberSaveable { mutableStateOf("") }
+                var password by rememberSaveable { mutableStateOf("") }
+
                 val lastNameFocus = remember { FocusRequester() }
                 val emailFocus = remember { FocusRequester() }
                 val passwordFocus = remember { FocusRequester() }
 
                 EditTextField(
-                    text = state.firstName,
+                    text = firstName,
                     label = "Имя",
                     error = state.firstNameError,
                     enabled = !state.networkCall,
-                    onValueChange = { onEvent(RegisterEvent.FirstNameTextChanged(it)) },
+                    onValueChange = {
+                        firstName = it
+                        onEvent(RegisterEvent.FirstNameTextChanged)
+                    },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
                         onNext = { lastNameFocus.requestFocus() }
                     )
                 )
                 EditTextField(
-                    text = state.lastName,
+                    text = lastName,
                     label = "Фамилия",
                     error = state.lastNameError,
                     enabled = !state.networkCall,
-                    onValueChange = { onEvent(RegisterEvent.LastNameTextChanged(it)) },
+                    onValueChange = {
+                        lastName = it
+                        onEvent(RegisterEvent.LastNameTextChanged)
+                    },
                     modifier = Modifier.focusRequester(lastNameFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -73,11 +85,14 @@ fun Registration(
                     )
                 )
                 EditTextField(
-                    text = state.email,
+                    text = email,
                     label = "E-mail",
                     error = state.emailError,
                     enabled = !state.networkCall,
-                    onValueChange = { onEvent(RegisterEvent.EmailTextChanged(it)) },
+                    onValueChange = {
+                        email = it
+                        onEvent(RegisterEvent.EmailTextChanged)
+                    },
                     modifier = Modifier.focusRequester(emailFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -85,15 +100,27 @@ fun Registration(
                     )
                 )
                 EditTextField(
-                    text = state.password,
+                    text = password,
                     label = "Пароль",
                     error = state.passwordError,
                     enabled = !state.networkCall,
-                    onValueChange = { onEvent(RegisterEvent.PasswordTextChanged(it)) },
+                    onValueChange = {
+                        password = it
+                        onEvent(RegisterEvent.PasswordTextChanged)
+                    },
                     modifier = Modifier.focusRequester(passwordFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
-                        onDone = { onEvent(RegisterEvent.Register) }
+                        onDone = {
+                            onEvent(
+                                RegisterEvent.Register(
+                                    firstName = firstName,
+                                    lastName = lastName,
+                                    email = email,
+                                    password = password,
+                                )
+                            )
+                        }
                     )
                 )
 
@@ -101,7 +128,16 @@ fun Registration(
                 ProgressButton(
                     text = "Зарегистрироваться",
                     progress = state.networkCall,
-                    onClick = { onEvent(RegisterEvent.Register) }
+                    onClick = {
+                        onEvent(
+                            RegisterEvent.Register(
+                                firstName = firstName,
+                                lastName = lastName,
+                                email = email,
+                                password = password,
+                            )
+                        )
+                    }
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 OutlinedButton(

@@ -53,7 +53,7 @@ internal fun Order(
                 enabled = order?.completed == true || state.order?.status?.cancelable == true,
                 onClick = {
                     if (order?.completed == true) {
-                        onEvent(OrderEvent.ReorderClick)
+                        onEvent(OrderEvent.OrderAgainClick)
                     } else {
                         onEvent(OrderEvent.CancelOrder)
                     }

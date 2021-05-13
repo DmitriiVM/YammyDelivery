@@ -39,4 +39,9 @@ internal class CartFragment: Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
 }

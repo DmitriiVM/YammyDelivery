@@ -20,6 +20,7 @@ import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
 import com.dvm.ui.components.AppBarIconMenu
+import com.dvm.ui.components.LoadingScrim
 import com.dvm.ui.components.TransparentAppBar
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -82,5 +83,9 @@ internal fun Ordering(
                 }
             }
         }
+    }
+
+    if (state.networkCall) {
+        LoadingScrim()
     }
 }

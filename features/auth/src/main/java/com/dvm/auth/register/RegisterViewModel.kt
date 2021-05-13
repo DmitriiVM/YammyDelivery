@@ -3,9 +3,10 @@ package com.dvm.auth.register
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.navigation.Navigator
@@ -13,10 +14,13 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.StringProvider
-import com.dvm.utils.extensions.isEmailValid
-import com.dvm.utils.extensions.isPasswordValid
-import com.dvm.utils.extensions.isTextValid
+import com.dvm.utils.extensions.getEmailErrorOrNull
+import com.dvm.utils.extensions.getPasswordErrorOrNull
+import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,40 +29,60 @@ internal class RegisterViewModel @Inject constructor(
     private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
     private val stringProvider: StringProvider,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterState())
         private set
 
+    private val firstNameError = savedState.getLiveData("register_name_error", "")
+    private val lastNameError = savedState.getLiveData("register_last_name_error", "")
+    private val emailError = savedState.getLiveData("register_email_error", "")
+    private val passwordError = savedState.getLiveData("register_password_error", "")
+
+    init {
+        combine(
+            firstNameError.asFlow()
+                .distinctUntilChanged(),
+            lastNameError.asFlow()
+                .distinctUntilChanged(),
+            emailError.asFlow()
+                .distinctUntilChanged(),
+            passwordError.asFlow()
+                .distinctUntilChanged(),
+        ) { firstNameError, lastNameError, emailError, passwordError ->
+            state = state.copy(
+                firstNameError = firstNameError,
+                lastNameError = lastNameError,
+                emailError = emailError,
+                passwordError = passwordError,
+            )
+        }
+            .launchIn(viewModelScope)
+    }
+
     fun dispatch(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.FirstNameTextChanged -> {
-                state = state.copy(
-                    firstName = event.firstName,
-                    firstNameError = null
-                )
+                firstNameError.value = null
             }
             is RegisterEvent.LastNameTextChanged -> {
-                state = state.copy(
-                    lastName = event.lastName,
-                    lastNameError = null
-                )
+                lastNameError.value = null
             }
             is RegisterEvent.EmailTextChanged -> {
-                state = state.copy(
-                    email = event.email,
-                    emailError = null
-                )
+                emailError.value = null
             }
             is RegisterEvent.PasswordTextChanged -> {
-                state = state.copy(
-                    password = event.password,
-                    passwordError = null
-                )
+                passwordError.value = null
             }
-            RegisterEvent.Register -> {
-                register()
+            is RegisterEvent.Register -> {
+                register(
+                    firstName = event.firstName,
+                    lastName = event.lastName,
+                    email = event.email,
+                    password = event.password,
+                )
             }
             RegisterEvent.Login -> {
                 navigator.goTo(Destination.Login)
@@ -72,32 +96,17 @@ internal class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun register() {
-        val emptyField = stringProvider.getString(R.string.auth_field_error_empty)
-        val letters = stringProvider.getString(R.string.auth_field_error_letters_allowed)
-        val incorrectEmail = stringProvider.getString(R.string.auth_field_error_incorrect_email)
-        val incorrectPassword = stringProvider.getString(R.string.auth_field_error_incorrect_password)
+    private fun register(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String
+    ) {
 
-        val firstNameError = when {
-            state.firstName.isEmpty() -> emptyField
-            !state.firstName.isTextValid() -> letters
-            else -> null
-        }
-        val lastNameError = when {
-            state.lastName.isEmpty() -> emptyField
-            !state.lastName.isTextValid() -> letters
-            else -> null
-        }
-        val emailError = when {
-            state.email.isEmpty() -> emptyField
-            !state.email.isEmailValid() -> incorrectEmail
-            else -> null
-        }
-        val passwordError = when {
-            state.password.isEmpty() -> emptyField
-            !state.password.isPasswordValid() -> incorrectPassword
-            else -> null
-        }
+        val firstNameError = firstName.getTextFieldErrorOrNull(stringProvider)
+        val lastNameError = lastName.getTextFieldErrorOrNull(stringProvider)
+        val emailError = email.getEmailErrorOrNull(stringProvider)
+        val passwordError = password.getPasswordErrorOrNull(stringProvider)
 
         if (
             !firstNameError.isNullOrEmpty() ||
@@ -105,12 +114,10 @@ internal class RegisterViewModel @Inject constructor(
             !emailError.isNullOrEmpty() ||
             !passwordError.isNullOrEmpty()
         ) {
-            state = state.copy(
-                firstNameError = firstNameError,
-                lastNameError = lastNameError,
-                emailError = emailError,
-                passwordError = passwordError
-            )
+            this.firstNameError.value = firstNameError
+            this.lastNameError.value = lastNameError
+            this.emailError.value = emailError
+            this.passwordError.value = passwordError
             return
         }
 
@@ -119,15 +126,14 @@ internal class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val registerData = authApi.register(
-                    firstName = state.firstName,
-                    lastName = state.lastName,
-                    email = state.email,
-                    password = state.password
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email,
+                    password = password
                 )
                 datastore.saveAccessToken(registerData.accessToken)
                 datastore.saveRefreshToken(registerData.refreshToken)
-
-//                navController.popBackStack()
+                navigator.back()
             } catch (exception: Exception) {
                 state = state.copy(
                     alertMessage = exception.message,

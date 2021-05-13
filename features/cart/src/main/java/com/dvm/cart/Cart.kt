@@ -21,9 +21,7 @@ import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
 import com.dvm.db.api.models.CartItemDetails
 import com.dvm.navigation.Navigator
-import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.components.LoadingScrim
-import com.dvm.ui.components.TransparentAppBar
+import com.dvm.ui.components.*
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -100,6 +98,16 @@ internal fun Cart(
             }
         }
     }
+
+    if (!state.alertMessage.isNullOrEmpty()) {
+        val onDismiss = { onEvent(CartEvent.DismissAlert) }
+        Alert(
+            message = state.alertMessage,
+            onDismiss = onDismiss,
+            buttons = { AlertButton(onClick = onDismiss) }
+        )
+    }
+
     if (state.networkCall) {
         LoadingScrim()
     }

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 sealed class Destination(val private: Boolean = false): Parcelable {
+
     @Parcelize
     data class Category(
         val categoryId: String,
