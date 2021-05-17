@@ -16,8 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
-import com.dvm.navigation.Navigator
+import com.dvm.appmenu_api.Drawer
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
 import com.dvm.ui.components.AppBarIconMenu
@@ -28,17 +27,13 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun Notifications(
     state: NotificationState,
-    onEvent: (NotificationEvent) -> Unit,
-    navigator: Navigator
+    onEvent: (NotificationEvent) -> Unit
 ) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

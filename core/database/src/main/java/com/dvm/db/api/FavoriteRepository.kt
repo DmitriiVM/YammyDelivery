@@ -8,4 +8,5 @@ interface FavoriteRepository {
     suspend fun addToFavorite(dishId: String)
     suspend fun addListToFavorite(favorites: List<Favorite>)
     suspend fun deleteFromFavorite(dishId: String)
+    suspend fun deleteFavorites()
 }

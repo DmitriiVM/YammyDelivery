@@ -22,12 +22,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.light_blue
 import com.dvm.ui.themes.light_green
@@ -41,16 +40,12 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun MenuView(
     menuItems: List<MenuItem>,
-    navigator: Navigator,
     onEvent: (MenuEvent) -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
         Column {
             MenuAppBar(
                 onAppMenuClick = {

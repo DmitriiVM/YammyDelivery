@@ -6,18 +6,13 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class NotificationFragment: Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     private val model: NotificationViewModel by viewModels()
 
@@ -34,7 +29,6 @@ internal class NotificationFragment: Fragment() {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     Notifications(
                         state = model.state,
-                        navigator = navigator,
                         onEvent = { model.dispatch(it) }
                     )
                 }

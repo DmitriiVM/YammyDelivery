@@ -6,17 +6,12 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class PasswordRestoreFragment : Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     private val model: PasswordRestoreViewModel by viewModels()
 
@@ -32,7 +27,6 @@ internal class PasswordRestoreFragment : Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     PasswordRestoration(
                         state = model.state,
-                        navigator = navigator,
                         onEvent = { model.dispatch(it) }
                     )
                 }

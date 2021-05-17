@@ -13,7 +13,7 @@ internal abstract class ProfileDao {
             FROM profile
         """
     )
-    abstract fun profile(): Flow<Profile>
+    abstract fun profile(): Flow<Profile?>
 
     @Transaction
     open suspend fun updateCart(profile: Profile){

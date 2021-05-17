@@ -15,6 +15,7 @@ object Versions {
 object Libs {
     const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha14"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
+    const val HILT_GRADLE_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.DAGGER_HILT}"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"
     const val ANDROID_APPCOMPAT = "androidx.appcompat:appcompat:1.3.0-rc01"

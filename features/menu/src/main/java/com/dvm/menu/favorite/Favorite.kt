@@ -14,12 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconMenu
@@ -31,16 +30,12 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun Favorite(
     state: FavoriteState,
-    onEvent: (FavoriteEvent) -> Unit,
-    navigator: Navigator,
+    onEvent: (FavoriteEvent) -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())

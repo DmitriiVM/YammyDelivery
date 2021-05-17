@@ -78,5 +78,6 @@
     <string name="message_network_timeout">Ошибка. Попробуйте позже</string>
     <string name="message_network_error">Нет доступа к интернету. Попробуйте позже</string>
     <string name="message_unknown_error">Что-то пошло не так. Мы уже работаем над этим.</string>
+    <string name="app_menu_message_logout">Вы действительно хотите выйти из аккаунта?</string>
 
 </resources>

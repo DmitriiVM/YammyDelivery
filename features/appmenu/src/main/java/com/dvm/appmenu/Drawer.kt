@@ -4,23 +4,33 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.dvm.navigation.Navigator
-import com.dvm.navigation.api.model.Destination
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dvm.appmenu.model.AppMenuEvent
+import com.dvm.ui.components.Alert
+import com.dvm.ui.components.AlertButton
 import kotlinx.coroutines.launch
 
 @Composable
-fun Drawer(
+fun AppDrawer(
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
-    navigator: Navigator,
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit
 ) {
 
-//    val viewModel: AppMenuViewModel = viewModel()
+    val viewModel: AppMenuViewModel = viewModel()
+    val state = viewModel.state
+
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.init(context.applicationContext)
+    }
 
     val scope = rememberCoroutineScope()
 
@@ -30,20 +40,33 @@ fun Drawer(
 //        drawerBackgroundColor = temp.copy(alpha = 0.9f),
         drawerContent = {
             Column {
-                DrawerHeader()
+
+                DrawerHeader(
+                    name = state.name,
+                    email = state.email,
+                    onProfileClick = { viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE)) },
+                    onAuthButtonClick = {
+                        if (state.email.isEmpty()) {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.AuthClick)
+                            }
+                        } else {
+                            viewModel.onEvent(AppMenuEvent.AuthClick)
+                        }
+                    }
+                )
                 val modifier = Modifier
                     .padding(8.dp)
                     .size(24.dp)
-
 
                 DrawerItem(
                     text = "Главная",
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Main)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MAIN))
                         }
-//                        viewModel.onEvent(DrawerItem.MAIN)
                     },
                     icon = {
                         Icon(
@@ -58,9 +81,8 @@ fun Drawer(
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Menu)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MENU))
                         }
-//                        viewModel.onEvent(DrawerItem.MENU)
                     },
                     icon = {
                         Icon(
@@ -75,9 +97,8 @@ fun Drawer(
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Favorite)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.FAVORITE))
                         }
-//                        viewModel.onEvent(DrawerItem.FAVORITE)
                     },
                     icon = {
                         Icon(
@@ -89,12 +110,12 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Корзина",
+                    count = state.cartQuantity,
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Cart)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.CART))
                         }
-//                        viewModel.onEvent(DrawerItem.CART)
                     },
                     icon = {
                         Icon(
@@ -109,9 +130,8 @@ fun Drawer(
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Profile)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE))
                         }
-//                        viewModel.onEvent(DrawerItem.PROFILE)
                     },
                     icon = {
                         Icon(
@@ -126,9 +146,8 @@ fun Drawer(
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Orders)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.ORDERS))
                         }
-//                        viewModel.onEvent(DrawerItem.ORDERS)
                     },
                     icon = {
                         Icon(
@@ -140,27 +159,11 @@ fun Drawer(
                 )
                 DrawerItem(
                     text = "Уведомления",
+                    count = state.newNotificationCount,
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            navigator.goTo(Destination.Notification)
-                        }
-//                        viewModel.onEvent(DrawerItem.NOTIFICATION)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_notification),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
-                    }
-                )
-                DrawerItem(
-                    text = "SIGN_IN",
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navigator.goTo(Destination.Login)
+                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.NOTIFICATION))
                         }
                     },
                     icon = {
@@ -174,26 +177,72 @@ fun Drawer(
             }
         }
     )
+
+//    state.alertMessage?.let {
+//        Alert(
+//            message = state.alertMessage,
+//            onDismiss = { onEvent(MainEvent.DismissAlert) }
+//        ) {
+//            AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })
+//        }
+//    }
+
+    if (!state.alertMessage.isNullOrEmpty()) {
+        val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
+        Alert(
+            message = state.alertMessage,
+            onDismiss = onDismiss,
+            buttons = {
+                AlertButton(
+                    text = { Text("Нет") },
+                    onClick = onDismiss
+                )
+                AlertButton(
+                    text = { Text("Да") },
+                    onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
+                )
+            }
+        )
+    }
 }
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(
+    name: String,
+    email: String,
+    onProfileClick: () -> Unit,
+    onAuthButtonClick: () -> Unit
+) {
     Spacer(modifier = Modifier.height(100.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(Modifier.padding(10.dp)) {
-            Text(text = "Иван Иванов")
-            Text(text = "mail@mail.ru")
+        Column(
+            Modifier
+                .padding(10.dp)
+                .clickable { onProfileClick() }) {
+            Text(text = name)
+            Text(text = email)
         }
-        IconButton(onClick = { }) {
-            Icon(
-                painter = painterResource(id = R.drawable.icon_logout),
-                contentDescription = null,
-                modifier = Modifier.padding(10.dp)
-            )
+        IconButton(
+            onClick = { onAuthButtonClick() }
+        ) {
+            if (email.isNotEmpty()) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_logout),
+                    contentDescription = null,
+                    modifier = Modifier.padding(10.dp)
+                )
+            } else {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_login),
+                    contentDescription = null,
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
+
         }
     }
     Divider()
@@ -202,6 +251,7 @@ fun DrawerHeader() {
 @Composable
 private fun DrawerItem(
     text: String,
+    count: Int = 0,
     icon: @Composable () -> Unit,
     onClick: () -> Unit
 ) {
@@ -218,6 +268,9 @@ private fun DrawerItem(
                 .padding(start = 10.dp)
                 .clickable { onClick() }
         )
+        if (count > 0) {
+            Text(text = "        $count")
+        }
     }
 }
 
@@ -228,8 +281,6 @@ enum class DrawerItem {
     CART,
     PROFILE,
     ORDERS,
-    NOTIFICATION,
-    SIGN_IN,
-    SIGN_OUT
+    NOTIFICATION
 }
 

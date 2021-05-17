@@ -20,6 +20,15 @@ interface NotificationDao {
 
     @Query(
         """
+            SELECT COUNT()
+            FROM notification
+            WHERE seen = 0
+        """
+    )
+    fun count(): Flow<Int>
+
+    @Query(
+        """
             UPDATE notification
             SET seen = 1
             WHERE id IN (:id)

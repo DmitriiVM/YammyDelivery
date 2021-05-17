@@ -1,6 +1,7 @@
 package com.dvm.preferences.impl
 
 import com.dvm.preferences.api.DatastoreRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,6 +9,8 @@ import javax.inject.Singleton
 internal class DefaultDatastoreRepository @Inject constructor(
     private val dataStore: DataStore
 ): DatastoreRepository {
+
+    override fun accessToken(): Flow<String?> = dataStore.accessToken()
 
     override suspend fun isAuthorized(): Boolean = dataStore.isAuthorized()
 
@@ -21,6 +24,10 @@ internal class DefaultDatastoreRepository @Inject constructor(
 
     override suspend fun saveRefreshToken(token: String) {
         dataStore.saveRefreshToken(token)
+    }
+
+    override suspend fun deleteAccessToken() {
+        dataStore.saveAccessToken("")  // TODO
     }
 
     override suspend fun setUpdateError(error: Boolean) {

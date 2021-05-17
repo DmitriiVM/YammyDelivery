@@ -37,4 +37,9 @@ internal class DefaultOrderRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             orderDao.insertOrderStatuses(orderStatuses)
         }
+
+    override suspend fun deleteOrders() =
+        withContext(Dispatchers.IO) {
+            orderDao.deleteOrders()
+        }
 }

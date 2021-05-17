@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/appmenu" />
+            <option value="$PROJECT_DIR$/features/appmenu-api" />
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/cart" />
             <option value="$PROJECT_DIR$/features/dish" />

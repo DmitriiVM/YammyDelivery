@@ -6,17 +6,12 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class OrdersFragment: Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     private val viewModel: OrdersViewModel by viewModels()
 
@@ -32,8 +27,7 @@ internal class OrdersFragment: Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Ordering(
                         state = viewModel.state,
-                        onEvent = { viewModel.dispatchEvent(it) },
-                        navigator = navigator
+                        onEvent = { viewModel.dispatchEvent(it) }
                     )
                 }
             }

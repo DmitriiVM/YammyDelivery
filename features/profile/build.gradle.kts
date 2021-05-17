@@ -43,7 +43,7 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:ui"))
     implementation(project(":core:utils"))
-    implementation(project(":features:appmenu"))
+    implementation(project(":features:appmenu-api"))
     implementation(project(":navigation"))
 
     implementation(Libs.ANDROID_CORE)

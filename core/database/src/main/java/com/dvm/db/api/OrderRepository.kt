@@ -11,4 +11,5 @@ interface OrderRepository {
     suspend fun insertOrders(orders: List<Order>)
     suspend fun insertOrderItems(orderItems: List<OrderItem>)
     suspend fun insertOrderStatuses(orderStatuses: List<OrderStatus>)
+    suspend fun deleteOrders()
 }

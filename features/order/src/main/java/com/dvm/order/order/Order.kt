@@ -12,8 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
-import com.dvm.navigation.Navigator
+import com.dvm.appmenu_api.Drawer
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
@@ -24,12 +23,9 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 internal fun Order(
     state: OrderState,
-    navigator: Navigator,
     onEvent: (OrderEvent) -> Unit,
 ) {
-    Drawer(
-        navigator = navigator
-    ) {
+    Drawer {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

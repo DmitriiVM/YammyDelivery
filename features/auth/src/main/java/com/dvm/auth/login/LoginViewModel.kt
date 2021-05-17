@@ -9,7 +9,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.db.api.ProfileRepository
@@ -48,7 +47,6 @@ internal class LoginViewModel @Inject constructor(
     private val passwordError = savedState.getLiveData("login_password_error", "")
 
     init {
-        state = state.copy(alertMessage = context.getString(R.string.message_network_error))
         combine(
             emailError.asFlow()
                 .distinctUntilChanged(),

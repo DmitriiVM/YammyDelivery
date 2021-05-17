@@ -104,7 +104,7 @@ internal class OrderViewModel(
 
     private fun checkCart() {
         viewModelScope.launch {
-            val cartCount = cartRepository.getCount()
+            val cartCount = cartRepository.getDishCount()
             if (cartCount == 0) {
                 orderAgain()
                 return@launch

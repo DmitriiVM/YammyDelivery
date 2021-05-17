@@ -24,6 +24,14 @@ internal abstract class CartDao {
 
     @Query(
         """
+            SELECT SUM(quantity)
+            FROM cart
+        """
+    )
+    abstract fun totalQuantity(): Flow<Int?>
+
+    @Query(
+        """
             SELECT COUNT()
             FROM cart
         """

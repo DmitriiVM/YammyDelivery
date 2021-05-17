@@ -35,4 +35,9 @@ internal class DefaultFavoriteRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             favoriteDao.insertList(favorites)
         }
+
+    override suspend fun deleteFavorites()  =
+        withContext(Dispatchers.IO) {
+            favoriteDao.deleteFavorites()
+        }
 }

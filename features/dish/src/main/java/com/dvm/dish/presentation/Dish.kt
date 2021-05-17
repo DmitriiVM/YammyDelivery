@@ -29,13 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.DishDetails
 import com.dvm.db.api.models.Review
 import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -46,10 +45,9 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 internal fun Dish(
     state: DishState,
-    navigator: Navigator,
     onEvent: (DishEvent) -> Unit,
 ) {
-    Drawer(navigator = navigator) {
+    Drawer {
         Box {
             val listState = rememberLazyListState()
 

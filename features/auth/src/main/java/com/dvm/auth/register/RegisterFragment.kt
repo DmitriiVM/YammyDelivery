@@ -9,18 +9,13 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class RegisterFragment : Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     private val model: RegisterViewModel by viewModels()
 
@@ -37,7 +32,6 @@ internal class RegisterFragment : Fragment() {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     Registration(
                         state = model.state,
-                        navigator = navigator,
                         onEvent = { model.dispatch(it) }
                     )
                 }

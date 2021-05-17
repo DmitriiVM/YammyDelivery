@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath(Libs.ANDROID_GRADLE_PLUGIN)
         classpath(Libs.KOTLIN_GRADLE_PLUGIN)
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.33-beta")
+        classpath(Libs.HILT_GRADLE_PLUGIN)
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.3")
         classpath("com.google.gms:google-services:4.3.5")
     }

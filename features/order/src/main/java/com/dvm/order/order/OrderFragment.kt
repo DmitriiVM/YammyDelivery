@@ -7,7 +7,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -15,9 +14,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class OrderFragment: Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     @Inject
     lateinit var factory: OrderViewModelAssistedFactory
@@ -40,7 +36,6 @@ internal class OrderFragment: Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Order(
                         state = viewModel.state,
-                        navigator = navigator,
                         onEvent = { viewModel.dispatchEvent(it) }
                     )
                 }

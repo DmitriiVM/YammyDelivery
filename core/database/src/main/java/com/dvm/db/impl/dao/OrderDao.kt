@@ -64,4 +64,11 @@ internal interface OrderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrderStatuses(orderStatuses: List<OrderStatus>)
+
+    @Query(
+        """
+            DELETE FROM orders
+        """
+    )
+    fun deleteOrders()
 }

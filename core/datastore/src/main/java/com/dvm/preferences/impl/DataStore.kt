@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -43,6 +44,12 @@ internal class DataStore @Inject constructor(
                 preferences[key]
             }
             .first()
+
+    fun accessToken(): Flow<String?> =
+        context.dataStore.data
+            .map { preferences ->
+                preferences[ACCESS_TOKEN]
+            }
 
     suspend fun isAuthorized(): Boolean = !get(ACCESS_TOKEN).isNullOrBlank()
 

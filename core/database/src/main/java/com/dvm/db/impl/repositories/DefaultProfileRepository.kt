@@ -12,10 +12,15 @@ internal class DefaultProfileRepository @Inject constructor(
     private val profileDao: ProfileDao
 ) : ProfileRepository {
 
-    override fun profile(): Flow<Profile> = profileDao.profile()
+    override fun profile(): Flow<Profile?> = profileDao.profile()
 
     override suspend fun updateProfile(profile: Profile) =
         withContext(Dispatchers.IO) {
             profileDao.updateCart(profile)
+        }
+
+    override suspend fun deleteProfile() =
+        withContext(Dispatchers.IO){
+            profileDao.deleteProfile()
         }
 }

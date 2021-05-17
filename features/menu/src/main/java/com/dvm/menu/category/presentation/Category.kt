@@ -25,13 +25,12 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.ui.DishItem
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconBack
@@ -47,9 +46,8 @@ private val AppBarHeight = 56.dp
 internal fun Category(
     state: CategoryState,
     onEvent: (CategoryEvent) -> Unit,
-    navigator: Navigator,
 ) {
-    Drawer(navigator = navigator) {
+    Drawer {
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }
         var offset by remember { mutableStateOf(0) }

@@ -12,9 +12,12 @@ import javax.inject.Inject
 internal class DefaultCartRepository @Inject constructor(
     private val cartDao: CartDao
 ) : CartRepository {
+
     override fun cartItems(): Flow<List<CartItemDetails>> = cartDao.cartItems()
 
-    override suspend fun getCount(): Int =
+    override fun totalQuantity(): Flow<Int?> = cartDao.totalQuantity()
+
+    override suspend fun getDishCount(): Int =
         withContext(Dispatchers.IO) {
             cartDao.getCartCount()
         }

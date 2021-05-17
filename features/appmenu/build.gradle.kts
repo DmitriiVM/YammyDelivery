@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":core:datastore"))
+    implementation(project(":core:database"))
     implementation(project(":core:ui"))
     implementation(project(":core:utils"))
     implementation(project(":navigation"))

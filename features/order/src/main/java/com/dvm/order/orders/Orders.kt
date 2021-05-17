@@ -13,8 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.dvm.appmenu.Drawer
-import com.dvm.navigation.Navigator
+import com.dvm.appmenu_api.Drawer
 import com.dvm.order.R
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
@@ -29,17 +28,13 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun Ordering(
     state: OrdersState,
-    onEvent: (OrdersEvent) -> Unit,
-    navigator: Navigator,
+    onEvent: (OrdersEvent) -> Unit
 ) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

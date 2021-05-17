@@ -14,6 +14,8 @@ internal class DefaultNotificationRepository @Inject constructor(
 
     override fun notifications(): Flow<List<Notification>> = notificationDao.notifications()
 
+    override fun count(): Flow<Int> = notificationDao.count()
+
     override suspend fun setSeen(id: List<Int>) =
         withContext(Dispatchers.IO) {
             notificationDao.setSeen(id)

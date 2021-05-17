@@ -31,4 +31,11 @@ internal interface FavoriteDao {
 
     @Delete
     suspend fun delete(favorite: Favorite)
+
+    @Query(
+        """
+            DELETE FROM favorite
+        """
+    )
+    suspend fun deleteFavorites()
 }

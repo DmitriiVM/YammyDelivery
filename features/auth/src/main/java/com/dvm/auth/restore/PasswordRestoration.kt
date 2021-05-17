@@ -8,19 +8,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.R
 import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.*
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
 fun PasswordRestoration(
     state: RestoreState,
-    navigator: Navigator,
     onEvent: (RestoreEvent) -> Unit
 ) {
     val email = rememberSaveable { mutableStateOf("") }
@@ -28,7 +26,7 @@ fun PasswordRestoration(
     val password = rememberSaveable { mutableStateOf("") }
     val confirmPassword = rememberSaveable { mutableStateOf("") }
 
-    Drawer(navigator = navigator) {
+    Drawer {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

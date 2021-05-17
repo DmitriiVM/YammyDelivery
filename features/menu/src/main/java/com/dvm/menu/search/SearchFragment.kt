@@ -6,21 +6,16 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
 @AndroidEntryPoint
 internal class SearchFragment : Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     private val viewModel: SearchViewModel by viewModels()
 
@@ -37,8 +32,7 @@ internal class SearchFragment : Fragment() {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Search(
                         state = viewModel.state,
-                        onEvent = { viewModel.dispatch(it) },
-                        navigator = navigator
+                        onEvent = { viewModel.dispatch(it) }
                     )
                 }
             }

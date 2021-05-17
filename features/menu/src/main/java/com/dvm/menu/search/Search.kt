@@ -18,11 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.TransparentAppBar
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -30,10 +29,9 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 internal fun Search(
     state: SearchState,
-    onEvent: (SearchEvent) -> Unit,
-    navigator: Navigator,
+    onEvent: (SearchEvent) -> Unit
 ) {
-    Drawer(navigator = navigator) {
+    Drawer {
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())

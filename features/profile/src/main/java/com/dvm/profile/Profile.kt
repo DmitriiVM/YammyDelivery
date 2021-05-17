@@ -19,8 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.dvm.appmenu.Drawer
-import com.dvm.navigation.Navigator
+import com.dvm.appmenu_api.Drawer
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
 import com.dvm.ui.components.*
@@ -33,16 +32,12 @@ import kotlinx.coroutines.launch
 internal fun Profile(
     state: ProfileState,
     onEvent: (ProfileEvent) -> Unit,
-    navigator: Navigator,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -55,7 +50,7 @@ internal fun Profile(
                     AppBarIconMenu {
                         scope.launch {
                             drawerState.open()
-                            keyboardController?.hideSoftwareKeyboard()
+                            keyboardController?.hide()
                         }
                     }
                 },
@@ -137,7 +132,7 @@ internal fun Profile(
                     enabled = !state.networkCall,
                     onClick = {
                         onEvent(ProfileEvent.ChangeEditingMode(false))
-                        keyboardController?.hideSoftwareKeyboard()
+                        keyboardController?.hide()
                     },
                     modifier = Modifier
                         .fillMaxWidth()

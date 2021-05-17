@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.dvm.dish.dish_impl.Dish
-import com.dvm.navigation.Navigator
 import com.dvm.ui.themes.YammyDeliveryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -16,9 +15,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class DishFragment : Fragment() {
-
-    @Inject
-    lateinit var navigator: Navigator
 
     @Inject
     lateinit var factory: DishViewModelAssistedFactory
@@ -39,13 +35,10 @@ internal class DishFragment : Fragment() {
                 requireActivity().window
             ) {
                 ProvideWindowInsets(consumeWindowInsets = false) {
-                    viewModel.state?.let { state ->
-                        Dish(
-                            state = state,
-                            navigator = navigator,
-                            onEvent = { viewModel.dispatchEvent(it) }
-                        )
-                    }
+                    Dish(
+                        state = viewModel.state,
+                        onEvent = { viewModel.dispatchEvent(it) }
+                    )
                 }
             }
         }

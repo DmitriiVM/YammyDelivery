@@ -20,8 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
-import com.dvm.navigation.Navigator
+import com.dvm.appmenu_api.Drawer
 import com.dvm.order.R
 import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingFields
@@ -34,12 +33,9 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 internal fun Ordering(
     state: OrderingState,
-    navigator: Navigator,
     onEvent: (OrderingEvent) -> Unit,
 ) {
-    Drawer(
-        navigator = navigator
-    ) {
+    Drawer {
         Column(Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())
             TransparentAppBar(
@@ -94,7 +90,7 @@ internal fun Ordering(
                         onClick = {
                             isEditing = !isEditing
                             if (!isEditing) {
-                                keyboardController?.hideSoftwareKeyboard()
+                                keyboardController?.hide()
                             }
                         }
                     ) {
@@ -173,7 +169,7 @@ internal fun Ordering(
                     keyboardActions = KeyboardActions(
                         onAny = {
                             isEditing = false
-                            keyboardController?.hideSoftwareKeyboard()
+                            keyboardController?.hide()
                         }
                     ),
                     startText = { Text(stringResource(R.string.ordering_field_comment)) }

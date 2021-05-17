@@ -16,11 +16,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
 import com.dvm.db.api.models.CartItemDetails
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.*
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
@@ -30,16 +29,12 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun Cart(
     state: CartState,
-    navigator: Navigator,
     onEvent: (CartEvent) -> Unit,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

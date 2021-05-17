@@ -15,13 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconMenu
@@ -31,18 +30,14 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Search(
+internal fun Main(
     state: MainState,
-    onEvent: (MainEvent) -> Unit,
-    navigator: Navigator,
+    onEvent: (MainEvent) -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(
-        drawerState = drawerState,
-        navigator = navigator
-    ) {
+    Drawer(drawerState = drawerState) {
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())

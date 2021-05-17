@@ -12,10 +12,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu.Drawer
+import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
-import com.dvm.navigation.Navigator
 import com.dvm.ui.components.*
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -23,10 +22,9 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 @Composable
 fun Registration(
     state: RegisterState,
-    navigator: Navigator,
     onEvent: (RegisterEvent) -> Unit
 ) {
-    Drawer(navigator = navigator) {
+    Drawer {
 
         Column(
             modifier = Modifier
