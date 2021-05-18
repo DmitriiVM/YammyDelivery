@@ -36,6 +36,7 @@ import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.AccentColors
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
@@ -47,7 +48,7 @@ internal fun Category(
     state: CategoryState,
     onEvent: (CategoryEvent) -> Unit,
 ) {
-    Drawer {
+    Drawer(selected = DrawerItem.MENU) {
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }
         var offset by remember { mutableStateOf(0) }

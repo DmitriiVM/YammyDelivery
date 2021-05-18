@@ -26,6 +26,7 @@ import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingFields
 import com.dvm.order.ordering.model.OrderingState
 import com.dvm.ui.components.*
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
@@ -35,7 +36,7 @@ internal fun Ordering(
     state: OrderingState,
     onEvent: (OrderingEvent) -> Unit,
 ) {
-    Drawer {
+    Drawer(selected = DrawerItem.ORDERS) {
         Column(Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())
             TransparentAppBar(

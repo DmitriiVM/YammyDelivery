@@ -25,6 +25,7 @@ import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.TransparentAppBar
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -37,7 +38,10 @@ internal fun Main(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(drawerState = drawerState) {
+    Drawer(
+        drawerState = drawerState,
+        selected = DrawerItem.MAIN
+    ) {
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())

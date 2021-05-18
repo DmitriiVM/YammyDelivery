@@ -16,6 +16,7 @@ import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.ui.components.*
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
@@ -24,7 +25,7 @@ fun Registration(
     state: RegisterState,
     onEvent: (RegisterEvent) -> Unit
 ) {
-    Drawer {
+    Drawer(selected = DrawerItem.NONE) {
 
         Column(
             modifier = Modifier

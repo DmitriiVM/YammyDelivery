@@ -32,6 +32,7 @@ import com.dvm.ui.themes.light_blue
 import com.dvm.ui.themes.light_green
 import com.dvm.ui.themes.light_violet
 import com.dvm.ui.themes.temp
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -45,7 +46,10 @@ internal fun MenuView(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(drawerState = drawerState) {
+    Drawer(
+        drawerState = drawerState,
+        selected = DrawerItem.MENU
+    ) {
         Column {
             MenuAppBar(
                 onAppMenuClick = {

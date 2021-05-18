@@ -24,6 +24,7 @@ import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.TransparentAppBar
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
@@ -31,7 +32,7 @@ internal fun Search(
     state: SearchState,
     onEvent: (SearchEvent) -> Unit
 ) {
-    Drawer {
+    Drawer(selected = DrawerItem.MENU) {
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())

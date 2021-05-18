@@ -21,6 +21,7 @@ import com.dvm.order.orders.model.OrdersState
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.LoadingScrim
 import com.dvm.ui.components.TransparentAppBar
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,10 @@ internal fun Ordering(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(drawerState = drawerState) {
+    Drawer(
+        drawerState = drawerState,
+        selected = DrawerItem.ORDERS
+    ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

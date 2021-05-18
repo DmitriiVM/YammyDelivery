@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(project(":features:appmenu"))
+    implementation(project(":core:utils"))
 
     implementation(Libs.COMPOSE_UI)
     implementation(Libs.COMPOSE_UI_TOOLING)

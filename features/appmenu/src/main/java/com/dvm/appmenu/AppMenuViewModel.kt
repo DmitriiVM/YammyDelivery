@@ -12,6 +12,7 @@ import com.dvm.db.api.*
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.utils.DrawerItem
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -45,12 +46,9 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
             EntryPointAccessors.fromApplication(context, AppViewModelEntryPoint::class.java)
 
         combine(
-            profileRepository
-                .profile(),
-            notificationRepository
-                .count(),
-            cartRepository
-                .totalQuantity()
+            profileRepository.profile(),
+            notificationRepository.count(),
+            cartRepository.totalQuantity()
         ) { profile, notificationCount, totalQuantity ->
             state = if (profile != null) {
                 state.copy(
@@ -74,17 +72,18 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
     fun onEvent(event: AppMenuEvent) {
         when (event) {
             is AppMenuEvent.ItemClick -> {
-                navigator.goTo(
+                viewModelScope.launch {
                     when (event.drawerItem) {
-                        DrawerItem.MAIN -> Destination.Main
-                        DrawerItem.MENU -> Destination.Menu
-                        DrawerItem.FAVORITE -> Destination.Favorite
-                        DrawerItem.CART -> Destination.Cart
-                        DrawerItem.PROFILE -> Destination.Profile
-                        DrawerItem.ORDERS -> Destination.Orders
-                        DrawerItem.NOTIFICATION -> Destination.Notification
+                        DrawerItem.MAIN -> navigator.goTo(Destination.Main)
+                        DrawerItem.MENU -> navigator.goTo(Destination.Menu)
+                        DrawerItem.FAVORITE -> navigator.goTo(Destination.Favorite)
+                        DrawerItem.CART -> navigator.goTo(Destination.Cart)
+                        DrawerItem.PROFILE -> navigator.goTo(Destination.Profile)
+                        DrawerItem.ORDERS -> navigator.goTo(Destination.Orders)
+                        DrawerItem.NOTIFICATION -> navigator.goTo(Destination.Notification)
+                        DrawerItem.NONE -> { }
                     }
-                )
+                }
             }
             AppMenuEvent.AuthClick -> {
                 viewModelScope.launch {

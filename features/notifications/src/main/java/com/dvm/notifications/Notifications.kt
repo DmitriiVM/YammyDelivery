@@ -21,6 +21,7 @@ import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.TransparentAppBar
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,10 @@ internal fun Notifications(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(drawerState = drawerState) {
+    Drawer(
+        drawerState = drawerState,
+        selected = DrawerItem.NOTIFICATION
+    ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

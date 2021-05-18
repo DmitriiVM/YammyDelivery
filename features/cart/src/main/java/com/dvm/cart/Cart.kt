@@ -21,6 +21,7 @@ import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
 import com.dvm.db.api.models.CartItemDetails
 import com.dvm.ui.components.*
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -34,7 +35,10 @@ internal fun Cart(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    Drawer(drawerState = drawerState) {
+    Drawer(
+        drawerState = drawerState,
+        selected = DrawerItem.CART
+    ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

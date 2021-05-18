@@ -1,6 +1,6 @@
 package com.dvm.appmenu.model
 
-import com.dvm.appmenu.DrawerItem
+import com.dvm.utils.DrawerItem
 
 internal sealed class AppMenuEvent{
     data class ItemClick(val drawerItem: DrawerItem) : AppMenuEvent()

@@ -14,6 +14,7 @@ import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
 import com.dvm.ui.components.*
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
@@ -26,7 +27,7 @@ fun PasswordRestoration(
     val password = rememberSaveable { mutableStateOf("") }
     val confirmPassword = rememberSaveable { mutableStateOf("") }
 
-    Drawer {
+    Drawer(selected = DrawerItem.NONE) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
             TransparentAppBar(

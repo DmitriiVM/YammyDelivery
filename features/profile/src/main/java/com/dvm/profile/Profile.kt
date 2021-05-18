@@ -23,6 +23,7 @@ import com.dvm.appmenu_api.Drawer
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
 import com.dvm.ui.components.*
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -37,7 +38,10 @@ internal fun Profile(
     val scope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Drawer(drawerState = drawerState) {
+    Drawer(
+        drawerState = drawerState,
+        selected = DrawerItem.PROFILE
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

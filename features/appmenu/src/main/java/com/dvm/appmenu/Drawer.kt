@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -15,11 +16,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dvm.appmenu.model.AppMenuEvent
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
+import com.dvm.ui.components.horizontalGradient
+import com.dvm.ui.themes.cyan400
+import com.dvm.ui.themes.teal200
+import com.dvm.utils.DrawerItem
 import kotlinx.coroutines.launch
 
 @Composable
 fun AppDrawer(
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
+    selected: DrawerItem = DrawerItem.MAIN,
     content: @Composable () -> Unit
 ) {
 
@@ -56,136 +62,91 @@ fun AppDrawer(
                         }
                     }
                 )
-                val modifier = Modifier
-                    .padding(8.dp)
-                    .size(24.dp)
+                Spacer(modifier = Modifier.height(18.dp))
+
 
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_home),
                     text = "Главная",
+                    selected = selected == DrawerItem.MAIN,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MAIN))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_home),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_menu),
                     text = "Меню",
+                    selected = selected == DrawerItem.MENU,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MENU))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_menu),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_favorite),
                     text = "Избранное",
+                    selected = selected == DrawerItem.FAVORITE,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.FAVORITE))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_favorite),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_cart),
                     text = "Корзина",
                     count = state.cartQuantity,
+                    selected = selected == DrawerItem.CART,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.CART))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_cart),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_profile),
                     text = "Профиль",
+                    selected = selected == DrawerItem.PROFILE,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_profile),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_order),
                     text = "Заказы",
+                    selected = selected == DrawerItem.ORDERS,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.ORDERS))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_order),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
                 DrawerItem(
+                    painter = painterResource(id = R.drawable.icon_notification),
                     text = "Уведомления",
                     count = state.newNotificationCount,
+                    selected = selected == DrawerItem.NOTIFICATION,
                     onClick = {
                         scope.launch {
                             drawerState.close()
                             viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.NOTIFICATION))
                         }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_notification),
-                            contentDescription = null,
-                            modifier = modifier
-                        )
                     }
                 )
             }
         }
     )
-
-//    state.alertMessage?.let {
-//        Alert(
-//            message = state.alertMessage,
-//            onDismiss = { onEvent(MainEvent.DismissAlert) }
-//        ) {
-//            AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })
-//        }
-//    }
 
     if (!state.alertMessage.isNullOrEmpty()) {
         val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
@@ -215,16 +176,23 @@ fun DrawerHeader(
 ) {
     Spacer(modifier = Modifier.height(100.dp))
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            Modifier
-                .padding(10.dp)
-                .clickable { onProfileClick() }) {
-            Text(text = name)
-            Text(text = email)
+            Modifier.clickable { onProfileClick() }) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.h5,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            Text(
+                text = email,
+                style = MaterialTheme.typography.body2
+            )
         }
         IconButton(
             onClick = { onAuthButtonClick() }
@@ -233,16 +201,15 @@ fun DrawerHeader(
                 Icon(
                     painter = painterResource(id = R.drawable.icon_logout),
                     contentDescription = null,
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             } else {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_login),
                     contentDescription = null,
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
-
         }
     }
     Divider()
@@ -250,37 +217,51 @@ fun DrawerHeader(
 
 @Composable
 private fun DrawerItem(
+    painter: Painter,
     text: String,
     count: Int = 0,
-    icon: @Composable () -> Unit,
+    selected: Boolean,
     onClick: () -> Unit
 ) {
+    val modifier = if (selected){
+        Modifier
+            .horizontalGradient(cyan400.copy(alpha = 0.4f), teal200.copy(alpha = 0.2f))
+    } else {
+        Modifier
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .height(48.dp)
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .clickable { onClick() }
+            .then(modifier)
+            .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        icon()
+        Icon(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .size(20.dp)
+                .wrapContentHeight()
+        )
         Text(
             text = text,
+            style = MaterialTheme.typography.body2,
             modifier = Modifier
-                .padding(start = 10.dp)
-                .clickable { onClick() }
+                .weight(1f)
+                .padding(start = 24.dp)
+                .wrapContentHeight()
+
         )
         if (count > 0) {
-            Text(text = "        $count")
+            Text(
+                text = count.toString(),
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier
+                    .wrapContentHeight()
+            )
         }
     }
 }
-
-enum class DrawerItem {
-    MAIN,
-    MENU,
-    FAVORITE,
-    CART,
-    PROFILE,
-    ORDERS,
-    NOTIFICATION
-}
-

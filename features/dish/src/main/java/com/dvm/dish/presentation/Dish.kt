@@ -37,6 +37,7 @@ import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
+import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -47,7 +48,7 @@ internal fun Dish(
     state: DishState,
     onEvent: (DishEvent) -> Unit,
 ) {
-    Drawer {
+    Drawer(selected = DrawerItem.NONE) {
         Box {
             val listState = rememberLazyListState()
 
