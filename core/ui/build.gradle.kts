@@ -38,6 +38,7 @@ android {
 dependencies {
 
     implementation(Libs.ANDROID_CORE)
+    implementation(Libs.ANDROID_APPCOMPAT)
 
     implementation(Libs.COMPOSE_UI)
     implementation(Libs.COMPOSE_UI_TOOLING)

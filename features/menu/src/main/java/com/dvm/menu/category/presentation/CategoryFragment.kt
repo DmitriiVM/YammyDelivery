@@ -7,7 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
@@ -23,9 +23,7 @@ internal class CategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentInsetsComposeView (requireContext()).apply {
         setContent {
-            YammyDeliveryTheme(
-                requireActivity().window
-            ) {
+            YammyDeliveryScreen(requireActivity()) {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Category(
                         state = viewModel.state,

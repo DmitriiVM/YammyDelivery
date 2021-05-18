@@ -7,14 +7,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
 @AndroidEntryPoint
 internal class MenuFragment : Fragment() {
 
-    private val model: MenuViewModel by viewModels()
+    private val viewModel: MenuViewModel by viewModels()
 
     @ExperimentalStdlibApi
     @ExperimentalFoundationApi
@@ -24,13 +24,11 @@ internal class MenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentInsetsComposeView (requireContext()).apply {
         setContent {
-            YammyDeliveryTheme(
-                requireActivity().window
-            ) {
+            YammyDeliveryScreen(requireActivity()) {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     MenuView(
-                        menuItems = model.menuItems,
-                        onEvent = { model.dispatch(it) }
+                        menuItems = viewModel.menuItems,
+                        onEvent = { viewModel.dispatch(it) }
                     )
                 }
             }

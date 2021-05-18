@@ -19,6 +19,7 @@ import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.horizontalGradient
 import com.dvm.ui.themes.cyan400
 import com.dvm.ui.themes.teal200
+import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
 import kotlinx.coroutines.launch
 
@@ -39,6 +40,15 @@ fun AppDrawer(
     }
 
     val scope = rememberCoroutineScope()
+
+    if (drawerState.isOpen){
+        BackPressHandler {
+            scope.launch {
+                drawerState.close()
+            }
+        }
+    }
+
 
     ModalDrawer(
         drawerState = drawerState,

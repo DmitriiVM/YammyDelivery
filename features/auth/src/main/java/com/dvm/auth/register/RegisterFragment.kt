@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -17,7 +17,7 @@ import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 @AndroidEntryPoint
 internal class RegisterFragment : Fragment() {
 
-    private val model: RegisterViewModel by viewModels()
+    private val viewModel: RegisterViewModel by viewModels()
 
     @OptIn(ExperimentalAnimatedInsets::class)
     override fun onCreateView(
@@ -26,13 +26,11 @@ internal class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentInsetsComposeView (requireContext()).apply {
         setContent {
-            YammyDeliveryTheme(
-                requireActivity().window
-            ) {
+            YammyDeliveryScreen(requireActivity()) {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     Registration(
-                        state = model.state,
-                        onEvent = { model.dispatch(it) }
+                        state = viewModel.state,
+                        onEvent = { viewModel.dispatch(it) }
                     )
                 }
             }

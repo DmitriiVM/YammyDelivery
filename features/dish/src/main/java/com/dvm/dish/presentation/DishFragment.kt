@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.dvm.dish.dish_impl.Dish
 import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
@@ -31,9 +31,7 @@ internal class DishFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentInsetsComposeView (requireContext()).apply {
         setContent {
-            YammyDeliveryTheme(
-                requireActivity().window
-            ) {
+            YammyDeliveryScreen(requireActivity()) {
                 ProvideWindowInsets(consumeWindowInsets = false) {
                     Dish(
                         state = viewModel.state,

@@ -21,9 +21,7 @@ internal class SplashFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
         viewModel // to initialize view model
         setContent {
-            YammyDeliveryTheme(
-                requireActivity().window
-            ) {
+            YammyDeliveryTheme(requireActivity().window) {
                 Splash()
             }
         }

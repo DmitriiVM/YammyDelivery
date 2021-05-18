@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -23,9 +23,7 @@ internal class OrderingFragment: Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentInsetsComposeView (requireContext()).apply {
         setContent {
-            YammyDeliveryTheme(
-                requireActivity().window
-            ) {
+            YammyDeliveryScreen(requireActivity()) {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     Ordering(
                         state = viewModel.state,
