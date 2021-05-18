@@ -13,13 +13,11 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +27,7 @@ internal class OrdersViewModel @Inject constructor(
     private val orderRepository: OrderRepository,
     private val updateService: UpdateService,
     private val navigator: Navigator,
+    datastore: DatastoreRepository,
     savedState: SavedStateHandle
 ) : ViewModel() {
 
@@ -38,6 +37,14 @@ internal class OrdersViewModel @Inject constructor(
     private val status = savedState.getLiveData("orders_status", OrderStatus.ACTUAL)
 
     init {
+        datastore
+            .authorized()
+            .filter { !it }
+            .onEach {
+                navigator.goTo(Destination.Login(Destination.Orders))
+            }
+            .launchIn(viewModelScope)
+
         viewModelScope.launch {
             state = state.copy(networkCall = true)
             try {

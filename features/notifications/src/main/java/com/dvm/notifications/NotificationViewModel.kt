@@ -7,10 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.NotificationRepository
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
+import com.dvm.preferences.api.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -19,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    datastore: DatastoreRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(NotificationState())
@@ -28,6 +32,14 @@ internal class NotificationViewModel @Inject constructor(
     private var previousLastItemPosition = 0
 
     init {
+        datastore
+            .authorized()
+            .filter { !it }
+            .onEach {
+                navigator.goTo(Destination.Login(Destination.Notification))
+            }
+            .launchIn(viewModelScope)
+
         notificationRepository
             .notifications()
             .onEach { notifications ->

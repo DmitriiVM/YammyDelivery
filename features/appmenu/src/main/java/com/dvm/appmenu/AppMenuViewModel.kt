@@ -92,7 +92,7 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                             alertMessage = appContext.getString(R.string.app_menu_message_logout)
                         )
                     } else {
-                        hiltEntryPoint.navigator().goTo(Destination.Login)
+                        hiltEntryPoint.navigator().goTo(Destination.Login())
                     }
                 }
             }

@@ -88,7 +88,7 @@ internal class RegisterViewModel @Inject constructor(
                 )
             }
             RegisterEvent.Login -> {
-                navigator.goTo(Destination.Login)
+                navigator.goTo(Destination.Login())
             }
             RegisterEvent.BackClick -> {
                 navigator.back()

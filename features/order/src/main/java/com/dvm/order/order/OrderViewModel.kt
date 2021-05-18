@@ -27,6 +27,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -46,6 +47,14 @@ internal class OrderViewModel(
         private set
 
     init {
+        datastore
+            .authorized()
+            .filter { !it }
+            .onEach {
+                navigator.goTo(Destination.Login(Destination.Order(orderId)))
+            }
+            .launchIn(viewModelScope)
+
         orderRepository
             .order(orderId)
             .distinctUntilChanged()

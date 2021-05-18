@@ -35,9 +35,15 @@ internal class NavigationViewModel @Inject constructor(
             .onEach { destination ->
                 val navController = navController ?: return@onEach
 
-                if (destination.private && !datastore.isAuthorized()) {
-                    targetDestination = destination
-                    navController.navigate(MainGraphDirections.toLogin())
+                if (destination is Destination.Login && destination.targetDestination != null){
+                    targetDestination = destination.targetDestination
+                    navigateTo(
+                        navController = navController,
+                        destination = destination,
+                        navOptions = NavOptions.Builder()
+                            .setPopUpTo(currentDestination!!, true)
+                            .build()
+                    )
                 } else {
                     if (
                         destination !is Destination.Login &&
@@ -107,7 +113,7 @@ internal class NavigationViewModel @Inject constructor(
             is Destination.Order -> {
                 navController.navigate(MainGraphDirections.toOrder(destination.orderId), navOptions)
             }
-            Destination.Login -> {
+            is Destination.Login -> {
                 navController.navigate(MainGraphDirections.toLogin(), navOptions)
             }
             Destination.Register -> {
@@ -127,13 +133,12 @@ internal class NavigationViewModel @Inject constructor(
             }
             is Destination.LoginTarget -> {
                 val targetDestination = targetDestination
-                val currentDestination = currentDestination
-                if (targetDestination != null && currentDestination != null) {
+                if (targetDestination != null) {
                     navigateTo(
                         navController = navController,
                         destination = targetDestination,
                         navOptions = NavOptions.Builder()
-                            .setPopUpTo(currentDestination, true)
+                            .setPopUpTo(currentDestination!!, true)
                             .build()
                     )
                 } else {

@@ -144,7 +144,7 @@ internal class CartViewModel @Inject constructor(
                 }
             } else {
                 resumeOrderAfterLogin = true
-                navigator.goTo(Destination.Login)
+                navigator.goTo(Destination.Login())
             }
         }
     }

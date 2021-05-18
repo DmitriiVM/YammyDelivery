@@ -3,7 +3,7 @@ package com.dvm.navigation.api.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-sealed class Destination(val private: Boolean = false): Parcelable {
+sealed class Destination: Parcelable {
 
     @Parcelize
     data class Category(
@@ -11,6 +11,8 @@ sealed class Destination(val private: Boolean = false): Parcelable {
         val subcategoryId: String? = null
     ) : Destination()
 
+    @Parcelize
+    data class Login(val targetDestination: Destination? = null) : Destination()
     @Parcelize
     data class Dish(val dishId: String) : Destination()
     @Parcelize
@@ -24,21 +26,19 @@ sealed class Destination(val private: Boolean = false): Parcelable {
     @Parcelize
     object Favorite : Destination()
     @Parcelize
-    object Orders : Destination(true)
+    object Orders : Destination()
     @Parcelize
     object Ordering : Destination()
-    @Parcelize
-    object Login : Destination()
     @Parcelize
     object Register : Destination()
     @Parcelize
     object PasswordRestore : Destination()
     @Parcelize
-    object Profile : Destination(true)
+    object Profile : Destination()
     @Parcelize
     object Cart : Destination()
     @Parcelize
-    object Notification : Destination(true)
+    object Notification : Destination()
     @Parcelize
     object Back : Destination()
     @Parcelize

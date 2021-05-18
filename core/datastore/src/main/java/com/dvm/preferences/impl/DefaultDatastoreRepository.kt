@@ -12,6 +12,8 @@ internal class DefaultDatastoreRepository @Inject constructor(
 
     override fun accessToken(): Flow<String?> = dataStore.accessToken()
 
+    override fun authorized(): Flow<Boolean> = dataStore.authorized()
+
     override suspend fun isAuthorized(): Boolean = dataStore.isAuthorized()
 
     override suspend fun getAccessToken(): String? = dataStore.getAccessToken()

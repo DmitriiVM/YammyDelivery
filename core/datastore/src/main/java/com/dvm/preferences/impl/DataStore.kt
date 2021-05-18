@@ -51,6 +51,12 @@ internal class DataStore @Inject constructor(
                 preferences[ACCESS_TOKEN]
             }
 
+    fun authorized(): Flow<Boolean> =
+        context.dataStore.data
+            .map { preferences ->
+                !preferences[ACCESS_TOKEN].isNullOrEmpty()
+            }
+
     suspend fun isAuthorized(): Boolean = !get(ACCESS_TOKEN).isNullOrBlank()
 
     suspend fun getAccessToken(): String? = get(ACCESS_TOKEN)?.let { "Bearer $it" }

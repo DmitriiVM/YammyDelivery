@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.ProfileRepository
 import com.dvm.db.api.models.Profile
 import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.profile.model.ProfileEvent
@@ -18,6 +19,7 @@ import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,6 +40,14 @@ internal class ProfileViewModel @Inject constructor(
         private set
 
     init {
+        datastore
+            .authorized()
+            .filter { !it }
+            .onEach {
+                navigator.goTo(Destination.Login(Destination.Profile))
+            }
+            .launchIn(viewModelScope)
+
         profileRepository
             .profile()
             .filterNotNull()

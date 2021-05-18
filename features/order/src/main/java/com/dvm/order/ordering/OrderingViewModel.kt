@@ -16,6 +16,9 @@ import com.dvm.order.ordering.model.OrderingState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.toDbEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +33,16 @@ internal class OrderingViewModel @Inject constructor(
 
     var state by mutableStateOf(OrderingState())
         private set
+
+    init {
+        datastore
+            .authorized()
+            .filter { !it }
+            .onEach {
+                navigator.goTo(Destination.Login(Destination.Ordering))
+            }
+            .launchIn(viewModelScope)
+    }
 
     fun dispatchEvent(event: OrderingEvent) {
         when (event) {
