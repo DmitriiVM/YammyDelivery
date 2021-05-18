@@ -97,6 +97,7 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                 }
             }
             AppMenuEvent.LogoutClick -> {
+                state = state.copy(alertMessage = null)
                 viewModelScope.launch {
                     datastore.deleteAccessToken()
                     profileRepository.deleteProfile()

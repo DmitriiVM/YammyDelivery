@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.view.WindowCompat
 
 @Composable
 fun YammyDeliveryTheme(
@@ -42,7 +41,6 @@ fun YammyDeliveryTheme(
 
 @Suppress("DEPRECATION")
 private fun setSystemUiColors(window: Window, darkTheme: Boolean) {
-    WindowCompat.setDecorFitsSystemWindows(window, false)
 
     val systemBackgroundColor = if (darkTheme) {
         Color.Black.copy(alpha = 0.5f).toArgb()

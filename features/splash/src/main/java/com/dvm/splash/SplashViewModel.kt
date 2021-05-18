@@ -35,7 +35,7 @@ internal class SplashViewModel @Inject constructor(
             } catch (exception: Exception) {
                 datastore.setUpdateError(true)
             } finally {
-                navigator.goTo(Destination.Main)
+                navigator.goTo(Destination.Menu)
             }
         }
     }
