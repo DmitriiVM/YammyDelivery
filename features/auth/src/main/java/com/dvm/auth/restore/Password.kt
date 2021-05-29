@@ -66,7 +66,7 @@ fun Password(
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(onDone = {
-            keyboardController?.hideSoftwareKeyboard()
+            keyboardController?.hide()
             onSave()
         })
     )
@@ -76,7 +76,7 @@ fun Password(
             .fillMaxWidth()
             .navigationBarsWithImePadding(),
         onClick = {
-            keyboardController?.hideSoftwareKeyboard()
+            keyboardController?.hide()
             onSave()
         }
     ) {

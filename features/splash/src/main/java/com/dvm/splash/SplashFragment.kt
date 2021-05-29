@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.themes.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +21,7 @@ internal class SplashFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
         viewModel // to initialize view model
         setContent {
-            YammyDeliveryTheme(requireActivity().window) {
+            AppTheme(requireActivity().window) {
                 Splash()
             }
         }

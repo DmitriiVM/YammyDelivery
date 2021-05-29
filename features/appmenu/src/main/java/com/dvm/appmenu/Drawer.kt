@@ -17,8 +17,7 @@ import com.dvm.appmenu.model.AppMenuEvent
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.horizontalGradient
-import com.dvm.ui.themes.cyan400
-import com.dvm.ui.themes.teal200
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
 import kotlinx.coroutines.launch
@@ -41,7 +40,7 @@ fun AppDrawer(
 
     val scope = rememberCoroutineScope()
 
-    if (drawerState.isOpen){
+    if (drawerState.isOpen) {
         BackPressHandler {
             scope.launch {
                 drawerState.close()
@@ -50,130 +49,132 @@ fun AppDrawer(
     }
 
 
-    ModalDrawer(
-        drawerState = drawerState,
-        content = content,
+    Surface {
+        ModalDrawer(
+            drawerState = drawerState,
+            content = content,
 //        drawerBackgroundColor = temp.copy(alpha = 0.9f),
-        drawerContent = {
-            Column {
+            drawerContent = {
+                Column {
 
-                DrawerHeader(
-                    name = state.name,
-                    email = state.email,
-                    onProfileClick = { viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE)) },
-                    onAuthButtonClick = {
-                        if (state.email.isEmpty()) {
-                            scope.launch {
-                                drawerState.close()
+                    DrawerHeader(
+                        name = state.name,
+                        email = state.email,
+                        onProfileClick = { viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE)) },
+                        onAuthButtonClick = {
+                            if (state.email.isEmpty()) {
+                                scope.launch {
+                                    drawerState.close()
+                                    viewModel.onEvent(AppMenuEvent.AuthClick)
+                                }
+                            } else {
                                 viewModel.onEvent(AppMenuEvent.AuthClick)
                             }
-                        } else {
-                            viewModel.onEvent(AppMenuEvent.AuthClick)
                         }
-                    }
-                )
-                Spacer(modifier = Modifier.height(18.dp))
+                    )
+                    Spacer(modifier = Modifier.height(18.dp))
 
 
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_home),
-                    text = "Главная",
-                    selected = selected == DrawerItem.MAIN,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MAIN))
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_home),
+                        text = "Главная",
+                        selected = selected == DrawerItem.MAIN,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MAIN))
+                            }
                         }
-                    }
-                )
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_menu),
-                    text = "Меню",
-                    selected = selected == DrawerItem.MENU,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MENU))
+                    )
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_menu),
+                        text = "Меню",
+                        selected = selected == DrawerItem.MENU,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MENU))
+                            }
                         }
-                    }
-                )
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_favorite),
-                    text = "Избранное",
-                    selected = selected == DrawerItem.FAVORITE,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.FAVORITE))
+                    )
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_favorite),
+                        text = "Избранное",
+                        selected = selected == DrawerItem.FAVORITE,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.FAVORITE))
+                            }
                         }
-                    }
-                )
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_cart),
-                    text = "Корзина",
-                    count = state.cartQuantity,
-                    selected = selected == DrawerItem.CART,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.CART))
+                    )
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_cart),
+                        text = "Корзина",
+                        count = state.cartQuantity,
+                        selected = selected == DrawerItem.CART,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.CART))
+                            }
                         }
-                    }
-                )
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_profile),
-                    text = "Профиль",
-                    selected = selected == DrawerItem.PROFILE,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE))
+                    )
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_profile),
+                        text = "Профиль",
+                        selected = selected == DrawerItem.PROFILE,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE))
+                            }
                         }
-                    }
-                )
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_order),
-                    text = "Заказы",
-                    selected = selected == DrawerItem.ORDERS,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.ORDERS))
+                    )
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_order),
+                        text = "Заказы",
+                        selected = selected == DrawerItem.ORDERS,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.ORDERS))
+                            }
                         }
-                    }
-                )
-                DrawerItem(
-                    painter = painterResource(id = R.drawable.icon_notification),
-                    text = "Уведомления",
-                    count = state.newNotificationCount,
-                    selected = selected == DrawerItem.NOTIFICATION,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.NOTIFICATION))
+                    )
+                    DrawerItem(
+                        painter = painterResource(id = R.drawable.icon_notification),
+                        text = "Уведомления",
+                        count = state.newNotificationCount,
+                        selected = selected == DrawerItem.NOTIFICATION,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.NOTIFICATION))
+                            }
                         }
-                    }
-                )
-            }
-        }
-    )
-
-    if (!state.alertMessage.isNullOrEmpty()) {
-        val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
-        Alert(
-            message = state.alertMessage,
-            onDismiss = onDismiss,
-            buttons = {
-                AlertButton(
-                    text = { Text("Нет") },
-                    onClick = onDismiss
-                )
-                AlertButton(
-                    text = { Text("Да") },
-                    onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
-                )
+                    )
+                }
             }
         )
+
+        if (!state.alertMessage.isNullOrEmpty()) {
+            val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
+            Alert(
+                message = state.alertMessage,
+                onDismiss = onDismiss,
+                buttons = {
+                    AlertButton(
+                        text = { Text("Нет") },
+                        onClick = onDismiss
+                    )
+                    AlertButton(
+                        text = { Text("Да") },
+                        onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
+                    )
+                }
+            )
+        }
     }
 }
 
@@ -233,9 +234,12 @@ private fun DrawerItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val modifier = if (selected){
+    val modifier = if (selected) {
         Modifier
-            .horizontalGradient(cyan400.copy(alpha = 0.4f), teal200.copy(alpha = 0.2f))
+            .horizontalGradient(
+                DecorColors.BLUE.color.copy(alpha = 0.4f),
+                DecorColors.GREEN.color.copy(alpha = 0.2f)
+            )
     } else {
         Modifier
     }

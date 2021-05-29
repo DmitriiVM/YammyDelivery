@@ -4,7 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,9 +12,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
 import com.dvm.cart.model.CartEvent
@@ -23,7 +25,7 @@ import com.dvm.db.api.models.CartItemDetails
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
+import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
@@ -67,16 +69,19 @@ internal fun Cart(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(10.dp)
+                        .padding(15.dp)
                 ) {
                     LazyColumn(modifier = Modifier.weight(1f)) {
-                        items(state.items) { item ->
+                        itemsIndexed(state.items){ index, item ->
                             CartItem(
                                 item = item,
                                 onDishClick = { onEvent(CartEvent.DishClick(item.dishId)) },
                                 onAddPiece = { onEvent(CartEvent.AddPiece(item.dishId)) },
                                 onRemovePiece = { onEvent(CartEvent.RemovePiece(item.dishId)) },
                             )
+                            if (index != state.items.lastIndex){
+                                Divider()
+                            }
                         }
                         item {
                             PromoCode(
@@ -121,7 +126,7 @@ private fun CartItem(
 ) {
     Row(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(top = 10.dp, bottom = 16.dp)
             .height(90.dp)
             .clickable { onDishClick(item.dishId) }) {
         CoilImage(
@@ -132,20 +137,32 @@ private fun CartItem(
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(4.dp))
         )
+        Spacer(modifier = Modifier.width(16.dp))
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(item.name)
+            Text(
+                text = item.name,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(top = 8.dp),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
             QuantityButton(
                 quantity = item.quantity.toString(),
                 onPlusClick = onAddPiece,
                 onMinusClick = onRemovePiece
             )
         }
-        Text(item.price.toString())
+        Text(
+            text = item.price.toString(),
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .align(Alignment.Bottom)
+        )
     }
 }
 
@@ -203,12 +220,18 @@ private fun PromoCode(
     onCancelPromoCode: () -> Unit
 ) {
     Row {
+
         TextField(
             value = promoCode,
             onValueChange = { onValueChange(it) },
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp),
             enabled = !appliedPromoCode,
-            maxLines = 1
+            maxLines = 1,
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent
+            )
         )
         Button(
             onClick = {
@@ -219,6 +242,7 @@ private fun PromoCode(
                 }
             },
             enabled = promoCode.trim().isNotEmpty(),
+            modifier = Modifier.align(Alignment.Bottom)
         ) {
             if (appliedPromoCode) {
                 Text(stringResource(R.string.cart_button_cancel_promocode))
@@ -237,9 +261,11 @@ private fun BottomContent(
     totalPrice: Int,
     onClick: () -> Unit
 ) {
-    Column {
+    Column(modifier = Modifier.navigationBarsWithImePadding()) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(stringResource(R.string.cart_total_price))
@@ -251,6 +277,5 @@ private fun BottomContent(
         ) {
             Text(stringResource(R.string.cart_button_create_order))
         }
-        Spacer(modifier = Modifier.navigationBarsHeight())
     }
 }

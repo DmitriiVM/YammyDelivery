@@ -34,7 +34,7 @@ internal fun Login(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Spacer(modifier = Modifier.statusBarsHeight())
+                Spacer(Modifier.statusBarsHeight())
                 TransparentAppBar(
                     title = { Text("Вход") },
                     navigationIcon = {
@@ -86,7 +86,7 @@ internal fun Login(
                         }
                     )
                 )
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(Modifier.height(30.dp))
 
                 ProgressButton(
                     text = "Войти",
@@ -103,7 +103,7 @@ internal fun Login(
                     }
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(Modifier.height(10.dp))
                 OutlinedButton(
                     enabled = !state.networkCall,
                     onClick = { onEvent(LoginEvent.RegisterClick) },
@@ -121,7 +121,7 @@ internal fun Login(
                 ) {
                     Text(text = "Забыли пароль?")
                 }
-                Spacer(modifier = Modifier.navigationBarsWithImePadding())
+                Spacer(Modifier.navigationBarsWithImePadding())
             }
         }
     }

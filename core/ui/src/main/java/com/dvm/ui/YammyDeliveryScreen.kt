@@ -3,7 +3,7 @@ package com.dvm.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.fragment.app.FragmentActivity
-import com.dvm.ui.themes.YammyDeliveryTheme
+import com.dvm.ui.themes.AppTheme
 import com.dvm.utils.LocalBackPressedDispatcher
 
 @Composable
@@ -14,7 +14,7 @@ fun YammyDeliveryScreen(
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides activity.onBackPressedDispatcher
     ) {
-        YammyDeliveryTheme(activity.window) {
+        AppTheme(activity.window) {
             content()
         }
     }

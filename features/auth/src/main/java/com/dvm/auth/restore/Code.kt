@@ -2,7 +2,6 @@ package com.dvm.auth.restore
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -41,10 +40,10 @@ fun Code(
             .fillMaxWidth()
             .wrapContentWidth()
     )
-    Spacer(modifier = Modifier.padding(bottom = 15.dp))
+    Spacer(Modifier.padding(bottom = 15.dp))
     Box(modifier = Modifier.fillMaxWidth()) {
         Row(
-            Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             CodeItem(code.getOrNull(0))
@@ -56,7 +55,7 @@ fun Code(
             value = code,
             onValueChange = { codeValue ->
                 if (codeValue.count() >= 4) {
-                    keyboardController?.hideSoftwareKeyboard()
+                    keyboardController?.hide()
                     onComplete()
                 }
                 if (codeValue.count() <= 4) {
@@ -79,7 +78,7 @@ fun Code(
         )
 
     }
-    Spacer(modifier = Modifier.height(150.dp))
+    Spacer(Modifier.height(150.dp))
 }
 
 @Composable
@@ -91,8 +90,8 @@ private fun CodeItem(number: Char?) {
             .size(50.dp)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colors.secondary,
-                shape = RoundedCornerShape(4.dp)
+                color = MaterialTheme.colors.primary,
+                shape = MaterialTheme.shapes.medium
             )
             .wrapContentSize()
     )

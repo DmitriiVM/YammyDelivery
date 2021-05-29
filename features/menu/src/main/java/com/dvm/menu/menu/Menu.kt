@@ -28,10 +28,7 @@ import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.themes.light_blue
-import com.dvm.ui.themes.light_green
-import com.dvm.ui.themes.light_violet
-import com.dvm.ui.themes.temp
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -136,9 +133,9 @@ private fun MenuItem(
                 startY = startY,
                 endY = endY,
                 colors = listOf(
-                    light_violet,
-                    light_green,
-                    light_blue
+                    DecorColors.VIOLET.color,
+                    DecorColors.GREEN.color,
+                    DecorColors.BLUE.color
                 ),
                 tileMode = TileMode.Mirror
             )
@@ -173,7 +170,7 @@ private fun MenuItem(
                     ),
                     contentDescription = null,
                     modifier = Modifier.size(30.dp),
-                    tint = temp.copy(alpha = 0.5f)
+                    tint = DecorColors.VIOLET.color.copy(alpha = 0.5f)
                 )
             }
             Text(
@@ -186,7 +183,7 @@ private fun MenuItem(
                     is MenuItem.Item -> item.title
                     MenuItem.SpecialOffer -> "Акции"
                 },
-                color = Color.Black.copy(alpha = 0.7f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
             )
         }
     }

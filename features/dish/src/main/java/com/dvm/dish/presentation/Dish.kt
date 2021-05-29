@@ -112,7 +112,7 @@ private fun DishAppBar(
 ) {
     val modifier = Modifier
         .background(
-            color = Color.White.copy(0.3f),
+            color = MaterialTheme.colors.surface.copy(0.3f),
             shape = CircleShape
         )
         .padding(8.dp)
@@ -143,7 +143,7 @@ private fun DishAppBar(
                         imageVector = Icons.Outlined.Favorite,
                         contentDescription = null,
                         modifier = modifier,
-                        tint = MaterialTheme.colors.secondary
+                        tint = MaterialTheme.colors.primary
                     )
                 } else {
                     Icon(
@@ -185,7 +185,7 @@ private fun DishContent(
     Spacer(Modifier.height(340.dp))
     Box(
         Modifier.background(
-            color = MaterialTheme.colors.background,
+            color = MaterialTheme.colors.surface,
             shape = RoundedCornerShape(
                 topStart = 20.dp,
                 topEnd = 20.dp
@@ -232,7 +232,7 @@ private fun ReviewHeader(
     Column(
         Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.surface),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
@@ -268,7 +268,7 @@ private fun QuantityButton(
         modifier = Modifier
             .requiredHeight(50.dp)
             .background(
-                color = MaterialTheme.colors.secondary,
+                color = MaterialTheme.colors.primary,
                 shape = RoundedCornerShape(50)
             )
             .padding(vertical = 8.dp),
@@ -374,7 +374,7 @@ private fun ReviewItem(review: Review) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colors.surface)
     ) {
         Surface(
             elevation = 1.dp,

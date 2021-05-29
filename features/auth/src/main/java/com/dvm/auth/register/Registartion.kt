@@ -33,7 +33,7 @@ fun Registration(
                 .padding(15.dp),
 
             ) {
-            Spacer(modifier = Modifier.statusBarsHeight())
+            Spacer(Modifier.statusBarsHeight())
             TransparentAppBar(
                 title = { Text("Регистрация") },
                 navigationIcon = {
@@ -123,7 +123,7 @@ fun Registration(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(Modifier.height(10.dp))
                 ProgressButton(
                     text = "Зарегистрироваться",
                     progress = state.networkCall,
@@ -138,7 +138,7 @@ fun Registration(
                         )
                     }
                 )
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(Modifier.height(15.dp))
                 OutlinedButton(
                     enabled = !state.networkCall,
                     onClick = { onEvent(RegisterEvent.Login) },
@@ -148,7 +148,7 @@ fun Registration(
                 ) {
                     Text(text = "Вход")
                 }
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(Modifier.height(100.dp))
             }
         }
     }

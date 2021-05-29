@@ -40,9 +40,10 @@ fun PasswordRestoration(
             )
 
             Column(
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp), verticalArrangement = Arrangement.Center
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.Center
             ) {
                 when (state.screen) {
                     Screen.EMAIL ->
