@@ -42,7 +42,7 @@ import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 private val AppBarHeight = 56.dp
 
-@ExperimentalFoundationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun Category(
     state: CategoryState,
@@ -195,7 +195,9 @@ private fun DishList(
                         dishes.forEach { dish ->
                             DishItem(
                                 dish = dish,
-                                modifier = Modifier.width(itemWidth),
+                                modifier = Modifier
+                                    .width(itemWidth)
+                                    .padding(8.dp),
                                 onDishClick = onDishClick,
                                 onAddToCartClick = onAddToCartClick
                             )

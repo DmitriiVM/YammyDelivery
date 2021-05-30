@@ -54,6 +54,7 @@ dependencies {
     implementation(Libs.COMPOSE_UI_TOOLING)
     implementation(Libs.COMPOSE_FOUNDATION)
     implementation(Libs.COMPOSE_MATERIAL)
+    implementation(Libs.COMPOSE_CONSTRAINT_LAYOUT)
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
     implementation(Libs.COMPOSE_VIEW_MODEL)

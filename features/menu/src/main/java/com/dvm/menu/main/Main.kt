@@ -62,63 +62,70 @@ internal fun Main(
                 }
             }
 
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(15.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(
-                    text = "Add something",
+            BoxWithConstraints {
+                Column(
                     Modifier
-                        .height(50.dp)
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-                if (state.recommended.isNotEmpty()) {
-                    DishesRowHeader(
-                        title = { Text(stringResource(R.string.main_recommended)) },
-                        seeAllClick = { onEvent(MainEvent.SeeAllClick) }
+                        .fillMaxSize()
+                        .padding(15.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        text = "Add something",
+                        Modifier
+                            .height(50.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center
                     )
-                    LazyRow {
-                        items(state.recommended) { dish ->
-                            MainDishItem(
-                                dish = dish,
-                                onEvent = onEvent
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                }
-                if (state.best.isNotEmpty()) {
-                    DishesRowHeader(
-                        title = { Text(stringResource(R.string.main_best)) },
-                        seeAllClick = { onEvent(MainEvent.SeeAllClick) }
-                    )
-                    LazyRow {
-                        items(state.best) { dish ->
-                            MainDishItem(
-                                dish = dish,
-                                onEvent = onEvent
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                }
-                DishesRowHeader(
-                    title = { Text(stringResource(R.string.main_popular)) },
-                    seeAllClick = { onEvent(MainEvent.SeeAllClick) }
-                )
-                LazyRow {
-                    items(state.popular) { dish ->
-                        MainDishItem(
-                            dish = dish,
-                            onEvent = onEvent
+
+
+                    if (state.recommended.isNotEmpty()) {
+                        DishesRowHeader(
+                            title = { Text(stringResource(R.string.main_recommended)) },
+                            seeAllClick = { onEvent(MainEvent.SeeAllClick) }
                         )
+                        LazyRow {
+                            items(state.recommended) { dish ->
+                                MainDishItem(
+                                    dish = dish,
+                                    onEvent = onEvent,
+                                    modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
+                    if (state.best.isNotEmpty()) {
+                        DishesRowHeader(
+                            title = { Text(stringResource(R.string.main_best)) },
+                            seeAllClick = { onEvent(MainEvent.SeeAllClick) }
+                        )
+                        LazyRow {
+                            items(state.best) { dish ->
+                                MainDishItem(
+                                    dish = dish,
+                                    onEvent = onEvent,
+                                    modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    DishesRowHeader(
+                        title = { Text(stringResource(R.string.main_popular)) },
+                        seeAllClick = { onEvent(MainEvent.SeeAllClick) }
+                    )
+                    LazyRow {
+                        items(state.popular) { dish ->
+                            MainDishItem(
+                                dish = dish,
+                                onEvent = onEvent,
+                                modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.navigationBarsHeight())
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-                Spacer(modifier = Modifier.navigationBarsHeight())
             }
         }
     }
@@ -136,10 +143,12 @@ internal fun Main(
 @Composable
 private fun MainDishItem(
     dish: CategoryDish,
+    modifier: Modifier,
     onEvent: (MainEvent) -> Unit
 ) {
     DishItem(
         dish = dish,
+        modifier = modifier.padding(8.dp),
         onDishClick = { onEvent(MainEvent.DishClick(dish.id)) },
         onAddToCartClick = { onEvent(MainEvent.AddToCart(dish.id, dish.name)) },
     )

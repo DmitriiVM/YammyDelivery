@@ -123,6 +123,7 @@ private fun SearchResult(
         items(state.dishes) { dish ->
             DishItem(
                 dish = dish,
+                modifier = Modifier.padding(8.dp),
                 onDishClick = { onEvent(SearchEvent.DishClick(it, dish.name)) },
                 onAddToCartClick = { onEvent(SearchEvent.AddToCart(it)) },
             )

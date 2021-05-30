@@ -16,12 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.dvm.db.api.models.CategoryDish
+import com.dvm.menu.R
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
@@ -32,110 +35,107 @@ internal fun DishItem(
     onAddToCartClick: (dishId: String) -> Unit
 ) {
     Card(
-        elevation = 1.dp,
-        modifier = modifier
-            .padding(8.dp)
-            .clickable { onDishClick(dish.id) }
+        modifier = modifier.clickable { onDishClick(dish.id) }
     ) {
-        Box {
-            Column {
-                CoilImage(
-                    data = dish.image,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(4.dp)), // TODO material
-                    error = {
-                        Icon(
-                            imageVector = Icons.Default.Error,
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primaryVariant.copy(alpha = 0.05f)
-                        )
-                    }
-                )
-                Box {
-                    Box(
-                        modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(end = 15.dp),
-                        contentAlignment = Alignment.TopEnd
-                    ) {
+        ConstraintLayout(Modifier.padding(8.dp)) {
 
-                        // elevation, todo
-                        Icon(
-                            imageVector = Icons.Sharp.Add,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(40.dp)
-                                .offset(y = (-28).dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colors.secondary)
-                                .clickable { onAddToCartClick(dish.id) }
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.padding(
-                            start = 5.dp,
-                            end = 5.dp,
-                            top = 0.dp,
-                            bottom = 5.dp
-                        )
-                    ) {
-                        Text(
-                            text = "${dish.price} ₽",
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(start = 15.dp, bottom = 5.dp)
-                        )
-                        Divider(modifier = Modifier.padding(horizontal = 3.dp))
-                        Text(
-                            text = dish.name,
-                            modifier = Modifier
-                                .padding(bottom = 5.dp, start = 5.dp, end = 5.dp)
-                                .fillMaxWidth()
-                                .height(40.dp)
-                                .wrapContentHeight(),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            textAlign = TextAlign.Center
-                        )
-                        Divider(modifier = Modifier.padding(horizontal = 3.dp))
-                        Spacer(modifier = Modifier.height(3.dp))
-                        Divider(modifier = Modifier.padding(horizontal = 3.dp))
-                    }
-                }
-            }
-            if (dish.oldPrice > dish.price) {
-                Text(
-                    text = "АКЦИЯ",
-                    fontSize = 10.sp,
-                    letterSpacing = 2.5.sp,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .background(
-                            color = Color.Yellow.copy(alpha = 0.8f),
-                            shape = RoundedCornerShape(topEnd = 3.dp, bottomEnd = 3.dp)
-                        )
-                        .padding(vertical = 3.dp, horizontal = 5.dp)
-                )
-            }
-            Box(
+            val (image, description, addButton, favoriteButton) = createRefs()
+
+            CoilImage(
+                data = dish.image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.TopEnd
+                    .aspectRatio(1f)
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.medium)
+                    .constrainAs(image) {},
+                error = {
+                    Icon(
+                        imageVector = Icons.Default.Error,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primary.copy(alpha = 0.05f)
+                    )
+                }
+            )
+
+            IconButton(
+                modifier = Modifier
+                    .padding(end = 6.dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colors.primary)
+                    .constrainAs(addButton) {
+                        end.linkTo(image.end)
+                        centerAround(image.bottom)
+                    },
+                onClick = { onAddToCartClick(dish.id) }
             ) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 12.dp, end = 12.dp)
-                        .size(20.dp),
-                    tint = if (dish.isFavorite) MaterialTheme.colors.secondary else Color.LightGray
+                    imageVector = Icons.Sharp.Add,
+                    contentDescription = null
                 )
             }
+
+            Icon(
+                imageVector = Icons.Default.FavoriteBorder,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(top = 4.dp, end = 6.dp)
+                    .size(20.dp)
+                    .constrainAs(favoriteButton) {
+                        top.linkTo(image.top)
+                        end.linkTo(image.end)
+                    },
+                tint = if (dish.isFavorite) MaterialTheme.colors.primary else Color.LightGray
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .constrainAs(description) {
+                        top.linkTo(image.bottom)
+                    }
+            ) {
+                Text(
+                    text = stringResource(R.string.dish_item_price, dish.price),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 15.dp, bottom = 5.dp)
+                )
+                val paddingModifier = Modifier.padding(horizontal = 3.dp)
+                Divider(paddingModifier)
+                Text(
+                    text = dish.name,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(bottom = 5.dp)
+                        .padding(vertical = 5.dp)
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .wrapContentHeight()
+                )
+                Divider(paddingModifier)
+                Spacer(Modifier.height(3.dp))
+                Divider(paddingModifier)
+            }
+        }
+
+        if (dish.oldPrice > dish.price) {
+            Text(
+                text = stringResource(R.string.dish_item_label_special_offer),
+                fontSize = 10.sp,
+                letterSpacing = 2.5.sp,
+                modifier = Modifier
+                    .padding(top = 15.dp)
+                    .wrapContentWidth(Alignment.Start)
+                    .background(
+                        color = Color(0xFFFFD150),
+                        shape = RoundedCornerShape(topEnd = 3.dp, bottomEnd = 3.dp)
+                    )
+                    .padding(vertical = 3.dp, horizontal = 5.dp)
+            )
         }
     }
 }
