@@ -18,15 +18,11 @@ import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,

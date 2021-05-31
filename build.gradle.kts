@@ -22,3 +22,14 @@ allprojects {
 tasks.register(name = "type", type = Delete::class) {
     delete(rootProject.buildDir)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf(
+            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xopt-in=kotlinx.coroutines.FlowPreview",
+            "-Xopt-in=kotlin.Experimental",
+            "-Xopt-in=kotlin.RequiresOptIn"
+        )
+    }
+}

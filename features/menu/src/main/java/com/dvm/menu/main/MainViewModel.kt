@@ -18,16 +18,12 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@FlowPreview
-@ExperimentalCoroutinesApi
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     @ApplicationContext private val context: Context,

@@ -34,7 +34,6 @@ import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
-@ExperimentalFoundationApi
 @Composable
 internal fun MenuView(
     menuItems: List<MenuItem>,
@@ -90,7 +89,7 @@ private fun MenuAppBar(
     Divider()
 }
 
-@ExperimentalFoundationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MenuContent(
     menuItems: List<MenuItem>,

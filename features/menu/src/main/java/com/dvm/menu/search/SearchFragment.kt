@@ -9,11 +9,7 @@ import com.dvm.ui.FragmentInsetsComposeView
 import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
-@ExperimentalCoroutinesApi
-@FlowPreview
 @AndroidEntryPoint
 internal class SearchFragment : Fragment() {
 

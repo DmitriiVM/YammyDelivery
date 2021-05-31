@@ -42,7 +42,6 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun Dish(
     state: DishState,

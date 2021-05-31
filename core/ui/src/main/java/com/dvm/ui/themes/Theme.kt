@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 @Composable
 fun AppTheme(
     window: Window,
-    darkTheme: Boolean = !isSystemInDarkTheme(),
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
 

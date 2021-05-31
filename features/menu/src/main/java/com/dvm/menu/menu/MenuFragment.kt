@@ -3,7 +3,6 @@ package com.dvm.menu.menu
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dvm.ui.FragmentInsetsComposeView
@@ -16,8 +15,6 @@ internal class MenuFragment : Fragment() {
 
     private val viewModel: MenuViewModel by viewModels()
 
-    @ExperimentalStdlibApi
-    @ExperimentalFoundationApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
