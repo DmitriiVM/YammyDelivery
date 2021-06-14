@@ -33,7 +33,7 @@ internal interface DishDao {
             WHERE category IS :category
         """
     )
-    suspend fun getDishes(category: String): List<CategoryDish>
+    fun getDishes(category: String): Flow<List<CategoryDish>>
 
     @Query(
         """

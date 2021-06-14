@@ -1,5 +1,6 @@
 package com.dvm.menu.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,10 +11,13 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.CategoryDish
@@ -21,10 +25,8 @@ import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
-import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButton
-import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.components.TransparentAppBar
+import com.dvm.ui.components.*
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -45,7 +47,7 @@ internal fun Main(
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
+            DefaultAppBar(
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch {
@@ -62,25 +64,36 @@ internal fun Main(
                 }
             }
 
-            BoxWithConstraints {
+            val color by rememberSaveable {
+                mutableStateOf(DecorColors.values().random())
+            }
+
+            BoxWithConstraints(
+                Modifier
+                    .fillMaxSize()
+                    .verticalGradient(color.color.copy(alpha = 0.15f))
+            ) {
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .padding(15.dp)
+                        .padding(5.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
-                    Text(
-                        text = "Add something",
-                        Modifier
-                            .height(50.dp)
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
 
+                    Image(
+                        painter = painterResource(R.drawable.cover),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(4.dp)
+                    )
+                    Spacer(Modifier.height(15.dp))
+
+                    val modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2.2f)
 
                     if (state.recommended.isNotEmpty()) {
                         DishesRowHeader(
-                            title = { Text(stringResource(R.string.main_recommended)) },
+                            text = stringResource(R.string.main_recommended),
                             seeAllClick = { onEvent(MainEvent.SeeAllClick) }
                         )
                         LazyRow {
@@ -88,7 +101,7 @@ internal fun Main(
                                 MainDishItem(
                                     dish = dish,
                                     onEvent = onEvent,
-                                    modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2)
+                                    modifier = modifier
                                 )
                             }
                         }
@@ -96,7 +109,7 @@ internal fun Main(
                     }
                     if (state.best.isNotEmpty()) {
                         DishesRowHeader(
-                            title = { Text(stringResource(R.string.main_best)) },
+                            text = stringResource(R.string.main_best),
                             seeAllClick = { onEvent(MainEvent.SeeAllClick) }
                         )
                         LazyRow {
@@ -104,14 +117,14 @@ internal fun Main(
                                 MainDishItem(
                                     dish = dish,
                                     onEvent = onEvent,
-                                    modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2)
+                                    modifier = modifier
                                 )
                             }
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                     DishesRowHeader(
-                        title = { Text(stringResource(R.string.main_popular)) },
+                        text = stringResource(R.string.main_popular),
                         seeAllClick = { onEvent(MainEvent.SeeAllClick) }
                     )
                     LazyRow {
@@ -119,7 +132,7 @@ internal fun Main(
                             MainDishItem(
                                 dish = dish,
                                 onEvent = onEvent,
-                                modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2)
+                                modifier = modifier
                             )
                         }
                     }
@@ -148,7 +161,7 @@ private fun MainDishItem(
 ) {
     DishItem(
         dish = dish,
-        modifier = modifier.padding(8.dp),
+        modifier = modifier.padding(5.dp),
         onDishClick = { onEvent(MainEvent.DishClick(dish.id)) },
         onAddToCartClick = { onEvent(MainEvent.AddToCart(dish.id, dish.name)) },
     )
@@ -156,16 +169,22 @@ private fun MainDishItem(
 
 @Composable
 private fun DishesRowHeader(
-    title: @Composable () -> Unit,
+    text: String,
     seeAllClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        title()
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h6
+        )
         Text(
             text = stringResource(R.string.main_see_all),
+            color = MaterialTheme.colors.primary,
             modifier = Modifier.clickable { seeAllClick() }
         )
     }

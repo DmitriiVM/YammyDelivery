@@ -1,93 +1,118 @@
-package com.dvm.dish.dish_impl
+package com.dvm.dish.presentation
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.DishDetails
-import com.dvm.db.api.models.Review
 import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
+import com.dvm.ui.components.AppBarIconBack
+import com.dvm.ui.components.DefaultAppBar
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
+@OptIn(ExperimentalStdlibApi::class, ExperimentalComposeApi::class)
 @Composable
 internal fun Dish(
     state: DishState,
     onEvent: (DishEvent) -> Unit,
 ) {
     Drawer(selected = DrawerItem.NONE) {
-        Box {
-            val listState = rememberLazyListState()
 
-            state.dish ?: return@Box
+        val dish = state.dish ?: return@Drawer
+        val color = remember { DecorColors.values().random().color }
 
-            DishImage(
-                imageUrl = state.dish.image,
-                listState = listState
-            )
+        LazyColumn {
+            item {
+                Column(Modifier.fillMaxSize()) {
 
-            LazyColumn(state = listState) {
-                item {
-                    DishContent(
-                        dish = state.dish,
-                        quantity = state.quantity,
-                        onAddPeace = { onEvent(DishEvent.AddPiece) },
-                        onRemovePeace = { onEvent(DishEvent.RemovePiece) },
-                        onAddToCart = { onEvent(DishEvent.AddToCart) },
-                        onAddReview = { onEvent(DishEvent.AddReview) }
-                    )
-                }
-                items(state.dish.reviews) { review ->
-                    ReviewItem(review)
-                }
-                item {
                     Spacer(
+                        Modifier
+                            .statusBarsHeight()
+                            .background(color.copy(alpha = 0.3f))
+                    )
+
+                    Box(Modifier.fillMaxWidth()) {
+
+                        ImageHeader(
+                            color = color,
+                            image = dish.image
+                        )
+
+                        DishAppBar(
+                            color = color,
+                            isFavorite = dish.isFavorite,
+                            onNavigateUp = { onEvent(DishEvent.BackClick) },
+                            onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
+                        )
+                    }
+
+                    Text(
+                        text = dish.name,
                         modifier = Modifier
-                            .navigationBarsHeight()
                             .fillMaxWidth()
-                            .background(Color.White)
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 50.dp, bottom = 40.dp),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Text(
+                        text = dish.description.orEmpty(),
+                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(bottom = 20.dp)
+                    )
+
+                    PurchaseSection(
+                        price = dish.price,
+                        oldPrice = dish.oldPrice,
+                        quantity = state.quantity,
+                        onRemoveItem = { onEvent(DishEvent.RemovePiece) },
+                        onAddItem = { onEvent(DishEvent.AddPiece) },
+                        onAddToCart = { onEvent(DishEvent.AddToCart) },
+                    )
+
+                    Divider(Modifier.padding(top = 20.dp))
+
+                    ReviewHeader(
+                        rating = dish.rating,
+                        color = color
                     )
                 }
             }
 
-            Column {
-                Spacer(Modifier.statusBarsHeight())
-                DishAppBar(
-                    onNavigateUp = { onEvent(DishEvent.BackClick) },
-                    onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) },
-                    checked = state.dish.isFavorite
+            items(dish.reviews) { review ->
+                ReviewItem(
+                    review = review,
+                    color = color
                 )
             }
         }
@@ -103,52 +128,33 @@ internal fun Dish(
     }
 }
 
+
 @Composable
 private fun DishAppBar(
+    isFavorite: Boolean,
+    color: Color,
     onNavigateUp: () -> Unit,
-    onFavoriteClick: () -> Unit,
-    checked: Boolean
+    onFavoriteClick: () -> Unit
 ) {
-    val modifier = Modifier
-        .background(
-            color = MaterialTheme.colors.surface.copy(0.3f),
-            shape = CircleShape
-        )
-        .padding(8.dp)
-
-    TopAppBar(
-        title = { },
+    DefaultAppBar(
         navigationIcon = {
-            IconButton(
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp),
-                onClick = { onNavigateUp() }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.ArrowBack,
-                    contentDescription = null,
-                    modifier = modifier
-                )
-            }
+            AppBarIconBack(onNavigateUp = onNavigateUp)
         },
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp,
         actions = {
             IconButton(
-                modifier = Modifier.padding(top = 10.dp),
-                onClick = { onFavoriteClick() }
+                modifier = Modifier,
+                onClick = onFavoriteClick
             ) {
-                if (checked) {
+                if (isFavorite) {
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
                         contentDescription = null,
-                        modifier = modifier,
-                        tint = MaterialTheme.colors.primary
+                        tint = color
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Outlined.FavoriteBorder,
                         contentDescription = null,
-                        modifier = modifier
                     )
                 }
             }
@@ -156,254 +162,209 @@ private fun DishAppBar(
     )
 }
 
-@Composable
-private fun DishImage(
-    imageUrl: String,
-    listState: LazyListState
-) {
-    CoilImage(
-        data = imageUrl,
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .graphicsLayer(translationY = -listState.firstVisibleItemScrollOffset * 0.3f)
-            .fillMaxWidth()
-            .height(370.dp)
-    )
-}
 
 @Composable
-private fun DishContent(
-    dish: DishDetails,
-    quantity: Int,
-    onAddPeace: () -> Unit,
-    onRemovePeace: () -> Unit,
-    onAddToCart: () -> Unit,
-    onAddReview: () -> Unit
-) {
-    Spacer(Modifier.height(340.dp))
+private fun ImageHeader(color: Color, image: String) {
+
+    val horizontalPointOffset = 50f
+    val verticalPointOffset = 50f
+
+    Canvas(Modifier.fillMaxWidth()) {
+
+        drawRect(
+            color = color.copy(alpha = 0.3f),
+            topLeft = Offset.Zero,
+            size = Size(width = size.width, height = 450f)
+        )
+
+        pointGrid(
+            startY = 170f,
+            lines = 3,
+            color = color,
+            width = size.width,
+            verticalOffset = verticalPointOffset,
+            horizontalOffset = horizontalPointOffset,
+        )
+    }
+
     Box(
-        Modifier.background(
-            color = MaterialTheme.colors.surface,
-            shape = RoundedCornerShape(
-                topStart = 20.dp,
-                topEnd = 20.dp
-            )
-        )
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 90.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Column(Modifier.fillMaxWidth()) {
-            DishDetails(
-                dish = dish,
-                onAddToCart = onAddToCart,
-                modifier = Modifier
-            )
-            Spacer(
-                Modifier
-                    .height(20.dp)
-                    .background(Color.Red)
-            )
-        }
-        val quantityButtonOffset = with(LocalDensity.current) { 25.dp.toPx() }
-        Box(
+        CoilImage(
+            data = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxWidth()
-                .graphicsLayer(translationY = -quantityButtonOffset),
-            contentAlignment = Alignment.Center
-        ) {
-            QuantityButton(
-                quantity = quantity,
-                onAdd = { onAddPeace() },
-                onRemove = { onRemovePeace() }
-            )
-        }
+                .size(280.dp)
+                .border(width = 1.dp, color = Color.Gray)
+        )
     }
-    ReviewHeader(
-        rating = dish.rating,
-        onAddReview = onAddReview
-    )
+
+    Canvas(Modifier.fillMaxWidth()) {
+        pointGrid(
+            startY = 990f,
+            lines = 2,
+            width = size.width,
+            verticalOffset = verticalPointOffset,
+            horizontalOffset = horizontalPointOffset,
+            color = color,
+        )
+    }
 }
 
+
 @Composable
-private fun ReviewHeader(
-    rating: Double,
-    onAddReview: () -> Unit
+private fun PurchaseSection(
+    price: Int,
+    oldPrice: Int,
+    quantity: Int,
+    onRemoveItem: () -> Unit,
+    onAddItem: () -> Unit,
+    onAddToCart: () -> Unit,
 ) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.surface),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Row(
+        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.Bottom
     ) {
-        Icon(
-            painter = painterResource(R.drawable.icon_review),
-            contentDescription = null
-        )
-        Spacer(Modifier.height(15.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Text("Отзывы  ★ $rating/5")
-            OutlinedButton(
-                onClick = { onAddReview() },
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
-            ) {
-                Text("Добавить")
-            }
+        if (oldPrice > price) {
+            Text(
+                text = stringResource(R.string.dish_item_price, oldPrice),
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
+                fontSize = 16.sp,
+                textDecoration = TextDecoration.LineThrough
+            )
+            Text(
+                text = stringResource(R.string.dish_item_price, price),
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.primary
+            )
+        } else {
+            Text(
+                text = stringResource(R.string.dish_item_price, price),
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.8f)
+            )
         }
+
+        QuantityButton(
+            color = MaterialTheme.colors.onSurface.copy(
+                alpha = ButtonDefaults.OutlinedBorderOpacity
+            ),
+            quantity = quantity,
+            onMinusClick = onRemoveItem,
+            onPlusClick = onAddItem
+        )
+    }
+
+    OutlinedButton(
+        onClick = onAddToCart,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+    ) {
+        Text(stringResource(R.string.dish_button_add_to_cart))
     }
 }
+
 
 @Composable
 private fun QuantityButton(
     quantity: Int,
-    onAdd: () -> Unit,
-    onRemove: () -> Unit
+    color: Color,
+    onMinusClick: () -> Unit,
+    onPlusClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
-            .requiredHeight(50.dp)
-            .background(
-                color = MaterialTheme.colors.primary,
-                shape = RoundedCornerShape(50)
+            .height(36.dp)
+            .border(
+                width = 1.dp,
+                color = color,
+                shape = MaterialTheme.shapes.medium
             )
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = { onRemove() }) {
-            Icon(
-                imageVector = Icons.Default.Remove,
-                contentDescription = null,
-                Modifier.size(17.dp)
-            )
-        }
+        val spacerModifier = Modifier
+            .fillMaxHeight()
+            .width(1.dp)
+            .background(color)
+
+        val textModifier = Modifier
+            .fillMaxHeight()
+            .width(36.dp)
+            .wrapContentHeight()
+
+        Text(
+            text = "-",
+            modifier = Modifier
+                .clickable(onClick = onMinusClick)
+                .then(textModifier),
+            textAlign = TextAlign.Center
+        )
+        Spacer(spacerModifier)
         Text(
             text = quantity.toString(),
-            fontSize = 26.sp,
-            fontWeight = FontWeight.SemiBold
+            modifier = textModifier,
+            textAlign = TextAlign.Center
         )
-        IconButton(onClick = { onAdd() }) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                Modifier.size(17.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun DishDetails(
-    dish: DishDetails,
-    onAddToCart: () -> Unit,
-    modifier: Modifier
-) {
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        elevation = 1.dp,
-        border = BorderStroke(
-            width = 0.5.dp,
-            color = Color.LightGray
-        )
-    ) {
-        Column {
-            Spacer(Modifier.height(60.dp))
-            Text(
-                text = dish.name,
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.padding(horizontal = 20.dp)
-            )
-            Spacer(Modifier.height(20.dp))
-            dish.description?.let {
-                Text(
-                    text = it,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-            }
-            Spacer(Modifier.height(30.dp))
-
-            if (dish.oldPrice > dish.price) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Text(
-                        text = dish.oldPrice.toString(),
-                        color = Color.Gray,
-                        fontSize = 20.sp,
-                        textDecoration = TextDecoration.LineThrough
-                    )
-                    Text(
-                        text = "${dish.price}  ₽",
-                        color = Color.Red.copy(0.5f),
-                        fontSize = 24.sp,
-                        fontStyle = FontStyle.Italic
-                    )
-                }
-            } else {
-                Text(
-                    text = "${dish.price}  ₽",
-                    fontSize = 24.sp,
-                    fontStyle = FontStyle.Italic,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-            }
-
-            Spacer(Modifier.height(20.dp))
-            OutlinedButton(
-                onClick = { onAddToCart() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 40.dp)
-            ) {
-                Text("В корзину")
-            }
-            Spacer(Modifier.height(20.dp))
-        }
-    }
-}
-
-@Composable
-private fun ReviewItem(review: Review) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.surface)
-    ) {
-        Surface(
-            elevation = 1.dp,
+        Spacer(spacerModifier)
+        Text(
+            text = "+",
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("${review.author}, ${review.date}")
-                    val stars = ""
-                    repeat(review.rating) { stars.endsWith("★") }
-                    Text(stars)
-                }
-                Text(review.text)
-            }
-        }
+                .clickable(onClick = onPlusClick)
+                .then(textModifier),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
 
+@OptIn(ExperimentalStdlibApi::class)
+private fun DrawScope.pointGrid(
+    startY: Float,
+    lines: Int,
+    width: Float,
+    verticalOffset: Float,
+    horizontalOffset: Float,
+    color: Color
+) {
+    repeat(lines) { index ->
+        pointLine(
+            y = startY + verticalOffset * index,
+            width = width,
+            offset = horizontalOffset,
+            color = color
+        )
+    }
+}
 
 
-
-
-
+@OptIn(ExperimentalStdlibApi::class)
+private fun DrawScope.pointLine(
+    y: Float,
+    width: Float,
+    offset: Float,
+    color: Color
+) {
+    val offsets = buildList {
+        repeat((width / offset).toInt() + 1) { index ->
+            add(
+                Offset(
+                    x = index * offset + 15,
+                    y = y
+                )
+            )
+        }
+    }
+    drawPoints(
+        points = offsets,
+        pointMode = PointMode.Points,
+        color = color,
+        strokeWidth = 20f,
+        cap = StrokeCap.Round
+    )
+}

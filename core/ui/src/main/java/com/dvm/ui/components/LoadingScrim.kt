@@ -6,10 +6,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LoadingScrim() {
@@ -20,7 +20,7 @@ fun LoadingScrim() {
                 interactionSource = MutableInteractionSource(),
                 indication = null
             ) { }
-            .background(Color.Black.copy(alpha = 0.2f)),
+            .background(MaterialTheme.colors.onSurface.copy(alpha = 0.2f)),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()

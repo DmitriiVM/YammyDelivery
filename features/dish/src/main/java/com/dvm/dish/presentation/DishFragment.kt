@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.dvm.dish.dish_impl.Dish
 import com.dvm.ui.FragmentInsetsComposeView
 import com.dvm.ui.YammyDeliveryScreen
 import dagger.hilt.android.AndroidEntryPoint

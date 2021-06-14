@@ -51,7 +51,7 @@ fun Email(
             .fillMaxWidth()
             .navigationBarsWithImePadding(),
         onClick = {
-            keyboardController?.hideSoftwareKeyboard()
+            keyboardController?.hide()
             onSend()
         }
     ) {

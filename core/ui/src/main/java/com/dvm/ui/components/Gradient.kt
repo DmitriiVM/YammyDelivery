@@ -11,8 +11,8 @@ fun Modifier.verticalGradient(color: Color) =
     background(
         brush = Brush.verticalGradient(
             listOf(
-                Color.White,
-                Color.White,
+                Color.Transparent,
+                Color.Transparent,
                 color,
                 color,
             )

@@ -13,7 +13,7 @@ interface DishRepository {
     fun best(): Flow<List<CategoryDish>>
     fun popular(): Flow<List<CategoryDish>>
     fun favorite(): Flow<List<CategoryDish>>
-    suspend fun getDishes(category: String): List<CategoryDish>
+    suspend fun getDishes(category: String): Flow<List<CategoryDish>>
     suspend fun hasSpecialOffers(): Boolean
     suspend fun getSpecialOffers(): List<CategoryDish>
     suspend fun insertDishes(dishes: List<Dish>)

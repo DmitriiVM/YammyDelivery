@@ -8,14 +8,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TransparentAppBar(
+fun DefaultAppBar(
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = {},
     navigationIcon: @Composable (() -> Unit)? = null,
@@ -35,14 +34,15 @@ fun TransparentAppBar(
 fun AppBarIconMenu(
     onAppMenuClick: () -> Unit
 ) {
-    IconButton(onClick = onAppMenuClick) {
+    IconButton(
+        modifier = Modifier.padding(start = 10.dp),
+        onClick = onAppMenuClick
+    ) {
         Icon(
             imageVector = Icons.Outlined.Menu,
-            contentDescription = null,
-            modifier = Modifier.padding(start = 10.dp)
+            contentDescription = null
         )
     }
-
 }
 
 @Composable
@@ -55,19 +55,6 @@ fun AppBarIconBack(
             imageVector = Icons.Outlined.ArrowBack,
             contentDescription = null,
             modifier = modifier
-        )
-    }
-}
-
-@Composable
-fun AppBarIconSearch(
-    onSearchClick: () -> Unit
-) {
-    IconButton(onClick = onSearchClick) {
-        Icon(
-            imageVector = Icons.Outlined.Search,
-            contentDescription = null,
-            modifier = Modifier.padding(end = 10.dp)
         )
     }
 }

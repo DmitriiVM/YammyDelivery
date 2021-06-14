@@ -1,5 +1,6 @@
 <resources>
 
+    <string name="menu_appbar_title">Меню</string>
     <string name="menu_item_special_offer">Акции</string>
 
     <string name="cart_appbar_title">Корзина</string>
@@ -11,26 +12,45 @@
     <string name="cart_message_promocode_fail">Не удалось применить промокод</string>
 
     <string name="ordering_appbar_title">Оформление заказа</string>
-    <string name="ordering_field_address">Адрес: </string>
-    <string name="ordering_field_entrance">Подъезд: </string>
-    <string name="ordering_field_floor">Этаж: </string>
-    <string name="ordering_field_apartment">Квартира: </string>
-    <string name="ordering_field_intercom">Домофон: </string>
-    <string name="ordering_field_comment">Комментарий: </string>
+    <string name="ordering_field_address">"\Адрес: "\</string>
+    <string name="ordering_field_entrance">"\Подъезд: "\</string>
+    <string name="ordering_field_floor">"\Этаж: "\</string>
+    <string name="ordering_field_apartment">"\Квартира: "\</string>
+    <string name="ordering_field_intercom">"\Домофон: "\</string>
+    <string name="ordering_field_comment">"\Комментарий: "\</string>
     <string name="ordering_button_create_order">Оформить заказ</string>
     <string name="ordering_button_apply">Применить</string>
     <string name="ordering_button_fill">Задать вручную</string>
     <string name="ordering_button_use_map">Указать на карте</string>
 
     <string name="orders_appbar_title">Заказы</string>
+    <string name="orders_tab_actual">Актуальные</string>
+    <string name="orders_tab_completed">Выполненные</string>
+    <string name="orders_order_number">№ %s</string>
 
-    <string name="order_appbar_title">Заказ</string>
-
-    <string name="favorite_appbar_title">Избранное</string>
-
-    <string name="notification_appbar_title">Уведомления</string>
+    <string name="order_appbar_title">Заказ № %s</string>
+    <string name="order_price">%d руб.</string>
+    <string name="order_amount">%d шт.</string>
+    <string name="order_field_status">"\Статус: "\</string>
+    <string name="order_field_total">"\Сумма: "\</string>
+    <string name="order_field_address">"\Адрес: "\</string>
+    <string name="order_field_date">"\Дата: "\</string>
+    <string name="order_button_order_again">Повторить заказ</string>
+    <string name="order_button_cancel_order">Отменить заказ</string>
+    <string name="order_order_content">Состав заказа</string>
 
     <string name="profile_appbar_title">Профиль</string>
+    <string name="profile_text_field_name">Имя</string>
+    <string name="profile_text_field_last_name">Фамилия</string>
+    <string name="profile_text_field_email">E-mail</string>
+    <string name="profile_button_save">Сохранить</string>
+    <string name="profile_button_change_mode">Изменить</string>
+    <string name="profile_button_cancel">Отменить</string>
+    <string name="profile_button_change_password">Сменить пароль</string>
+    <string name="profile_dialog_title">Смена пароля</string>
+    <string name="profile_dialog_field_new_password">Новый пароль</string>
+    <string name="profile_dialog_field_old_password">Старый пароль</string>
+    <string name="profile_dialog_button_save">Сохранить</string>
 
     <string name="main_see_all">См. все</string>
     <string name="main_popular">Популярное</string>
@@ -45,6 +65,10 @@
     <string name="category_order_rating_asc">По рейтингу ▲</string>
     <string name="category_order_rating_desc">По рейтингу ▼</string>
 
+    <string name="dish_button_add_to_cart">Добавить в корзину</string>
+    <string name="dish_text_reviews">Отзывы</string>
+    <string name="dish_button_add_review">Добавить отзыв</string>
+
     <string name="order_message_order_canceled">Заказ успешно отменен</string>
     <string name="order_message_cart_not_empty">Ваша корзина уже содержит %s. Очистить корзину?</string>
     <plurals name="order_message_plural_dish">
@@ -57,6 +81,21 @@
     <string name="auth_field_error_incorrect_email">Некорректный e-mail</string>
     <string name="auth_field_error_incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
     <string name="auth_field_error_letters_allowed">Только буквы</string>
+
+    <string name="login_appbar_title">Вход</string>
+    <string name="login_field_email">E-mail</string>
+    <string name="login_field_password">Пароль</string>
+    <string name="login_button_login">Войти</string>
+    <string name="login_button_registartion">Регистрация</string>
+    <string name="login_button_restore_password">Забыли пароль?</string>
+
+    <string name="registration_appbar_title">Регистрация</string>
+    <string name="registration_field_name">Имя</string>
+    <string name="registration_field_last_name">Фамилия</string>
+    <string name="registration_field_email">E-mail</string>
+    <string name="registration_field_password">Пароль</string>
+    <string name="registration_button_register">Зарегистрироваться</string>
+    <string name="registration_button_login">Вход</string>
 
     <string name="password_restoration_appbar_title">Восстановление пароля</string>
     <string name="password_restoration_message_already_sent">Код уже был отправлен менее 3 минут назад</string>
@@ -81,5 +120,14 @@
     <string name="app_menu_message_logout">Вы действительно хотите выйти из аккаунта?</string>
     <string name="dish_item_label_special_offer">АКЦИЯ</string>
     <string name="dish_item_price">%d ₽</string>
+
+    <string name="favorite_appbar_title">Избранное</string>
+
+    <string name="search_text_field_hint">Поиск блюд</string>
+
+    <string name="notification_appbar_title">Уведомления</string>
+
+    <string name="common_no">Нет</string>
+    <string name="common_ok">Да</string>
 
 </resources>

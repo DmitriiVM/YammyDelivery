@@ -12,7 +12,10 @@ import androidx.compose.material.DrawerValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,10 +24,8 @@ import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
-import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButton
-import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.components.TransparentAppBar
+import com.dvm.ui.components.*
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -43,9 +44,17 @@ internal fun Favorite(
         selected = DrawerItem.FAVORITE
     ) {
 
-        Column(Modifier.fillMaxSize()) {
+        val color by rememberSaveable {
+            mutableStateOf(DecorColors.values().random())
+        }
+
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalGradient(color.color.copy(alpha = 0.15f))
+        ) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
+            DefaultAppBar(
                 title = { Text(stringResource(R.string.favorite_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
@@ -56,11 +65,14 @@ internal fun Favorite(
                 }
             )
 
-            LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+            LazyVerticalGrid(
+                cells = GridCells.Fixed(2),
+                modifier = Modifier.padding(5.dp)
+            ) {
                 items(state.dishes) { dish ->
                     DishItem(
                         dish = dish,
-                        modifier  = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(5.dp),
                         onDishClick = { onEvent(FavoriteEvent.DishClick(it)) },
                         onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(it, dish.name)) },
                     )

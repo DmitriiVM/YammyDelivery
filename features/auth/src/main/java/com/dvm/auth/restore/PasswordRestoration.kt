@@ -30,12 +30,10 @@ fun PasswordRestoration(
     Drawer(selected = DrawerItem.NONE) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
+            DefaultAppBar(
                 title = { Text(stringResource(R.string.password_restoration_appbar_title)) },
                 navigationIcon = {
-                    AppBarIconBack {
-                        onEvent(RestoreEvent.BackClick)
-                    }
+                    AppBarIconBack { onEvent(RestoreEvent.BackClick) }
                 },
             )
 
@@ -82,7 +80,6 @@ fun PasswordRestoration(
                             }
                         )
                 }
-
             }
         }
     }

@@ -9,18 +9,15 @@ internal val LightColorPalette = lightColors(
 )
 
 internal val DarkColorPalette = darkColors(
-    primary = Color(0xFF22B8C5)
+    primary = Color(0xFF178F99)
 )
 
-enum class DecorColors(val color: Color){
-    BLUE(Color(0xFF4DB9FF)),
-    YELLOW(Color(0xFFFFD150)),
-    ORANGE(Color(0xFFFF9858)),
-    GREEN(Color(0xFF62FFDE)),
-    VIOLET(Color(0xFF2C79BD)),
-    LIGHT_BLUE(Color(0xFFC1E7FF)),
-    LIGHT_YELLOW(Color(0xFFFFF4D4)),
-    LIGHT_ORANGE(Color(0xFFFFE3D2)),
-    LIGHT_GREEN(Color(0xFFDFFFF8)),
-    LIGHT_VIOLET(Color(0xFFCBE7FF)),
+enum class DecorColors(val color: Color) {
+    BLUE(Color(0xFF1A95BB)),
+    YELLOW(Color(0xFFC29515)),
+    ORANGE(Color(0xFFCE5D18)),
+    GREEN(Color(0xFF3A8F7D)),
+    DARK_BLUE(Color(0xFF28669C)),
 }
+
+val violet = Color(0xFF665EFF)

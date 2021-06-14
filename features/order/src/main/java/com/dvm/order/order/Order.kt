@@ -1,23 +1,27 @@
 package com.dvm.order.order
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
+import com.dvm.db.api.models.OrderItem
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
+import com.dvm.utils.extensions.format
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
@@ -29,8 +33,18 @@ internal fun Order(
     Drawer(selected = DrawerItem.ORDERS) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
-                title = { Text(stringResource(R.string.order_appbar_title)) },
+
+            val order = state.order ?: return@Column
+
+            DefaultAppBar(
+                title = {
+                    Text(
+                        stringResource(
+                            R.string.order_appbar_title,
+                            order.createdAt.time.toString().take(5)
+                        )
+                    )
+                },
                 navigationIcon = {
                     AppBarIconBack {
                         onEvent(OrderEvent.BackClick)
@@ -38,53 +52,70 @@ internal fun Order(
                 },
             )
 
-            val order = state.order
 
-            // TODO different color text
-            Text("Статус: ${order?.status?.name}")
-            Text("Сумма: ${order?.total}")
-            Text("Адрес: ${order?.address}")
-            Text("Дата: ${order?.createdAt}")
-
-            OutlinedButton(
-                enabled = order?.completed == true || state.order?.status?.cancelable == true,
-                onClick = {
-                    if (order?.completed == true) {
-                        onEvent(OrderEvent.OrderAgainClick)
-                    } else {
-                        onEvent(OrderEvent.CancelOrder)
-                    }
-
-                },
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                Modifier
+                    .padding(15.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                if (order?.completed == true) {
-                    Text(text = "Повторить заказ")
-                } else {
-                    Text(text = "Отменить заказ")
+
+                OrderField(
+                    prependText = stringResource(R.string.order_field_status),
+                    text = order.status.name
+                )
+                OrderField(
+                    prependText = stringResource(R.string.order_field_total),
+                    text = stringResource(
+                        R.string.order_price,
+                        order.total
+                    )
+                )
+                OrderField(
+                    prependText = stringResource(R.string.order_field_address),
+                    text = order.address
+                )
+                OrderField(
+                    prependText = stringResource(R.string.order_field_date),
+                    text = order.createdAt.format()
+                )
+
+                OutlinedButton(
+                    enabled = order.completed || order.status.cancelable,
+                    onClick = {
+                        if (order.completed) {
+                            onEvent(OrderEvent.OrderAgainClick)
+                        } else {
+                            onEvent(OrderEvent.CancelOrder)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp)
+                ) {
+                    if (order.completed) {
+                        Text(stringResource(R.string.order_button_order_again))
+                    } else {
+                        Text(stringResource(R.string.order_button_cancel_order))
+                    }
                 }
 
-            }
+                Text(
+                    text = stringResource(R.string.order_order_content),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 10.dp)
+                )
 
-            Text("Состав заказа")
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(order?.items.orEmpty()) { item ->
-                    Row(Modifier.fillMaxWidth()) {
-                        CoilImage(
-                            data = item.image,
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(150.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                        )
-                        Column(Modifier.fillMaxWidth()) {
-                            Text(item.name)
-                            Row(Modifier.fillMaxWidth()) {
-                                Text(item.amount.toString())
-                                Text(item.price.toString())
-                            }
-                        }
+                order.items.forEachIndexed { index, item ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp)
+                            .size(80.dp)
+                    ) {
+                        OrderItem(item)
+                    }
+                    if (index != order.items.lastIndex) {
+                        Divider()
                     }
                 }
             }
@@ -111,14 +142,73 @@ internal fun Order(
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(
-                    text = { Text("Нет") },
+                    text = { Text(stringResource(R.string.common_no)) },
                     onClick = onDismiss
                 )
                 AlertButton(
-                    text = { Text("Да") },
+                    text = { Text(stringResource(R.string.common_ok)) },
                     onClick = { onEvent(OrderEvent.OrderAgain) }
                 )
             }
         )
     }
+}
+
+@Composable
+private fun OrderItem(item: OrderItem) {
+    CoilImage(
+        data = item.image,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .padding(end = 15.dp)
+            .size(80.dp)
+            .clip(MaterialTheme.shapes.medium)
+    )
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(vertical = 8.dp)
+    ) {
+        Text(
+            text = item.name,
+            modifier = Modifier
+                .weight(1f),
+            style = MaterialTheme.typography.body1
+        )
+        Row(Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(
+                    R.string.order_amount,
+                    item.amount
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = stringResource(
+                    R.string.dish_item_price,
+                    item.price
+                ),
+                color = MaterialTheme.colors.primary
+            )
+        }
+    }
+}
+
+@Composable
+private fun OrderField(
+    prependText: String,
+    text: String
+) {
+    Text(
+        text = buildAnnotatedString {
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(prependText)
+            }
+            withStyle(style = SpanStyle(color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f))) {
+                append(text)
+            }
+        },
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
 }

@@ -11,9 +11,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
+import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.ui.components.*
@@ -35,8 +37,8 @@ internal fun Login(
         ) {
             Column {
                 Spacer(Modifier.statusBarsHeight())
-                TransparentAppBar(
-                    title = { Text("Вход") },
+                DefaultAppBar(
+                    title = { Text(stringResource(R.string.login_appbar_title)) },
                     navigationIcon = {
                         AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.BackClick) })
                     }
@@ -52,7 +54,7 @@ internal fun Login(
 
                 EditTextField(
                     text = email,
-                    label = "E-mail",
+                    label = stringResource(R.string.login_field_email),
                     error = state.emailError,
                     enabled = !state.networkCall,
                     onValueChange = {
@@ -66,7 +68,7 @@ internal fun Login(
                 )
                 EditTextField(
                     text = password,
-                    label = "Пароль",
+                    label = stringResource(R.string.login_field_password),
                     error = state.passwordError,
                     enabled = !state.networkCall,
                     onValueChange = {
@@ -89,7 +91,7 @@ internal fun Login(
                 Spacer(Modifier.height(30.dp))
 
                 ProgressButton(
-                    text = "Войти",
+                    text = stringResource(R.string.login_button_login),
                     progress = state.networkCall,
                     onClick = {
                         if (!state.networkCall) {
@@ -109,7 +111,7 @@ internal fun Login(
                     onClick = { onEvent(LoginEvent.RegisterClick) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Регистрация")
+                    Text(text = stringResource(R.string.login_button_registartion))
                 }
             }
 
@@ -119,7 +121,7 @@ internal fun Login(
                     onClick = { onEvent(LoginEvent.PasswordRestoreClick) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Забыли пароль?")
+                    Text(text = stringResource(R.string.login_button_restore_password))
                 }
                 Spacer(Modifier.navigationBarsWithImePadding())
             }

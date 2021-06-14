@@ -1,13 +1,14 @@
 package com.dvm.order.ordering
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,7 +40,7 @@ internal fun Ordering(
     Drawer(selected = DrawerItem.ORDERS) {
         Column(Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())
-            TransparentAppBar(
+            DefaultAppBar(
                 title = { Text(stringResource(R.string.ordering_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack {
@@ -47,13 +48,14 @@ internal fun Ordering(
                     }
                 },
             )
+
             var fields by rememberSaveable { mutableStateOf(OrderingFields()) }
 
             Column(
                 Modifier
                     .weight(1f)
                     .padding(horizontal = 20.dp)
-                    .verticalScroll(ScrollState(0))
+                    .verticalScroll(rememberScrollState())
             ) {
 
                 var isEditing by rememberSaveable { mutableStateOf(false) }
@@ -68,18 +70,35 @@ internal fun Ordering(
                 val keyboardController = LocalSoftwareKeyboardController.current
 
                 Spacer(Modifier.height(16.dp))
-                OrderingTextField(
-                    value = fields.address,
-                    onValueChange = { fields = fields.copy(address = it) },
-                    readOnly = !isEditing,
-                    singleLine = false,
-                    imeAction = ImeAction.Next,
-                    modifier = Modifier.focusRequester(addressFocus),
-                    keyboardActions = KeyboardActions(
-                        onNext = { entranceFocus.requestFocus() }
-                    ),
-                    startText = { Text(stringResource(R.string.ordering_field_address)) }
-                )
+
+                // hack
+                // actually we need to set readOnly = !isEditing for OrderingTextField instead of if/else
+                // but there's strange bug of not showing keyboard when focus requested
+                if (isEditing) {
+                    OrderingTextField(
+                        value = fields.address,
+                        onValueChange = { fields = fields.copy(address = it) },
+                        singleLine = false,
+                        imeAction = ImeAction.Next,
+                        modifier = Modifier.focusRequester(addressFocus),
+                        keyboardActions = KeyboardActions(
+                            onNext = { entranceFocus.requestFocus() }
+                        ),
+                        startText = {
+                            LaunchedEffect(Unit) {
+                                addressFocus.requestFocus()
+                            }
+                            Text(stringResource(R.string.ordering_field_address))
+                        }
+                    )
+                } else {
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = "${stringResource(R.string.ordering_field_address)}${fields.address}",
+                        modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
+                    )
+                    Divider()
+                }
 
                 Spacer(modifier = Modifier.height(25.dp))
                 Row(Modifier.fillMaxWidth()) {
@@ -189,10 +208,6 @@ internal fun Ordering(
         }
     }
 
-    if (state.networkCall) {
-        LoadingScrim()
-    }
-
     if (!state.alertMessage.isNullOrEmpty()) {
         val onDismiss = { onEvent(OrderingEvent.DismissAlert) }
         Alert(
@@ -200,6 +215,10 @@ internal fun Ordering(
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )
+    }
+
+    if (state.networkCall) {
+        LoadingScrim()
     }
 }
 
@@ -215,19 +234,19 @@ private fun OrderingTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     startText: @Composable () -> Unit
 ) {
-    Spacer(Modifier.height(8.dp))
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, bottom = 4.dp),
+            .padding(top = 18.dp, bottom = 4.dp),
         readOnly = readOnly,
         singleLine = singleLine,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType,
             imeAction = imeAction
         ),
+        textStyle = MaterialTheme.typography.body1,
         keyboardActions = keyboardActions,
         decorationBox = { innerTextField ->
             Row {

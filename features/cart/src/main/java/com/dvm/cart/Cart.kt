@@ -25,7 +25,7 @@ import com.dvm.db.api.models.CartItemDetails
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
@@ -43,8 +43,10 @@ internal fun Cart(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
-                title = { Text(stringResource(R.string.cart_appbar_title)) },
+            DefaultAppBar(
+                title = {
+                    Text(stringResource(R.string.cart_appbar_title))
+                },
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch {
@@ -71,15 +73,15 @@ internal fun Cart(
                         .fillMaxSize()
                         .padding(15.dp)
                 ) {
-                    LazyColumn(modifier = Modifier.weight(1f)) {
-                        itemsIndexed(state.items){ index, item ->
+                    LazyColumn(Modifier.weight(1f)) {
+                        itemsIndexed(state.items) { index, item ->
                             CartItem(
                                 item = item,
                                 onDishClick = { onEvent(CartEvent.DishClick(item.dishId)) },
                                 onAddPiece = { onEvent(CartEvent.AddPiece(item.dishId)) },
                                 onRemovePiece = { onEvent(CartEvent.RemovePiece(item.dishId)) },
                             )
-                            if (index != state.items.lastIndex){
+                            if (index != state.items.lastIndex) {
                                 Divider()
                             }
                         }
@@ -135,7 +137,7 @@ private fun CartItem(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .aspectRatio(1f)
-                .clip(RoundedCornerShape(4.dp))
+                .clip(MaterialTheme.shapes.medium)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(
@@ -158,7 +160,10 @@ private fun CartItem(
             )
         }
         Text(
-            text = item.price.toString(),
+            text = stringResource(
+                R.string.dish_item_price,
+                item.price
+            ),
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .align(Alignment.Bottom)
@@ -220,7 +225,6 @@ private fun PromoCode(
     onCancelPromoCode: () -> Unit
 ) {
     Row {
-
         TextField(
             value = promoCode,
             onValueChange = { onValueChange(it) },
@@ -261,7 +265,7 @@ private fun BottomContent(
     totalPrice: Int,
     onClick: () -> Unit
 ) {
-    Column(modifier = Modifier.navigationBarsWithImePadding()) {
+    Column(Modifier.navigationBarsPadding()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -269,7 +273,12 @@ private fun BottomContent(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(stringResource(R.string.cart_total_price))
-            Text(totalPrice.toString())
+            Text(
+                text = stringResource(
+                    R.string.dish_item_price,
+                    totalPrice
+                )
+            )
         }
         Button(
             onClick = onClick,

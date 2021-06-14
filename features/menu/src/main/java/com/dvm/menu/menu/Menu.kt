@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
@@ -29,6 +30,7 @@ import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.DecorColors
+import com.dvm.ui.themes.violet
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -47,46 +49,39 @@ internal fun MenuView(
         selected = DrawerItem.MENU
     ) {
         Column {
-            MenuAppBar(
-                onAppMenuClick = {
-                    scope.launch {
-                        drawerState.open()
-                    }
+            Spacer(Modifier.statusBarsHeight())
+            TopAppBar(
+                title = { Text(stringResource(R.string.menu_appbar_title)) },
+                navigationIcon = {
+                    AppBarIconMenu(
+                        onAppMenuClick = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    )
                 },
-                onSearchClick = { onEvent(MenuEvent.SearchClick) }
+                backgroundColor = Color.Transparent,
+                elevation = 0.dp,
+                actions = {
+                    IconButton(
+                        modifier = Modifier.padding(end = 12.dp),
+                        onClick = { onEvent(MenuEvent.SearchClick) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
+            Divider()
             MenuContent(
                 menuItems = menuItems,
                 onItemClick = { onEvent(MenuEvent.MenuItemClick(it)) }
             )
         }
     }
-}
-
-@Composable
-private fun MenuAppBar(
-    onAppMenuClick: () -> Unit,
-    onSearchClick: () -> Unit
-) {
-    Spacer(Modifier.statusBarsHeight())
-    TopAppBar(
-        title = { Text("Меню") },
-        navigationIcon = { AppBarIconMenu(onAppMenuClick) },
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp,
-        actions = {
-            Icon(
-                imageVector = Icons.Outlined.Search,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(end = 12.dp)
-                    .clickable(
-                        onClick = onSearchClick
-                    )
-            )
-        }
-    )
-    Divider()
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -98,7 +93,11 @@ private fun MenuContent(
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
         modifier = Modifier.navigationBarsPadding(),
-        contentPadding = PaddingValues(top = 20.dp, start = 10.dp, end = 10.dp)
+        contentPadding = PaddingValues(
+            top = 20.dp,
+            start = 10.dp,
+            end = 10.dp
+        )
     ) {
         itemsIndexed(menuItems) { index, item ->
             MenuItem(
@@ -132,9 +131,9 @@ private fun MenuItem(
                 startY = startY,
                 endY = endY,
                 colors = listOf(
-                    DecorColors.VIOLET.color,
-                    DecorColors.GREEN.color,
-                    DecorColors.BLUE.color
+                    violet.copy(alpha = 0.8f),
+                    DecorColors.GREEN.color.copy(alpha = 0.8f),
+                    DecorColors.BLUE.color.copy(alpha = 0.8f),
                 ),
                 tileMode = TileMode.Mirror
             )
@@ -169,19 +168,19 @@ private fun MenuItem(
                     ),
                     contentDescription = null,
                     modifier = Modifier.size(30.dp),
-                    tint = DecorColors.VIOLET.color.copy(alpha = 0.5f)
+                    tint = DecorColors.DARK_BLUE.color.copy(alpha = 0.5f)
                 )
             }
             Text(
+                text = when (item) {
+                    is MenuItem.Item -> item.title
+                    MenuItem.SpecialOffer -> "Акции"
+                },
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f)
                     .padding(5.dp),
                 textAlign = TextAlign.Center,
-                text = when (item) {
-                    is MenuItem.Item -> item.title
-                    MenuItem.SpecialOffer -> "Акции"
-                },
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
             )
         }

@@ -41,7 +41,7 @@ internal fun Profile(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())
-            TransparentAppBar(
+            DefaultAppBar(
                 title = { Text(stringResource(R.string.profile_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
@@ -64,7 +64,7 @@ internal fun Profile(
 
                 EditTextField(
                     state.firstName,
-                    label = "Имя",
+                    label = stringResource(R.string.profile_text_field_name),
                     error = state.firstNameError,
                     enabled = !state.networkCall && state.isEditing,
                     readOnly = state.networkCall || !state.isEditing,
@@ -79,7 +79,7 @@ internal fun Profile(
                 )
                 EditTextField(
                     state.lastName,
-                    label = "Фамилия",
+                    label = stringResource(R.string.profile_text_field_last_name),
                     error = state.lastNameError,
                     enabled = !state.networkCall && state.isEditing,
                     readOnly = state.networkCall || !state.isEditing,
@@ -95,7 +95,7 @@ internal fun Profile(
                 )
                 EditTextField(
                     state.email,
-                    label = "E-mail",
+                    label = stringResource(R.string.profile_text_field_email),
                     error = state.emailError,
                     enabled = !state.networkCall && state.isEditing,
                     readOnly = state.networkCall || !state.isEditing,
@@ -113,13 +113,13 @@ internal fun Profile(
                 Spacer(modifier = Modifier.height(10.dp))
                 if (state.isEditing) {
                     ProgressButton(
-                        "Сохранить",
+                        stringResource(R.string.profile_button_save),
                         progress = state.networkCall,
                         onClick = { onEvent(ProfileEvent.SaveProfile) }
                     )
                 } else {
                     ProgressButton(
-                        "Изменить",
+                        stringResource(R.string.profile_button_change_mode),
                         progress = state.networkCall,
                         onClick = { onEvent(ProfileEvent.ChangeEditingMode(true)) }
                     )
@@ -137,7 +137,7 @@ internal fun Profile(
                             .fillMaxWidth()
                             .navigationBarsWithImePadding()
                     ) {
-                        Text("Отменить")
+                        Text(stringResource(R.string.profile_button_cancel))
                     }
                 } else {
                     OutlinedButton(
@@ -147,7 +147,7 @@ internal fun Profile(
                             .fillMaxWidth()
                             .navigationBarsWithImePadding()
                     ) {
-                        Text("Сменить пароль")
+                        Text(stringResource(R.string.profile_button_change_password))
                     }
                 }
                 Spacer(Modifier.height(100.dp))
@@ -175,9 +175,12 @@ internal fun Profile(
                     var newPassword by rememberSaveable { mutableStateOf("") }
                     var oldPassword by rememberSaveable { mutableStateOf("") }
 
-                    Text("Смена пароля", style = MaterialTheme.typography.h5)
+                    Text(
+                        stringResource(R.string.profile_dialog_title),
+                        style = MaterialTheme.typography.h5
+                    )
                     Spacer(Modifier.height(30.dp))
-                    Text("Новый пароль")
+                    Text(stringResource(R.string.profile_dialog_field_new_password))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !state.networkCall,
@@ -185,7 +188,7 @@ internal fun Profile(
                         onValueChange = { newPassword = it }
                     )
                     Spacer(Modifier.height(10.dp))
-                    Text("Старый пароль")
+                    Text(stringResource(R.string.profile_dialog_field_old_password))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !state.networkCall,
@@ -194,7 +197,7 @@ internal fun Profile(
                     )
                     Spacer(Modifier.height(30.dp))
                     ProgressButton(
-                        text = "Сохранить",
+                        text = stringResource(R.string.profile_dialog_button_save),
                         progress = state.networkCall,
                         enabled = newPassword.isNotEmpty() && oldPassword.isNotEmpty() && !state.networkCall,
                         onClick = {
@@ -208,7 +211,6 @@ internal fun Profile(
                     )
                 }
             }
-
         }
     }
 

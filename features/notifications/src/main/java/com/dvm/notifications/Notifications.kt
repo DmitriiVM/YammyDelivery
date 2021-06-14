@@ -4,15 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.DrawerValue
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ControlPoint
-import androidx.compose.material.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,11 +13,13 @@ import com.dvm.appmenu_api.Drawer
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
 import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.components.TransparentAppBar
+import com.dvm.ui.components.DefaultAppBar
 import com.dvm.utils.DrawerItem
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalComposeApi::class)
 @Composable
 internal fun Notifications(
     state: NotificationState,
@@ -40,7 +35,7 @@ internal fun Notifications(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
+            DefaultAppBar(
                 title = { Text(stringResource(R.string.notification_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
@@ -48,7 +43,7 @@ internal fun Notifications(
                             drawerState.open()
                         }
                     }
-                },
+                }
             )
 
             val lazyListState = rememberLazyListState()
@@ -60,29 +55,65 @@ internal fun Notifications(
                 }
             }
 
-
             LazyColumn(
                 state = lazyListState,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp)
+                    .padding(start = 25.dp, top = 20.dp)
+                    .navigationBarsPadding()
             ) {
-
                 items(state.notifications) { notification ->
-                    Row(Modifier.fillMaxWidth()) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = notification.title)
-                            Text(text = notification.text)
-                        }
-                        if (!notification.seen){
-                            Icon(
-                                imageVector = Icons.Default.ControlPoint,
-                                contentDescription = null
-                            )
-                        }
-                    }
+                    NotificationItem(
+                        title = notification.title,
+                        text = notification.text,
+                        seen = notification.seen
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun NotificationItem(
+    title: String,
+    text: String,
+    seen: Boolean
+) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp)
+                .wrapContentHeight()
+        ) {
+            Text(
+                text = title,
+                color = if (!seen) {
+                    MaterialTheme.colors.primary
+                } else {
+                    MaterialTheme.colors.onSurface
+                },
+                modifier = Modifier.weight(1f)
+            )
+            if (!seen) {
+                Text(
+                    text = "⬤",
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                )
+            }
+        }
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
+            Text(
+                text = text,
+                modifier = Modifier.padding(end = 50.dp, bottom = 10.dp)
+            )
+        }
+        Divider()
     }
 }

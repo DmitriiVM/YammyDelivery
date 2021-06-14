@@ -18,6 +18,6 @@ internal sealed class SearchEvent {
     data class QueryChange(val query: String) : SearchEvent()
     data class AddToCart(val dishId: String) : SearchEvent()
     data class HintClick(val hint: String) : SearchEvent()
-    object RemoveQueryClick : SearchEvent()
+    object RemoveQuery : SearchEvent()
     object BackClick : SearchEvent()
 }

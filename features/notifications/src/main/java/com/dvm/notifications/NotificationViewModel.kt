@@ -43,7 +43,7 @@ internal class NotificationViewModel @Inject constructor(
         notificationRepository
             .notifications()
             .onEach { notifications ->
-                state = state.copy(notifications = notifications)
+                state = state.copy(notifications = notifications + notifications + notifications)
             }
             .launchIn(viewModelScope)
     }

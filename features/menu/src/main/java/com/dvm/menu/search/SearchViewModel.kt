@@ -114,7 +114,7 @@ internal class SearchViewModel @Inject constructor(
                     )
                 }
             }
-            SearchEvent.RemoveQueryClick -> {
+            SearchEvent.RemoveQuery -> {
                 state = state.copy(query = "")
             }
             SearchEvent.BackClick -> {

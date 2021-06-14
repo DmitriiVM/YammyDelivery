@@ -17,6 +17,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -50,9 +51,8 @@ internal fun Category(
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }
         var offset by remember { mutableStateOf(0) }
-        // TODO rememberSaveable
-        var selectedColor by remember {
-            mutableStateOf(DecorColors.values().random().color)
+        var selectedColor by rememberSaveable {
+            mutableStateOf(DecorColors.values().random())
         }
 
         if (lazyListState.firstVisibleItemIndex == 0) {
@@ -63,7 +63,7 @@ internal fun Category(
 
         CategoryContent(
             state = state,
-            selectedColor = selectedColor,
+            selectedColor = selectedColor.color,
             onColorSelected = { selectedColor = it },
             lazyListState = lazyListState,
             offset = offset,
@@ -76,8 +76,8 @@ internal fun Category(
         Column {
             Spacer(Modifier.statusBarsHeight())
             CategoryAppBar(
-                selectedOrder = state.selectedOrder,
-                selectedColor = selectedColor,
+                selectedOrder = state.orderType,
+                selectedColor = selectedColor.color,
                 offset = offset,
                 onEvent = onEvent
             )
@@ -101,27 +101,28 @@ private fun CategoryContent(
     lazyListState: LazyListState,
     offset: Int,
     titleHeight: MutableState<Int>,
-    onColorSelected: (Color) -> Unit,
+    onColorSelected: (DecorColors) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit,
     onDishClick: (dishId: String) -> Unit,
     onAddToCartClick: (dishId: String) -> Unit
 ) {
     Box {
-        val color = remember { Animatable(Color.White) }
+        val backgroundColor = MaterialTheme.colors.surface
+        val animatableColor = remember { Animatable(backgroundColor) }
 
         LaunchedEffect(selectedColor) {
-            color.animateTo(
+            animatableColor.animateTo(
                 targetValue = selectedColor,
                 animationSpec = tween(durationMillis = 1000)
             )
         }
 
         DishList(
-            color = color,
             state = state,
-            lazyListState = lazyListState,
             offset = offset,
+            lazyListState = lazyListState,
             titleHeight = titleHeight,
+            animatableColor = animatableColor,
             selectedColor = selectedColor,
             onDishClick = onDishClick,
             onAddToCartClick = onAddToCartClick
@@ -135,7 +136,7 @@ private fun CategoryContent(
                 val titleHeightDp = with(LocalDensity.current) { titleHeight.value.toDp() }
                 Spacer(Modifier.height(titleHeightDp))
                 val selectedTabIndex =
-                    subcategories.indexOfFirst { it.id == state.selectedCategoryId }
+                    subcategories.indexOfFirst { it.id == state.selectedId }
                 SubcategoryTabs(
                     subcategories = subcategories,
                     selectedTabIndex = selectedTabIndex,
@@ -150,23 +151,22 @@ private fun CategoryContent(
 
 @Composable
 private fun DishList(
-    color: Animatable<Color, AnimationVector4D>,
     state: CategoryState,
-    lazyListState: LazyListState,
     offset: Int,
+    lazyListState: LazyListState,
     titleHeight: MutableState<Int>,
     selectedColor: Color,
+    animatableColor: Animatable<Color, AnimationVector4D>,
     onDishClick: (dishId: String) -> Unit,
     onAddToCartClick: (dishId: String) -> Unit
 ) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .verticalGradient(color.value.copy(alpha = 0.2f))
-            .padding(8.dp)
+            .verticalGradient(animatableColor.value.copy(alpha = 0.15f))
     ) {
 
-        val itemWidth = with(LocalDensity.current) { (constraints.maxWidth / 2).toDp() }
+        val itemWidth = with(LocalDensity.current) { (constraints.maxWidth / 2).toDp() - 5.dp }
 
         Crossfade(state.dishes) {
             LaunchedEffect(it) {
@@ -175,7 +175,9 @@ private fun DishList(
 
             LazyColumn(
                 state = lazyListState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 5.dp)
             ) {
                 item {
                     DishListHeader(
@@ -193,16 +195,11 @@ private fun DishList(
                                 dish = dish,
                                 modifier = Modifier
                                     .width(itemWidth)
-                                    .padding(8.dp),
+                                    .padding(5.dp),
                                 onDishClick = onDishClick,
                                 onAddToCartClick = onAddToCartClick
                             )
                         }
-                    }
-                }
-                if (chunkedDishes.size < 3) {
-                    item {
-                        Spacer(modifier = Modifier.height(700.dp)) // todo
                     }
                 }
                 item { Spacer(Modifier.navigationBarsHeight()) }
@@ -214,11 +211,11 @@ private fun DishList(
 @Composable
 private fun DishListHeader(
     state: CategoryState,
-    titleHeight: MutableState<Int>,
-    selectedColor: Color
+    selectedColor: Color,
+    titleHeight: MutableState<Int>
 ) {
     Spacer(Modifier.statusBarsHeight())
-    Spacer(modifier = Modifier.height(AppBarHeight))
+    Spacer(Modifier.height(AppBarHeight))
     Text(
         text = state.title,
         style = MaterialTheme.typography.h2,
@@ -278,7 +275,11 @@ private fun CategoryAppBar(
                     ) {
                         Text(
                             text = stringResource(type.stringResource),
-                            color = if (type == selectedOrder) selectedColor else Color.Unspecified
+                            color = if (type == selectedOrder) {
+                                selectedColor
+                            } else {
+                                Color.Unspecified
+                            }
                         )
                     }
                 }
@@ -303,7 +304,7 @@ private fun SubcategoryTabs(
     subcategories: List<Subcategory>,
     selectedTabIndex: Int,
     offset: Int,
-    onColorSelected: (Color) -> Unit,
+    onColorSelected: (DecorColors) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit
 ) {
     ScrollableTabRow(
@@ -317,7 +318,7 @@ private fun SubcategoryTabs(
 
         subcategories.forEachIndexed { index, subcategory ->
 
-            val color = remember { colors[index % colors.size].color }
+            val color = remember { colors[index % colors.size] }
             val selected = index == selectedTabIndex
             if (selected) onColorSelected(color)
 
@@ -327,11 +328,15 @@ private fun SubcategoryTabs(
             ) {
                 Surface(
                     shape = RoundedCornerShape(percent = 50),
-                    color = color.copy(alpha = 0.1f),
-                    border = if (selected) BorderStroke(
-                        width = 1.dp,
-                        color = color
-                    ) else null,
+                    color = color.color.copy(alpha = 0.15f),
+                    border = if (selected) {
+                        BorderStroke(
+                            width = 1.dp,
+                            color = color.color.copy(alpha = 0.5f)
+                        )
+                    } else {
+                        null
+                    },
                     modifier = Modifier.padding(
                         start = 4.dp,
                         end = 4.dp,

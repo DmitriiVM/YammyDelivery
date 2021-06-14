@@ -10,9 +10,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
+import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.ui.components.*
@@ -30,16 +32,16 @@ fun Registration(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(15.dp),
-
-            ) {
+                .padding(15.dp)
+        ) {
             Spacer(Modifier.statusBarsHeight())
-            TransparentAppBar(
-                title = { Text("Регистрация") },
+            DefaultAppBar(
+                title = { Text(stringResource(R.string.registration_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.BackClick) })
                 }
             )
+
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center
@@ -56,7 +58,7 @@ fun Registration(
 
                 EditTextField(
                     text = firstName,
-                    label = "Имя",
+                    label = stringResource(R.string.registration_field_name),
                     error = state.firstNameError,
                     enabled = !state.networkCall,
                     onValueChange = {
@@ -70,7 +72,7 @@ fun Registration(
                 )
                 EditTextField(
                     text = lastName,
-                    label = "Фамилия",
+                    label = stringResource(R.string.registration_field_last_name),
                     error = state.lastNameError,
                     enabled = !state.networkCall,
                     onValueChange = {
@@ -85,7 +87,7 @@ fun Registration(
                 )
                 EditTextField(
                     text = email,
-                    label = "E-mail",
+                    label = stringResource(R.string.registration_field_email),
                     error = state.emailError,
                     enabled = !state.networkCall,
                     onValueChange = {
@@ -100,7 +102,7 @@ fun Registration(
                 )
                 EditTextField(
                     text = password,
-                    label = "Пароль",
+                    label = stringResource(R.string.registration_field_password),
                     error = state.passwordError,
                     enabled = !state.networkCall,
                     onValueChange = {
@@ -125,7 +127,7 @@ fun Registration(
 
                 Spacer(Modifier.height(10.dp))
                 ProgressButton(
-                    text = "Зарегистрироваться",
+                    text = stringResource(R.string.registration_button_register),
                     progress = state.networkCall,
                     onClick = {
                         onEvent(
@@ -146,7 +148,7 @@ fun Registration(
                         .fillMaxWidth()
                         .navigationBarsWithImePadding()
                 ) {
-                    Text(text = "Вход")
+                    Text(text = stringResource(R.string.registration_button_login))
                 }
                 Spacer(Modifier.height(100.dp))
             }

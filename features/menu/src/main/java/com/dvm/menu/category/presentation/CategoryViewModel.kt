@@ -15,6 +15,7 @@ import com.dvm.db.api.DishRepository
 import com.dvm.db.api.models.CartItem
 import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
+import com.dvm.menu.category.presentation.model.CategoryData
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
@@ -23,9 +24,7 @@ import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -57,25 +56,51 @@ internal class CategoryViewModel @Inject constructor(
         ) { categoryId, subcategoryId, orderType ->
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
-                    state = CategoryState(
+                    CategoryData(
                         title = context.getString(R.string.menu_item_special_offer),
-                        dishes = dishRepository.getSpecialOffers().order(orderType)
+                        categoryId = categoryId,
+                        subcategories = emptyList(),
+                        selectedId = null,
+                        orderType = orderType
                     )
                 }
                 else -> {
                     val subcategories = categoryRepository.getSubcategories(categoryId)
                     val selectedId = subcategoryId ?: subcategories.firstOrNull()?.id ?: categoryId
-                    val dishes = dishRepository.getDishes(selectedId)
                     val title = categoryRepository.getCategoryTitle(categoryId)
-                    state = CategoryState(
+                    CategoryData(
                         title = title,
+                        categoryId = categoryId,
                         subcategories = subcategories,
-                        dishes = dishes.order(orderType),
-                        selectedCategoryId = selectedId
+                        selectedId = selectedId,
+                        orderType = orderType,
                     )
                 }
             }
         }
+            .flatMapLatest { category ->
+                when (category.categoryId) {
+                    MENU_SPECIAL_OFFER -> {
+                        val dishes = dishRepository.getSpecialOffers()
+                        flowOf(category.copy(dishes = dishes))
+                    }
+                    else -> {
+                        val selectedId = requireNotNull(category.selectedId)
+                        dishRepository
+                            .getDishes(selectedId)
+                            .map { category.copy(dishes = it) }
+                    }
+                }
+            }
+            .onEach { category ->
+                state = state.copy(
+                    title = category.title,
+                    subcategories = category.subcategories,
+                    dishes = category.dishes.order(category.orderType),
+                    selectedId = category.selectedId,
+                    orderType = category.orderType
+                )
+            }
             .launchIn(viewModelScope)
     }
 

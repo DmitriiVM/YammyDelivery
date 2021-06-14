@@ -27,10 +27,8 @@ internal class DefaultDishRepository @Inject constructor(
 
     override fun favorite(): Flow<List<CategoryDish>> = dishDao.favorite()
 
-    override suspend fun getDishes(category: String): List<CategoryDish> =
-        withContext(Dispatchers.IO) {
-            dishDao.getDishes(category)
-        }
+    override suspend fun getDishes(category: String): Flow<List<CategoryDish>> =
+        dishDao.getDishes(category)
 
     override suspend fun hasSpecialOffers(): Boolean =
         withContext(Dispatchers.IO) {

@@ -1,30 +1,31 @@
 package com.dvm.menu.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
+import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.ui.components.AppBarIconBack
-import com.dvm.ui.components.TransparentAppBar
+import com.dvm.ui.components.verticalGradient
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @Composable
@@ -36,31 +37,80 @@ internal fun Search(
 
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())
-            TransparentAppBar(
-                navigationIcon = {
+            SearchField(
+                query = state.query,
+                onBackClick = { onEvent(SearchEvent.BackClick) },
+                onQueryChange = { onEvent(SearchEvent.QueryChange(it.trimStart())) },
+                onRemoveQuery = { onEvent(SearchEvent.RemoveQuery) },
+            )
 
-                    AppBarIconBack(onNavigateUp = { onEvent(SearchEvent.BackClick) })
-                }
-            ) {
-                OutlinedTextField(
-                    value = state.query,
-                    onValueChange = { onEvent(SearchEvent.QueryChange(it.trimStart())) },
-                    modifier = Modifier
-                )
-                IconButton(onClick = { onEvent(SearchEvent.RemoveQueryClick) }) {
-                    Icon(
-                        imageVector = Icons.Default.Cancel,
-                        contentDescription = null
-                    )
-                }
+            val color by rememberSaveable {
+                mutableStateOf(DecorColors.values().random())
             }
-            Box(Modifier.fillMaxSize()) {
+
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .verticalGradient(color.color.copy(alpha = 0.15f))
+            ) {
                 if (state.query.trim().isEmpty()) {
                     Hints(state, onEvent)
                 } else {
-                    SearchResult(state, onEvent)
+                    SearchResult(
+                        state = state,
+                        color = color.color,
+                        onEvent = onEvent
+                    )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun SearchField(
+    query: String,
+    onBackClick: () -> Unit,
+    onQueryChange: (String) -> Unit,
+    onRemoveQuery: () -> Unit,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp, bottom = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        AppBarIconBack(
+            modifier = Modifier.padding(end = 10.dp),
+            onNavigateUp = onBackClick
+        )
+
+        val focusRequester = FocusRequester()
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
+        OutlinedTextField(
+            value = query,
+            placeholder = {
+                CompositionLocalProvider(
+                    LocalContentAlpha provides ContentAlpha.disabled
+                ) {
+                    Text(stringResource(R.string.search_text_field_hint))
+                }
+            },
+            onValueChange = onQueryChange,
+            modifier = Modifier
+                .weight(1f)
+                .focusRequester(focusRequester)
+        )
+
+        IconButton(onClick = onRemoveQuery) {
+            Icon(
+                painter = painterResource(R.drawable.icon_cancel),
+                contentDescription = null,
+                Modifier.size(12.dp)
+            )
         }
     }
 }
@@ -70,17 +120,37 @@ private fun Hints(
     state: SearchState,
     onEvent: (SearchEvent) -> Unit
 ) {
-    LazyColumn(Modifier.fillMaxWidth()) {
-        items(state.hints) { hint ->
-            HintItem(
-                hint = hint,
-                onHintClick = {
-                    onEvent(SearchEvent.HintClick(hint))
-                },
-                onRemoveHintClick = {
-                    onEvent(SearchEvent.RemoveHintClick(hint))
+    LazyColumn(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp)
+    ) {
+        itemsIndexed(state.hints) { index, hint ->
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onEvent(SearchEvent.HintClick(hint)) }
+            ) {
+                Text(
+                    text = hint,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                IconButton(
+                    onClick = { onEvent(SearchEvent.RemoveHintClick(hint)) }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_cancel),
+                        contentDescription = null,
+                        Modifier.size(12.dp)
+                    )
                 }
-            )
+            }
+            if (index != state.hints.lastIndex) {
+                Divider()
+            }
         }
     }
 }
@@ -89,12 +159,19 @@ private fun Hints(
 @Composable
 private fun SearchResult(
     state: SearchState,
+    color: Color,
     onEvent: (SearchEvent) -> Unit
 ) {
-    LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(2),
+        modifier = Modifier
+            .navigationBarsPadding()
+            .padding(horizontal = 5.dp),
+    ) {
         items(state.categories) { category ->
             SearchCategoryItem(
                 name = category.name,
+                color = color.copy(alpha = 0.10f),
                 onCategoryClick = {
                     onEvent(
                         SearchEvent.CategoryClick(
@@ -108,7 +185,7 @@ private fun SearchResult(
         items(state.subcategories) { subcategory ->
             SearchCategoryItem(
                 name = subcategory.name,
-                modifier = Modifier.background(Color.Yellow),
+                color = MaterialTheme.colors.surface,
                 onCategoryClick = {
                     onEvent(
                         SearchEvent.SubcategoryClick(
@@ -120,10 +197,13 @@ private fun SearchResult(
                 }
             )
         }
+        if ((state.categories.size + state.subcategories.size) % 2 == 1) {
+            item { /* empty */ }
+        }
         items(state.dishes) { dish ->
             DishItem(
                 dish = dish,
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(5.dp),
                 onDishClick = { onEvent(SearchEvent.DishClick(it, dish.name)) },
                 onAddToCartClick = { onEvent(SearchEvent.AddToCart(it)) },
             )
@@ -133,40 +213,27 @@ private fun SearchResult(
 
 @Composable
 fun SearchCategoryItem(
-    modifier: Modifier = Modifier,
     name: String,
-    onCategoryClick: () -> Unit
+    color: Color,
+    onCategoryClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Box(
+    Card(
         modifier = modifier
+            .padding(5.dp)
             .fillMaxWidth()
+            .height(50.dp)
             .clickable {
                 onCategoryClick()
-            }
+            },
+        shape = MaterialTheme.shapes.medium,
+        backgroundColor = color
     ) {
-        Text(text = name)
-    }
-}
-
-@Composable
-fun HintItem(
-    hint: String,
-    onHintClick: (String) -> Unit,
-    onRemoveHintClick: (String) -> Unit
-) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .padding(horizontal = 10.dp)
-            .fillMaxWidth()
-            .clickable { onHintClick(hint) }
-    ) {
-        Text(text = hint, modifier = Modifier)
-        IconButton(onClick = { onRemoveHintClick(hint) }, modifier = Modifier) {
-            Icon(
-                imageVector = Icons.Default.Cancel,
-                contentDescription = null
-            )
-        }
+        Text(
+            text = name,
+            Modifier
+                .fillMaxSize()
+                .wrapContentSize()
+        )
     }
 }

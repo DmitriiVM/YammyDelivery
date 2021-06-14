@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,6 +24,7 @@ import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AppDrawer(
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
@@ -33,9 +36,15 @@ fun AppDrawer(
     val state = viewModel.state
 
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
         viewModel.init(context.applicationContext)
+    }
+    LaunchedEffect(drawerState){
+        if (drawerState.isOpen){
+            keyboardController?.hide()
+        }
     }
 
     val scope = rememberCoroutineScope()
@@ -47,7 +56,6 @@ fun AppDrawer(
             }
         }
     }
-
 
     Surface {
         ModalDrawer(
