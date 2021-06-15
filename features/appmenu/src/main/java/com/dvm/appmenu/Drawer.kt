@@ -1,24 +1,32 @@
 package com.dvm.appmenu
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dvm.appmenu.model.AppMenuEvent
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
-import com.dvm.ui.components.horizontalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
@@ -37,17 +45,17 @@ fun AppDrawer(
 
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         viewModel.init(context.applicationContext)
     }
-    LaunchedEffect(drawerState){
-        if (drawerState.isOpen){
+
+    LaunchedEffect(drawerState) {
+        if (drawerState.isOpen) {
             keyboardController?.hide()
         }
     }
-
-    val scope = rememberCoroutineScope()
 
     if (drawerState.isOpen) {
         BackPressHandler {
@@ -57,18 +65,30 @@ fun AppDrawer(
         }
     }
 
-    Surface {
-        ModalDrawer(
-            drawerState = drawerState,
-            content = content,
-//        drawerBackgroundColor = temp.copy(alpha = 0.9f),
-            drawerContent = {
+    ModalDrawer(
+        drawerState = drawerState,
+        content = {
+            Surface(Modifier.fillMaxSize()) {
+                content()
+            }
+        },
+        drawerContent = {
+
+            Box(Modifier.fillMaxSize()) {
+
+                Circles()
+
+
                 Column {
 
                     DrawerHeader(
                         name = state.name,
                         email = state.email,
-                        onProfileClick = { viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE)) },
+                        onProfileClick = {
+                            viewModel.onEvent(
+                                AppMenuEvent.ItemClick(DrawerItem.PROFILE)
+                            )
+                        },
                         onAuthButtonClick = {
                             if (state.email.isEmpty()) {
                                 scope.launch {
@@ -80,12 +100,21 @@ fun AppDrawer(
                             }
                         }
                     )
-                    Spacer(modifier = Modifier.height(18.dp))
 
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp, horizontal = 8.dp)
+                            .height(3.dp)
+                            .background(
+                                color = DecorColors.DARK_BLUE.color.copy(alpha = 0.6f),
+                                shape = RoundedCornerShape(1.dp)
+                            )
+                    )
 
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_home),
-                        text = "Главная",
+                        painter = painterResource(R.drawable.icon_home),
+                        text = stringResource(R.string.drawer_item_main),
                         selected = selected == DrawerItem.MAIN,
                         onClick = {
                             scope.launch {
@@ -95,8 +124,8 @@ fun AppDrawer(
                         }
                     )
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_menu),
-                        text = "Меню",
+                        painter = painterResource(R.drawable.icon_menu),
+                        text = stringResource(R.string.drawer_item_menu),
                         selected = selected == DrawerItem.MENU,
                         onClick = {
                             scope.launch {
@@ -106,8 +135,8 @@ fun AppDrawer(
                         }
                     )
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_favorite),
-                        text = "Избранное",
+                        painter = painterResource(R.drawable.icon_favorite),
+                        text = stringResource(R.string.drawer_item_favorite),
                         selected = selected == DrawerItem.FAVORITE,
                         onClick = {
                             scope.launch {
@@ -117,8 +146,8 @@ fun AppDrawer(
                         }
                     )
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_cart),
-                        text = "Корзина",
+                        painter = painterResource(R.drawable.icon_cart),
+                        text = stringResource(R.string.drawer_item_cart),
                         count = state.cartQuantity,
                         selected = selected == DrawerItem.CART,
                         onClick = {
@@ -129,8 +158,8 @@ fun AppDrawer(
                         }
                     )
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_profile),
-                        text = "Профиль",
+                        painter = painterResource(R.drawable.icon_profile),
+                        text = stringResource(R.string.drawer_item_profile),
                         selected = selected == DrawerItem.PROFILE,
                         onClick = {
                             scope.launch {
@@ -140,8 +169,8 @@ fun AppDrawer(
                         }
                     )
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_order),
-                        text = "Заказы",
+                        painter = painterResource(R.drawable.icon_order),
+                        text = stringResource(R.string.drawer_item_orders),
                         selected = selected == DrawerItem.ORDERS,
                         onClick = {
                             scope.launch {
@@ -151,8 +180,8 @@ fun AppDrawer(
                         }
                     )
                     DrawerItem(
-                        painter = painterResource(id = R.drawable.icon_notification),
-                        text = "Уведомления",
+                        painter = painterResource(R.drawable.icon_notification),
+                        text = stringResource(R.string.drawer_item_notifications),
                         count = state.newNotificationCount,
                         selected = selected == DrawerItem.NOTIFICATION,
                         onClick = {
@@ -164,25 +193,25 @@ fun AppDrawer(
                     )
                 }
             }
-        )
-
-        if (!state.alertMessage.isNullOrEmpty()) {
-            val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
-            Alert(
-                message = state.alertMessage,
-                onDismiss = onDismiss,
-                buttons = {
-                    AlertButton(
-                        text = { Text("Нет") },
-                        onClick = onDismiss
-                    )
-                    AlertButton(
-                        text = { Text("Да") },
-                        onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
-                    )
-                }
-            )
         }
+    )
+
+    if (!state.alertMessage.isNullOrEmpty()) {
+        val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
+        Alert(
+            message = state.alertMessage,
+            onDismiss = onDismiss,
+            buttons = {
+                AlertButton(
+                    text = { Text(stringResource(R.string.common_no)) },
+                    onClick = onDismiss
+                )
+                AlertButton(
+                    text = { Text(stringResource(R.string.common_ok)) },
+                    onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
+                )
+            }
+        )
     }
 }
 
@@ -193,13 +222,30 @@ fun DrawerHeader(
     onProfileClick: () -> Unit,
     onAuthButtonClick: () -> Unit
 ) {
-    Spacer(modifier = Modifier.height(100.dp))
+
+    val colors = remember {
+        DecorColors.values()
+            .toList()
+            .filterNot { it == DecorColors.YELLOW }
+            .shuffled()
+            .map { it.color.copy(alpha = 0.7f) }
+            .take(3)
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(
+                Brush.radialGradient(
+                    colors = colors,
+                    center = Offset(0f, -50f),
+                    radius = 1000f
+                )
+            )
+            .padding(top = 100.dp)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.Bottom
     ) {
         Column(
             Modifier.clickable { onProfileClick() }) {
@@ -216,22 +262,18 @@ fun DrawerHeader(
         IconButton(
             onClick = { onAuthButtonClick() }
         ) {
-            if (email.isNotEmpty()) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_logout),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
+            val iconId = if (email.isNotEmpty()) {
+                R.drawable.icon_logout
             } else {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_login),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
+                R.drawable.icon_login
             }
+            Icon(
+                painter = painterResource(iconId),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
-    Divider()
 }
 
 @Composable
@@ -242,48 +284,110 @@ private fun DrawerItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val modifier = if (selected) {
-        Modifier
-            .horizontalGradient(
-                DecorColors.BLUE.color.copy(alpha = 0.4f),
-                DecorColors.GREEN.color.copy(alpha = 0.2f)
-            )
-    } else {
-        Modifier
-    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp)
             .padding(horizontal = 8.dp, vertical = 2.dp)
             .clickable { onClick() }
-            .then(modifier)
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         Icon(
             painter = painter,
             contentDescription = null,
             modifier = Modifier
                 .size(20.dp)
-                .wrapContentHeight()
+                .wrapContentHeight(),
+            tint = if (selected) {
+                DecorColors.DARK_BLUE.color
+            } else {
+                MaterialTheme.colors.onSurface
+            }
         )
+
         Text(
             text = text,
             style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 24.dp)
-                .wrapContentHeight()
-
+                .wrapContentHeight(),
+            color = if (selected) {
+                DecorColors.DARK_BLUE.color
+            } else {
+                MaterialTheme.colors.onSurface
+            }
         )
+
         if (count > 0) {
             Text(
                 text = count.toString(),
                 style = MaterialTheme.typography.body2,
-                modifier = Modifier
-                    .wrapContentHeight()
+                modifier = Modifier.wrapContentHeight(),
+                color = DecorColors.BLUE.color
             )
         }
+    }
+
+    if (selected) {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(2.dp)
+                .background(
+                    color = DecorColors.DARK_BLUE.color.copy(alpha = 0.6f),
+                    shape = RoundedCornerShape(1.dp)
+                )
+        )
+    }
+}
+
+@Composable
+private fun Circles() {
+    Canvas(
+        modifier = Modifier
+            .padding(top = 250.dp)
+            .fillMaxSize()
+    ) {
+
+        val color = DecorColors.DARK_BLUE.color.copy(alpha = 0.05f)
+        val style = Stroke(width = 30f)
+
+        drawArc(
+            color = color,
+            startAngle = 90f,
+            sweepAngle = 180f,
+            useCenter = false,
+            topLeft = Offset(size.width - 200f, 0f),
+            size = Size(600f, 600f),
+            style = style
+        )
+        drawArc(
+            color = color,
+            startAngle = -90f,
+            sweepAngle = 180f,
+            useCenter = false,
+            topLeft = Offset(-1600f, 500f),
+            size = Size(2000f, 2000f),
+            style = style
+        )
+        drawArc(
+            color = color,
+            startAngle = 180f,
+            sweepAngle = 180f,
+            useCenter = false,
+            topLeft = Offset(200f, size.height - 400),
+            size = Size(800f, 800f),
+            style = style
+        )
+        drawCircle(
+            color = color,
+            center = Offset(700f, 900f),
+            radius = 70f,
+            style = style
+        )
     }
 }

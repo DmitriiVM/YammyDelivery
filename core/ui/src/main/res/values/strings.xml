@@ -130,4 +130,12 @@
     <string name="common_no">Нет</string>
     <string name="common_ok">Да</string>
 
+    <string name="drawer_item_main">Главная</string>
+    <string name="drawer_item_menu">Меню</string>
+    <string name="drawer_item_favorite">Избранное</string>
+    <string name="drawer_item_cart">Корзина</string>
+    <string name="drawer_item_profile">Профиль</string>
+    <string name="drawer_item_orders">Заказы</string>
+    <string name="drawer_item_notifications">Уведомления</string>
+
 </resources>
