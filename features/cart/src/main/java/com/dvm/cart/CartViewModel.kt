@@ -16,6 +16,7 @@ import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.CartApi
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
@@ -138,7 +139,7 @@ internal class CartViewModel @Inject constructor(
                     onUpdated(cart.promocode, cart.promotext)
                 } catch (exception: Exception) {
                     state = state.copy(
-                        alertMessage = exception.message,
+                        alertMessage = exception.getErrorMessage(context),
                         networkCall = false
                     )
                 }

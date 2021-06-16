@@ -22,6 +22,7 @@ import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.toDbEntity
+import com.dvm.utils.getErrorMessage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -105,7 +106,7 @@ internal class OrderViewModel(
             } catch (exception: Exception) {
                 state = state.copy(
                     networkCall = false,
-                    alertMessage = exception.message
+                    alertMessage = exception.getErrorMessage(context)
                 )
             }
         }

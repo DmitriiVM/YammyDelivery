@@ -1,5 +1,7 @@
 package com.dvm.order.orders
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,15 +17,19 @@ import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
+import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class OrdersViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val orderRepository: OrderRepository,
     private val updateService: UpdateService,
     private val navigator: Navigator,
@@ -50,7 +56,7 @@ internal class OrdersViewModel @Inject constructor(
             try {
                 updateService.updateOrders()
             } catch (exception: Exception) {
-                state = state.copy(alertMessage = exception.message)
+                state = state.copy(alertMessage = exception.getErrorMessage(context))
             } finally {
                 state = state.copy(networkCall = false)
             }

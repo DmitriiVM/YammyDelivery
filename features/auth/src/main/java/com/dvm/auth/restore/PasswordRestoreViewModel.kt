@@ -106,7 +106,7 @@ internal class PasswordRestoreViewModel @Inject constructor(
                     alertMessage = if (exception.hasCode(400)) {
                         context.getString(R.string.password_restoration_message_wrong_code)
                     } else {
-                        exception.message
+                        exception.getErrorMessage(context)
                     }
                 )
             }
@@ -133,7 +133,7 @@ internal class PasswordRestoreViewModel @Inject constructor(
                     alertMessage = if (exception.hasCode(402)) {
                         context.getString(R.string.password_restoration_message_expired_code)
                     } else {
-                        exception.message
+                        exception.getErrorMessage(context)
                     }
                 )
             }

@@ -18,6 +18,7 @@ import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
+import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
@@ -139,7 +140,7 @@ internal class RegisterViewModel @Inject constructor(
                 navigator.back()
             } catch (exception: Exception) {
                 state = state.copy(
-                    alertMessage = exception.message,
+                    alertMessage = exception.getErrorMessage(context),
                     networkCall = false
                 )
             }

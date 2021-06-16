@@ -24,7 +24,7 @@ internal class TokenAuthenticator @Inject constructor(
 
             val tokens = try {
                 authApi.get().refreshToken(refreshToken)
-            } catch (e: Exception) {
+            } catch (exception: Exception) {
                 return@runBlocking null
             }
             datastore.saveAccessToken(tokens.accessToken)
