@@ -2,21 +2,33 @@ package com.dvm.dish.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.dvm.db.api.models.Review
 import com.dvm.dish.R
+import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.extensions.formatAsDate
 
 @Composable
 fun ReviewHeader(
     rating: Double,
-    color: Color
+    color: Color,
+    onAddReviewClick: () -> Unit
 ) {
     Icon(
         painter = painterResource(R.drawable.icon_review),
@@ -47,7 +59,7 @@ fun ReviewHeader(
         )
 
         OutlinedButton(
-            onClick = { },
+            onClick = onAddReviewClick,
             colors = ButtonDefaults.outlinedButtonColors(
                 contentColor = color
             )
@@ -95,6 +107,83 @@ fun ReviewItem(
                 text = review.text,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+internal fun ReviewDialog(
+    onDismiss: () -> Unit,
+    onAddReview: (Int, String) -> Unit,
+    networkCall: Boolean
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = if (networkCall) {
+            DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            )
+        } else {
+            DialogProperties()
+        }
+    ) {
+        Surface(shape = MaterialTheme.shapes.medium) {
+            Column(Modifier.padding(15.dp)) {
+
+                var rating by rememberSaveable { mutableStateOf(0) }
+                var text by rememberSaveable { mutableStateOf("") }
+
+                Text(
+                    text = stringResource(R.string.dish_review_title),
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(vertical = 10.dp)
+                )
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(5) { index ->
+                        IconButton(onClick = { rating = index + 1 }) {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = null,
+                                tint = if (rating >= index + 1) {
+                                    MaterialTheme.colors.primary
+                                } else {
+                                    MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                                }
+                            )
+                        }
+                    }
+                }
+
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    enabled = !networkCall,
+                    value = text,
+                    onValueChange = { text = it }
+                )
+
+                Spacer(Modifier.height(30.dp))
+                ProgressButton(
+                    text = stringResource(R.string.dish_review_send),
+                    progress = networkCall,
+                    enabled = rating > 0 && !networkCall,
+                    onClick = {
+                        keyboardController?.hide()
+                        onAddReview(rating, text)
+                    }
+                )
+            }
         }
     }
 }

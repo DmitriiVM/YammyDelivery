@@ -68,6 +68,12 @@
     <string name="dish_button_add_to_cart">Добавить в корзину</string>
     <string name="dish_text_reviews">Отзывы</string>
     <string name="dish_button_add_review">Добавить отзыв</string>
+    <string name="dish_item_label_special_offer">АКЦИЯ</string>
+    <string name="dish_item_price">%d ₽</string>
+    <string name="dish_alert_unauthorized_review">Только авторизированные пользователи могут оставить отзыв</string>
+    <string name="dish_review_send">Отправить</string>
+    <string name="dish_review_title">Оставить отзыв</string>
+    <string name="dish_review_result">Отзыв будет опубликован после проверки модератором</string>
 
     <string name="order_message_order_canceled">Заказ успешно отменен</string>
     <string name="order_message_cart_not_empty">Ваша корзина уже содержит %s. Очистить корзину?</string>
@@ -118,8 +124,6 @@
     <string name="message_network_error">Нет доступа к интернету. Попробуйте позже</string>
     <string name="message_unknown_error">Что-то пошло не так. Мы уже работаем над этим.</string>
     <string name="app_menu_message_logout">Вы действительно хотите выйти из аккаунта?</string>
-    <string name="dish_item_label_special_offer">АКЦИЯ</string>
-    <string name="dish_item_price">%d ₽</string>
 
     <string name="favorite_appbar_title">Избранное</string>
 

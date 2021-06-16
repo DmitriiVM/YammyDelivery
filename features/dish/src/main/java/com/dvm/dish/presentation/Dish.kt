@@ -27,10 +27,7 @@ import com.dvm.appmenu_api.Drawer
 import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
-import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButton
-import com.dvm.ui.components.AppBarIconBack
-import com.dvm.ui.components.DefaultAppBar
+import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -104,7 +101,8 @@ internal fun Dish(
 
                     ReviewHeader(
                         rating = dish.rating,
-                        color = color
+                        color = color,
+                        onAddReviewClick = { onEvent(DishEvent.AddReviewClick) }
                     )
                 }
             }
@@ -115,6 +113,21 @@ internal fun Dish(
                     color = color
                 )
             }
+        }
+
+        if (state.reviewDialog) {
+            ReviewDialog(
+                onDismiss = { onEvent(DishEvent.DismissReviewDialog) },
+                onAddReview = { rating, text ->
+                    onEvent(
+                        DishEvent.AddReview(
+                            rating = rating,
+                            text = text
+                        )
+                    )
+                },
+                networkCall = state.networkCall
+            )
         }
     }
 
@@ -127,7 +140,6 @@ internal fun Dish(
         }
     }
 }
-
 
 @Composable
 private fun DishAppBar(
