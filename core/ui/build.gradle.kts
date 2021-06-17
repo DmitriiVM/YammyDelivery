@@ -1,6 +1,9 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -36,7 +39,6 @@ android {
 }
 
 dependencies {
-
     implementation(Libs.ANDROID_CORE)
     implementation(Libs.ANDROID_APPCOMPAT)
 
@@ -47,4 +49,7 @@ dependencies {
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
     implementation(Libs.COMPOSE_CONSTRAINT_LAYOUT)
+
+    implementation(Libs.DAGGER_HILT)
+    kapt(Libs.DAGGER_HILT_COMPILER)
 }

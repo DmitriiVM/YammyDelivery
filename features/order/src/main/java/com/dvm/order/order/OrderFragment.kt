@@ -1,19 +1,15 @@
 package com.dvm.order.order
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.YammyDeliveryScreen
+import com.dvm.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class OrderFragment: Fragment() {
+internal class OrderFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: OrderViewModelAssistedFactory
@@ -24,20 +20,13 @@ internal class OrderFragment: Fragment() {
         factory.create(args.orderId, this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentInsetsComposeView (requireContext()).apply {
-        setContent {
-            YammyDeliveryScreen(requireActivity()) {
-                ProvideWindowInsets(consumeWindowInsets = false) {
-                    Order(
-                        state = viewModel.state,
-                        onEvent = { viewModel.dispatchEvent(it) }
-                    )
-                }
-            }
+    @Composable
+    override fun Content() {
+        ProvideWindowInsets(consumeWindowInsets = false) {
+            Order(
+                state = viewModel.state,
+                onEvent = { viewModel.dispatchEvent(it) }
+            )
         }
     }
 }

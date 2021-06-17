@@ -1,39 +1,27 @@
 package com.dvm.auth.register
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
+import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.YammyDeliveryScreen
-import dagger.hilt.android.AndroidEntryPoint
+import com.dvm.BaseFragment
 import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
-@AndroidEntryPoint
-internal class RegisterFragment : Fragment() {
+internal class RegisterFragment : BaseFragment() {
 
     private val viewModel: RegisterViewModel by viewModels()
 
     @OptIn(ExperimentalAnimatedInsets::class)
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentInsetsComposeView (requireContext()).apply {
-        setContent {
-            YammyDeliveryScreen(requireActivity()) {
-                ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-                    Registration(
-                        state = viewModel.state,
-                        onEvent = { viewModel.dispatch(it) }
-                    )
-                }
-            }
+    @Composable
+    override fun Content() {
+        ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+            Registration(
+                state = viewModel.state,
+                onEvent = { viewModel.dispatch(it) }
+            )
         }
     }
 

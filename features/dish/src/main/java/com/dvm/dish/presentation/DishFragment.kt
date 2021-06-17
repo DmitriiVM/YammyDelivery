@@ -1,19 +1,15 @@
 package com.dvm.dish.presentation
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.dvm.ui.FragmentInsetsComposeView
-import com.dvm.ui.YammyDeliveryScreen
+import com.dvm.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class DishFragment : Fragment() {
+internal class DishFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: DishViewModelAssistedFactory
@@ -24,20 +20,13 @@ internal class DishFragment : Fragment() {
         factory.create(args.dishId, this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentInsetsComposeView (requireContext()).apply {
-        setContent {
-            YammyDeliveryScreen(requireActivity()) {
-                ProvideWindowInsets(consumeWindowInsets = false) {
-                    Dish(
-                        state = viewModel.state,
-                        onEvent = { viewModel.dispatchEvent(it) }
-                    )
-                }
-            }
+    @Composable
+    override fun Content() {
+        ProvideWindowInsets(consumeWindowInsets = false) {
+            Dish(
+                state = viewModel.state,
+                onEvent = { viewModel.dispatchEvent(it) }
+            )
         }
     }
 }
