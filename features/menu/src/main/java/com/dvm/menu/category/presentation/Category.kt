@@ -70,7 +70,9 @@ internal fun Category(
             titleHeight = titleHeight,
             onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) },
             onDishClick = { onEvent(CategoryEvent.DishClick(it)) },
-            onAddToCartClick = { onEvent(CategoryEvent.AddToCart(it)) },
+            onAddToCartClick = { dishId, dishName ->
+                onEvent(CategoryEvent.AddToCart(dishId, dishName))
+            },
         )
 
         Column {
@@ -104,7 +106,7 @@ private fun CategoryContent(
     onColorSelected: (DecorColors) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String) -> Unit
+    onAddToCartClick: (dishId: String, dishName: String) -> Unit
 ) {
     Box {
         val backgroundColor = MaterialTheme.colors.surface
@@ -158,12 +160,12 @@ private fun DishList(
     selectedColor: Color,
     animatableColor: Animatable<Color, AnimationVector4D>,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String) -> Unit
+    onAddToCartClick: (dishId: String, dishName: String) -> Unit
 ) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .verticalGradient(animatableColor.value.copy(alpha = 0.15f))
+            .verticalGradient(animatableColor.value.copy(alpha = 0.25f))
     ) {
 
         val itemWidth = with(LocalDensity.current) { (constraints.maxWidth / 2).toDp() - 5.dp }
@@ -197,7 +199,9 @@ private fun DishList(
                                     .width(itemWidth)
                                     .padding(5.dp),
                                 onDishClick = onDishClick,
-                                onAddToCartClick = onAddToCartClick
+                                onAddToCartClick = {
+                                    onAddToCartClick(dish.id, dish.name)
+                                }
                             )
                         }
                     }
@@ -273,14 +277,27 @@ private fun CategoryAppBar(
                             expanded = false
                         }
                     ) {
-                        Text(
-                            text = stringResource(type.stringResource),
-                            color = if (type == selectedOrder) {
-                                selectedColor
-                            } else {
-                                Color.Unspecified
-                            }
-                        )
+                        Row(Modifier.fillMaxWidth()) {
+                            Text(
+                                text = stringResource(type.text),
+                                color = if (type == selectedOrder) {
+                                    selectedColor
+                                } else {
+                                    Color.Unspecified
+                                },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(end = 10.dp)
+                            )
+                            Text(
+                                text = stringResource(type.sign),
+                                color = if (type == selectedOrder) {
+                                    selectedColor
+                                } else {
+                                    Color.Unspecified
+                                }
+                            )
+                        }
                     }
                 }
             }

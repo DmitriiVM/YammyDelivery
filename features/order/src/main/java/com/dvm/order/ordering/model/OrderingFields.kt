@@ -5,7 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class OrderingFields(
-    val address: String = "",
     val entrance: String = "",
     val floor: String = "",
     val apartment: String = "",

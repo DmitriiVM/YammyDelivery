@@ -22,6 +22,10 @@
     <string name="ordering_button_apply">Применить</string>
     <string name="ordering_button_fill">Задать вручную</string>
     <string name="ordering_button_use_map">Указать на карте</string>
+    <string name="ordering_address_error">Адрес должен содержать город, улицу и дом.</string>
+    <string name="ordering_address_city">г. %s</string>
+    <string name="ordering_address_street">ул. %s</string>
+    <string name="ordering_address_flat">д. %s</string>
 
     <string name="orders_appbar_title">Заказы</string>
     <string name="orders_tab_actual">Актуальные</string>
@@ -58,12 +62,14 @@
     <string name="main_recommended">Рекомендуем</string>
     <string name="main_message_update_error">Не удалось обновить данные.</string>
 
-    <string name="category_order_alphabet_asc">По алфавиту ▲</string>
-    <string name="category_order_alphabet_desc">По алфавиту ▼</string>
-    <string name="category_order_popularity_asc">По популярности ▲</string>
-    <string name="category_order_popularity_desc">По популярности ▼</string>
-    <string name="category_order_rating_asc">По рейтингу ▲</string>
-    <string name="category_order_rating_desc">По рейтингу ▼</string>
+    <string name="category_order_alphabet_asc">По алфавиту</string>
+    <string name="category_order_alphabet_desc">По алфавиту</string>
+    <string name="category_order_popularity_asc">По популярности</string>
+    <string name="category_order_popularity_desc">По популярности</string>
+    <string name="category_order_rating_asc">По рейтингу</string>
+    <string name="category_order_rating_desc">По рейтингу</string>
+    <string name="category_order_up_sign">▲</string>
+    <string name="category_order_down_sign">▼</string>
 
     <string name="dish_button_add_to_cart">Добавить в корзину</string>
     <string name="dish_text_reviews">Отзывы</string>
@@ -132,7 +138,7 @@
     <string name="notification_appbar_title">Уведомления</string>
 
     <string name="common_no">Нет</string>
-    <string name="common_ok">Да</string>
+    <string name="common_ok">OK</string>
 
     <string name="drawer_item_main">Главная</string>
     <string name="drawer_item_menu">Меню</string>
@@ -141,5 +147,6 @@
     <string name="drawer_item_profile">Профиль</string>
     <string name="drawer_item_orders">Заказы</string>
     <string name="drawer_item_notifications">Уведомления</string>
+    <string name="ordering_map_button_complete">Выбрать адрес</string>
 
 </resources>

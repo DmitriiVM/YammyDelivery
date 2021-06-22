@@ -13,7 +13,7 @@ sealed class AppException : Exception() {
     object UnknownException : AppException()
 }
 
-fun Exception.getErrorMessage(context: Context) =
+fun Throwable.getErrorMessage(context: Context) =
     when (this) {
         is AppException.ApiException -> this.message
         is AppException.TimeoutException -> context.getString(R.string.message_network_timeout)

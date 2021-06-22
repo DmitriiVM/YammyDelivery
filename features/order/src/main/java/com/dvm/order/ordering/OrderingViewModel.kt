@@ -52,11 +52,14 @@ internal class OrderingViewModel @Inject constructor(
 
     fun dispatchEvent(event: OrderingEvent) {
         when (event) {
+            is OrderingEvent.AddressChanged -> {
+                state = state.copy(address = event.address)
+            }
             is OrderingEvent.MakeOrder -> {
                 makeOrder(event.fields)
             }
             OrderingEvent.MapButtonClick -> {
-
+                navigator.goTo(Destination.Map)
             }
             OrderingEvent.DismissAlert -> {
                 state = state.copy(alertMessage = null)
@@ -73,7 +76,7 @@ internal class OrderingViewModel @Inject constructor(
             try {
                 val order = orderApi.createOrder(
                     token = requireNotNull(datastore.getAccessToken()),
-                    address = fields.address,
+                    address = state.address,
                     entrance = fields.entrance.toIntOrNull(),
                     floor = fields.floor.toIntOrNull(),
                     apartment = fields.apartment,
@@ -81,7 +84,7 @@ internal class OrderingViewModel @Inject constructor(
                     comment = fields.comment,
                 )
 
-                with(orderRepository){
+                with(orderRepository) {
                     insertOrders(listOf(order.toDbEntity()))
                     insertOrderItems(
                         order.items.map { it.toDbEntity(order.id) }
@@ -102,5 +105,9 @@ internal class OrderingViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun setMapAddress(address: String) {
+        state = state.copy(address = address)
     }
 }

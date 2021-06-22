@@ -32,7 +32,7 @@ internal fun DishItem(
     dish: CategoryDish,
     modifier: Modifier = Modifier,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String) -> Unit
+    onAddToCartClick: () -> Unit
 ) {
     Card(
         modifier = modifier.clickable { onDishClick(dish.id) }
@@ -69,7 +69,7 @@ internal fun DishItem(
                         end.linkTo(image.end)
                         centerAround(image.bottom)
                     },
-                onClick = { onAddToCartClick(dish.id) }
+                onClick = onAddToCartClick
             ) {
                 Icon(
                     imageVector = Icons.Sharp.Add,

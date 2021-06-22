@@ -36,8 +36,8 @@ internal class DefaultCartApi @Inject constructor(
         )
 
     override suspend fun checkCoordinates(
-        latitude: Long,
-        longitude: Long
+        latitude: Double,
+        longitude: Double
     ): AddressResponse =
         apiService.checkCoordinates(
             CheckCoordinatesRequest(latitude, longitude)

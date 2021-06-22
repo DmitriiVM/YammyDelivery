@@ -114,6 +114,14 @@ internal class CategoryViewModel @Inject constructor(
                             quantity = 1
                         )
                     )
+                    state = state.copy(
+                        alertMessage = String.format(
+                            context.getString(
+                                R.string.message_dish_added_to_cart,
+                                event.name
+                            )
+                        )
+                    )
                 }
             }
             is CategoryEvent.DishClick -> {

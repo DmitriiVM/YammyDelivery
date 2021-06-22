@@ -8,6 +8,7 @@ import androidx.navigation.NavOptions
 import com.dvm.menu.menu.MenuFragmentDirections
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
+import com.dvm.navigation.api.model.MAP_ADDRESS
 import com.dvm.preferences.api.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -107,11 +108,23 @@ internal class NavigationViewModel @Inject constructor(
             Destination.Ordering -> {
                 navController.navigate(MainGraphDirections.toOrdering(), navOptions)
             }
+            is Destination.BackToOrdering -> {
+                navController
+                    .previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set(MAP_ADDRESS, destination.address)
+                navController.popBackStack()
+            }
             Destination.Orders -> {
                 navController.navigate(MainGraphDirections.toOrders(), navOptions)
             }
             is Destination.Order -> {
-                navController.navigate(MainGraphDirections.toOrder(destination.orderId), navOptions)
+                navController.navigate(
+                    MainGraphDirections.toOrder(destination.orderId),
+                    NavOptions.Builder()
+                        .setPopUpTo(currentDestination!!, true)
+                        .build()
+                )
             }
             is Destination.Login -> {
                 navController.navigate(MainGraphDirections.toLogin(), navOptions)
@@ -127,6 +140,9 @@ internal class NavigationViewModel @Inject constructor(
             }
             Destination.Notification -> {
                 navController.navigate(MainGraphDirections.toNotifications(), navOptions)
+            }
+            Destination.Map -> {
+                navController.navigate(MainGraphDirections.toMap())
             }
             Destination.Back -> {
                 navController.navigateUp()

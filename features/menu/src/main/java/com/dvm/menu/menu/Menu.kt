@@ -92,7 +92,6 @@ private fun MenuContent(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
-        modifier = Modifier.navigationBarsPadding(),
         contentPadding = PaddingValues(
             top = 20.dp,
             start = 10.dp,
@@ -107,6 +106,7 @@ private fun MenuContent(
                 onItemClick = onItemClick
             )
         }
+        items(3) { Spacer(Modifier.navigationBarsPadding()) }
     }
 }
 

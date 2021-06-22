@@ -2,12 +2,12 @@ object Versions {
     const val KOTLIN = "1.4.32"
     const val COMPOSE = "1.0.0-beta06"
     const val COMPOSE_ACCOMPANIST = "0.6.1"
-    const val COROUTINES = "1.4.3"
+    const val COROUTINES = "1.5.0"
     const val RETROFIT = "2.9.0"
     const val GSON = "2.8.6"
     const val ROOM = "2.2.6"
     const val DAGGER_HILT = "2.33-beta"
-    const val LIFECYCLE = "2.3.1"
+    const val LIFECYCLE = "2.4.0-alpha02"
     const val DATASTORE = "1.0.0-alpha08"
     const val NAVIGATION = "2.3.5"
 }
@@ -61,6 +61,9 @@ object Libs {
 
     const val FIREBASE_BOM = "com.google.firebase:firebase-bom:27.1.0"
     const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging"
+
+    const val GOOGLE_MAPS = "com.google.android.gms:play-services-maps:17.0.0"
+    const val GOOGLE_LOCATION = "com.google.android.gms:play-services-location:18.0.0"
 
     const val JUNIT = "junit:junit:4.+"
     const val ANDROID_JUNIT = "androidx.test.ext:junit:1.1.2"

@@ -27,6 +27,7 @@ import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
@@ -74,9 +75,10 @@ internal fun Favorite(
                         dish = dish,
                         modifier = Modifier.padding(5.dp),
                         onDishClick = { onEvent(FavoriteEvent.DishClick(it)) },
-                        onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(it, dish.name)) },
+                        onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(dish.id, dish.name)) },
                     )
                 }
+                items(2){ Spacer(Modifier.navigationBarsPadding()) }
             }
 
         }

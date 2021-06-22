@@ -72,4 +72,7 @@ dependencies {
 
     implementation(Libs.NAVIGATION_FRAGMENT)
     implementation(Libs.NAVIGATION_UI)
+
+    implementation(Libs.GOOGLE_MAPS)
+    implementation(Libs.GOOGLE_LOCATION)
 }

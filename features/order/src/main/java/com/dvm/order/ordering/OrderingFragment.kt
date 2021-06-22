@@ -1,8 +1,12 @@
 package com.dvm.order.ordering
 
+import android.os.Bundle
+import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dvm.BaseFragment
+import com.dvm.navigation.api.model.MAP_ADDRESS
 import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
@@ -19,5 +23,16 @@ internal class OrderingFragment : BaseFragment() {
                 onEvent = { viewModel.dispatchEvent(it) }
             )
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findNavController()
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<String>(MAP_ADDRESS)
+            ?.observe(viewLifecycleOwner) { address ->
+                viewModel.setMapAddress(address)
+            }
     }
 }

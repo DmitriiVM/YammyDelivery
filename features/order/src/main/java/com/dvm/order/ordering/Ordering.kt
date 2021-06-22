@@ -76,8 +76,8 @@ internal fun Ordering(
                 // but there's strange bug of not showing keyboard when focus requested
                 if (isEditing) {
                     OrderingTextField(
-                        value = fields.address,
-                        onValueChange = { fields = fields.copy(address = it) },
+                        value = state.address,
+                        onValueChange = { onEvent(OrderingEvent.AddressChanged(it)) },
                         singleLine = false,
                         imeAction = ImeAction.Next,
                         modifier = Modifier.focusRequester(addressFocus),
@@ -94,7 +94,7 @@ internal fun Ordering(
                 } else {
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = "${stringResource(R.string.ordering_field_address)}${fields.address}",
+                        text = "${stringResource(R.string.ordering_field_address)}${state.address}",
                         modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
                     )
                     Divider()
@@ -103,7 +103,7 @@ internal fun Ordering(
                 Spacer(modifier = Modifier.height(25.dp))
                 Row(Modifier.fillMaxWidth()) {
                     Button(
-                        enabled = !isEditing || fields.address.isNotEmpty(),
+                        enabled = !isEditing || state.address.isNotEmpty(),
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 4.dp),
@@ -196,7 +196,7 @@ internal fun Ordering(
                 )
             }
             Button(
-                enabled = fields.address.isNotEmpty(),
+                enabled = state.address.isNotEmpty(),
                 modifier = Modifier
                     .padding(20.dp)
                     .fillMaxWidth()

@@ -3,7 +3,7 @@ package com.dvm.navigation.api.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-sealed class Destination: Parcelable {
+sealed class Destination : Parcelable {
 
     @Parcelize
     data class Category(
@@ -13,6 +13,8 @@ sealed class Destination: Parcelable {
 
     @Parcelize
     data class Login(val targetDestination: Destination? = null) : Destination()
+    @Parcelize
+    data class BackToOrdering(val address: String) : Destination()
     @Parcelize
     data class Dish(val dishId: String) : Destination()
     @Parcelize
@@ -42,5 +44,9 @@ sealed class Destination: Parcelable {
     @Parcelize
     object Back : Destination()
     @Parcelize
-    object LoginTarget: Destination()
+    object LoginTarget : Destination()
+    @Parcelize
+    object Map : Destination()
 }
+
+const val MAP_ADDRESS = "map_back_address_result"

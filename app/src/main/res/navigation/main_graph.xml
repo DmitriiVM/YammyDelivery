@@ -2,8 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
-    app:startDestination="@id/menuFragment">
-<!--    app:startDestination="@id/splashFragment">-->
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -145,4 +144,12 @@
     <action
         android:id="@+id/toNotifications"
         app:destination="@id/notificationFragment" />
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.dvm.order.map_address.MapsFragment"
+        android:label="MapsFragment" />
+    <action
+        android:id="@+id/toMap"
+        app:destination="@id/mapFragment" />
 </navigation>

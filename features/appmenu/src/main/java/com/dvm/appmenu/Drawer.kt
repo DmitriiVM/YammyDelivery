@@ -51,7 +51,7 @@ fun AppDrawer(
         viewModel.init(context.applicationContext)
     }
 
-    LaunchedEffect(drawerState) {
+    LaunchedEffect(drawerState.isOpen) {
         if (drawerState.isOpen) {
             keyboardController?.hide()
         }

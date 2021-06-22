@@ -164,9 +164,7 @@ private fun SearchResult(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(2),
-        modifier = Modifier
-            .navigationBarsPadding()
-            .padding(horizontal = 5.dp),
+        modifier = Modifier.padding(horizontal = 5.dp),
     ) {
         items(state.categories) { category ->
             SearchCategoryItem(
@@ -205,9 +203,10 @@ private fun SearchResult(
                 dish = dish,
                 modifier = Modifier.padding(5.dp),
                 onDishClick = { onEvent(SearchEvent.DishClick(it, dish.name)) },
-                onAddToCartClick = { onEvent(SearchEvent.AddToCart(it)) },
+                onAddToCartClick = { onEvent(SearchEvent.AddToCart(dish.id)) },
             )
         }
+        items(2) { Spacer(Modifier.navigationBarsPadding()) }
     }
 }
 
