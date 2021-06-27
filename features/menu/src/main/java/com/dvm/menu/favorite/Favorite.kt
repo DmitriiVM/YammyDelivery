@@ -1,5 +1,6 @@
 package com.dvm.menu.favorite
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
@@ -66,8 +68,15 @@ internal fun Favorite(
                 }
             )
 
+            val configuration = LocalConfiguration.current
+
+            val rows = when (configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> 4
+                else -> 2
+            }
+
             LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
+                cells = GridCells.Fixed(rows),
                 modifier = Modifier.padding(5.dp)
             ) {
                 items(state.dishes) { dish ->

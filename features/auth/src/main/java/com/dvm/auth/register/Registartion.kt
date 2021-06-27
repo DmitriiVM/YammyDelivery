@@ -1,8 +1,10 @@
 package com.dvm.auth.register
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -33,6 +35,7 @@ fun Registration(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(15.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(Modifier.statusBarsHeight())
             DefaultAppBar(

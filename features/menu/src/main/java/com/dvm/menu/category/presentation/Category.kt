@@ -1,5 +1,6 @@
 package com.dvm.menu.category.presentation
 
+import android.content.res.Configuration
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Animatable
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -168,7 +170,13 @@ private fun DishList(
             .verticalGradient(animatableColor.value.copy(alpha = 0.25f))
     ) {
 
-        val itemWidth = with(LocalDensity.current) { (constraints.maxWidth / 2).toDp() - 5.dp }
+        val configuration = LocalConfiguration.current
+
+        val rows = when (configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> 4
+            else -> 2
+        }
+        val itemWidth = with(LocalDensity.current) { (constraints.maxWidth / rows).toDp() - 5.dp }
 
         Crossfade(state.dishes) {
             LaunchedEffect(it) {
@@ -189,7 +197,7 @@ private fun DishList(
                     )
                 }
 
-                val chunkedDishes = state.dishes.chunked(2)
+                val chunkedDishes = state.dishes.chunked(rows)
                 items(chunkedDishes) { dishes ->
                     Row(Modifier.fillMaxWidth()) {
                         dishes.forEach { dish ->

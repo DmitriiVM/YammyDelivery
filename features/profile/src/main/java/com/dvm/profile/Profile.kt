@@ -1,8 +1,11 @@
 package com.dvm.profile
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -10,6 +13,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -39,7 +43,10 @@ internal fun Profile(
         drawerState = drawerState,
         selected = DrawerItem.PROFILE
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+        ) {
             Spacer(Modifier.statusBarsHeight())
             DefaultAppBar(
                 title = { Text(stringResource(R.string.profile_appbar_title)) },
@@ -126,6 +133,14 @@ internal fun Profile(
                 }
 
                 Spacer(modifier = Modifier.height(15.dp))
+
+                val configuration = LocalConfiguration.current
+
+                val modifier = when (configuration.orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> Modifier.navigationBarsWithImePadding()
+                    else -> Modifier
+                }
+
                 if (state.isEditing) {
                     OutlinedButton(
                         enabled = !state.networkCall,
@@ -133,9 +148,8 @@ internal fun Profile(
                             onEvent(ProfileEvent.ChangeEditingMode(false))
                             keyboardController?.hide()
                         },
-                        modifier = Modifier
+                        modifier = modifier
                             .fillMaxWidth()
-                            .navigationBarsWithImePadding()
                     ) {
                         Text(stringResource(R.string.profile_button_cancel))
                     }
@@ -143,9 +157,8 @@ internal fun Profile(
                     OutlinedButton(
                         enabled = !state.networkCall,
                         onClick = { onEvent(ProfileEvent.ChangeButtonClick) },
-                        modifier = Modifier
+                        modifier = modifier
                             .fillMaxWidth()
-                            .navigationBarsWithImePadding()
                     ) {
                         Text(stringResource(R.string.profile_button_change_password))
                     }

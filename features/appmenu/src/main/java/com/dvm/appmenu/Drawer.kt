@@ -1,8 +1,7 @@
 package com.dvm.appmenu
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import android.content.res.Configuration
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -18,6 +17,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -30,6 +30,7 @@ import com.dvm.ui.components.AlertButton
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
@@ -68,16 +69,27 @@ fun AppDrawer(
     ModalDrawer(
         drawerState = drawerState,
         content = {
-            Surface(Modifier.fillMaxSize()) {
+            val configuration = LocalConfiguration.current
+
+            val modifier = when (configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    Modifier.navigationBarsPadding()
+                }
+                else -> Modifier
+            }
+            Surface(modifier.fillMaxSize()) {
                 content()
             }
         },
         drawerContent = {
 
-            Box(Modifier.fillMaxSize()) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
 
                 Circles()
-
 
                 Column {
 

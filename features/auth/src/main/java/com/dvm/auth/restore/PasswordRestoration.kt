@@ -1,6 +1,8 @@
 package com.dvm.auth.restore
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +30,11 @@ fun PasswordRestoration(
     val confirmPassword = rememberSaveable { mutableStateOf("") }
 
     Drawer(selected = DrawerItem.NONE) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
                 title = { Text(stringResource(R.string.password_restoration_appbar_title)) },

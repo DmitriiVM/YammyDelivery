@@ -1,8 +1,10 @@
 package com.dvm.auth.login
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -32,7 +34,8 @@ internal fun Login(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(15.dp),
+                .padding(15.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {

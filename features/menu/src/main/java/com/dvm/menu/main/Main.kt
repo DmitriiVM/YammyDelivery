@@ -1,5 +1,6 @@
 package com.dvm.menu.main
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -89,7 +91,16 @@ internal fun Main(
                     )
                     Spacer(Modifier.height(15.dp))
 
-                    val modifier = Modifier.width(this@BoxWithConstraints.maxWidth / 2.2f)
+                    val configuration = LocalConfiguration.current
+
+                    val rows = when (configuration.orientation) {
+                        Configuration.ORIENTATION_LANDSCAPE -> 4
+                        else -> 2
+                    }
+
+                    val modifier =
+                        Modifier
+                            .width(this@BoxWithConstraints.maxWidth / (rows + 0.2).toFloat())
 
                     if (state.recommended.isNotEmpty()) {
                         DishesRowHeader(

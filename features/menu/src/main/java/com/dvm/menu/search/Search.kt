@@ -1,5 +1,6 @@
 package com.dvm.menu.search
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -162,8 +164,15 @@ private fun SearchResult(
     color: Color,
     onEvent: (SearchEvent) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+
+    val rows = when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> 4
+        else -> 2
+    }
+
     LazyVerticalGrid(
-        cells = GridCells.Fixed(2),
+        cells = GridCells.Fixed(rows),
         modifier = Modifier.padding(horizontal = 5.dp),
     ) {
         items(state.categories) { category ->
@@ -195,7 +204,8 @@ private fun SearchResult(
                 }
             )
         }
-        if ((state.categories.size + state.subcategories.size) % 2 == 1) {
+        val emptyItems = (state.categories.size + state.subcategories.size)  % rows
+        repeat(emptyItems){
             item { /* empty */ }
         }
         items(state.dishes) { dish ->
@@ -230,7 +240,8 @@ fun SearchCategoryItem(
     ) {
         Text(
             text = name,
-            Modifier
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize()
         )

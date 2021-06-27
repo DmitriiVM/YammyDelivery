@@ -1,5 +1,6 @@
 package com.dvm.menu.menu
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -90,8 +92,15 @@ private fun MenuContent(
     menuItems: List<MenuItem>,
     onItemClick: (String) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+
+    val rows = when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> 5
+        else -> 3
+    }
+
     LazyVerticalGrid(
-        cells = GridCells.Fixed(3),
+        cells = GridCells.Fixed(rows),
         contentPadding = PaddingValues(
             top = 20.dp,
             start = 10.dp,
@@ -106,7 +115,7 @@ private fun MenuContent(
                 onItemClick = onItemClick
             )
         }
-        items(3) { Spacer(Modifier.navigationBarsPadding()) }
+        items(rows) { Spacer(Modifier.navigationBarsPadding()) }
     }
 }
 
