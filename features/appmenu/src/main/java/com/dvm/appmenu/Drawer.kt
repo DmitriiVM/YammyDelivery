@@ -391,7 +391,7 @@ private fun Circles() {
             startAngle = 180f,
             sweepAngle = 180f,
             useCenter = false,
-            topLeft = Offset(200f, size.height - 400),
+            topLeft = Offset(200f, 1300f),
             size = Size(800f, 800f),
             style = style
         )
