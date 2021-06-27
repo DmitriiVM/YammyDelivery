@@ -22,11 +22,6 @@ internal fun Splash() {
     ) {
         val configuration = LocalConfiguration.current
 
-        val rows = when (configuration.orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> 5
-            else -> 3
-        }
-
         val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.splash) }
         val animationState =
             rememberLottieAnimationState(autoPlay = true, repeatCount = Integer.MAX_VALUE)
