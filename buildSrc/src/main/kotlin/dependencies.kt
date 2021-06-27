@@ -16,6 +16,8 @@ object Libs {
     const val ANDROID_GRADLE_PLUGIN = "com.android.tools.build:gradle:7.0.0-alpha14"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
     const val HILT_GRADLE_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.DAGGER_HILT}"
+    const val SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.3"
+    const val GOOGLE_SERVICES = "com.google.gms:google-services:4.3.5"
 
     const val ANDROID_CORE = "androidx.core:core-ktx:1.3.2"
     const val ANDROID_APPCOMPAT = "androidx.appcompat:appcompat:1.3.0-rc01"
@@ -64,8 +66,4 @@ object Libs {
 
     const val GOOGLE_MAPS = "com.google.android.gms:play-services-maps:17.0.0"
     const val GOOGLE_LOCATION = "com.google.android.gms:play-services-location:18.0.0"
-
-    const val JUNIT = "junit:junit:4.+"
-    const val ANDROID_JUNIT = "androidx.test.ext:junit:1.1.2"
-    const val ANDROID_ESPRESSO = "androidx.test.espresso:espresso-core:3.3.0"
 }

@@ -1,4 +1,5 @@
 rootProject.name = "YammyDelivery"
+
 include(
     ":app",
     ":features:splash",
