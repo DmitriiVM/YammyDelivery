@@ -17,8 +17,7 @@ interface OrderApi {
 
     suspend fun getOrders(
         token: String,
-        lastUpdateTime: Long?,
-        limit: Int? = 500
+        lastUpdateTime: Long?
     ): List<OrderResponse>
 
     suspend fun getStatuses(

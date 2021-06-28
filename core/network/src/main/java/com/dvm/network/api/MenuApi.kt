@@ -10,19 +10,16 @@ interface MenuApi {
     suspend fun getRecommended(): List<String>
 
     suspend fun getCategories(
-        lastUpdateTime: Long?,
-        limit: Int? = 500
+        lastUpdateTime: Long?
     ): List<CategoryResponse>
 
     suspend fun getDishes(
-        lastUpdateTime: Long?,
-        limit: Int? = 500
+        lastUpdateTime: Long?
     ): List<DishResponse>
 
     suspend fun getFavorite(
         token: String,
-        lastUpdateTime: Long?,
-        limit: Int? = 500
+        lastUpdateTime: Long?
     ): List<FavoriteResponse>
 
     suspend fun changeFavorite(
@@ -32,8 +29,7 @@ interface MenuApi {
 
     suspend fun getReviews(
         dishId: String,
-        lastUpdateTime: Long?,
-        limit: Int? = 500
+        lastUpdateTime: Long?
     ): List<ReviewResponse>
 
     suspend fun addReview(

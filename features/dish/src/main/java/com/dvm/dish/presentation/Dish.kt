@@ -31,6 +31,7 @@ import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
 @OptIn(ExperimentalStdlibApi::class, ExperimentalComposeApi::class)
@@ -112,6 +113,10 @@ internal fun Dish(
                     review = review,
                     color = color
                 )
+            }
+
+            item {
+                Spacer(Modifier.navigationBarsHeight())
             }
         }
 

@@ -11,24 +11,24 @@ internal interface ApiService {
 
     @GET("categories")
     suspend fun getCategories(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
-        @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null
+        @Header("If-Modified-Since") ifModifiedSince: Long?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): List<CategoryResponse>
 
     @GET("dishes")
     suspend fun getDishes(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
-        @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null
+        @Header("If-Modified-Since") ifModifiedSince: Long?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): List<DishResponse>
 
     @GET("reviews/{dishId}")
     suspend fun getReviews(
         @Path("dishId") dishId: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
-        @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null
+        @Header("If-Modified-Since") ifModifiedSince: Long?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): List<ReviewResponse>
 
     @POST("reviews/{dishId}")
@@ -41,9 +41,9 @@ internal interface ApiService {
     @GET("favorite")
     suspend fun getFavorite(
         @Header("Authorization") token: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
-        @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null
+        @Header("If-Modified-Since") ifModifiedSince: Long?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): List<FavoriteResponse>
 
     @PUT("favorite/change")
@@ -112,14 +112,14 @@ internal interface ApiService {
     @GET("orders")
     suspend fun getOrders(
         @Header("Authorization") token: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
-        @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null,
+        @Header("If-Modified-Since") ifModifiedSince: Long?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
     ): List<OrderResponse>
 
     @GET("orders/statuses")
     suspend fun getStatuses(
-        @Header("If-Modified-Since") ifModifiedSince: Long? = 0,
+        @Header("If-Modified-Since") ifModifiedSince: Long?,
     ): List<StatusResponse>
 
     @PUT("orders/cancel")

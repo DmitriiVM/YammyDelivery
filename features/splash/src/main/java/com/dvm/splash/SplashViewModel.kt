@@ -7,6 +7,7 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
@@ -21,7 +22,7 @@ internal class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val updateDuration = measureTimeMillis {
                     withTimeout(TIMEOUT) {
@@ -35,7 +36,7 @@ internal class SplashViewModel @Inject constructor(
             } catch (exception: Exception) {
                 datastore.setUpdateError(true)
             } finally {
-                navigator.goTo(Destination.Menu)
+                navigator.goTo(Destination.Main)
             }
         }
     }

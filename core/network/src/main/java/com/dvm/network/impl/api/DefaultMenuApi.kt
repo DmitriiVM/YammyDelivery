@@ -6,7 +6,7 @@ import com.dvm.network.api.response.DishResponse
 import com.dvm.network.api.response.FavoriteResponse
 import com.dvm.network.api.response.ReviewResponse
 import com.dvm.network.impl.ApiService
-import com.dvm.network.impl.getModified
+import com.dvm.network.impl.getAllChunks
 import com.dvm.network.impl.request.AddReviewRequest
 import com.dvm.network.impl.request.ChangeFavoriteRequest
 import javax.inject.Inject
@@ -18,36 +18,36 @@ internal class DefaultMenuApi @Inject constructor(
     override suspend fun getRecommended(): List<String> = apiService.getRecommended()
 
     override suspend fun getCategories(
-        lastUpdateTime: Long?,
-        limit: Int?
-    ): List<CategoryResponse> = getModified {
+        lastUpdateTime: Long?
+    ): List<CategoryResponse> = getAllChunks { offset, limit ->
         apiService.getCategories(
             ifModifiedSince = lastUpdateTime,
+            offset = offset,
             limit = limit
         )
-    } ?: emptyList()
+    }
 
     override suspend fun getDishes(
-        lastUpdateTime: Long?,
-        limit: Int?
-    ): List<DishResponse> = getModified {
+        lastUpdateTime: Long?
+    ): List<DishResponse> = getAllChunks { offset, limit ->
         apiService.getDishes(
             ifModifiedSince = lastUpdateTime,
+            offset = offset,
             limit = limit
         )
-    } ?: emptyList()
+    }
 
     override suspend fun getFavorite(
         token: String,
-        lastUpdateTime: Long?,
-        limit: Int?
-    ): List<FavoriteResponse> = getModified {
+        lastUpdateTime: Long?
+    ): List<FavoriteResponse> = getAllChunks { offset, limit ->
         apiService.getFavorite(
             token = token,
             ifModifiedSince = lastUpdateTime,
+            offset = offset,
             limit = limit
         )
-    } ?: emptyList()
+    }
 
     override suspend fun changeFavorite(
         token: String,
@@ -66,15 +66,15 @@ internal class DefaultMenuApi @Inject constructor(
 
     override suspend fun getReviews(
         dishId: String,
-        lastUpdateTime: Long?,
-        limit: Int?
-    ): List<ReviewResponse> = getModified {
+        lastUpdateTime: Long?
+    ): List<ReviewResponse> = getAllChunks { offset, limit ->
         apiService.getReviews(
             ifModifiedSince = lastUpdateTime,
             dishId = dishId,
+            offset = offset,
             limit = limit
         )
-    } ?: emptyList()
+    }
 
     override suspend fun addReview(
         token: String,

@@ -19,11 +19,11 @@ internal class SplashFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
-        viewModel // to initialize view model
         setContent {
             AppTheme(requireActivity().window) {
                 Splash()
             }
         }
+        viewModel // to initialize view model
     }
 }

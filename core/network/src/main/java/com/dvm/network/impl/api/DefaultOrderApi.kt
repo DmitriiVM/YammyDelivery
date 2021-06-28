@@ -4,9 +4,10 @@ import com.dvm.network.api.OrderApi
 import com.dvm.network.api.response.OrderResponse
 import com.dvm.network.api.response.StatusResponse
 import com.dvm.network.impl.ApiService
-import com.dvm.network.impl.getModified
+import com.dvm.network.impl.getAllChunks
 import com.dvm.network.impl.request.CancelOrderRequest
 import com.dvm.network.impl.request.CreateOrderRequest
+import com.dvm.utils.hasCode
 import javax.inject.Inject
 
 internal class DefaultOrderApi @Inject constructor(
@@ -36,21 +37,29 @@ internal class DefaultOrderApi @Inject constructor(
 
     override suspend fun getOrders(
         token: String,
-        lastUpdateTime: Long?,
-        limit: Int?
-    ): List<OrderResponse> = getModified {
+        lastUpdateTime: Long?
+    ): List<OrderResponse> = getAllChunks { offset, limit ->
         apiService.getOrders(
             token = token,
             ifModifiedSince = lastUpdateTime,
+            offset = offset,
             limit = limit
         )
-    } ?: emptyList()
+    }
 
     override suspend fun getStatuses(
         lastUpdateTime: Long?
-    ): List<StatusResponse> = getModified {
-        apiService.getStatuses(lastUpdateTime)
-    } ?: emptyList()
+    ): List<StatusResponse> =
+        try {
+            apiService.getStatuses(lastUpdateTime)
+        } catch (exception: Exception) {
+            if (exception.hasCode(304)) {
+                emptyList()
+            } else {
+                throw exception
+            }
+        }
+
 
     override suspend fun cancelOrder(
         token: String,
