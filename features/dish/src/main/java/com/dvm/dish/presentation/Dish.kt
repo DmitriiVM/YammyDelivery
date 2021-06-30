@@ -3,7 +3,9 @@ package com.dvm.dish.presentation
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
@@ -34,6 +36,9 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
 
+private const val HORIZONTAL_POINT_OFFSET = 50f
+private const val VERTICAL_POINT_OFFSET = 50f
+
 @OptIn(ExperimentalStdlibApi::class, ExperimentalComposeApi::class)
 @Composable
 internal fun Dish(
@@ -44,49 +49,40 @@ internal fun Dish(
 
         val dish = state.dish ?: return@Drawer
         val color = remember { DecorColors.values().random().color }
+        val lazyListState = rememberLazyListState()
+        val offset = lazyListState.firstVisibleItemScrollOffset
 
-        LazyColumn {
+        TopGraphicHeader(
+            lazyListState = lazyListState,
+            offset = offset,
+            color = color
+        )
+
+        Column {
+            Spacer(Modifier.statusBarsHeight())
+
+            DishAppBar(
+                color = color,
+                isFavorite = dish.isFavorite,
+                offset = offset,
+                onNavigateUp = { onEvent(DishEvent.BackClick) },
+                onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
+            )
+        }
+
+        LazyColumn(state = lazyListState) {
             item {
                 Column(Modifier.fillMaxSize()) {
 
-                    Spacer(
-                        Modifier
-                            .statusBarsHeight()
-                            .background(color.copy(alpha = 0.3f))
+                    BottomGraphicHeader(
+                        image = dish.image,
+                        color = color,
+                        offset = offset
                     )
 
-                    Box(Modifier.fillMaxWidth()) {
-
-                        ImageHeader(
-                            color = color,
-                            image = dish.image
-                        )
-
-                        DishAppBar(
-                            color = color,
-                            isFavorite = dish.isFavorite,
-                            onNavigateUp = { onEvent(DishEvent.BackClick) },
-                            onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
-                        )
-                    }
-
-                    Text(
-                        text = dish.name,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 20.dp)
-                            .padding(top = 50.dp, bottom = 40.dp),
-                        style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center
-                    )
-
-                    Text(
-                        text = dish.description.orEmpty(),
-                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 20.dp)
-                            .padding(bottom = 20.dp)
+                    Description(
+                        name = dish.name,
+                        description = dish.description
                     )
 
                     PurchaseSection(
@@ -147,19 +143,141 @@ internal fun Dish(
 }
 
 @Composable
+private fun Description(
+    name: String,
+    description: String?
+) {
+    Text(
+        text = name,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .padding(top = 50.dp, bottom = 40.dp),
+        style = MaterialTheme.typography.h4,
+        textAlign = TextAlign.Center
+    )
+
+    Text(
+        text = description.orEmpty(),
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 20.dp)
+    )
+}
+
+@Composable
+private fun BottomGraphicHeader(
+    image: String,
+    color: Color,
+    offset: Int
+) {
+    Spacer(
+        Modifier
+            .statusBarsHeight()
+            .background(color.copy(alpha = 0.3f))
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 90.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CoilImage(
+            data = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(280.dp)
+                .border(width = 1.dp, color = Color.Gray)
+
+        )
+
+        Canvas(Modifier.fillMaxWidth()) {
+            pointGrid(
+                startY = 360f,
+                lines = 2,
+                verticalOffset = VERTICAL_POINT_OFFSET,
+                horizontalOffset = HORIZONTAL_POINT_OFFSET,
+                color = color,
+                translationOffset = offset,
+                movingLines = listOf(1 to Direction.RIGHT)
+            )
+        }
+    }
+}
+
+@Composable
+private fun TopGraphicHeader(
+    lazyListState: LazyListState,
+    offset: Int,
+    color: Color
+) {
+    Column {
+        Spacer(Modifier.statusBarsHeight())
+        Canvas(Modifier.fillMaxWidth()) {
+
+            val noTranslationOffset = 670
+
+            val verticalTranslation = if (lazyListState.firstVisibleItemIndex == 0) {
+                if (offset < noTranslationOffset) {
+                    0
+                } else {
+                    noTranslationOffset - offset
+                }
+            } else {
+                -450
+            }
+
+            drawRect(
+                color = color.copy(alpha = 0.3f),
+                topLeft = Offset(x = 0f, y = verticalTranslation.toFloat()),
+                size = Size(width = size.width, height = 450f)
+            )
+
+            pointGrid(
+                startY = 170f + verticalTranslation,
+                lines = 3,
+                color = color,
+                verticalOffset = VERTICAL_POINT_OFFSET,
+                horizontalOffset = HORIZONTAL_POINT_OFFSET,
+                translationOffset = offset,
+                movingLines = listOf(0 to Direction.RIGHT, 2 to Direction.LEFT)
+            )
+        }
+    }
+}
+
+@Composable
 private fun DishAppBar(
     isFavorite: Boolean,
     color: Color,
+    offset: Int,
     onNavigateUp: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
+    val iconsAlpha = 1f - offset * 0.01f
+
     DefaultAppBar(
         navigationIcon = {
-            AppBarIconBack(onNavigateUp = onNavigateUp)
+            AppBarIconBack(
+                modifier = Modifier
+                    .graphicsLayer(
+                        translationX = -offset.toFloat(),
+                        alpha = iconsAlpha
+                    ),
+                onNavigateUp = onNavigateUp
+            )
         },
         actions = {
             IconButton(
-                modifier = Modifier,
+                modifier = Modifier
+                    .graphicsLayer(
+                        translationX = offset.toFloat(),
+                        alpha = iconsAlpha
+                    ),
                 onClick = onFavoriteClick
             ) {
                 if (isFavorite) {
@@ -178,60 +296,6 @@ private fun DishAppBar(
         }
     )
 }
-
-
-@Composable
-private fun ImageHeader(color: Color, image: String) {
-
-    val horizontalPointOffset = 50f
-    val verticalPointOffset = 50f
-
-    Canvas(Modifier.fillMaxWidth()) {
-
-        drawRect(
-            color = color.copy(alpha = 0.3f),
-            topLeft = Offset.Zero,
-            size = Size(width = size.width, height = 450f)
-        )
-
-        pointGrid(
-            startY = 170f,
-            lines = 3,
-            color = color,
-            width = size.width,
-            verticalOffset = verticalPointOffset,
-            horizontalOffset = horizontalPointOffset,
-        )
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 90.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        CoilImage(
-            data = image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(280.dp)
-                .border(width = 1.dp, color = Color.Gray)
-        )
-    }
-
-    Canvas(Modifier.fillMaxWidth()) {
-        pointGrid(
-            startY = 990f,
-            lines = 2,
-            width = size.width,
-            verticalOffset = verticalPointOffset,
-            horizontalOffset = horizontalPointOffset,
-            color = color,
-        )
-    }
-}
-
 
 @Composable
 private fun PurchaseSection(
@@ -339,39 +403,46 @@ private fun QuantityButton(
     }
 }
 
-
 @OptIn(ExperimentalStdlibApi::class)
 private fun DrawScope.pointGrid(
     startY: Float,
     lines: Int,
-    width: Float,
     verticalOffset: Float,
     horizontalOffset: Float,
-    color: Color
+    color: Color,
+    translationOffset: Int,
+    movingLines: List<Pair<Int, Direction>>
 ) {
     repeat(lines) { index ->
+        val offset = if (movingLines.map { it.first }.contains(index)) {
+            when (movingLines.first { it.first == index }.second) {
+                Direction.LEFT -> translationOffset
+                Direction.RIGHT -> -translationOffset
+            }
+        } else {
+            0
+        }
         pointLine(
             y = startY + verticalOffset * index,
-            width = width,
             offset = horizontalOffset,
-            color = color
+            color = color,
+            translationOffset = offset
         )
     }
 }
 
-
 @OptIn(ExperimentalStdlibApi::class)
 private fun DrawScope.pointLine(
     y: Float,
-    width: Float,
     offset: Float,
-    color: Color
+    color: Color,
+    translationOffset: Int
 ) {
     val offsets = buildList {
-        repeat((width / offset).toInt() + 1) { index ->
+        repeat(30) { index ->
             add(
                 Offset(
-                    x = index * offset + 15,
+                    x = index * offset + translationOffset * 0.08f - 185,
                     y = y
                 )
             )
@@ -384,4 +455,9 @@ private fun DrawScope.pointLine(
         strokeWidth = 20f,
         cap = StrokeCap.Round
     )
+}
+
+enum class Direction {
+    LEFT,
+    RIGHT
 }

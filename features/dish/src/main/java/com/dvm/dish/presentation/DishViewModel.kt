@@ -139,7 +139,6 @@ internal class DishViewModel(
             state = state.copy(networkCall = true)
 
             try {
-                Log.d("mmm", "DishViewModel :  addReview --  1")
                 menuApi.addReview(
                     token = requireNotNull(datastore.getAccessToken()),
                     dishId = dishId,
