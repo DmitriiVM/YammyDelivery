@@ -58,18 +58,6 @@ internal fun Dish(
             color = color
         )
 
-        Column {
-            Spacer(Modifier.statusBarsHeight())
-
-            DishAppBar(
-                color = color,
-                isFavorite = dish.isFavorite,
-                offset = offset,
-                onNavigateUp = { onEvent(DishEvent.BackClick) },
-                onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
-            )
-        }
-
         LazyColumn(state = lazyListState) {
             item {
                 Column(Modifier.fillMaxSize()) {
@@ -114,6 +102,18 @@ internal fun Dish(
             item {
                 Spacer(Modifier.navigationBarsHeight())
             }
+        }
+
+        Column {
+            Spacer(Modifier.statusBarsHeight())
+
+            DishAppBar(
+                color = color,
+                isFavorite = dish.isFavorite,
+                offset = offset,
+                onNavigateUp = { onEvent(DishEvent.BackClick) },
+                onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
+            )
         }
 
         if (state.reviewDialog) {
