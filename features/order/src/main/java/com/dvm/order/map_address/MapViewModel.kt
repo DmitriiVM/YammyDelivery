@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -37,7 +38,9 @@ internal class MapViewModel @Inject constructor(
     private var googleMap: GoogleMap? = null
 
     private val addressItems = savedState.getLiveData("address_items", emptyList<String>())
-    val error = MutableSharedFlow<String>(extraBufferCapacity = 1)
+
+    private val _error = Channel<String>()
+    val error = _error.receiveAsFlow()
 
     val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
@@ -49,7 +52,7 @@ internal class MapViewModel @Inject constructor(
             .distinctUntilChanged()
             .debounce(500)
             .catch { throwable ->
-                error.emit(throwable.getErrorMessage(context))
+                _error.send(throwable.getErrorMessage(context))
             }
             .onEach { latLng ->
                 addressItems.value = getAddress(latLng.latitude, latLng.longitude)
@@ -105,7 +108,7 @@ internal class MapViewModel @Inject constructor(
                 .getFromLocation(latitude, longitude, 1)
                 .first()
         } catch (e: Exception) {
-            error.tryEmit(context.getString(R.string.message_unknown_error))
+            _error.trySend(context.getString(R.string.message_unknown_error))
             return emptyList()
         }
         val city = locationAddress.subAdminArea?.let {
@@ -128,7 +131,7 @@ internal class MapViewModel @Inject constructor(
                 )
             )
         } else {
-            error.tryEmit(context.getString(R.string.ordering_address_error))
+            _error.trySend(context.getString(R.string.ordering_address_error))
         }
     }
 
