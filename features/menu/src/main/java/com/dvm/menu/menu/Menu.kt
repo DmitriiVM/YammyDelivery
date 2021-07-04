@@ -32,7 +32,6 @@ import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.DecorColors
-import com.dvm.ui.themes.violet
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -140,9 +139,9 @@ private fun MenuItem(
                 startY = startY,
                 endY = endY,
                 colors = listOf(
-                    violet.copy(alpha = 0.8f),
-                    DecorColors.GREEN.color.copy(alpha = 0.8f),
-                    DecorColors.BLUE.color.copy(alpha = 0.8f),
+                    Color(0xFF9B4EF1),
+                    Color(0xFF38B35B),
+                    Color(0xFF3F51B5),
                 ),
                 tileMode = TileMode.Mirror
             )

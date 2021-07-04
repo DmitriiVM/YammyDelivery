@@ -18,6 +18,7 @@ import com.dvm.profile.model.ProfileState
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import com.dvm.utils.getErrorMessage
+import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.filter
@@ -124,8 +125,13 @@ internal class ProfileViewModel @Inject constructor(
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
+                val message = if (exception.hasCode(400)){
+                    context.getString(R.string.profile_message_wrong_password)
+                } else {
+                    exception.getErrorMessage(context)
+                }
                 state = state.copy(
-                    alertMessage = exception.getErrorMessage(context),
+                    alertMessage = message,
                     networkCall = false
                 )
             }

@@ -58,6 +58,7 @@
     <string name="profile_dialog_field_old_password">Старый пароль</string>
     <string name="profile_dialog_button_save">Сохранить</string>
     <string name="profile_message_password_changed">Пароль успешно изменен</string>
+    <string name="profile_message_wrong_password">Старый пароль не найден</string>
 
     <string name="main_see_all">См. все</string>
     <string name="main_popular">Популярное</string>
