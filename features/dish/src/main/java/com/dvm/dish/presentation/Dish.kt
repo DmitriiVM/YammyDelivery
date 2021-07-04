@@ -54,7 +54,6 @@ internal fun Dish(
 
         TopGraphicHeader(
             lazyListState = lazyListState,
-            offset = offset,
             color = color
         )
 
@@ -110,7 +109,7 @@ internal fun Dish(
             DishAppBar(
                 color = color,
                 isFavorite = dish.isFavorite,
-                offset = offset,
+                lazyListState = lazyListState,
                 onNavigateUp = { onEvent(DishEvent.BackClick) },
                 onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
             )
@@ -191,8 +190,10 @@ private fun BottomGraphicHeader(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(280.dp)
-                .border(width = 1.dp, color = Color.Gray)
-
+                .border(width = 1.dp, color = Color.Gray),
+            error = {
+                ErrorImage(Modifier.padding(top = 30.dp))
+            }
         )
 
         Canvas(Modifier.fillMaxWidth()) {
@@ -202,6 +203,7 @@ private fun BottomGraphicHeader(
                 verticalOffset = VERTICAL_POINT_OFFSET,
                 horizontalOffset = HORIZONTAL_POINT_OFFSET,
                 color = color,
+                width = size.width,
                 translationOffset = offset,
                 movingLines = listOf(1 to Direction.RIGHT)
             )
@@ -212,7 +214,6 @@ private fun BottomGraphicHeader(
 @Composable
 private fun TopGraphicHeader(
     lazyListState: LazyListState,
-    offset: Int,
     color: Color
 ) {
     Column {
@@ -220,12 +221,13 @@ private fun TopGraphicHeader(
         Canvas(Modifier.fillMaxWidth()) {
 
             val noTranslationOffset = 670
+            val scrollOffset = lazyListState.firstVisibleItemScrollOffset
 
             val verticalTranslation = if (lazyListState.firstVisibleItemIndex == 0) {
-                if (offset < noTranslationOffset) {
+                if (scrollOffset < noTranslationOffset) {
                     0
                 } else {
-                    noTranslationOffset - offset
+                    noTranslationOffset - scrollOffset
                 }
             } else {
                 -450
@@ -241,9 +243,10 @@ private fun TopGraphicHeader(
                 startY = 170f + verticalTranslation,
                 lines = 3,
                 color = color,
+                width = size.width,
                 verticalOffset = VERTICAL_POINT_OFFSET,
                 horizontalOffset = HORIZONTAL_POINT_OFFSET,
-                translationOffset = offset,
+                translationOffset = scrollOffset,
                 movingLines = listOf(0 to Direction.RIGHT, 2 to Direction.LEFT)
             )
         }
@@ -254,11 +257,19 @@ private fun TopGraphicHeader(
 private fun DishAppBar(
     isFavorite: Boolean,
     color: Color,
-    offset: Int,
+    lazyListState: LazyListState,
     onNavigateUp: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
-    val iconsAlpha = 1f - offset * 0.01f
+
+    val scrollOffset = lazyListState.firstVisibleItemScrollOffset
+    val iconsAlpha = 1f - scrollOffset * 0.01f
+
+    val offset = if (lazyListState.firstVisibleItemIndex == 0) {
+        scrollOffset
+    } else {
+        150
+    }
 
     DefaultAppBar(
         navigationIcon = {
@@ -410,6 +421,7 @@ private fun DrawScope.pointGrid(
     verticalOffset: Float,
     horizontalOffset: Float,
     color: Color,
+    width: Float,
     translationOffset: Int,
     movingLines: List<Pair<Int, Direction>>
 ) {
@@ -426,6 +438,7 @@ private fun DrawScope.pointGrid(
             y = startY + verticalOffset * index,
             offset = horizontalOffset,
             color = color,
+            width = width,
             translationOffset = offset
         )
     }
@@ -435,11 +448,12 @@ private fun DrawScope.pointGrid(
 private fun DrawScope.pointLine(
     y: Float,
     offset: Float,
+    width: Float,
     color: Color,
     translationOffset: Int
 ) {
     val offsets = buildList {
-        repeat(30) { index ->
+        repeat((width * 1.5 / offset).toInt()) { index ->
             add(
                 Offset(
                     x = index * offset + translationOffset * 0.08f - 185,

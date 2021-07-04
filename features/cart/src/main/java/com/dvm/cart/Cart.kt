@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
@@ -57,16 +56,10 @@ internal fun Cart(
             )
 
             if (state.items.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.cart_message_info_empty_cart),
-                        modifier = Modifier.padding(20.dp),
-                        textAlign = TextAlign.Center
-                    )
-                }
+                EmptyPlaceholder(
+                    resId = R.raw.empty_image,
+                    text = stringResource(R.string.cart_message_info_empty_cart)
+                )
             } else {
                 Column(
                     modifier = Modifier
@@ -137,7 +130,8 @@ private fun CartItem(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .aspectRatio(1f)
-                .clip(MaterialTheme.shapes.medium)
+                .clip(MaterialTheme.shapes.medium),
+            error = { ErrorImage() }
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(

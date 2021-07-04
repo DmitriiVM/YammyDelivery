@@ -8,7 +8,7 @@
     <string name="cart_button_create_order">Оформить заказ</string>
     <string name="cart_button_cancel_promocode">Отменить</string>
     <string name="cart_button_apply_promocode">Применить</string>
-    <string name="cart_message_info_empty_cart">Корзина пуста. Добавьте блюда в корзину, чтобы увидеть их здесь</string>
+    <string name="cart_message_info_empty_cart">Корзина пуста. Добавьте блюда в корзину, чтобы увидеть их здесь.</string>
     <string name="cart_message_promocode_fail">Не удалось применить промокод</string>
 
     <string name="ordering_appbar_title">Оформление заказа</string>
@@ -26,11 +26,13 @@
     <string name="ordering_address_city">г. %s</string>
     <string name="ordering_address_street">ул. %s</string>
     <string name="ordering_address_flat">д. %s</string>
+    <string name="ordering_map_button_complete">Выбрать адрес</string>
 
     <string name="orders_appbar_title">Заказы</string>
     <string name="orders_tab_actual">Актуальные</string>
     <string name="orders_tab_completed">Выполненные</string>
     <string name="orders_order_number">№ %s</string>
+    <string name="orders_empty_placeholder">Заказы в данном разделе отсутствуют.</string>
 
     <string name="order_appbar_title">Заказ № %s</string>
     <string name="order_price">%d руб.</string>
@@ -55,6 +57,7 @@
     <string name="profile_dialog_field_new_password">Новый пароль</string>
     <string name="profile_dialog_field_old_password">Старый пароль</string>
     <string name="profile_dialog_button_save">Сохранить</string>
+    <string name="profile_message_password_changed">Пароль успешно изменен</string>
 
     <string name="main_see_all">См. все</string>
     <string name="main_popular">Популярное</string>
@@ -76,10 +79,11 @@
     <string name="dish_button_add_review">Добавить отзыв</string>
     <string name="dish_item_label_special_offer">АКЦИЯ</string>
     <string name="dish_item_price">%d ₽</string>
-    <string name="dish_alert_unauthorized_review">Только авторизированные пользователи могут оставить отзыв</string>
+    <string name="dish_message_unauthorized_review">Только авторизированные пользователи могут оставить отзыв</string>
+    <string name="dish_message_added_to_cart">Добавлено в корзину</string>
+    <string name="dish_message_review_result">Отзыв будет опубликован после проверки модератором</string>
     <string name="dish_review_send">Отправить</string>
     <string name="dish_review_title">Оставить отзыв</string>
-    <string name="dish_review_result">Отзыв будет опубликован после проверки модератором</string>
 
     <string name="order_message_order_canceled">Заказ успешно отменен</string>
     <string name="order_message_cart_not_empty">Ваша корзина уже содержит %s. Очистить корзину?</string>
@@ -93,6 +97,7 @@
     <string name="auth_field_error_incorrect_email">Некорректный e-mail</string>
     <string name="auth_field_error_incorrect_password">Пароль должен состоять из 6 или более букв и цифр</string>
     <string name="auth_field_error_letters_allowed">Только буквы</string>
+    <string name="auth_error_incorrect_data">Неправильный логин или пароль</string>
 
     <string name="login_appbar_title">Вход</string>
     <string name="login_field_email">E-mail</string>
@@ -132,13 +137,16 @@
     <string name="app_menu_message_logout">Вы действительно хотите выйти из аккаунта?</string>
 
     <string name="favorite_appbar_title">Избранное</string>
+    <string name="favorite_empty_placeholder">Вы еще не добавили ни одно блюдо в избранное.</string>
 
     <string name="search_text_field_hint">Поиск блюд</string>
 
     <string name="notification_appbar_title">Уведомления</string>
+    <string name="notification_empty_placeholder">Сдесь вы сможете увидеть уведомления, как только они появятся.</string>
 
     <string name="common_no">Нет</string>
     <string name="common_ok">OK</string>
+    <string name="common_yes">Да</string>
 
     <string name="drawer_item_main">Главная</string>
     <string name="drawer_item_menu">Меню</string>
@@ -147,6 +155,5 @@
     <string name="drawer_item_profile">Профиль</string>
     <string name="drawer_item_orders">Заказы</string>
     <string name="drawer_item_notifications">Уведомления</string>
-    <string name="ordering_map_button_complete">Выбрать адрес</string>
 
 </resources>

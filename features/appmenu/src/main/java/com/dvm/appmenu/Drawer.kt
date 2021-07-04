@@ -219,7 +219,7 @@ fun AppDrawer(
                     onClick = onDismiss
                 )
                 AlertButton(
-                    text = { Text(stringResource(R.string.common_ok)) },
+                    text = { Text(stringResource(R.string.common_yes)) },
                     onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
                 )
             }

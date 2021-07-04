@@ -1,5 +1,7 @@
 package com.dvm.menu.search
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,18 +15,22 @@ import com.dvm.db.api.DishRepository
 import com.dvm.db.api.HintRepository
 import com.dvm.db.api.models.CartItem
 import com.dvm.db.api.models.Hint
+import com.dvm.menu.R
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val hintRepository: HintRepository,
@@ -112,10 +118,21 @@ internal class SearchViewModel @Inject constructor(
                             quantity = 1
                         )
                     )
+                    state = state.copy(
+                        alertMessage = String.format(
+                            context.getString(
+                                R.string.message_dish_added_to_cart,
+                                event.name
+                            )
+                        )
+                    )
                 }
             }
             SearchEvent.RemoveQuery -> {
                 state = state.copy(query = "")
+            }
+            SearchEvent.DismissAlert -> {
+                state = state.copy(alertMessage = null)
             }
             SearchEvent.BackClick -> {
                 navigator.back()

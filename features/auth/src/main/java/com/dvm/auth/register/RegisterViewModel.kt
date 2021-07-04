@@ -11,10 +11,13 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
+import com.dvm.db.api.ProfileRepository
+import com.dvm.db.api.models.Profile
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
@@ -33,6 +36,8 @@ internal class RegisterViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
+    private val profileRepository: ProfileRepository,
+    private val updateService: UpdateService,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -137,7 +142,15 @@ internal class RegisterViewModel @Inject constructor(
                 )
                 datastore.saveAccessToken(registerData.accessToken)
                 datastore.saveRefreshToken(registerData.refreshToken)
-                navigator.back()
+                profileRepository.updateProfile(
+                    Profile(
+                        firstName = registerData.firstName,
+                        lastName = registerData.lastName,
+                        email = registerData.email,
+                    )
+                )
+                updateService.syncFavorites()
+                navigator.goTo(Destination.FinishRegister)
             } catch (exception: Exception) {
                 state = state.copy(
                     alertMessage = exception.getErrorMessage(context),

@@ -68,28 +68,35 @@ internal fun Favorite(
                 }
             )
 
-            val configuration = LocalConfiguration.current
+            if (state.dishes.isEmpty()){
+                EmptyPlaceholder(
+                    resId = R.raw.empty_image,
+                    text = stringResource(R.string.favorite_empty_placeholder),
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                val configuration = LocalConfiguration.current
 
-            val rows = when (configuration.orientation) {
-                Configuration.ORIENTATION_LANDSCAPE -> 4
-                else -> 2
-            }
-
-            LazyVerticalGrid(
-                cells = GridCells.Fixed(rows),
-                modifier = Modifier.padding(5.dp)
-            ) {
-                items(state.dishes) { dish ->
-                    DishItem(
-                        dish = dish,
-                        modifier = Modifier.padding(5.dp),
-                        onDishClick = { onEvent(FavoriteEvent.DishClick(it)) },
-                        onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(dish.id, dish.name)) },
-                    )
+                val rows = when (configuration.orientation) {
+                    Configuration.ORIENTATION_LANDSCAPE -> 4
+                    else -> 2
                 }
-                items(2){ Spacer(Modifier.navigationBarsPadding()) }
-            }
 
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(rows),
+                    modifier = Modifier.padding(5.dp)
+                ) {
+                    items(state.dishes) { dish ->
+                        DishItem(
+                            dish = dish,
+                            modifier = Modifier.padding(5.dp),
+                            onDishClick = { onEvent(FavoriteEvent.DishClick(it)) },
+                            onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(dish.id, dish.name)) },
+                        )
+                    }
+                    items(2){ Spacer(Modifier.navigationBarsPadding()) }
+                }
+            }
         }
     }
 

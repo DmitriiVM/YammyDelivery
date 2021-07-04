@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -14,6 +15,9 @@ import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.components.DefaultAppBar
+import com.dvm.ui.components.EmptyPlaceholder
+import com.dvm.ui.components.verticalGradient
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
@@ -33,7 +37,16 @@ internal fun Notifications(
         drawerState = drawerState,
         selected = DrawerItem.NOTIFICATION
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+
+        val color by rememberSaveable {
+            mutableStateOf(DecorColors.values().random())
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalGradient(color.color.copy(alpha = 0.15f))
+        ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
                 title = { Text(stringResource(R.string.notification_appbar_title)) },
@@ -46,28 +59,36 @@ internal fun Notifications(
                 }
             )
 
-            val lazyListState = rememberLazyListState()
+            if (state.notifications.isEmpty()) {
+                EmptyPlaceholder(
+                    resId = R.raw.empty_image,
+                    text = stringResource(R.string.notification_empty_placeholder),
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                val lazyListState = rememberLazyListState()
 
-            val lastItem = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
-            LaunchedEffect(lastItem) {
-                lastItem?.let {
-                    onEvent(NotificationEvent.VisibleItemChange(lastItem))
+                val lastItem = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                LaunchedEffect(lastItem) {
+                    lastItem?.let {
+                        onEvent(NotificationEvent.VisibleItemChange(lastItem))
+                    }
                 }
-            }
 
-            LazyColumn(
-                state = lazyListState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 25.dp, top = 20.dp)
-                    .navigationBarsPadding()
-            ) {
-                items(state.notifications) { notification ->
-                    NotificationItem(
-                        title = notification.title,
-                        text = notification.text,
-                        seen = notification.seen
-                    )
+                LazyColumn(
+                    state = lazyListState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 25.dp, top = 20.dp)
+                        .navigationBarsPadding()
+                ) {
+                    items(state.notifications) { notification ->
+                        NotificationItem(
+                            title = notification.title,
+                            text = notification.text,
+                            seen = notification.seen
+                        )
+                    }
                 }
             }
         }

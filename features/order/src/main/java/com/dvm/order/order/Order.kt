@@ -135,10 +135,22 @@ internal fun Order(
         )
     }
 
-    if (!state.actionAlertMessage.isNullOrEmpty()) {
+    if (!state.cancelMessage.isNullOrEmpty()) {
+        Alert(
+            message = state.cancelMessage,
+            onDismiss = { onEvent(OrderEvent.OrderCanceled) },
+            buttons = {
+                AlertButton(
+                    onClick = { onEvent(OrderEvent.OrderCanceled) }
+                )
+            }
+        )
+    }
+
+    if (!state.orderAgainMessage.isNullOrEmpty()) {
         val onDismiss = { onEvent(OrderEvent.DismissAlert) }
         Alert(
-            message = state.actionAlertMessage,
+            message = state.orderAgainMessage,
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(
@@ -163,7 +175,8 @@ private fun OrderItem(item: OrderItem) {
         modifier = Modifier
             .padding(end = 15.dp)
             .size(80.dp)
-            .clip(MaterialTheme.shapes.medium)
+            .clip(MaterialTheme.shapes.medium),
+        error = { ErrorImage() }
     )
     Column(
         Modifier

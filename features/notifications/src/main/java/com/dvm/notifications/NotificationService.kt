@@ -10,6 +10,7 @@ import com.dvm.db.api.NotificationRepository
 import com.dvm.db.api.models.Notification
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
+import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.AppLauncher
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -29,6 +30,8 @@ class NotificationService : FirebaseMessagingService() {
     lateinit var appLauncher: AppLauncher
     @Inject
     lateinit var notificationRepository: NotificationRepository
+    @Inject
+    lateinit var datastore: DatastoreRepository
 
     override fun onNewToken(token: String) {
         Log.d(NOTIFICATION_SERVICE, "Refreshed token: $token")
@@ -37,10 +40,12 @@ class NotificationService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val title = message.data[NOTIFICATION_TITLE].orEmpty()
-        val text = message.data[NOTIFICATION_TEXT].orEmpty()
-
         scope.launch {
+            if (!datastore.isAuthorized()) return@launch
+
+            val title = message.data[NOTIFICATION_TITLE].orEmpty()
+            val text = message.data[NOTIFICATION_TEXT].orEmpty()
+
             notificationRepository.insertNotification(
                 Notification(
                     title = title,
@@ -48,45 +53,45 @@ class NotificationService : FirebaseMessagingService() {
                     seen = false
                 )
             )
-        }
 
-        if (navigator.currentDestination == Destination.Notification) return
+            if (navigator.currentDestination == Destination.Notification) return@launch
 
-        val notificationManager = NotificationManagerCompat.from(this)
+            val notificationManager = NotificationManagerCompat.from(this@NotificationService)
 
-        notificationManager.createNotificationChannel(
-            NotificationChannelCompat
-                .Builder(CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_HIGH)
-                .setName(CHANNEL_NAME)
-                .setVibrationEnabled(true)
-                .build()
-        )
-
-        val notification = NotificationCompat
-            .Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.icon_logo)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setStyle(
-                NotificationCompat
-                    .BigTextStyle()
-                    .bigText(text)
+            notificationManager.createNotificationChannel(
+                NotificationChannelCompat
+                    .Builder(CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_HIGH)
+                    .setName(CHANNEL_NAME)
+                    .setVibrationEnabled(true)
+                    .build()
             )
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(
-                PendingIntent.getActivity(
-                    this,
-                    title.hashCode(),
-                    appLauncher.getLauncherIntent(this)
-                        .putExtra(NOTIFICATION_EXTRA, true)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+
+            val notification = NotificationCompat
+                .Builder(this@NotificationService, CHANNEL_ID)
+                .setSmallIcon(R.drawable.icon_logo)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setStyle(
+                    NotificationCompat
+                        .BigTextStyle()
+                        .bigText(text)
                 )
-            )
-            .build()
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(
+                    PendingIntent.getActivity(
+                        this@NotificationService,
+                        title.hashCode(),
+                        appLauncher.getLauncherIntent(this@NotificationService)
+                            .putExtra(NOTIFICATION_EXTRA, true)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
+                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                )
+                .build()
 
-        notificationManager.notify(title.hashCode(), notification)
+            notificationManager.notify(title.hashCode(), notification)
+        }
     }
 
     companion object {

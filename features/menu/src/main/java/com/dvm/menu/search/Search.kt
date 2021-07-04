@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
@@ -23,6 +25,8 @@ import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
+import com.dvm.ui.components.Alert
+import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
@@ -67,6 +71,15 @@ internal fun Search(
             }
         }
     }
+
+    state.alertMessage?.let {
+        Alert(
+            message = state.alertMessage,
+            onDismiss = { onEvent(SearchEvent.DismissAlert) }
+        ) {
+            AlertButton(onClick = { onEvent(SearchEvent.DismissAlert) })
+        }
+    }
 }
 
 @Composable
@@ -92,8 +105,18 @@ private fun SearchField(
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
+
+        var queryValue by remember {
+            mutableStateOf(TextFieldValue())
+        }
+        LaunchedEffect(Unit) {
+            queryValue = TextFieldValue(
+                text = query,
+                selection = TextRange(query.length)
+            )
+        }
         OutlinedTextField(
-            value = query,
+            value = queryValue,
             placeholder = {
                 CompositionLocalProvider(
                     LocalContentAlpha provides ContentAlpha.disabled
@@ -101,7 +124,10 @@ private fun SearchField(
                     Text(stringResource(R.string.search_text_field_hint))
                 }
             },
-            onValueChange = onQueryChange,
+            onValueChange = { value ->
+                queryValue = value
+                onQueryChange(value.text)
+            },
             modifier = Modifier
                 .weight(1f)
                 .focusRequester(focusRequester)
@@ -204,16 +230,25 @@ private fun SearchResult(
                 }
             )
         }
-        val emptyItems = (state.categories.size + state.subcategories.size)  % rows
-        repeat(emptyItems){
+        val emptyItems = (state.categories.size + state.subcategories.size) % rows
+        repeat(emptyItems) {
             item { /* empty */ }
         }
         items(state.dishes) { dish ->
             DishItem(
                 dish = dish,
                 modifier = Modifier.padding(5.dp),
-                onDishClick = { onEvent(SearchEvent.DishClick(it, dish.name)) },
-                onAddToCartClick = { onEvent(SearchEvent.AddToCart(dish.id)) },
+                onDishClick = {
+                    onEvent(SearchEvent.DishClick(it, dish.name))
+                },
+                onAddToCartClick = {
+                    onEvent(
+                        SearchEvent.AddToCart(
+                            dishId = dish.id,
+                            name = dish.name
+                        )
+                    )
+                },
             )
         }
         items(2) { Spacer(Modifier.navigationBarsPadding()) }

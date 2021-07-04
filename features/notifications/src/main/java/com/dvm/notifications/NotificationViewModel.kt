@@ -43,7 +43,7 @@ internal class NotificationViewModel @Inject constructor(
         notificationRepository
             .notifications()
             .onEach { notifications ->
-                state = state.copy(notifications = notifications + notifications + notifications)
+                state = state.copy(notifications = notifications)
             }
             .launchIn(viewModelScope)
     }
@@ -57,7 +57,7 @@ internal class NotificationViewModel @Inject constructor(
                         state.notifications
                             .subList(
                                 fromIndex = previousLastItemPosition,
-                                toIndex = event.lastItemPosition
+                                toIndex = (event.lastItemPosition + 1)
                                     .coerceAtLeast(previousLastItemPosition)
                             )
                             .mapNotNull { it.id }

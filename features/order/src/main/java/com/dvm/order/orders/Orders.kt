@@ -6,10 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ExperimentalComposeApi
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,9 +18,8 @@ import com.dvm.order.R
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
-import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.components.DefaultAppBar
-import com.dvm.ui.components.LoadingScrim
+import com.dvm.ui.components.*
+import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
@@ -43,7 +40,16 @@ internal fun Ordering(
         drawerState = drawerState,
         selected = DrawerItem.ORDERS
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+
+        val color by rememberSaveable {
+            mutableStateOf(DecorColors.values().random())
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalGradient(color.color.copy(alpha = 0.15f))
+        ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
                 title = { Text(stringResource(R.string.orders_appbar_title)) },
@@ -58,7 +64,7 @@ internal fun Ordering(
                 selectedTabIndex = state.status.ordinal,
                 backgroundColor = MaterialTheme.colors.surface,
                 contentColor = contentColorFor(MaterialTheme.colors.surface),
-                indicator = {tabPositions ->
+                indicator = { tabPositions ->
                     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.primary) {
                         TabRowDefaults.Indicator(
                             Modifier.tabIndicatorOffset(tabPositions[state.status.ordinal])
@@ -78,17 +84,24 @@ internal fun Ordering(
                     onClick = { onEvent(OrdersEvent.SelectStatus(OrderStatus.COMPLETED)) },
                 )
             }
-            LazyColumn(
-                Modifier
-                    .fillMaxSize()
-                    .padding(start = 30.dp)
-                    .navigationBarsPadding()
-            ) {
-                items(state.orders) { order ->
-                    OrderItem(
-                        order = order,
-                        onOrderClick = { onEvent(OrdersEvent.OrderClick(order.id)) }
-                    )
+            if (state.orders.isEmpty()) {
+                EmptyPlaceholder(
+                    resId = R.raw.empty_image,
+                    text = stringResource(R.string.orders_empty_placeholder)
+                )
+            } else {
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(start = 30.dp)
+                        .navigationBarsPadding()
+                ) {
+                    items(state.orders) { order ->
+                        OrderItem(
+                            order = order,
+                            onOrderClick = { onEvent(OrdersEvent.OrderClick(order.id)) }
+                        )
+                    }
                 }
             }
         }

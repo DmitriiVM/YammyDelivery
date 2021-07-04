@@ -1,8 +1,6 @@
 package com.dvm.auth.restore
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +31,6 @@ fun PasswordRestoration(
         Column(
             Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(

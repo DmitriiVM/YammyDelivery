@@ -63,12 +63,7 @@ internal class DishViewModel(
         viewModelScope.launch {
             when (event) {
                 DishEvent.AddToCart -> {
-                    cartRepository.addToCart(
-                        CartItem(
-                            dishId = dishId,
-                            quantity = state.quantity
-                        )
-                    )
+                    addToCart()
                 }
                 DishEvent.RemovePiece -> {
                     val newValue = quantity.value?.minus(1)
@@ -92,7 +87,7 @@ internal class DishViewModel(
                     } else {
                         state = state.copy(
                             alertMessage = context.getString(
-                                R.string.dish_alert_unauthorized_review
+                                R.string.dish_message_unauthorized_review
                             )
                         )
                     }
@@ -108,6 +103,19 @@ internal class DishViewModel(
                 }
             }
         }
+    }
+
+    private suspend fun addToCart() {
+        cartRepository.addToCart(
+            CartItem(
+                dishId = dishId,
+                quantity = state.quantity
+            )
+        )
+        state = state.copy(
+            quantity = 1,
+            alertMessage = context.getString(R.string.dish_message_added_to_cart)
+        )
     }
 
     private suspend fun toggleFavorite() {
@@ -148,7 +156,7 @@ internal class DishViewModel(
                 state = state.copy(
                     networkCall = false,
                     reviewDialog = false,
-                    alertMessage = context.getString(R.string.dish_review_result)
+                    alertMessage = context.getString(R.string.dish_message_review_result)
                 )
             } catch (exception: Exception) {
                 state = state.copy(

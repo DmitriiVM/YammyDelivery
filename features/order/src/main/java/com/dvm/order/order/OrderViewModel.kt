@@ -80,8 +80,11 @@ internal class OrderViewModel(
             OrderEvent.DismissAlert -> {
                 state = state.copy(
                     alertMessage = null,
-                    actionAlertMessage = null
+                    orderAgainMessage = null
                 )
+            }
+            OrderEvent.OrderCanceled -> {
+                navigator.back()
             }
             OrderEvent.BackClick -> {
                 navigator.back()
@@ -101,7 +104,7 @@ internal class OrderViewModel(
 
                 state = state.copy(
                     networkCall = false,
-                    alertMessage = context.getString(R.string.order_message_order_canceled)
+                    cancelMessage = context.getString(R.string.order_message_order_canceled)
                 )
             } catch (exception: Exception) {
                 state = state.copy(
@@ -120,7 +123,7 @@ internal class OrderViewModel(
                 return@launch
             }
             state = state.copy(
-                actionAlertMessage = context.getString(
+                orderAgainMessage = context.getString(
                     R.string.order_message_cart_not_empty,
                     context.resources.getQuantityString(
                         R.plurals.order_message_plural_dish,

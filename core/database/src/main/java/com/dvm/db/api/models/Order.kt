@@ -14,7 +14,7 @@ data class Order(
     val statusId: String,
     val active: Boolean,
     val completed: Boolean,
-    val createdAt: Date
+    val createdAt: Date?
 )
 
 data class OrderData(

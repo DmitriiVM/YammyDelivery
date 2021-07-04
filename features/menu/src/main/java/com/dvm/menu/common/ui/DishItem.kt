@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.runtime.Composable
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
+import com.dvm.ui.components.ErrorImage
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
@@ -50,13 +50,7 @@ internal fun DishItem(
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.medium)
                     .constrainAs(image) {},
-                error = {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.primary.copy(alpha = 0.05f)
-                    )
-                }
+                error = { ErrorImage() }
             )
 
             IconButton(

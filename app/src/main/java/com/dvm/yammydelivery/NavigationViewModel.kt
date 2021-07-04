@@ -9,7 +9,6 @@ import com.dvm.menu.menu.MenuFragmentDirections
 import com.dvm.navigation.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.navigation.api.model.MAP_ADDRESS
-import com.dvm.preferences.api.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class NavigationViewModel @Inject constructor(
-    private val datastore: DatastoreRepository,
     private val savedStateHandle: SavedStateHandle,
     navigator: Navigator
 ) : ViewModel() {
@@ -36,7 +34,7 @@ internal class NavigationViewModel @Inject constructor(
             .onEach { destination ->
                 val navController = navController ?: return@onEach
 
-                if (destination is Destination.Login && destination.targetDestination != null){
+                if (destination is Destination.Login && destination.targetDestination != null) {
                     targetDestination = destination.targetDestination
                     navigateTo(
                         navController = navController,
@@ -121,9 +119,13 @@ internal class NavigationViewModel @Inject constructor(
             is Destination.Order -> {
                 navController.navigate(
                     MainGraphDirections.toOrder(destination.orderId),
-                    NavOptions.Builder()
-                        .setPopUpTo(currentDestination!!, true)
-                        .build()
+                    if (currentDestination == R.id.orderingFragment) {
+                        NavOptions.Builder()
+                            .setPopUpTo(currentDestination!!, true)
+                            .build()
+                    } else {
+                        null
+                    }
                 )
             }
             is Destination.Login -> {
@@ -131,6 +133,9 @@ internal class NavigationViewModel @Inject constructor(
             }
             Destination.Register -> {
                 navController.navigate(MainGraphDirections.toRegister(), navOptions)
+            }
+            Destination.FinishRegister -> {
+                navController.popBackStack(R.id.loginFragment, true)
             }
             Destination.PasswordRestore -> {
                 navController.navigate(MainGraphDirections.toRestorePassword(), navOptions)

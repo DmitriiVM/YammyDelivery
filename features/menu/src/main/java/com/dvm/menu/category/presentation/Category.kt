@@ -7,7 +7,6 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -52,15 +51,17 @@ internal fun Category(
     Drawer(selected = DrawerItem.MENU) {
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }
-        var offset by remember { mutableStateOf(0) }
         var selectedColor by rememberSaveable {
             mutableStateOf(DecorColors.values().random())
         }
 
-        if (lazyListState.firstVisibleItemIndex == 0) {
-            val maxTabOffset =
-                with(LocalDensity.current) { AppBarHeight.toPx() }.toInt() + titleHeight.value
-            offset = -lazyListState.firstVisibleItemScrollOffset.coerceAtMost(maxTabOffset)
+        val maxTabOffset =
+            with(LocalDensity.current) { AppBarHeight.toPx() }.toInt() + titleHeight.value
+
+        val offset = if (lazyListState.firstVisibleItemIndex == 0) {
+            -lazyListState.firstVisibleItemScrollOffset.coerceAtMost(maxTabOffset)
+        } else {
+            -maxTabOffset
         }
 
         CategoryContent(
@@ -309,17 +310,20 @@ private fun CategoryAppBar(
                     }
                 }
             }
-            Icon(
-                imageVector = Icons.Outlined.Sort,
-                contentDescription = null,
+            IconButton(
                 modifier = Modifier
                     .padding(end = 12.dp)
-                    .clickable(onClick = { expanded = true })
                     .graphicsLayer(
                         translationX = -offset.toFloat(),
                         alpha = 1f + offset * 0.03f
-                    )
-            )
+                    ),
+                onClick = { expanded = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Sort,
+                    contentDescription = null
+                )
+            }
         }
     )
 }
@@ -339,7 +343,7 @@ private fun SubcategoryTabs(
         backgroundColor = MaterialTheme.colors.background
     ) {
 
-        val colors = remember { DecorColors.values().toList().shuffled() }
+        val colors = rememberSaveable { DecorColors.values().toList().shuffled() }
 
         subcategories.forEachIndexed { index, subcategory ->
 

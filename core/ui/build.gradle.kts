@@ -29,6 +29,7 @@ dependencies {
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
     implementation(Libs.COMPOSE_CONSTRAINT_LAYOUT)
+    implementation(Libs.COMPOSE_LOTTIE)
 
     implementation(Libs.DAGGER_HILT)
     kapt(Libs.DAGGER_HILT_COMPILER)

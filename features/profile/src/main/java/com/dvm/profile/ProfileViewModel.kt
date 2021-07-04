@@ -119,6 +119,7 @@ internal class ProfileViewModel @Inject constructor(
                     newPassword = newPassword
                 )
                 state = state.copy(
+                    alertMessage = context.getString(R.string.profile_message_password_changed),
                     networkCall = false,
                     passwordChanging = false
                 )

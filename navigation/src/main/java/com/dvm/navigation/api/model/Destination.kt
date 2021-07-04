@@ -34,6 +34,8 @@ sealed class Destination : Parcelable {
     @Parcelize
     object Register : Destination()
     @Parcelize
+    object FinishRegister : Destination()
+    @Parcelize
     object PasswordRestore : Destination()
     @Parcelize
     object Profile : Destination()

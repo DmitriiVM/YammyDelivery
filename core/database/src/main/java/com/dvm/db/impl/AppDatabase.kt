@@ -23,7 +23,7 @@ import com.dvm.db.impl.data.DateConverter
         OrderStatus::class
     ],
     views = [CategoryDish::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
