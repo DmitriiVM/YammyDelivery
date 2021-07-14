@@ -1,25 +1,9 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("android-library-compose")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-}
-
-android {
-
-    kotlinOptions {
-        useIR = true
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
 }
 
 dependencies {

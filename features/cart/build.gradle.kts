@@ -1,23 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("android-library-compose")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-}
-
-android {
-
-    kotlinOptions {
-        useIR = true
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
 }
 
 dependencies {

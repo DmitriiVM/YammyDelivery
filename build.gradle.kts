@@ -22,33 +22,6 @@ allprojects {
 }
 
 subprojects {
-    plugins.matching {
-        it is com.android.build.gradle.AppPlugin ||
-                it is com.android.build.gradle.LibraryPlugin
-    }.whenPluginAdded {
-
-        configure<com.android.build.gradle.BaseExtension> {
-
-            compileSdkVersion(30)
-
-            defaultConfig {
-                minSdkVersion(23)
-                targetSdkVersion(30)
-            }
-
-            buildTypes {
-                getByName("release") {
-                    minifyEnabled(false)
-                }
-            }
-
-            compileOptions {
-                sourceCompatibility(JavaVersion.VERSION_1_8)
-                targetCompatibility(JavaVersion.VERSION_1_8)
-            }
-        }
-    }
-
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             jvmTarget = "1.8"
