@@ -11,21 +11,19 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":navigation"))
 
-    implementation(Libs.ANDROID_CORE)
-    implementation(Libs.ANDROID_APPCOMPAT)
-    implementation(Libs.ANDROID_FRAGMENT)
+    implementation(libs.android.core)
+    implementation(libs.android.appcompat)
+    implementation(libs.android.fragment)
 
-    implementation(Libs.COMPOSE_UI)
-    implementation(Libs.COMPOSE_UI_TOOLING)
-    implementation(Libs.COMPOSE_FOUNDATION)
-    implementation(Libs.COMPOSE_LOTTIE)
+    implementation(libs.bundles.compose)
+    implementation(libs.compose.lottie)
 
-    implementation(Libs.LIFECYCLE_VIEWMODEL)
-    kapt(Libs.LIFECYCLE_COMPILER)
+    implementation(libs.lifecycle.viewModel)
+    kapt(libs.lifecycle.compiler)
 
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 
-    implementation(Libs.NAVIGATION_FRAGMENT)
-    implementation(Libs.NAVIGATION_UI)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 }

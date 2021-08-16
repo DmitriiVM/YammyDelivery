@@ -35,32 +35,27 @@ dependencies {
     implementation(project(":core:updateservice"))
     implementation(project(":navigation"))
 
-    implementation(Libs.ANDROID_CORE)
-    implementation(Libs.ANDROID_APPCOMPAT)
-    implementation(Libs.ANDROID_MATERIAL)
+    implementation(libs.android.core)
+    implementation(libs.android.appcompat)
+    implementation(libs.android.material)
 
-    implementation(Libs.COMPOSE_UI)
-    implementation(Libs.COMPOSE_UI_TOOLING)
-    implementation(Libs.COMPOSE_FOUNDATION)
-    implementation(Libs.COMPOSE_MATERIAL)
-    implementation(Libs.COMPOSE_ICONS)
-    implementation(Libs.COMPOSE_ICONS_EXTENDED)
+    implementation(libs.bundles.compose)
+    implementation(libs.compose.icons)
+    implementation(libs.compose.iconsExtended)
 
-    implementation(Libs.COROUTINES_CORE)
-    implementation(Libs.COROUTINES_ANDROID)
+    implementation(libs.bundles.coroutines)
 
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 
-    implementation(Libs.ROOM_RUNTIME)
-    implementation(Libs.ROOM_KTX)
-    kapt(Libs.ROOM_COMPILER)
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
 
-    implementation(Libs.RETROFIT)
+    implementation(libs.retrofit)
 
-    implementation(Libs.NAVIGATION_FRAGMENT)
-    implementation(Libs.NAVIGATION_UI)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 
-    implementation(platform(Libs.FIREBASE_BOM))
-    implementation(Libs.FIREBASE_MESSAGING)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
 }

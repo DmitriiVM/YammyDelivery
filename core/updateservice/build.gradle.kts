@@ -10,15 +10,13 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:utils"))
 
-    implementation(Libs.ANDROID_CORE)
+    implementation(libs.android.core)
 
-    implementation(Libs.COROUTINES_CORE)
-    implementation(Libs.COROUTINES_ANDROID)
+    implementation(libs.bundles.coroutines)
 
-    implementation(Libs.ROOM_RUNTIME)
-    implementation(Libs.ROOM_KTX)
-    kapt(Libs.ROOM_COMPILER)
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
 
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 }

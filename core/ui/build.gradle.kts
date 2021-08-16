@@ -5,19 +5,16 @@ plugins {
 }
 
 dependencies {
-    implementation(Libs.ANDROID_CORE)
-    implementation(Libs.ANDROID_APPCOMPAT)
+    implementation(libs.android.core)
+    implementation(libs.android.appcompat)
 
-    implementation(Libs.COMPOSE_UI)
-    implementation(Libs.COMPOSE_UI_TOOLING)
-    implementation(Libs.COMPOSE_FOUNDATION)
-    implementation(Libs.COMPOSE_MATERIAL)
-    implementation(Libs.COMPOSE_ICONS)
-    implementation(Libs.COMPOSE_COIL)
-    implementation(Libs.COMPOSE_ICONS_EXTENDED)
-    implementation(Libs.COMPOSE_CONSTRAINT_LAYOUT)
-    implementation(Libs.COMPOSE_LOTTIE)
+    implementation(libs.bundles.compose)
+    implementation(libs.compose.icons)
+    implementation(libs.compose.iconsExtended)
+    implementation(libs.compose.constraintLayout)
+    implementation(libs.compose.lottie)
+    implementation(libs.compose.coil)
 
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 }

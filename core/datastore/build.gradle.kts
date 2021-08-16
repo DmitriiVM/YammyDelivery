@@ -5,10 +5,9 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.android.core)
+    implementation(libs.datastore)
 
-    implementation(Libs.ANDROID_CORE)
-    implementation(Libs.DATASTORE)
-
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 }

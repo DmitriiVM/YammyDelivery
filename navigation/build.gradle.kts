@@ -6,11 +6,9 @@ plugins {
 }
 
 dependencies {
-    implementation(Libs.ANDROID_CORE)
+    implementation(libs.android.core)
+    implementation(libs.bundles.coroutines)
 
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
-
-    implementation(Libs.COROUTINES_CORE)
-    implementation(Libs.COROUTINES_ANDROID)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 }

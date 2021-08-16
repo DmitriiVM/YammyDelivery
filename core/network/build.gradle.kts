@@ -8,16 +8,15 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:utils"))
 
-    implementation(Libs.ANDROID_CORE)
+    implementation(libs.android.core)
 
-    implementation(Libs.COROUTINES_CORE)
-    implementation(Libs.COROUTINES_ANDROID)
+    implementation(libs.bundles.coroutines)
 
-    implementation(Libs.RETROFIT)
-    implementation(Libs.RETROFIT_GSON_CONVERTER)
-    implementation(Libs.GSON)
-    implementation(Libs.LOGGING_INTERCEPTOR)
+    implementation(libs.retrofit)
+    implementation(libs.gsonConverter)
+    implementation(libs.gson)
+    implementation(libs.loggingInterceptor)
 
-    implementation(Libs.DAGGER_HILT)
-    kapt(Libs.DAGGER_HILT_COMPILER)
+    implementation(libs.hilt.library)
+    kapt(libs.hilt.compiler)
 }
