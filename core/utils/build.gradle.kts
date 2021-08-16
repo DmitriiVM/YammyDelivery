@@ -1,9 +1,9 @@
 plugins {
-    id("library-convention")
+    id(PluginId.LIBRARY_CONVENTION)
 }
 
 dependencies {
-    implementation(project(":core:ui"))
+    implementation(project(ModulePath.Core.UI))
 
     implementation(libs.android.core)
 }

@@ -1,8 +1,8 @@
 plugins {
-    id("library-convention")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
+    id(PluginId.LIBRARY_CONVENTION)
+    id(PluginId.KOTLIN_KAPT)
+    id(PluginId.DAGGER_HILT)
+    id(PluginId.KOTLIN_PARCELIZE)
 }
 
 dependencies {

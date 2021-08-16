@@ -1,7 +1,7 @@
 plugins {
-    id("compose-convention")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    id(PluginId.COMPOSE_CONVENTION)
+    id(PluginId.KOTLIN_KAPT)
+    id(PluginId.DAGGER_HILT)
 }
 
 dependencies {

@@ -1,11 +1,11 @@
 plugins {
-    id("compose-convention")
-    id("kotlin-kapt")
+    id(PluginId.COMPOSE_CONVENTION)
+    id(PluginId.KOTLIN_KAPT)
 }
 
 dependencies {
-    implementation(project(":features:appmenu"))
-    implementation(project(":core:utils"))
+    implementation(project(ModulePath.Core.UTILS))
+    implementation(project(ModulePath.Feature.APP_MENU))
 
     implementation(libs.bundles.compose)
     implementation(libs.compose.viewModel)

@@ -1,18 +1,18 @@
 plugins {
-    id("compose-convention")
-    id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
+    id(PluginId.COMPOSE_CONVENTION)
+    id(PluginId.KOTLIN_KAPT)
+    id(PluginId.DAGGER_HILT)
+    id(PluginId.SAFE_ARGS)
+    id(PluginId.KOTLIN_PARCELIZE)
 }
 
 dependencies {
-    implementation(project(":core:datastore"))
-    implementation(project(":core:database"))
-    implementation(project(":core:ui"))
-    implementation(project(":core:utils"))
-    implementation(project(":features:appmenu-api"))
-    implementation(project(":navigation"))
+    implementation(project(ModulePath.Core.UI))
+    implementation(project(ModulePath.Core.UTILS))
+    implementation(project(ModulePath.Core.DATABASE))
+    implementation(project(ModulePath.Core.DATASTORE))
+    implementation(project(ModulePath.Feature.APP_MENU_API))
+    implementation(project(ModulePath.NAVIGATION))
 
     implementation(libs.android.core)
     implementation(libs.android.appcompat)

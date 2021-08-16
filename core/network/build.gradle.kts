@@ -1,12 +1,12 @@
 plugins {
-    id("library-convention")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    id(PluginId.LIBRARY_CONVENTION)
+    id(PluginId.KOTLIN_KAPT)
+    id(PluginId.DAGGER_HILT)
 }
 
 dependencies {
-    implementation(project(":core:datastore"))
-    implementation(project(":core:utils"))
+    implementation(project(ModulePath.Core.UTILS))
+    implementation(project(ModulePath.Core.DATASTORE))
 
     implementation(libs.android.core)
 

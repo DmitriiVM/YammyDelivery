@@ -1,11 +1,11 @@
 plugins {
-    id("library-convention")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    id(PluginId.LIBRARY_CONVENTION)
+    id(PluginId.KOTLIN_KAPT)
+    id(PluginId.DAGGER_HILT)
 }
 
 dependencies {
-    implementation(project(":core:network"))
+    implementation(project(ModulePath.Core.NETWORK))
 
     implementation(libs.android.core)
 
