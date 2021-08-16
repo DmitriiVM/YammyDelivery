@@ -28,8 +28,8 @@ import com.dvm.order.ordering.model.OrderingFields
 import com.dvm.order.ordering.model.OrderingState
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.statusBarsHeight
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

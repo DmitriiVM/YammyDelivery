@@ -30,10 +30,10 @@ import com.dvm.ui.components.AlertButton
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.navigationBarsPadding
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AppDrawer(
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),

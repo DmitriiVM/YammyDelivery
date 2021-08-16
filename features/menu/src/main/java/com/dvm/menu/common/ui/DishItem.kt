@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,8 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
-import com.dvm.ui.components.ErrorImage
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.dvm.ui.components.Image
 
 @Composable
 internal fun DishItem(
@@ -41,16 +39,13 @@ internal fun DishItem(
 
             val (image, description, addButton, favoriteButton) = createRefs()
 
-            CoilImage(
+            Image(
                 data = dish.image,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.medium)
-                    .constrainAs(image) {},
-                error = { ErrorImage() }
+                    .constrainAs(image) {}
             )
 
             IconButton(

@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-base")
+    id("library-convention")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")

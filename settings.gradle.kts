@@ -20,3 +20,12 @@ include(
     ":core:datastore",
     ":navigation"
 )
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+enableFeaturePreview("VERSION_CATALOGS")

@@ -6,15 +6,15 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieAnimationSpec
-import com.airbnb.lottie.compose.rememberLottieAnimationState
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun EmptyPlaceholder(
@@ -28,9 +28,7 @@ fun EmptyPlaceholder(
     ) {
         Column(Modifier.fillMaxWidth()) {
             val configuration = LocalConfiguration.current
-            val animationSpec = remember { LottieAnimationSpec.RawRes(resId) }
-            val animationState =
-                rememberLottieAnimationState(autoPlay = true, repeatCount = repeatCount)
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(resId))
 
             Box(
                 modifier = Modifier
@@ -39,8 +37,7 @@ fun EmptyPlaceholder(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 LottieAnimation(
-                    spec = animationSpec,
-                    animationState = animationState,
+                    composition = composition,
                     modifier = when (configuration.orientation) {
                         Configuration.ORIENTATION_LANDSCAPE -> Modifier.fillMaxHeight()
                         else -> Modifier

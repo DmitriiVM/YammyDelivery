@@ -7,14 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dvm.BaseFragment
 import com.dvm.navigation.api.model.MAP_ADDRESS
-import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 
 internal class OrderingFragment : BaseFragment() {
 
     private val viewModel: OrderingViewModel by viewModels()
 
-    @OptIn(ExperimentalAnimatedInsets::class)
     @Composable
     override fun Content() {
         ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {

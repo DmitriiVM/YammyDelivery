@@ -33,8 +33,8 @@ import com.dvm.menu.menu.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable

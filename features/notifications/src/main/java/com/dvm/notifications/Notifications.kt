@@ -19,8 +19,8 @@ import com.dvm.ui.components.EmptyPlaceholder
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeApi::class)

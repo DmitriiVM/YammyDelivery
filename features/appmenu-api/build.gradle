@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-compose")
+    id("compose-convention")
     id("kotlin-kapt")
 }
 

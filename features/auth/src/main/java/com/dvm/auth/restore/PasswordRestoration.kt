@@ -15,7 +15,7 @@ import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
 fun PasswordRestoration(

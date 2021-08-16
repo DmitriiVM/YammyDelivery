@@ -1,13 +1,8 @@
 plugins {
-    id("android-library-base")
+    id("library-convention")
 }
 
 android {
-
-    kotlinOptions {
-        useIR = true
-    }
-
     buildFeatures {
         compose = true
     }

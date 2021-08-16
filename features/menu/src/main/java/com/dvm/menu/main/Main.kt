@@ -30,8 +30,8 @@ import com.dvm.menu.search.model.MainState
 import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable

@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-compose")
+    id("compose-convention")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
@@ -24,7 +24,7 @@ dependencies {
     implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_ICONS_EXTENDED)
     implementation(Libs.COMPOSE_VIEW_MODEL)
-    implementation(Libs.COMPOSE_ACCOMPANIST_COIL)
+    implementation(Libs.COMPOSE_COIL)
     implementation(Libs.COMPOSE_ACCOMPANIST_INSETS)
 
     implementation(Libs.COROUTINES_CORE)

@@ -3,7 +3,7 @@ package com.dvm.order.orders
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import com.dvm.BaseFragment
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 
 internal class OrdersFragment : BaseFragment() {
 

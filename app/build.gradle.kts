@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("android-convention")
     id("kotlin-android")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
@@ -12,33 +13,6 @@ android {
         applicationId = "com.dvm.yammydelivery"
         versionCode = 1
         versionName = "1.0"
-
-        minSdkVersion(23)
-        targetSdkVersion(30)
-        compileSdkVersion(30)
-    }
-
-    kotlinOptions {
-        useIR = true
-    }
-
-    buildTypes {
-        getByName("release") {
-            minifyEnabled(false)
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_1_8)
-        targetCompatibility(JavaVersion.VERSION_1_8)
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
 }
 

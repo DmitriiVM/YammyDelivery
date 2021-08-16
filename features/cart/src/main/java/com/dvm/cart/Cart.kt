@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,9 +22,8 @@ import com.dvm.cart.model.CartState
 import com.dvm.db.api.models.CartItemDetails
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
@@ -124,14 +122,11 @@ private fun CartItem(
             .padding(top = 10.dp, bottom = 16.dp)
             .height(90.dp)
             .clickable { onDishClick(item.dishId) }) {
-        CoilImage(
+        Image(
             data = item.image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .aspectRatio(1f)
-                .clip(MaterialTheme.shapes.medium),
-            error = { ErrorImage() }
+                .clip(MaterialTheme.shapes.medium)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(

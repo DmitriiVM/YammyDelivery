@@ -1,6 +1,9 @@
 package com.dvm.dish.presentation
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -17,9 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PointMode
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -32,9 +37,8 @@ import com.dvm.dish.presentation.model.DishState
 import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
-import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.statusBarsHeight
 
 private const val HORIZONTAL_POINT_OFFSET = 50f
 private const val VERTICAL_POINT_OFFSET = 50f
@@ -184,13 +188,14 @@ private fun BottomGraphicHeader(
             .padding(top = 90.dp),
         contentAlignment = Alignment.Center
     ) {
-        CoilImage(
+        Image(
             data = image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(280.dp)
-                .border(width = 1.dp, color = Color.Gray),
+                .border(
+                    width = 1.dp,
+                    color = Color.Gray
+                ),
             error = {
                 ErrorImage(Modifier.padding(top = 30.dp))
             }

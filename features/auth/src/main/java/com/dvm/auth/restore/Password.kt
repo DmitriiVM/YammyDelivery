@@ -20,7 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.dvm.auth.R
 import com.dvm.ui.components.EditTextField
-import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

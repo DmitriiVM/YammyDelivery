@@ -7,14 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dvm.BaseFragment
-import dev.chrisbanes.accompanist.insets.ExperimentalAnimatedInsets
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 
 internal class RegisterFragment : BaseFragment() {
 
     private val viewModel: RegisterViewModel by viewModels()
 
-    @OptIn(ExperimentalAnimatedInsets::class)
     @Composable
     override fun Content() {
         ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
