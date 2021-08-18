@@ -22,7 +22,7 @@ import com.dvm.db.impl.data.DateConverter
         OrderItem::class,
         OrderStatus::class
     ],
-    views = [CategoryDish::class],
+    views = [CardDishDetails::class],
     version = 2,
     exportSchema = false
 )

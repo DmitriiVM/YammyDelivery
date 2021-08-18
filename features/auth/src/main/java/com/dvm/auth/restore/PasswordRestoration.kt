@@ -36,7 +36,7 @@ fun PasswordRestoration(
             DefaultAppBar(
                 title = { Text(stringResource(R.string.password_restoration_appbar_title)) },
                 navigationIcon = {
-                    AppBarIconBack { onEvent(RestoreEvent.BackClick) }
+                    AppBarIconBack { onEvent(RestoreEvent.Back) }
                 },
             )
 
@@ -87,14 +87,14 @@ fun PasswordRestoration(
         }
     }
 
-    if (state.networkCall) {
+    if (state.progress) {
         LoadingScrim()
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(RestoreEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

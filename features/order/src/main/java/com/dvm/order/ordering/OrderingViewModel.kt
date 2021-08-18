@@ -9,14 +9,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.OrderRepository
-import com.dvm.navigation.Navigator
+import com.dvm.db.api.mappers.toDbEntity
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.OrderApi
 import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingFields
 import com.dvm.order.ordering.model.OrderingState
 import com.dvm.preferences.api.DatastoreRepository
-import com.dvm.updateservice.toDbEntity
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -52,26 +52,26 @@ internal class OrderingViewModel @Inject constructor(
 
     fun dispatchEvent(event: OrderingEvent) {
         when (event) {
-            is OrderingEvent.AddressChanged -> {
+            is OrderingEvent.ChangeAddress -> {
                 state = state.copy(address = event.address)
             }
             is OrderingEvent.MakeOrder -> {
                 makeOrder(event.fields)
             }
-            OrderingEvent.MapButtonClick -> {
+            OrderingEvent.OpenMap -> {
                 navigator.goTo(Destination.Map)
             }
             OrderingEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            OrderingEvent.BackClick -> {
+            OrderingEvent.Back -> {
                 navigator.back()
             }
         }
     }
 
     private fun makeOrder(fields: OrderingFields) {
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
         viewModelScope.launch {
             try {
                 val order = orderApi.createOrder(
@@ -100,8 +100,8 @@ internal class OrderingViewModel @Inject constructor(
                 navigator.goTo(Destination.Order(order.id))
             } catch (exception: Exception) {
                 state = state.copy(
-                    networkCall = false,
-                    alertMessage = exception.getErrorMessage(context)
+                    progress = false,
+                    alert = exception.getErrorMessage(context)
                 )
             }
         }

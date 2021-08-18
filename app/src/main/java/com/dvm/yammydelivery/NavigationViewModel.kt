@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.dvm.menu.menu.MenuFragmentDirections
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.navigation.api.model.MAP_ADDRESS
 import dagger.hilt.android.lifecycle.HiltViewModel

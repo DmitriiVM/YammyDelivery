@@ -1,6 +1,6 @@
 package com.dvm.db.api
 
-import com.dvm.db.api.models.CategoryDish
+import com.dvm.db.api.models.CardDishDetails
 import com.dvm.db.api.models.Dish
 import com.dvm.db.api.models.DishDetails
 import com.dvm.db.api.models.Recommended
@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface DishRepository {
     fun dish(dishId: String): Flow<DishDetails>
-    fun search(query: String): Flow<List<CategoryDish>>
-    fun recommended(): Flow<List<CategoryDish>>
-    fun best(): Flow<List<CategoryDish>>
-    fun popular(): Flow<List<CategoryDish>>
-    fun favorite(): Flow<List<CategoryDish>>
-    suspend fun getDishes(category: String): Flow<List<CategoryDish>>
+    fun search(query: String): Flow<List<CardDishDetails>>
+    fun recommended(): Flow<List<CardDishDetails>>
+    fun best(): Flow<List<CardDishDetails>>
+    fun popular(): Flow<List<CardDishDetails>>
+    fun favorite(): Flow<List<CardDishDetails>>
+    suspend fun getDishes(category: String): Flow<List<CardDishDetails>>
     suspend fun hasSpecialOffers(): Boolean
-    suspend fun getSpecialOffers(): List<CategoryDish>
+    suspend fun getSpecialOffers(): List<CardDishDetails>
     suspend fun insertDishes(dishes: List<Dish>)
     suspend fun insertRecommended(dishIds: List<Recommended>)
 }

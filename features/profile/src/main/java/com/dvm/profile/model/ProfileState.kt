@@ -10,8 +10,8 @@ internal data class ProfileState(
     val lastNameError: String? = null,
     val email: String = "",
     val emailError: String? = null,
-    val isEditing: Boolean = false,
-    val alertMessage: String? = null,
-    val networkCall: Boolean = false,
+    val editing: Boolean = false,
+    val alert: String? = null,
+    val progress: Boolean = false,
     val passwordChanging: Boolean = false
 )

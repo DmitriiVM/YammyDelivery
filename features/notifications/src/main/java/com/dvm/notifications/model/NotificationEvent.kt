@@ -1,6 +1,6 @@
 package com.dvm.notifications.model
 
 sealed class NotificationEvent {
-    class VisibleItemChange(val lastItemPosition: Int) : NotificationEvent()
-    object BackClick: NotificationEvent()
+    class ChangeVisibleItem(val lastItemPosition: Int) : NotificationEvent()
+    object Back: NotificationEvent()
 }

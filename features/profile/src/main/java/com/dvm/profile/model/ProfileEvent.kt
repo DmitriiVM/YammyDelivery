@@ -7,13 +7,13 @@ internal sealed class ProfileEvent {
         val oldPassword: String
     ) : ProfileEvent()
 
-    data class FirstNameTextChanged(val firstName: String): ProfileEvent()
-    data class LastNameTextChanged(val lastName: String): ProfileEvent()
+    data class ChangeFirstName(val firstName: String): ProfileEvent()
+    data class ChangeLastName(val lastName: String): ProfileEvent()
     data class ChangeEditingMode(val editing: Boolean) : ProfileEvent()
-    data class EmailTextChanged(val email: String): ProfileEvent()
+    data class ChangeEmailText(val email: String): ProfileEvent()
     object DismissPasswordDialog: ProfileEvent()
-    object ChangeButtonClick : ProfileEvent()
+    object EditPassword : ProfileEvent()
     object DismissAlert: ProfileEvent()
     object SaveProfile: ProfileEvent()
-    object BackClick: ProfileEvent()
+    object Back: ProfileEvent()
 }

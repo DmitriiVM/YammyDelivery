@@ -2,13 +2,14 @@ package com.dvm.dish.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.DishRepository
 import com.dvm.db.api.FavoriteRepository
@@ -16,14 +17,10 @@ import com.dvm.db.api.models.CartItem
 import com.dvm.dish.R
 import com.dvm.dish.presentation.model.DishEvent
 import com.dvm.dish.presentation.model.DishState
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.network.api.MenuApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
@@ -76,17 +73,17 @@ internal class DishViewModel(
                     toggleFavorite()
                 }
                 DishEvent.DismissAlert -> {
-                    state = state.copy(alertMessage = null)
+                    state = state.copy(alert = null)
                 }
-                DishEvent.BackClick -> {
+                DishEvent.Back -> {
                     navigator.back()
                 }
-                DishEvent.AddReviewClick -> {
+                DishEvent.AddReview -> {
                     if (datastore.isAuthorized()){
                         state = state.copy(reviewDialog = true)
                     } else {
                         state = state.copy(
-                            alertMessage = context.getString(
+                            alert = context.getString(
                                 R.string.dish_message_unauthorized_review
                             )
                         )
@@ -95,8 +92,8 @@ internal class DishViewModel(
                 DishEvent.DismissReviewDialog -> {
                     state = state.copy(reviewDialog = false)
                 }
-                is DishEvent.AddReview -> {
-                    addReview(
+                is DishEvent.SendReview -> {
+                    sendReview(
                         rating = event.rating,
                         text = event.text
                     )
@@ -114,7 +111,7 @@ internal class DishViewModel(
         )
         state = state.copy(
             quantity = 1,
-            alertMessage = context.getString(R.string.dish_message_added_to_cart)
+            alert = context.getString(R.string.dish_message_added_to_cart)
         )
     }
 
@@ -139,12 +136,12 @@ internal class DishViewModel(
 
     }
 
-    private fun addReview(
+    private fun sendReview(
         rating: Int,
         text: String
     ) {
         viewModelScope.launch {
-            state = state.copy(networkCall = true)
+            state = state.copy(progress = true)
 
             try {
                 menuApi.addReview(
@@ -154,14 +151,14 @@ internal class DishViewModel(
                     text = text,
                 )
                 state = state.copy(
-                    networkCall = false,
+                    progress = false,
                     reviewDialog = false,
-                    alertMessage = context.getString(R.string.dish_message_review_result)
+                    alert = context.getString(R.string.dish_message_review_result)
                 )
             } catch (exception: Exception) {
                 state = state.copy(
-                    alertMessage = exception.getErrorMessage(context),
-                    networkCall = false
+                    alert = exception.getErrorMessage(context),
+                    progress = false
                 )
             }
         }
@@ -170,48 +167,4 @@ internal class DishViewModel(
     companion object {
         private const val TAG = "DishViewModel"
     }
-}
-
-internal class DishViewModelFactory @AssistedInject constructor(
-    @Assisted private val dishId: String,
-    @Assisted owner: SavedStateRegistryOwner,
-    @Assisted defaultArgs: Bundle? = null,
-    @ApplicationContext private val context: Context,
-    private val dishRepository: DishRepository,
-    private val favoriteRepository: FavoriteRepository,
-    private val cartRepository: CartRepository,
-    private val menuApi: MenuApi,
-    private val datastore: DatastoreRepository,
-    private val navigator: Navigator
-) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
-
-    override fun <T : ViewModel?> create(
-        key: String,
-        modelClass: Class<T>,
-        handle: SavedStateHandle
-    ): T {
-        if (modelClass.isAssignableFrom(DishViewModel::class.java)) {
-            return DishViewModel(
-                context = context,
-                dishId = dishId,
-                dishRepository = dishRepository,
-                favoriteRepository = favoriteRepository,
-                cartRepository = cartRepository,
-                menuApi = menuApi,
-                datastore = datastore,
-                navigator = navigator,
-                savedState = handle
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-@AssistedFactory
-internal interface DishViewModelAssistedFactory {
-    fun create(
-        dishId: String,
-        owner: SavedStateRegistryOwner,
-        defaultArgs: Bundle? = null
-    ): DishViewModelFactory
 }

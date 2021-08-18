@@ -98,17 +98,17 @@ fun AppDrawer(
                         email = state.email,
                         onProfileClick = {
                             viewModel.onEvent(
-                                AppMenuEvent.ItemClick(DrawerItem.PROFILE)
+                                AppMenuEvent.SelectItem(DrawerItem.PROFILE)
                             )
                         },
                         onAuthButtonClick = {
                             if (state.email.isEmpty()) {
                                 scope.launch {
                                     drawerState.close()
-                                    viewModel.onEvent(AppMenuEvent.AuthClick)
+                                    viewModel.onEvent(AppMenuEvent.Auth)
                                 }
                             } else {
-                                viewModel.onEvent(AppMenuEvent.AuthClick)
+                                viewModel.onEvent(AppMenuEvent.Auth)
                             }
                         }
                     )
@@ -124,94 +124,71 @@ fun AppDrawer(
                             )
                     )
 
+                    val onClick: suspend (DrawerItem) -> Unit = { item ->
+                        drawerState.close()
+                        viewModel.onEvent(AppMenuEvent.SelectItem(item))
+                    }
+
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_home),
+                        item = DrawerItem.MAIN,
                         text = stringResource(R.string.drawer_item_main),
-                        selected = selected == DrawerItem.MAIN,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MAIN))
-                            }
-                        }
+                        painter = painterResource(R.drawable.icon_home),
+                        selectedItem = selected,
+                        onClick = { onClick(DrawerItem.MAIN) }
                     )
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_menu),
+                        item = DrawerItem.MENU,
                         text = stringResource(R.string.drawer_item_menu),
-                        selected = selected == DrawerItem.MENU,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.MENU))
-                            }
-                        }
+                        painter = painterResource(R.drawable.icon_menu),
+                        selectedItem = selected,
+                        onClick = { onClick(DrawerItem.MENU) }
                     )
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_favorite),
+                        item = DrawerItem.FAVORITE,
                         text = stringResource(R.string.drawer_item_favorite),
-                        selected = selected == DrawerItem.FAVORITE,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.FAVORITE))
-                            }
-                        }
+                        painter = painterResource(R.drawable.icon_favorite),
+                        selectedItem = selected,
+                        onClick = { onClick(DrawerItem.FAVORITE) }
                     )
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_cart),
+                        item = DrawerItem.CART,
                         text = stringResource(R.string.drawer_item_cart),
+                        painter = painterResource(R.drawable.icon_cart),
                         count = state.cartQuantity,
-                        selected = selected == DrawerItem.CART,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.CART))
-                            }
-                        }
+                        selectedItem = selected,
+                        onClick = { onClick(DrawerItem.CART) }
                     )
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_profile),
+                        item = DrawerItem.PROFILE,
                         text = stringResource(R.string.drawer_item_profile),
-                        selected = selected == DrawerItem.PROFILE,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.PROFILE))
-                            }
-                        }
+                        painter = painterResource(R.drawable.icon_profile),
+                        selectedItem = selected,
+                        onClick = { onClick(DrawerItem.PROFILE) }
                     )
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_order),
+                        item = DrawerItem.ORDERS,
                         text = stringResource(R.string.drawer_item_orders),
-                        selected = selected == DrawerItem.ORDERS,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.ORDERS))
-                            }
-                        }
+                        painter = painterResource(R.drawable.icon_order),
+                        selectedItem = selected,
+                        onClick = { onClick(it) }
                     )
                     DrawerItem(
-                        painter = painterResource(R.drawable.icon_notification),
+                        item = DrawerItem.NOTIFICATION,
                         text = stringResource(R.string.drawer_item_notifications),
+                        painter = painterResource(R.drawable.icon_notification),
                         count = state.newNotificationCount,
-                        selected = selected == DrawerItem.NOTIFICATION,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                viewModel.onEvent(AppMenuEvent.ItemClick(DrawerItem.NOTIFICATION))
-                            }
-                        }
+                        selectedItem = selected,
+                        onClick = { onClick(it) }
                     )
                 }
             }
         }
     )
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(
@@ -220,7 +197,7 @@ fun AppDrawer(
                 )
                 AlertButton(
                     text = { Text(stringResource(R.string.common_yes)) },
-                    onClick = { viewModel.onEvent(AppMenuEvent.LogoutClick) }
+                    onClick = { viewModel.onEvent(AppMenuEvent.Logout) }
                 )
             }
         )
@@ -290,18 +267,27 @@ fun DrawerHeader(
 
 @Composable
 private fun DrawerItem(
-    painter: Painter,
+    item: DrawerItem,
     text: String,
     count: Int = 0,
-    selected: Boolean,
-    onClick: () -> Unit
+    painter: Painter,
+    selectedItem: DrawerItem,
+    onClick: suspend (DrawerItem) -> Unit
 ) {
+
+    val scope = rememberCoroutineScope()
+    val selected = selectedItem == item
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp)
             .padding(horizontal = 8.dp, vertical = 2.dp)
-            .clickable { onClick() }
+            .clickable {
+                scope.launch {
+                    onClick(item)
+                }
+            }
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

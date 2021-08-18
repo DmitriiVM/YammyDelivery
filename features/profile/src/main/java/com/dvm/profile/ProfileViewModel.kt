@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.ProfileRepository
 import com.dvm.db.api.models.Profile
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
@@ -65,28 +65,28 @@ internal class ProfileViewModel @Inject constructor(
 
     fun dispatchEvent(event: ProfileEvent) {
         when (event) {
-            is ProfileEvent.EmailTextChanged -> {
+            is ProfileEvent.ChangeEmailText -> {
                 state = state.copy(
                     email = event.email,
                     emailError = null
                 )
             }
-            is ProfileEvent.FirstNameTextChanged -> {
+            is ProfileEvent.ChangeFirstName -> {
                 state = state.copy(
                     firstName = event.firstName,
                     firstNameError = null
                 )
             }
-            is ProfileEvent.LastNameTextChanged -> {
+            is ProfileEvent.ChangeLastName -> {
                 state = state.copy(
                     lastName = event.lastName,
                     lastNameError = null
                 )
             }
             is ProfileEvent.ChangeEditingMode -> {
-                state = state.copy(isEditing = event.editing)
+                state = state.copy(editing = event.editing)
             }
-            ProfileEvent.ChangeButtonClick -> {
+            ProfileEvent.EditPassword -> {
                 state = state.copy(passwordChanging = true)
             }
             is ProfileEvent.ChangePassword -> {
@@ -102,16 +102,16 @@ internal class ProfileViewModel @Inject constructor(
                 state = state.copy(passwordChanging = false)
             }
             ProfileEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            ProfileEvent.BackClick -> {
+            ProfileEvent.Back -> {
                 navigator.back()
             }
         }
     }
 
     private fun changePassword(newPassword: String, oldPassword: String) {
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
         viewModelScope.launch {
             try {
                 profileApi.changePassword(
@@ -120,8 +120,8 @@ internal class ProfileViewModel @Inject constructor(
                     newPassword = newPassword
                 )
                 state = state.copy(
-                    alertMessage = context.getString(R.string.profile_message_password_changed),
-                    networkCall = false,
+                    alert = context.getString(R.string.profile_message_password_changed),
+                    progress = false,
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
@@ -131,8 +131,8 @@ internal class ProfileViewModel @Inject constructor(
                     exception.getErrorMessage(context)
                 }
                 state = state.copy(
-                    alertMessage = message,
-                    networkCall = false
+                    alert = message,
+                    progress = false
                 )
             }
         }
@@ -160,7 +160,7 @@ internal class ProfileViewModel @Inject constructor(
             return
         }
 
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
 
         viewModelScope.launch {
             try {
@@ -180,13 +180,13 @@ internal class ProfileViewModel @Inject constructor(
                 )
 
                 state = state.copy(
-                    networkCall = false,
-                    isEditing = false
+                    progress = false,
+                    editing = false
                 )
             } catch (exception: Exception) {
                 state = state.copy(
-                    alertMessage = exception.getErrorMessage(context),
-                    networkCall = false
+                    alert = exception.getErrorMessage(context),
+                    progress = false
                 )
             }
         }

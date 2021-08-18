@@ -9,12 +9,13 @@ import com.dvm.db.api.CategoryRepository
 import com.dvm.db.api.DishRepository
 import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalStdlibApi::class)
 @HiltViewModel
 internal class MenuViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
@@ -37,7 +38,7 @@ internal class MenuViewModel @Inject constructor(
                     )
                 }
 
-            menuItems = mutableListOf<MenuItem>().apply {
+            buildList {
                 if (dishRepository.hasSpecialOffers()) {
                     add(MenuItem.SpecialOffer)
                 }
@@ -48,10 +49,10 @@ internal class MenuViewModel @Inject constructor(
 
     fun dispatch(event: MenuEvent) {
         when (event) {
-            is MenuEvent.MenuItemClick -> {
+            is MenuEvent.OpenMenuItem -> {
                 navigator.goTo(Destination.Category(event.id))
             }
-            MenuEvent.SearchClick -> {
+            MenuEvent.Search -> {
                 navigator.goTo(Destination.Search)
             }
         }

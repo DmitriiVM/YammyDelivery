@@ -2,7 +2,7 @@ package com.dvm.dish.presentation.model
 
 internal sealed class DishEvent {
 
-    data class AddReview(
+    data class SendReview(
         val rating: Int,
         val text: String
     ) : DishEvent()
@@ -11,8 +11,8 @@ internal sealed class DishEvent {
     object AddPiece: DishEvent()
     object RemovePiece: DishEvent()
     object ToggleFavorite: DishEvent()
-    object AddReviewClick: DishEvent()
+    object AddReview: DishEvent()
     object DismissAlert : DishEvent()
     object DismissReviewDialog : DishEvent()
-    object BackClick: DishEvent()
+    object Back: DishEvent()
 }

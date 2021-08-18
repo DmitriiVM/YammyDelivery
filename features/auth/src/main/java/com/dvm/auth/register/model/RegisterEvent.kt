@@ -11,9 +11,9 @@ sealed class RegisterEvent {
 
     object Login: RegisterEvent()
     object DismissAlert: RegisterEvent()
-    object FirstNameTextChanged: RegisterEvent()
-    object LastNameTextChanged: RegisterEvent()
-    object EmailTextChanged: RegisterEvent()
-    object PasswordTextChanged: RegisterEvent()
-    object BackClick: RegisterEvent()
+    object ChangeFirstName: RegisterEvent()
+    object ChangeLastName: RegisterEvent()
+    object ChangeEmail: RegisterEvent()
+    object ChangePassword: RegisterEvent()
+    object Back: RegisterEvent()
 }

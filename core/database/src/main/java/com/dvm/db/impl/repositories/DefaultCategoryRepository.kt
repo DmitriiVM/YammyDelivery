@@ -5,15 +5,13 @@ import com.dvm.db.api.models.Category
 import com.dvm.db.api.models.ParentCategory
 import com.dvm.db.api.models.Subcategory
 import com.dvm.db.impl.dao.CategoryDao
-import com.dvm.db.impl.dao.HintDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultCategoryRepository @Inject constructor(
-    private val categoryDao: CategoryDao,
-    private val hintDao: HintDao,
+    private val categoryDao: CategoryDao
 ) : CategoryRepository {
 
     override fun searchParentCategory(query: String): Flow<List<ParentCategory>> =
@@ -27,9 +25,9 @@ internal class DefaultCategoryRepository @Inject constructor(
             categoryDao.getParentCategories()
         }
 
-    override suspend fun getSubcategories(id: String): List<Subcategory> =
+    override suspend fun getSubcategories(parentId: String): List<Subcategory> =
         withContext(Dispatchers.IO) {
-            categoryDao.getSubcategories(id)
+            categoryDao.getSubcategories(parentId)
         }
 
     override suspend fun getCategoryTitle(categoryId: String): String =

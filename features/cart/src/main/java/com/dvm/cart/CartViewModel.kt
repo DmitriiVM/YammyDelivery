@@ -12,7 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
 import com.dvm.db.api.CartRepository
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.CartApi
 import com.dvm.preferences.api.DatastoreRepository
@@ -53,7 +53,7 @@ internal class CartViewModel @Inject constructor(
             promoCodeText.asFlow(),
             appliedPromoCode.asFlow()
         ) { items, promoCode, promoCodeText, appliedPromoCode ->
-            val totalPrice = items.sumBy { it.price * it.quantity }
+            val totalPrice = items.sumOf<T>({ it.price * it.quantity })
             state = state.copy(
                 items = items,
                 totalPrice = totalPrice,
@@ -74,10 +74,10 @@ internal class CartViewModel @Inject constructor(
 
     fun dispatchEvent(event: CartEvent) {
         when (event) {
-            is CartEvent.DishClick -> {
+            is CartEvent.OpenDish -> {
                 navigator.goTo(Destination.Dish(event.dishId))
             }
-            is CartEvent.PromoCodeTextChanged -> {
+            is CartEvent.ChangePromoCode -> {
                 promoCode.value = event.text
             }
             is CartEvent.AddPiece -> {
@@ -96,7 +96,7 @@ internal class CartViewModel @Inject constructor(
                         promoCodeText.value = promocodeText
                         appliedPromoCode.value = true
                     } else {
-                        state = state.copy(alertMessage = context.getString(R.string.cart_message_promocode_fail))
+                        state = state.copy(alert = context.getString(R.string.cart_message_promocode_fail))
                     }
                 }
             }
@@ -111,9 +111,9 @@ internal class CartViewModel @Inject constructor(
                 makeOrder()
             }
             CartEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            CartEvent.BackClick -> {
+            CartEvent.Back -> {
                 navigator.back()
             }
         }
@@ -129,18 +129,18 @@ internal class CartViewModel @Inject constructor(
         viewModelScope.launch {
             if (datastore.isAuthorized()) {
                 try {
-                    state = state.copy(networkCall = true)
+                    state = state.copy(progress = true)
                     val cart = cartApi.updateCart(
                         token = requireNotNull(datastore.getAccessToken()),
                         promocode = promoCode,
                         items = state.items.associate { it.dishId to it.quantity }
                     )
-                    state = state.copy(networkCall = false)
+                    state = state.copy(progress = false)
                     onUpdated(cart.promocode, cart.promotext)
                 } catch (exception: Exception) {
                     state = state.copy(
-                        alertMessage = exception.getErrorMessage(context),
-                        networkCall = false
+                        alert = exception.getErrorMessage(context),
+                        progress = false
                     )
                 }
             } else {

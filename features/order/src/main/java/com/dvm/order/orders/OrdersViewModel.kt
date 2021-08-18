@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.OrderRepository
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
@@ -52,13 +52,13 @@ internal class OrdersViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            state = state.copy(networkCall = true)
+            state = state.copy(progress = true)
             try {
                 updateService.updateOrders()
             } catch (exception: Exception) {
-                state = state.copy(alertMessage = exception.getErrorMessage(context))
+                state = state.copy(alert = exception.getErrorMessage(context))
             } finally {
-                state = state.copy(networkCall = false)
+                state = state.copy(progress = false)
             }
 
             status
@@ -84,13 +84,13 @@ internal class OrdersViewModel @Inject constructor(
 
     fun dispatchEvent(event: OrdersEvent) {
         when (event) {
-            is OrdersEvent.OrderClick -> {
+            is OrdersEvent.Order -> {
                 navigator.goTo(Destination.Order(event.orderId))
             }
-            is OrdersEvent.SelectStatus -> {
+            is OrdersEvent.StatusSelect -> {
                 status.value = event.status
             }
-            OrdersEvent.BackClick -> {
+            OrdersEvent.Back -> {
                 navigator.back()
             }
         }

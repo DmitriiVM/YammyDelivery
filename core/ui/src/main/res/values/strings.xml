@@ -1,4 +1,7 @@
 <resources>
+    <string name="common_no">Нет</string>
+    <string name="common_ok">OK</string>
+    <string name="common_yes">Да</string>
 
     <string name="menu_appbar_title">Меню</string>
     <string name="menu_item_special_offer">Акции</string>
@@ -145,10 +148,6 @@
     <string name="notification_appbar_title">Уведомления</string>
     <string name="notification_empty_placeholder">Сдесь вы сможете увидеть уведомления, как только они появятся.</string>
 
-    <string name="common_no">Нет</string>
-    <string name="common_ok">OK</string>
-    <string name="common_yes">Да</string>
-
     <string name="drawer_item_main">Главная</string>
     <string name="drawer_item_menu">Меню</string>
     <string name="drawer_item_favorite">Избранное</string>
@@ -156,5 +155,4 @@
     <string name="drawer_item_profile">Профиль</string>
     <string name="drawer_item_orders">Заказы</string>
     <string name="drawer_item_notifications">Уведомления</string>
-
 </resources>

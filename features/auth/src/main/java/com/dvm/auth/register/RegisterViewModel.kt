@@ -13,7 +13,7 @@ import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.db.api.ProfileRepository
 import com.dvm.db.api.models.Profile
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
@@ -73,16 +73,16 @@ internal class RegisterViewModel @Inject constructor(
 
     fun dispatch(event: RegisterEvent) {
         when (event) {
-            is RegisterEvent.FirstNameTextChanged -> {
+            is RegisterEvent.ChangeFirstName -> {
                 firstNameError.value = null
             }
-            is RegisterEvent.LastNameTextChanged -> {
+            is RegisterEvent.ChangeLastName -> {
                 lastNameError.value = null
             }
-            is RegisterEvent.EmailTextChanged -> {
+            is RegisterEvent.ChangeEmail -> {
                 emailError.value = null
             }
-            is RegisterEvent.PasswordTextChanged -> {
+            is RegisterEvent.ChangePassword -> {
                 passwordError.value = null
             }
             is RegisterEvent.Register -> {
@@ -96,11 +96,11 @@ internal class RegisterViewModel @Inject constructor(
             RegisterEvent.Login -> {
                 navigator.goTo(Destination.Login())
             }
-            RegisterEvent.BackClick -> {
+            RegisterEvent.Back -> {
                 navigator.back()
             }
             RegisterEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
         }
     }
@@ -130,7 +130,7 @@ internal class RegisterViewModel @Inject constructor(
             return
         }
 
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
 
         viewModelScope.launch {
             try {
@@ -153,8 +153,8 @@ internal class RegisterViewModel @Inject constructor(
                 navigator.goTo(Destination.FinishRegister)
             } catch (exception: Exception) {
                 state = state.copy(
-                    alertMessage = exception.getErrorMessage(context),
-                    networkCall = false
+                    alert = exception.getErrorMessage(context),
+                    progress = false
                 )
             }
         }

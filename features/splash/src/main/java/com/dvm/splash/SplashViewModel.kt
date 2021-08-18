@@ -2,7 +2,7 @@ package com.dvm.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
@@ -26,7 +26,7 @@ internal class SplashViewModel @Inject constructor(
             try {
                 val updateDuration = measureTimeMillis {
                     withTimeout(TIMEOUT) {
-                        updateService.update()
+                        updateService.updateAll()
                     }
                     datastore.setUpdateError(false)
                 }

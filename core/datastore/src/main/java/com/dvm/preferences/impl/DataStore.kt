@@ -59,7 +59,7 @@ internal class DataStore @Inject constructor(
 
     suspend fun isAuthorized(): Boolean = !get(ACCESS_TOKEN).isNullOrBlank()
 
-    suspend fun getAccessToken(): String? = get(ACCESS_TOKEN)?.let { "Bearer $it" }
+    suspend fun getAccessToken(): String? = get(ACCESS_TOKEN)
 
     suspend fun saveAccessToken(accessToken: String) {
         save(ACCESS_TOKEN, accessToken)
@@ -81,6 +81,8 @@ internal class DataStore @Inject constructor(
         save(LAST_UPDATE_TIME, time)
     }
 
+    // suspend fun getLastUpdateTime(): Long = get(LAST_UPDATE_TIME) ?: 0
+    // the server is for testing purposes and all data has the same update time
+    // so getting update time is senseless
     suspend fun getLastUpdateTime(): Long = 0
-//    suspend fun getLastUpdateTime(): Long = get(LAST_UPDATE_TIME) ?: 0
 }

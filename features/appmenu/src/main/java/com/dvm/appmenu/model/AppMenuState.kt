@@ -8,5 +8,5 @@ internal data class AppMenuState(
     val email: String = "",
     val cartQuantity: Int = 0,
     val newNotificationCount: Int = 0,
-    val alertMessage: String? = null,
+    val alert: String? = null,
 )

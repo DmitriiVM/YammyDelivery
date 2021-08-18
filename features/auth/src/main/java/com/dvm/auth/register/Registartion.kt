@@ -41,7 +41,7 @@ fun Registration(
             DefaultAppBar(
                 title = { Text(stringResource(R.string.registration_appbar_title)) },
                 navigationIcon = {
-                    AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.BackClick) })
+                    AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.Back) })
                 }
             )
 
@@ -63,10 +63,10 @@ fun Registration(
                     text = firstName,
                     label = stringResource(R.string.registration_field_name),
                     error = state.firstNameError,
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onValueChange = {
                         firstName = it
-                        onEvent(RegisterEvent.FirstNameTextChanged)
+                        onEvent(RegisterEvent.ChangeFirstName)
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -77,10 +77,10 @@ fun Registration(
                     text = lastName,
                     label = stringResource(R.string.registration_field_last_name),
                     error = state.lastNameError,
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onValueChange = {
                         lastName = it
-                        onEvent(RegisterEvent.LastNameTextChanged)
+                        onEvent(RegisterEvent.ChangeLastName)
                     },
                     modifier = Modifier.focusRequester(lastNameFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -92,10 +92,10 @@ fun Registration(
                     text = email,
                     label = stringResource(R.string.registration_field_email),
                     error = state.emailError,
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onValueChange = {
                         email = it
-                        onEvent(RegisterEvent.EmailTextChanged)
+                        onEvent(RegisterEvent.ChangeEmail)
                     },
                     modifier = Modifier.focusRequester(emailFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -107,10 +107,10 @@ fun Registration(
                     text = password,
                     label = stringResource(R.string.registration_field_password),
                     error = state.passwordError,
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onValueChange = {
                         password = it
-                        onEvent(RegisterEvent.PasswordTextChanged)
+                        onEvent(RegisterEvent.ChangePassword)
                     },
                     modifier = Modifier.focusRequester(passwordFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -131,7 +131,7 @@ fun Registration(
                 Spacer(Modifier.height(10.dp))
                 ProgressButton(
                     text = stringResource(R.string.registration_button_register),
-                    progress = state.networkCall,
+                    progress = state.progress,
                     onClick = {
                         onEvent(
                             RegisterEvent.Register(
@@ -145,7 +145,7 @@ fun Registration(
                 )
                 Spacer(Modifier.height(15.dp))
                 OutlinedButton(
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onClick = { onEvent(RegisterEvent.Login) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -158,10 +158,10 @@ fun Registration(
         }
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(RegisterEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

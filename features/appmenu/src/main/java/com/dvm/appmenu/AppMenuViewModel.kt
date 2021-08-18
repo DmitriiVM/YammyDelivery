@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.appmenu.model.AppMenuEvent
 import com.dvm.appmenu.model.AppMenuState
 import com.dvm.db.api.*
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.DrawerItem
@@ -71,9 +71,9 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
 
     fun onEvent(event: AppMenuEvent) {
         when (event) {
-            is AppMenuEvent.ItemClick -> {
+            is AppMenuEvent.SelectItem -> {
                 viewModelScope.launch {
-                    when (event.drawerItem) {
+                    when (event.item) {
                         DrawerItem.MAIN -> navigator.goTo(Destination.Main)
                         DrawerItem.MENU -> navigator.goTo(Destination.Menu)
                         DrawerItem.FAVORITE -> navigator.goTo(Destination.Favorite)
@@ -85,19 +85,19 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             }
-            AppMenuEvent.AuthClick -> {
+            AppMenuEvent.Auth -> {
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
-                            alertMessage = appContext.getString(R.string.app_menu_message_logout)
+                            alert = appContext.getString(R.string.app_menu_message_logout)
                         )
                     } else {
                         hiltEntryPoint.navigator().goTo(Destination.Login())
                     }
                 }
             }
-            AppMenuEvent.LogoutClick -> {
-                state = state.copy(alertMessage = null)
+            AppMenuEvent.Logout -> {
+                state = state.copy(alert = null)
                 viewModelScope.launch {
                     datastore.deleteAccessToken()
                     profileRepository.deleteProfile()
@@ -107,7 +107,7 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                 }
             }
             AppMenuEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
         }
     }

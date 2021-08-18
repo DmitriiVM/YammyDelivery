@@ -16,7 +16,7 @@ internal class DefaultProfileRepository @Inject constructor(
 
     override suspend fun updateProfile(profile: Profile) =
         withContext(Dispatchers.IO) {
-            profileDao.updateCart(profile)
+            profileDao.updateProfile(profile)
         }
 
     override suspend fun deleteProfile() =

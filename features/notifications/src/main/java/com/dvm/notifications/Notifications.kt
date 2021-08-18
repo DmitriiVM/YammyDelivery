@@ -71,7 +71,7 @@ internal fun Notifications(
                 val lastItem = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
                 LaunchedEffect(lastItem) {
                     lastItem?.let {
-                        onEvent(NotificationEvent.VisibleItemChange(lastItem))
+                        onEvent(NotificationEvent.ChangeVisibleItem(lastItem))
                     }
                 }
 

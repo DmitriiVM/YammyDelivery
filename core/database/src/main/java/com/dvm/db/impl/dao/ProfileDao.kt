@@ -16,7 +16,7 @@ internal abstract class ProfileDao {
     abstract fun profile(): Flow<Profile?>
 
     @Transaction
-    open suspend fun updateCart(profile: Profile){
+    open suspend fun updateProfile(profile: Profile){
         deleteProfile()
         insertProfile(profile)
     }

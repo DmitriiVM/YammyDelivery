@@ -5,6 +5,6 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 internal data class OrderingState(
     val address: String = "",
-    val networkCall: Boolean = false,
-    val alertMessage: String? = null
+    val progress: Boolean = false,
+    val alert: String? = null
 )

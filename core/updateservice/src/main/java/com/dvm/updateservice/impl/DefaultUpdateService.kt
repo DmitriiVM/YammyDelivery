@@ -1,6 +1,7 @@
 package com.dvm.updateservice.impl
 
 import com.dvm.db.api.*
+import com.dvm.db.api.mappers.toDbEntity
 import com.dvm.db.api.models.Favorite
 import com.dvm.db.api.models.Recommended
 import com.dvm.network.api.MenuApi
@@ -8,8 +9,10 @@ import com.dvm.network.api.OrderApi
 import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
-import com.dvm.updateservice.toDbEntity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultUpdateService @Inject constructor(
@@ -25,7 +28,7 @@ internal class DefaultUpdateService @Inject constructor(
     private val datastore: DatastoreRepository
 ) : UpdateService {
 
-    override suspend fun update() = withContext(Dispatchers.IO) {
+    override suspend fun updateAll() = withContext(Dispatchers.IO) {
         val lastUpdateTime = datastore.getLastUpdateTime()
 
         val categories = async {
@@ -82,15 +85,14 @@ internal class DefaultUpdateService @Inject constructor(
         with(orderRepository) {
             deleteInactiveOrders()
             insertOrders(
-                orders
-                    .map { it.toDbEntity() }
+                orders.map { it.toDbEntity() }
             )
             insertOrderItems(
-                orders.map { order ->
+                orders.flatMap { order ->
                     order.items.map {
                         it.toDbEntity(order.id)
                     }
-                }.flatten()
+                }
             )
             insertOrderStatuses(
                 statuses

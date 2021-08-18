@@ -45,8 +45,8 @@ internal fun Search(
             Spacer(modifier = Modifier.statusBarsHeight())
             SearchField(
                 query = state.query,
-                onBackClick = { onEvent(SearchEvent.BackClick) },
-                onQueryChange = { onEvent(SearchEvent.QueryChange(it.trimStart())) },
+                onBackClick = { onEvent(SearchEvent.Back) },
+                onQueryChange = { onEvent(SearchEvent.ChangeQuery(it.trimStart())) },
                 onRemoveQuery = { onEvent(SearchEvent.RemoveQuery) },
             )
 
@@ -72,9 +72,9 @@ internal fun Search(
         }
     }
 
-    state.alertMessage?.let {
+    state.alert?.let {
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = { onEvent(SearchEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(SearchEvent.DismissAlert) })
@@ -159,7 +159,7 @@ private fun Hints(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onEvent(SearchEvent.HintClick(hint)) }
+                    .clickable { onEvent(SearchEvent.SelectHint(hint)) }
             ) {
                 Text(
                     text = hint,
@@ -167,7 +167,7 @@ private fun Hints(
                     overflow = TextOverflow.Ellipsis
                 )
                 IconButton(
-                    onClick = { onEvent(SearchEvent.RemoveHintClick(hint)) }
+                    onClick = { onEvent(SearchEvent.RemoveHint(hint)) }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.icon_cancel),
@@ -207,7 +207,7 @@ private fun SearchResult(
                 color = color.copy(alpha = 0.10f),
                 onCategoryClick = {
                     onEvent(
-                        SearchEvent.CategoryClick(
+                        SearchEvent.OpenCategory(
                             categoryId = category.id,
                             name = category.name
                         )
@@ -221,7 +221,7 @@ private fun SearchResult(
                 color = MaterialTheme.colors.surface,
                 onCategoryClick = {
                     onEvent(
-                        SearchEvent.SubcategoryClick(
+                        SearchEvent.OpenSubcategory(
                             subcategory.parent,
                             subcategory.id,
                             subcategory.name
@@ -239,7 +239,7 @@ private fun SearchResult(
                 dish = dish,
                 modifier = Modifier.padding(5.dp),
                 onDishClick = {
-                    onEvent(SearchEvent.DishClick(it, dish.name))
+                    onEvent(SearchEvent.OpenDish(it, dish.name))
                 },
                 onAddToCartClick = {
                     onEvent(

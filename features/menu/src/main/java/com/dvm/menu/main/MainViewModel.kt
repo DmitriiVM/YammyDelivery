@@ -13,7 +13,7 @@ import com.dvm.db.api.models.CartItem
 import com.dvm.menu.R
 import com.dvm.menu.search.model.MainEvent
 import com.dvm.menu.search.model.MainState
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,7 +40,7 @@ internal class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (datastore.isUpdateError()) {
                 state = state.copy(
-                    alertMessage = context.getString(R.string.main_message_update_error)
+                    alert = context.getString(R.string.main_message_update_error)
                 )
                 datastore.setUpdateError(false)
             }
@@ -68,7 +68,7 @@ internal class MainViewModel @Inject constructor(
                     cartRepository.addToCart(cartItem)
                 }
                 state = state.copy(
-                    alertMessage = String.format(
+                    alert = String.format(
                         context.getString(
                             R.string.message_dish_added_to_cart,
                             event.name
@@ -76,19 +76,19 @@ internal class MainViewModel @Inject constructor(
                     )
                 )
             }
-            is MainEvent.DishClick -> {
+            is MainEvent.OpenDish -> {
                 navigator.goTo(Destination.Dish(event.dishId))
             }
-            MainEvent.CartClick -> {
+            MainEvent.OpenCart -> {
                 navigator.goTo(Destination.Cart)
             }
-            MainEvent.SeeAllClick -> {
+            MainEvent.SeeAll -> {
                 navigator.goTo(Destination.Menu)
             }
             MainEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            MainEvent.BackClick -> {
+            MainEvent.Back -> {
                 navigator.back()
             }
         }

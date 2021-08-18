@@ -43,7 +43,7 @@ internal fun Login(
                 DefaultAppBar(
                     title = { Text(stringResource(R.string.login_appbar_title)) },
                     navigationIcon = {
-                        AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.BackClick) })
+                        AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.Back) })
                     }
                 )
             }
@@ -59,10 +59,10 @@ internal fun Login(
                     text = email,
                     label = stringResource(R.string.login_field_email),
                     error = state.emailError,
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onValueChange = {
                         email = it
-                        onEvent(LoginEvent.LoginTextChanged)
+                        onEvent(LoginEvent.ChangeLogin)
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -73,10 +73,10 @@ internal fun Login(
                     text = password,
                     label = stringResource(R.string.login_field_password),
                     error = state.passwordError,
-                    enabled = !state.networkCall,
+                    enabled = !state.progress,
                     onValueChange = {
                         password = it
-                        onEvent(LoginEvent.PasswordTextChanged)
+                        onEvent(LoginEvent.ChangePassword)
                     },
                     modifier = Modifier.focusRequester(passwordFocusRequest),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -95,9 +95,9 @@ internal fun Login(
 
                 ProgressButton(
                     text = stringResource(R.string.login_button_login),
-                    progress = state.networkCall,
+                    progress = state.progress,
                     onClick = {
-                        if (!state.networkCall) {
+                        if (!state.progress) {
                             onEvent(
                                 LoginEvent.Login(
                                     email = email,
@@ -110,8 +110,8 @@ internal fun Login(
 
                 Spacer(Modifier.height(10.dp))
                 OutlinedButton(
-                    enabled = !state.networkCall,
-                    onClick = { onEvent(LoginEvent.RegisterClick) },
+                    enabled = !state.progress,
+                    onClick = { onEvent(LoginEvent.Register) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.login_button_registartion))
@@ -120,8 +120,8 @@ internal fun Login(
 
             Column {
                 TextButton(
-                    enabled = !state.networkCall,
-                    onClick = { onEvent(LoginEvent.PasswordRestoreClick) },
+                    enabled = !state.progress,
+                    onClick = { onEvent(LoginEvent.RestorePassword) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.login_button_restore_password))
@@ -131,10 +131,10 @@ internal fun Login(
         }
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(LoginEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

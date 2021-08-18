@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.NotificationRepository
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
@@ -50,7 +50,7 @@ internal class NotificationViewModel @Inject constructor(
 
     fun dispatch(event: NotificationEvent) {
         when (event) {
-            is NotificationEvent.VisibleItemChange -> {
+            is NotificationEvent.ChangeVisibleItem -> {
                 viewModelScope.launch {
                     delay(1000)
                     notificationRepository.setSeen(
@@ -65,7 +65,7 @@ internal class NotificationViewModel @Inject constructor(
                     previousLastItemPosition = event.lastItemPosition
                 }
             }
-            NotificationEvent.BackClick -> {
+            NotificationEvent.Back -> {
                 navigator.back()
             }
         }

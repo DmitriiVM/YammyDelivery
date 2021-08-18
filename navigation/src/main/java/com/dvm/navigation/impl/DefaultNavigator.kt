@@ -1,6 +1,6 @@
 package com.dvm.navigation.impl
 
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject

@@ -9,7 +9,7 @@ interface CategoryRepository {
     fun searchParentCategory(query: String): Flow<List<ParentCategory>>
     fun searchSubcategory(query: String): Flow<List<Subcategory>>
     suspend fun getParentCategories(): List<ParentCategory>
-    suspend fun getSubcategories(id: String): List<Subcategory>
+    suspend fun getSubcategories(parentId: String): List<Subcategory>
     suspend fun getCategoryTitle(categoryId: String): String
     suspend fun insertCategories(categories: List<Category>)
 }

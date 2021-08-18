@@ -1,7 +1,7 @@
 package com.dvm.db.impl.dao
 
 import androidx.room.*
-import com.dvm.db.api.models.CategoryDish
+import com.dvm.db.api.models.CardDishDetails
 import com.dvm.db.api.models.Dish
 import com.dvm.db.api.models.DishDetails
 import com.dvm.db.api.models.Recommended
@@ -33,7 +33,7 @@ internal interface DishDao {
             WHERE category IS :category
         """
     )
-    fun getDishes(category: String): Flow<List<CategoryDish>>
+    fun getDishes(category: String): Flow<List<CardDishDetails>>
 
     @Query(
         """
@@ -43,7 +43,7 @@ internal interface DishDao {
             ORDER BY name
         """
     )
-    fun search(query: String): Flow<List<CategoryDish>>
+    fun search(query: String): Flow<List<CardDishDetails>>
 
     @Query(
         """
@@ -63,7 +63,7 @@ internal interface DishDao {
             WHERE oldPrice > price
         """
     )
-    suspend fun getSpecialOffers(): List<CategoryDish>
+    suspend fun getSpecialOffers(): List<CardDishDetails>
 
     @Query(
         """
@@ -72,7 +72,7 @@ internal interface DishDao {
             JOIN recommended ON id = recommended.dishId
         """
     )
-    fun recommended(): Flow<List<CategoryDish>>
+    fun recommended(): Flow<List<CardDishDetails>>
 
     @Query(
         """
@@ -82,7 +82,7 @@ internal interface DishDao {
             LIMIT 10
         """
     )
-    fun best(): Flow<List<CategoryDish>>
+    fun best(): Flow<List<CardDishDetails>>
 
     @Query(
         """
@@ -96,7 +96,7 @@ internal interface DishDao {
             )
         """
     )
-    fun popular(): Flow<List<CategoryDish>>
+    fun popular(): Flow<List<CardDishDetails>>
 
     @Query(
         """
@@ -108,7 +108,7 @@ internal interface DishDao {
             )
         """
     )
-    fun favorite(): Flow<List<CategoryDish>>
+    fun favorite(): Flow<List<CardDishDetails>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRecommended(dishIds: List<Recommended>)

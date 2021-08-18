@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.CategoryDish
+import com.dvm.db.api.models.CardDishDetails
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.MainEvent
@@ -58,7 +58,7 @@ internal fun Main(
                     }
                 }
             ) {
-                IconButton(onClick = { onEvent(MainEvent.CartClick) }) {
+                IconButton(onClick = { onEvent(MainEvent.OpenCart) }) {
                     Icon(
                         imageVector = Icons.Default.ShoppingCart,
                         contentDescription = null
@@ -105,7 +105,7 @@ internal fun Main(
                     if (state.recommended.isNotEmpty()) {
                         DishesRowHeader(
                             text = stringResource(R.string.main_recommended),
-                            seeAllClick = { onEvent(MainEvent.SeeAllClick) }
+                            seeAllClick = { onEvent(MainEvent.SeeAll) }
                         )
                         LazyRow {
                             items(state.recommended) { dish ->
@@ -121,7 +121,7 @@ internal fun Main(
                     if (state.best.isNotEmpty()) {
                         DishesRowHeader(
                             text = stringResource(R.string.main_best),
-                            seeAllClick = { onEvent(MainEvent.SeeAllClick) }
+                            seeAllClick = { onEvent(MainEvent.SeeAll) }
                         )
                         LazyRow {
                             items(state.best) { dish ->
@@ -136,7 +136,7 @@ internal fun Main(
                     }
                     DishesRowHeader(
                         text = stringResource(R.string.main_popular),
-                        seeAllClick = { onEvent(MainEvent.SeeAllClick) }
+                        seeAllClick = { onEvent(MainEvent.SeeAll) }
                     )
                     LazyRow {
                         items(state.popular) { dish ->
@@ -154,9 +154,9 @@ internal fun Main(
         }
     }
 
-    state.alertMessage?.let {
+    state.alert?.let {
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = { onEvent(MainEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })
@@ -166,14 +166,14 @@ internal fun Main(
 
 @Composable
 private fun MainDishItem(
-    dish: CategoryDish,
+    dish: CardDishDetails,
     modifier: Modifier,
     onEvent: (MainEvent) -> Unit
 ) {
     DishItem(
         dish = dish,
         modifier = modifier.padding(5.dp),
-        onDishClick = { onEvent(MainEvent.DishClick(dish.id)) },
+        onDishClick = { onEvent(MainEvent.OpenDish(dish.id)) },
         onAddToCartClick = { onEvent(MainEvent.AddToCart(dish.id, dish.name)) },
     )
 }

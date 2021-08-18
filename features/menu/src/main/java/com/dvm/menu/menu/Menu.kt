@@ -67,7 +67,7 @@ internal fun MenuView(
                 actions = {
                     IconButton(
                         modifier = Modifier.padding(end = 12.dp),
-                        onClick = { onEvent(MenuEvent.SearchClick) }
+                        onClick = { onEvent(MenuEvent.Search) }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Search,
@@ -79,7 +79,7 @@ internal fun MenuView(
             Divider()
             MenuContent(
                 menuItems = menuItems,
-                onItemClick = { onEvent(MenuEvent.MenuItemClick(it)) }
+                onItemClick = { onEvent(MenuEvent.OpenMenuItem(it)) }
             )
         }
     }

@@ -90,7 +90,7 @@ internal fun Favorite(
                         DishItem(
                             dish = dish,
                             modifier = Modifier.padding(5.dp),
-                            onDishClick = { onEvent(FavoriteEvent.DishClick(it)) },
+                            onDishClick = { onEvent(FavoriteEvent.OpenDish(it)) },
                             onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(dish.id, dish.name)) },
                         )
                     }
@@ -100,9 +100,9 @@ internal fun Favorite(
         }
     }
 
-    state.alertMessage?.let {
+    state.alert?.let {
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = { onEvent(FavoriteEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(FavoriteEvent.DismissAlert) })

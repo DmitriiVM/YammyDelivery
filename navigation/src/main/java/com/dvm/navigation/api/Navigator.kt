@@ -1,4 +1,4 @@
-package com.dvm.navigation
+package com.dvm.navigation.api
 
 import com.dvm.navigation.api.model.Destination
 import kotlinx.coroutines.flow.SharedFlow

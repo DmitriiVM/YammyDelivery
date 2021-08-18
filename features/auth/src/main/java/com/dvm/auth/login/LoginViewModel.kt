@@ -14,7 +14,7 @@ import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.db.api.ProfileRepository
 import com.dvm.db.api.models.Profile
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
@@ -66,16 +66,16 @@ internal class LoginViewModel @Inject constructor(
 
     fun dispatch(event: LoginEvent) {
         when (event) {
-            is LoginEvent.LoginTextChanged -> {
+            is LoginEvent.ChangeLogin -> {
                 emailError.value = null
             }
-            is LoginEvent.PasswordTextChanged -> {
+            is LoginEvent.ChangePassword -> {
                 passwordError.value = null
             }
-            LoginEvent.PasswordRestoreClick -> {
+            LoginEvent.RestorePassword -> {
                 navigator.goTo(Destination.PasswordRestore)
             }
-            LoginEvent.RegisterClick -> {
+            LoginEvent.Register -> {
                 navigator.goTo(Destination.Register)
             }
             is LoginEvent.Login -> {
@@ -85,9 +85,9 @@ internal class LoginViewModel @Inject constructor(
                 )
             }
             LoginEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            LoginEvent.BackClick -> {
+            LoginEvent.Back -> {
                 navigator.back()
             }
         }
@@ -107,7 +107,7 @@ internal class LoginViewModel @Inject constructor(
             return
         }
 
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
 
         viewModelScope.launch {
             try {
@@ -134,8 +134,8 @@ internal class LoginViewModel @Inject constructor(
                     exception.getErrorMessage(context)
                 }
                 state = state.copy(
-                    alertMessage = message,
-                    networkCall = false
+                    alert = message,
+                    progress = false
                 )
             }
         }

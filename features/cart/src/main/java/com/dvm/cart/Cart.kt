@@ -68,7 +68,7 @@ internal fun Cart(
                         itemsIndexed(state.items) { index, item ->
                             CartItem(
                                 item = item,
-                                onDishClick = { onEvent(CartEvent.DishClick(item.dishId)) },
+                                onDishClick = { onEvent(CartEvent.OpenDish(item.dishId)) },
                                 onAddPiece = { onEvent(CartEvent.AddPiece(item.dishId)) },
                                 onRemovePiece = { onEvent(CartEvent.RemovePiece(item.dishId)) },
                             )
@@ -81,7 +81,7 @@ internal fun Cart(
                                 promoCode = state.promoCode,
                                 appliedPromoCode = state.appliedPromoCode,
                                 promoCodeDescription = state.promoCodeText,
-                                onValueChange = { onEvent(CartEvent.PromoCodeTextChanged(it)) },
+                                onValueChange = { onEvent(CartEvent.ChangePromoCode(it)) },
                                 onApplyPromoCode = { onEvent(CartEvent.ApplyPromoCode) },
                                 onCancelPromoCode = { onEvent(CartEvent.CancelPromoCode) }
                             )
@@ -96,16 +96,16 @@ internal fun Cart(
         }
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(CartEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )
     }
 
-    if (state.networkCall) {
+    if (state.progress) {
         LoadingScrim()
     }
 }

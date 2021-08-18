@@ -16,7 +16,8 @@ internal class DefaultDatastoreRepository @Inject constructor(
 
     override suspend fun isAuthorized(): Boolean = dataStore.isAuthorized()
 
-    override suspend fun getAccessToken(): String? = dataStore.getAccessToken()
+    override suspend fun getAccessToken(): String? =
+        dataStore.getAccessToken()?.let { "Bearer $it" }
 
     override suspend fun saveAccessToken(token: String) {
         dataStore.saveAccessToken(token)
@@ -29,7 +30,7 @@ internal class DefaultDatastoreRepository @Inject constructor(
     }
 
     override suspend fun deleteAccessToken() {
-        dataStore.saveAccessToken("")  // TODO
+        dataStore.saveAccessToken("")
     }
 
     override suspend fun setUpdateError(error: Boolean) {

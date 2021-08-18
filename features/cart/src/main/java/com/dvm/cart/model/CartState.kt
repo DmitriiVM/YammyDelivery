@@ -10,6 +10,6 @@ internal data class CartState(
     val promoCode: String = "",
     val promoCodeText: String = "",
     val appliedPromoCode: Boolean = false,
-    val networkCall: Boolean = false,
-    val alertMessage: String? = null
+    val progress: Boolean = false,
+    val alert: String? = null
 )

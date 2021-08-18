@@ -44,7 +44,7 @@ internal fun Ordering(
                 title = { Text(stringResource(R.string.ordering_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack {
-                        onEvent(OrderingEvent.BackClick)
+                        onEvent(OrderingEvent.Back)
                     }
                 },
             )
@@ -77,7 +77,7 @@ internal fun Ordering(
                 if (isEditing) {
                     OrderingTextField(
                         value = state.address,
-                        onValueChange = { onEvent(OrderingEvent.AddressChanged(it)) },
+                        onValueChange = { onEvent(OrderingEvent.ChangeAddress(it)) },
                         singleLine = false,
                         imeAction = ImeAction.Next,
                         modifier = Modifier.focusRequester(addressFocus),
@@ -124,7 +124,7 @@ internal fun Ordering(
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 4.dp),
-                        onClick = { onEvent(OrderingEvent.MapButtonClick) }
+                        onClick = { onEvent(OrderingEvent.OpenMap) }
                     ) {
                         Text(stringResource(R.string.ordering_button_use_map))
                     }
@@ -208,16 +208,16 @@ internal fun Ordering(
         }
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(OrderingEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )
     }
 
-    if (state.networkCall) {
+    if (state.progress) {
         LoadingScrim()
     }
 }

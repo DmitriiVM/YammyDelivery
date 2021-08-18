@@ -55,8 +55,11 @@ internal fun Category(
             mutableStateOf(DecorColors.values().random())
         }
 
-        val maxTabOffset =
-            with(LocalDensity.current) { AppBarHeight.toPx() }.toInt() + titleHeight.value
+        val density = LocalDensity.current
+        val appBarHeight = remember {
+            with(density) { AppBarHeight.toPx() }.toInt()
+        }
+        val maxTabOffset = appBarHeight + titleHeight.value
 
         val offset = if (lazyListState.firstVisibleItemIndex == 0) {
             -lazyListState.firstVisibleItemScrollOffset.coerceAtMost(maxTabOffset)
@@ -72,7 +75,7 @@ internal fun Category(
             offset = offset,
             titleHeight = titleHeight,
             onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) },
-            onDishClick = { onEvent(CategoryEvent.DishClick(it)) },
+            onDishClick = { onEvent(CategoryEvent.OpenDish(it)) },
             onAddToCartClick = { dishId, dishName ->
                 onEvent(CategoryEvent.AddToCart(dishId, dishName))
             },
@@ -88,9 +91,9 @@ internal fun Category(
             )
         }
 
-        state.alertMessage?.let {
+        state.alert?.let {
             Alert(
-                message = state.alertMessage,
+                message = state.alert,
                 onDismiss = { onEvent(CategoryEvent.DismissAlert) }
             ) {
                 AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
@@ -266,7 +269,7 @@ private fun CategoryAppBar(
                         translationX = offset.toFloat(),
                         alpha = 1f + offset * 0.03f
                     ),
-                onNavigateUp = { onEvent(CategoryEvent.BackClick) }
+                onNavigateUp = { onEvent(CategoryEvent.Back) }
             )
         },
         backgroundColor = Color.Transparent,

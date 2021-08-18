@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.order.R
 import com.dvm.utils.getErrorMessage
@@ -39,8 +39,8 @@ internal class MapViewModel @Inject constructor(
 
     private val addressItems = savedState.getLiveData("address_items", emptyList<String>())
 
-    private val _error = Channel<String>()
-    val error = _error.receiveAsFlow()
+    private val _error: Channel<String> = Channel<String>()
+    val error: Flow<String> = _error.receiveAsFlow()
 
     val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
@@ -60,7 +60,7 @@ internal class MapViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun address() =
+    fun address(): Flow<String> =
         addressItems
             .asFlow()
             .distinctUntilChanged()

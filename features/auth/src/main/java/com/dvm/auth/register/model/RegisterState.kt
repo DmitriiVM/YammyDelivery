@@ -8,6 +8,6 @@ data class RegisterState(
     val lastNameError: String? = null,
     val emailError: String? = null,
     val passwordError: String? = null,
-    val alertMessage: String? = null,
-    val networkCall: Boolean = false
+    val alert: String? = null,
+    val progress: Boolean = false
 )

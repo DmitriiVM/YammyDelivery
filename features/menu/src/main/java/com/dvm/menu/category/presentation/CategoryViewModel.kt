@@ -12,15 +12,15 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.CategoryRepository
 import com.dvm.db.api.DishRepository
+import com.dvm.db.api.models.CardDishDetails
 import com.dvm.db.api.models.CartItem
-import com.dvm.db.api.models.CategoryDish
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryData
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -115,7 +115,7 @@ internal class CategoryViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alertMessage = String.format(
+                        alert = String.format(
                             context.getString(
                                 R.string.message_dish_added_to_cart,
                                 event.name
@@ -124,7 +124,7 @@ internal class CategoryViewModel @Inject constructor(
                     )
                 }
             }
-            is CategoryEvent.DishClick -> {
+            is CategoryEvent.OpenDish -> {
                 navigator.goTo(Destination.Dish(event.dishId))
             }
             is CategoryEvent.ChangeSubcategory -> {
@@ -134,15 +134,15 @@ internal class CategoryViewModel @Inject constructor(
                 orderType.value = event.orderType
             }
             CategoryEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            CategoryEvent.BackClick -> {
+            CategoryEvent.Back -> {
                 navigator.back()
             }
         }
     }
 
-    private fun List<CategoryDish>.order(orderType: OrderType) =
+    private fun List<CardDishDetails>.order(orderType: OrderType) =
         when (orderType) {
             OrderType.ALPHABET_ASC -> this.sortedBy { it.name }
             OrderType.ALPHABET_DESC -> this.sortedByDescending { it.name }

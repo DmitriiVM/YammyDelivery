@@ -73,9 +73,9 @@ internal fun Profile(
                     state.firstName,
                     label = stringResource(R.string.profile_text_field_name),
                     error = state.firstNameError,
-                    enabled = !state.networkCall && state.isEditing,
-                    readOnly = state.networkCall || !state.isEditing,
-                    onValueChange = { onEvent(ProfileEvent.FirstNameTextChanged(it)) },
+                    enabled = !state.progress && state.editing,
+                    readOnly = state.progress || !state.editing,
+                    onValueChange = { onEvent(ProfileEvent.ChangeFirstName(it)) },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
                         onNext = { lastNameFocus.requestFocus() }
@@ -88,9 +88,9 @@ internal fun Profile(
                     state.lastName,
                     label = stringResource(R.string.profile_text_field_last_name),
                     error = state.lastNameError,
-                    enabled = !state.networkCall && state.isEditing,
-                    readOnly = state.networkCall || !state.isEditing,
-                    onValueChange = { onEvent(ProfileEvent.LastNameTextChanged(it)) },
+                    enabled = !state.progress && state.editing,
+                    readOnly = state.progress || !state.editing,
+                    onValueChange = { onEvent(ProfileEvent.ChangeLastName(it)) },
                     modifier = Modifier.focusRequester(lastNameFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -104,9 +104,9 @@ internal fun Profile(
                     state.email,
                     label = stringResource(R.string.profile_text_field_email),
                     error = state.emailError,
-                    enabled = !state.networkCall && state.isEditing,
-                    readOnly = state.networkCall || !state.isEditing,
-                    onValueChange = { onEvent(ProfileEvent.EmailTextChanged(it)) },
+                    enabled = !state.progress && state.editing,
+                    readOnly = state.progress || !state.editing,
+                    onValueChange = { onEvent(ProfileEvent.ChangeEmailText(it)) },
                     modifier = Modifier.focusRequester(emailFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
@@ -118,16 +118,16 @@ internal fun Profile(
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
-                if (state.isEditing) {
+                if (state.editing) {
                     ProgressButton(
                         stringResource(R.string.profile_button_save),
-                        progress = state.networkCall,
+                        progress = state.progress,
                         onClick = { onEvent(ProfileEvent.SaveProfile) }
                     )
                 } else {
                     ProgressButton(
                         stringResource(R.string.profile_button_change_mode),
-                        progress = state.networkCall,
+                        progress = state.progress,
                         onClick = { onEvent(ProfileEvent.ChangeEditingMode(true)) }
                     )
                 }
@@ -141,9 +141,9 @@ internal fun Profile(
                     else -> Modifier
                 }
 
-                if (state.isEditing) {
+                if (state.editing) {
                     OutlinedButton(
-                        enabled = !state.networkCall,
+                        enabled = !state.progress,
                         onClick = {
                             onEvent(ProfileEvent.ChangeEditingMode(false))
                             keyboardController?.hide()
@@ -155,8 +155,8 @@ internal fun Profile(
                     }
                 } else {
                     OutlinedButton(
-                        enabled = !state.networkCall,
-                        onClick = { onEvent(ProfileEvent.ChangeButtonClick) },
+                        enabled = !state.progress,
+                        onClick = { onEvent(ProfileEvent.EditPassword) },
                         modifier = modifier
                             .fillMaxWidth()
                     ) {
@@ -173,7 +173,7 @@ internal fun Profile(
             onDismissRequest = {
                 onEvent(ProfileEvent.DismissPasswordDialog)
             },
-            properties = if (state.networkCall) {
+            properties = if (state.progress) {
                 DialogProperties(
                     dismissOnBackPress = false,
                     dismissOnClickOutside = false
@@ -196,7 +196,7 @@ internal fun Profile(
                     Text(stringResource(R.string.profile_dialog_field_new_password))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        enabled = !state.networkCall,
+                        enabled = !state.progress,
                         value = newPassword,
                         onValueChange = { newPassword = it }
                     )
@@ -204,15 +204,15 @@ internal fun Profile(
                     Text(stringResource(R.string.profile_dialog_field_old_password))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        enabled = !state.networkCall,
+                        enabled = !state.progress,
                         value = oldPassword,
                         onValueChange = { oldPassword = it }
                     )
                     Spacer(Modifier.height(30.dp))
                     ProgressButton(
                         text = stringResource(R.string.profile_dialog_button_save),
-                        progress = state.networkCall,
-                        enabled = newPassword.isNotEmpty() && oldPassword.isNotEmpty() && !state.networkCall,
+                        progress = state.progress,
+                        enabled = newPassword.isNotEmpty() && oldPassword.isNotEmpty() && !state.progress,
                         onClick = {
                             onEvent(
                                 ProfileEvent.ChangePassword(
@@ -227,10 +227,10 @@ internal fun Profile(
         }
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(ProfileEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

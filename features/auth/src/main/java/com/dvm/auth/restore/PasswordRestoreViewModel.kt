@@ -13,7 +13,7 @@ import com.dvm.auth.R
 import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.network.api.AuthApi
 import com.dvm.utils.getErrorMessage
 import com.dvm.utils.hasCode
@@ -65,25 +65,25 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 )
             }
             RestoreEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            RestoreEvent.BackClick -> {
+            RestoreEvent.Back -> {
                 navigator.back()
             }
         }
     }
 
     private fun sendEmail(email: String) {
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
         viewModelScope.launch {
             try {
                 authApi.sendEmail(email)
-                state = state.copy(networkCall = false)
+                state = state.copy(progress = false)
                 screen.value = Screen.CODE
             } catch (exception: Exception) {
                 state = state.copy(
-                    networkCall = false,
-                    alertMessage = if (exception.hasCode(400)) {
+                    progress = false,
+                    alert = if (exception.hasCode(400)) {
                         context.getString(R.string.password_restoration_message_already_sent)
                     } else {
                         exception.getErrorMessage(context)
@@ -94,16 +94,16 @@ internal class PasswordRestoreViewModel @Inject constructor(
     }
 
     private fun verifyCode(email: String, code: String) {
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
         viewModelScope.launch {
             try {
                 authApi.sendCode(email, code)
-                state = state.copy(networkCall = false)
+                state = state.copy(progress = false)
                 screen.value = Screen.PASSWORD
             } catch (exception: Exception) {
                 state = state.copy(
-                    networkCall = false,
-                    alertMessage = if (exception.hasCode(400)) {
+                    progress = false,
+                    alert = if (exception.hasCode(400)) {
                         context.getString(R.string.password_restoration_message_wrong_code)
                     } else {
                         exception.getErrorMessage(context)
@@ -118,7 +118,7 @@ internal class PasswordRestoreViewModel @Inject constructor(
         code: String,
         password: String
     ) {
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
         viewModelScope.launch {
             try {
                 authApi.resetPassword(
@@ -129,8 +129,8 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 navigator.back()
             } catch (exception: Exception) {
                 state = state.copy(
-                    networkCall = false,
-                    alertMessage = if (exception.hasCode(402)) {
+                    progress = false,
+                    alert = if (exception.hasCode(402)) {
                         context.getString(R.string.password_restoration_message_expired_code)
                     } else {
                         exception.getErrorMessage(context)

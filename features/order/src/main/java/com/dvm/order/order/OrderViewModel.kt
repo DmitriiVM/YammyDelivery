@@ -2,31 +2,23 @@ package com.dvm.order.order
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.OrderRepository
+import com.dvm.db.api.mappers.toDbEntity
 import com.dvm.db.api.models.CartItem
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.OrderApi
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
-import com.dvm.updateservice.toDbEntity
 import com.dvm.utils.getErrorMessage
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -68,7 +60,7 @@ internal class OrderViewModel(
             OrderEvent.CancelOrder -> {
                 cancelOrder()
             }
-            OrderEvent.OrderAgainClick -> {
+            OrderEvent.TryOrderAgain -> {
                 checkCart()
             }
             OrderEvent.OrderAgain -> {
@@ -79,11 +71,11 @@ internal class OrderViewModel(
             }
             OrderEvent.DismissAlert -> {
                 state = state.copy(
-                    alertMessage = null,
+                    alert = null,
                     orderAgainMessage = null
                 )
             }
-            OrderEvent.OrderCanceled -> {
+            OrderEvent.CancelOrdering -> {
                 navigator.back()
             }
             OrderEvent.BackClick -> {
@@ -93,7 +85,7 @@ internal class OrderViewModel(
     }
 
     private fun cancelOrder() {
-        state = state.copy(networkCall = true)
+        state = state.copy(progress = true)
         viewModelScope.launch {
             try {
                 val order = orderApi.cancelOrder(
@@ -103,13 +95,13 @@ internal class OrderViewModel(
                 orderRepository.insertOrders(listOf(order.toDbEntity()))
 
                 state = state.copy(
-                    networkCall = false,
+                    progress = false,
                     cancelMessage = context.getString(R.string.order_message_order_canceled)
                 )
             } catch (exception: Exception) {
                 state = state.copy(
-                    networkCall = false,
-                    alertMessage = exception.getErrorMessage(context)
+                    progress = false,
+                    alert = exception.getErrorMessage(context)
                 )
             }
         }
@@ -152,44 +144,3 @@ internal class OrderViewModel(
     }
 }
 
-internal class OrderViewModelFactory @AssistedInject constructor(
-    @ApplicationContext private val context: Context,
-    @Assisted private val orderId: String,
-    @Assisted owner: SavedStateRegistryOwner,
-    @Assisted defaultArgs: Bundle? = null,
-    private val orderRepository: OrderRepository,
-    private val cartRepository: CartRepository,
-    private val orderApi: OrderApi,
-    private val datastore: DatastoreRepository,
-    private val navigator: Navigator,
-) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
-
-    override fun <T : ViewModel?> create(
-        key: String,
-        modelClass: Class<T>,
-        handle: SavedStateHandle
-    ): T {
-        if (modelClass.isAssignableFrom(OrderViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return OrderViewModel(
-                orderId = orderId,
-                context = context,
-                orderRepository = orderRepository,
-                cartRepository = cartRepository,
-                orderApi = orderApi,
-                datastore = datastore,
-                navigator = navigator
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-@AssistedFactory
-internal interface OrderViewModelAssistedFactory {
-    fun create(
-        orderId: String,
-        owner: SavedStateRegistryOwner,
-        defaultArgs: Bundle? = null
-    ): OrderViewModelFactory
-}

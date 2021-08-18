@@ -49,7 +49,7 @@ data class DishDetails(
     """,
     viewName = "category_dish"
 )
-data class CategoryDish(
+data class CardDishDetails(
     val id: String,
     val name: String,
     val image: String,

@@ -1,7 +1,7 @@
 package com.dvm.db.impl.repositories
 
 import com.dvm.db.api.DishRepository
-import com.dvm.db.api.models.CategoryDish
+import com.dvm.db.api.models.CardDishDetails
 import com.dvm.db.api.models.Dish
 import com.dvm.db.api.models.DishDetails
 import com.dvm.db.api.models.Recommended
@@ -17,17 +17,17 @@ internal class DefaultDishRepository @Inject constructor(
 
     override fun dish(dishId: String): Flow<DishDetails> = dishDao.dish(dishId)
 
-    override fun search(query: String): Flow<List<CategoryDish>> = dishDao.search(query)
+    override fun search(query: String): Flow<List<CardDishDetails>> = dishDao.search(query)
 
-    override fun recommended(): Flow<List<CategoryDish>> = dishDao.recommended()
+    override fun recommended(): Flow<List<CardDishDetails>> = dishDao.recommended()
 
-    override fun best(): Flow<List<CategoryDish>> = dishDao.best()
+    override fun best(): Flow<List<CardDishDetails>> = dishDao.best()
 
-    override fun popular(): Flow<List<CategoryDish>> = dishDao.popular()
+    override fun popular(): Flow<List<CardDishDetails>> = dishDao.popular()
 
-    override fun favorite(): Flow<List<CategoryDish>> = dishDao.favorite()
+    override fun favorite(): Flow<List<CardDishDetails>> = dishDao.favorite()
 
-    override suspend fun getDishes(category: String): Flow<List<CategoryDish>> =
+    override suspend fun getDishes(category: String): Flow<List<CardDishDetails>> =
         dishDao.getDishes(category)
 
     override suspend fun hasSpecialOffers(): Boolean =
@@ -35,7 +35,7 @@ internal class DefaultDishRepository @Inject constructor(
             dishDao.hasSpecialOffers()
         }
 
-    override suspend fun getSpecialOffers(): List<CategoryDish> =
+    override suspend fun getSpecialOffers(): List<CardDishDetails> =
         withContext(Dispatchers.IO) {
             dishDao.getSpecialOffers()
         }

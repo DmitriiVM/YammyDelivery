@@ -82,7 +82,7 @@ internal fun Order(
                         enabled = order.completed || order.status.cancelable,
                         onClick = {
                             if (order.completed) {
-                                onEvent(OrderEvent.OrderAgainClick)
+                                onEvent(OrderEvent.TryOrderAgain)
                             } else {
                                 onEvent(OrderEvent.CancelOrder)
                             }
@@ -122,14 +122,14 @@ internal fun Order(
         }
     }
 
-    if (state.networkCall) {
+    if (state.progress) {
         LoadingScrim()
     }
 
-    if (!state.alertMessage.isNullOrEmpty()) {
+    if (!state.alert.isNullOrEmpty()) {
         val onDismiss = { onEvent(OrderEvent.DismissAlert) }
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )
@@ -138,10 +138,10 @@ internal fun Order(
     if (!state.cancelMessage.isNullOrEmpty()) {
         Alert(
             message = state.cancelMessage,
-            onDismiss = { onEvent(OrderEvent.OrderCanceled) },
+            onDismiss = { onEvent(OrderEvent.CancelOrdering) },
             buttons = {
                 AlertButton(
-                    onClick = { onEvent(OrderEvent.OrderCanceled) }
+                    onClick = { onEvent(OrderEvent.CancelOrdering) }
                 )
             }
         )

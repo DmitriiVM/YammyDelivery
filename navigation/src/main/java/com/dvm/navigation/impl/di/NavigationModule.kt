@@ -1,6 +1,6 @@
 package com.dvm.navigation.impl.di
 
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.impl.DefaultNavigator
 import dagger.Binds
 import dagger.Module

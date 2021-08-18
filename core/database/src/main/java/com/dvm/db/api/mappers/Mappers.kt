@@ -1,4 +1,4 @@
-package com.dvm.updateservice
+package com.dvm.db.api.mappers
 
 import com.dvm.db.api.models.*
 import com.dvm.network.api.response.*

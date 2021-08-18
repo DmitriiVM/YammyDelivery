@@ -76,12 +76,12 @@ internal fun Ordering(
                 Tab(
                     text = { Text(stringResource(R.string.orders_tab_actual)) },
                     selected = state.status == OrderStatus.ACTUAL,
-                    onClick = { onEvent(OrdersEvent.SelectStatus(OrderStatus.ACTUAL)) },
+                    onClick = { onEvent(OrdersEvent.StatusSelect(OrderStatus.ACTUAL)) },
                 )
                 Tab(
                     text = { Text(stringResource(R.string.orders_tab_completed)) },
                     selected = state.status == OrderStatus.COMPLETED,
-                    onClick = { onEvent(OrdersEvent.SelectStatus(OrderStatus.COMPLETED)) },
+                    onClick = { onEvent(OrdersEvent.StatusSelect(OrderStatus.COMPLETED)) },
                 )
             }
             if (state.orders.isEmpty()) {
@@ -99,7 +99,7 @@ internal fun Ordering(
                     items(state.orders) { order ->
                         OrderItem(
                             order = order,
-                            onOrderClick = { onEvent(OrdersEvent.OrderClick(order.id)) }
+                            onOrderClick = { onEvent(OrdersEvent.Order(order.id)) }
                         )
                     }
                 }
@@ -107,7 +107,7 @@ internal fun Ordering(
         }
     }
 
-    if (state.networkCall) {
+    if (state.progress) {
         LoadingScrim()
     }
 }

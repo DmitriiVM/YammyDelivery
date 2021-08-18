@@ -15,5 +15,5 @@ sealed class RestoreEvent {
 
     data class SendEmail(val email: String) : RestoreEvent()
     object DismissAlert : RestoreEvent()
-    object BackClick : RestoreEvent()
+    object Back : RestoreEvent()
 }

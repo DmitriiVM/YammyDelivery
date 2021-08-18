@@ -20,7 +20,7 @@ interface AppModule {
 
     companion object {
         @Provides
-        fun provideApplicationScope(): CoroutineScope =
+        fun provideServiceScope(): CoroutineScope =
             CoroutineScope(SupervisorJob() + Dispatchers.IO)
     }
 }

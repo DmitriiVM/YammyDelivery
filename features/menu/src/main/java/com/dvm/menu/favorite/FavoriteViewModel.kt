@@ -13,7 +13,7 @@ import com.dvm.db.api.models.CartItem
 import com.dvm.menu.R
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -52,7 +52,7 @@ internal class FavoriteViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alertMessage = String.format(
+                        alert = String.format(
                             context.getString(
                                 R.string.message_dish_added_to_cart,
                                 event.name
@@ -61,11 +61,11 @@ internal class FavoriteViewModel @Inject constructor(
                     )
                 }
             }
-            is FavoriteEvent.DishClick -> {
+            is FavoriteEvent.OpenDish -> {
                 navigator.goTo(Destination.Dish(event.dishId))
             }
             FavoriteEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
         }
     }

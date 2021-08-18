@@ -8,7 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dvm.db.api.NotificationRepository
 import com.dvm.db.api.models.Notification
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.AppLauncher
@@ -25,7 +25,7 @@ class NotificationService : FirebaseMessagingService() {
     @Inject
     lateinit var navigator: Navigator
     @Inject
-    lateinit var scope: CoroutineScope
+    lateinit var serviceScope: CoroutineScope
     @Inject
     lateinit var appLauncher: AppLauncher
     @Inject
@@ -40,7 +40,7 @@ class NotificationService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        scope.launch {
+        serviceScope.launch {
             if (!datastore.isAuthorized()) return@launch
 
             val title = message.data[NOTIFICATION_TITLE].orEmpty()

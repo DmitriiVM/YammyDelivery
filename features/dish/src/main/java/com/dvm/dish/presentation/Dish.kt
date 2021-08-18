@@ -90,7 +90,7 @@ internal fun Dish(
                     ReviewHeader(
                         rating = dish.rating,
                         color = color,
-                        onAddReviewClick = { onEvent(DishEvent.AddReviewClick) }
+                        onAddReviewClick = { onEvent(DishEvent.AddReview) }
                     )
                 }
             }
@@ -114,7 +114,7 @@ internal fun Dish(
                 color = color,
                 isFavorite = dish.isFavorite,
                 lazyListState = lazyListState,
-                onNavigateUp = { onEvent(DishEvent.BackClick) },
+                onNavigateUp = { onEvent(DishEvent.Back) },
                 onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
             )
         }
@@ -124,20 +124,20 @@ internal fun Dish(
                 onDismiss = { onEvent(DishEvent.DismissReviewDialog) },
                 onAddReview = { rating, text ->
                     onEvent(
-                        DishEvent.AddReview(
+                        DishEvent.SendReview(
                             rating = rating,
                             text = text
                         )
                     )
                 },
-                networkCall = state.networkCall
+                networkCall = state.progress
             )
         }
     }
 
-    state.alertMessage?.let {
+    state.alert?.let {
         Alert(
-            message = state.alertMessage,
+            message = state.alert,
             onDismiss = { onEvent(DishEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(DishEvent.DismissAlert) })

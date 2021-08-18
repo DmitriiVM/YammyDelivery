@@ -18,7 +18,7 @@ import com.dvm.db.api.models.Hint
 import com.dvm.menu.R
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
-import com.dvm.navigation.Navigator
+import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -82,15 +82,15 @@ internal class SearchViewModel @Inject constructor(
 
     fun dispatch(event: SearchEvent) {
         when (event) {
-            is SearchEvent.DishClick -> {
+            is SearchEvent.OpenDish -> {
                 saveHint(event.name)
                 navigator.goTo(Destination.Dish(event.dishId))
             }
-            is SearchEvent.CategoryClick -> {
+            is SearchEvent.OpenCategory -> {
                 saveHint(event.name)
                 navigator.goTo(Destination.Category(event.categoryId))
             }
-            is SearchEvent.SubcategoryClick -> {
+            is SearchEvent.OpenSubcategory -> {
                 saveHint(event.name)
                 navigator.goTo(
                     Destination.Category(
@@ -99,13 +99,13 @@ internal class SearchViewModel @Inject constructor(
                     )
                 )
             }
-            is SearchEvent.QueryChange -> {
+            is SearchEvent.ChangeQuery -> {
                 query.value = event.query
             }
-            is SearchEvent.HintClick -> {
+            is SearchEvent.SelectHint -> {
                 query.value = event.hint
             }
-            is SearchEvent.RemoveHintClick -> {
+            is SearchEvent.RemoveHint -> {
                 viewModelScope.launch {
                     hintRepository.delete(event.hint)
                 }
@@ -119,7 +119,7 @@ internal class SearchViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alertMessage = String.format(
+                        alert = String.format(
                             context.getString(
                                 R.string.message_dish_added_to_cart,
                                 event.name
@@ -132,9 +132,9 @@ internal class SearchViewModel @Inject constructor(
                 state = state.copy(query = "")
             }
             SearchEvent.DismissAlert -> {
-                state = state.copy(alertMessage = null)
+                state = state.copy(alert = null)
             }
-            SearchEvent.BackClick -> {
+            SearchEvent.Back -> {
                 navigator.back()
             }
         }
