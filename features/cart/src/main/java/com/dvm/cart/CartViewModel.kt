@@ -53,7 +53,7 @@ internal class CartViewModel @Inject constructor(
             promoCodeText.asFlow(),
             appliedPromoCode.asFlow()
         ) { items, promoCode, promoCodeText, appliedPromoCode ->
-            val totalPrice = items.sumOf<T>({ it.price * it.quantity })
+            val totalPrice = items.sumOf { it.price * it.quantity }
             state = state.copy(
                 items = items,
                 totalPrice = totalPrice,
@@ -66,7 +66,7 @@ internal class CartViewModel @Inject constructor(
     }
 
     fun onResume() {
-        if (resumeOrderAfterLogin){
+        if (resumeOrderAfterLogin) {
             makeOrder()
             resumeOrderAfterLogin = false
         }
@@ -96,7 +96,8 @@ internal class CartViewModel @Inject constructor(
                         promoCodeText.value = promocodeText
                         appliedPromoCode.value = true
                     } else {
-                        state = state.copy(alert = context.getString(R.string.cart_message_promocode_fail))
+                        state =
+                            state.copy(alert = context.getString(R.string.cart_message_promocode_fail))
                     }
                 }
             }

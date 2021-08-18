@@ -38,7 +38,7 @@ internal class MenuViewModel @Inject constructor(
                     )
                 }
 
-            buildList {
+            menuItems = buildList {
                 if (dishRepository.hasSpecialOffers()) {
                     add(MenuItem.SpecialOffer)
                 }
