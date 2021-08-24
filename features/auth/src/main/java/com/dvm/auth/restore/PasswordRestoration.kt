@@ -8,6 +8,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.R
 import com.dvm.auth.restore.model.RestoreEvent
@@ -18,10 +19,12 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
-fun PasswordRestoration(
-    state: RestoreState,
-    onEvent: (RestoreEvent) -> Unit
+internal fun PasswordRestoration(
+    viewModel: PasswordRestoreViewModel = hiltViewModel()
 ) {
+    val state: RestoreState = viewModel.state
+    val onEvent: (RestoreEvent) -> Unit = { viewModel.dispatch(it) }
+
     val email = rememberSaveable { mutableStateOf("") }
     val code = rememberSaveable { mutableStateOf("") }
     val password = rememberSaveable { mutableStateOf("") }

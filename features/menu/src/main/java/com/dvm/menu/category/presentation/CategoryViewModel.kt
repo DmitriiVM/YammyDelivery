@@ -42,8 +42,8 @@ internal class CategoryViewModel @Inject constructor(
     var state by mutableStateOf(CategoryState())
         private set
 
-    private val categoryId = savedState.getLiveData<String>("categoryId")
-    private val subcategoryId = savedState.getLiveData<String?>("subcategoryId", null)
+    private val categoryId = savedState.getLiveData<String>(Destination.Category.CATEGORY_ID)
+    private val subcategoryId = savedState.getLiveData<String?>(Destination.Category.SUBCATEGORY_ID, null)
     private val orderType = savedState.getLiveData("orderType", OrderType.ALPHABET_ASC)
 
     init {
@@ -66,7 +66,13 @@ internal class CategoryViewModel @Inject constructor(
                 }
                 else -> {
                     val subcategories = categoryRepository.getSubcategories(categoryId)
-                    val selectedId = subcategoryId ?: subcategories.firstOrNull()?.id ?: categoryId
+                    // TODO figure out why passing of nullable optional arguments doesn't work
+                    val selectedId = if (subcategoryId != null && subcategoryId != "null") {
+                        subcategoryId
+                    } else {
+                        subcategories.firstOrNull()?.id
+                            ?: categoryId
+                    }
                     val title = categoryRepository.getCategoryTitle(categoryId)
                     CategoryData(
                         title = title,

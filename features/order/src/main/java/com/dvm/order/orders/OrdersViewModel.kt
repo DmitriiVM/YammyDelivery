@@ -82,7 +82,7 @@ internal class OrdersViewModel @Inject constructor(
         }
     }
 
-    fun dispatchEvent(event: OrdersEvent) {
+    fun dispatch(event: OrdersEvent) {
         when (event) {
             is OrdersEvent.Order -> {
                 navigator.goTo(Destination.Order(event.orderId))

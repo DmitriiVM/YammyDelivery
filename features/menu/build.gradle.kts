@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.compose.viewModel)
     implementation(libs.compose.coil)
     implementation(libs.accompanist.insets)
+    implementation(libs.compose.navigationHilt)
 
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.viewModel)

@@ -63,7 +63,7 @@ internal class ProfileViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun dispatchEvent(event: ProfileEvent) {
+    fun dispatch(event: ProfileEvent) {
         when (event) {
             is ProfileEvent.ChangeEmailText -> {
                 state = state.copy(

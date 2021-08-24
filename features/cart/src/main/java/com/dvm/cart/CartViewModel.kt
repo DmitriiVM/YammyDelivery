@@ -65,14 +65,14 @@ internal class CartViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onResume() {
+    fun onViewAppeared() {
         if (resumeOrderAfterLogin) {
             makeOrder()
             resumeOrderAfterLogin = false
         }
     }
 
-    fun dispatchEvent(event: CartEvent) {
+    fun dispatch(event: CartEvent) {
         when (event) {
             is CartEvent.OpenDish -> {
                 navigator.goTo(Destination.Dish(event.dishId))

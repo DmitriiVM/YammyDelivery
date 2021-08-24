@@ -12,6 +12,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.OrderData
 import com.dvm.order.R
@@ -28,10 +29,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Ordering(
-    state: OrdersState,
-    onEvent: (OrdersEvent) -> Unit
+internal fun Orders(
+    viewModel: OrdersViewModel = hiltViewModel()
 ) {
+    val state: OrdersState = viewModel.state
+    val onEvent: (OrdersEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()

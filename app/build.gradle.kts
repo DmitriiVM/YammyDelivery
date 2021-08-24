@@ -14,6 +14,14 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.0.1"
+    }
 }
 
 dependencies {
@@ -41,6 +49,8 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.compose.icons)
     implementation(libs.compose.iconsExtended)
+    implementation(libs.compose.navigation)
+    implementation(libs.accompanist.insets)
 
     implementation(libs.bundles.coroutines)
 

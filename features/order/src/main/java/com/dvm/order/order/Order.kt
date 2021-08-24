@@ -16,6 +16,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.OrderItem
 import com.dvm.order.R
@@ -28,9 +29,11 @@ import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
 internal fun Order(
-    state: OrderState,
-    onEvent: (OrderEvent) -> Unit,
+    viewModel: OrderViewModel = hiltViewModel()
 ) {
+    val state: OrderState = viewModel.state
+    val onEvent: (OrderEvent) -> Unit = { viewModel.dispatch(it) }
+
     Drawer(selected = DrawerItem.ORDERS) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.statusBarsHeight())

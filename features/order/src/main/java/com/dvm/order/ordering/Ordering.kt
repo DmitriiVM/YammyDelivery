@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.order.R
 import com.dvm.order.ordering.model.OrderingEvent
@@ -34,9 +35,11 @@ import com.google.accompanist.insets.statusBarsHeight
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun Ordering(
-    state: OrderingState,
-    onEvent: (OrderingEvent) -> Unit,
+    viewModel: OrderingViewModel = hiltViewModel()
 ) {
+    val state: OrderingState = viewModel.state
+    val onEvent: (OrderingEvent) -> Unit = { viewModel.dispatch(it) }
+
     Drawer(selected = DrawerItem.ORDERS) {
         Column(Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())

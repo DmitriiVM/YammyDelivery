@@ -50,7 +50,7 @@ internal class OrderingViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun dispatchEvent(event: OrderingEvent) {
+    fun dispatch(event: OrderingEvent) {
         when (event) {
             is OrderingEvent.ChangeAddress -> {
                 state = state.copy(address = event.address)
@@ -59,7 +59,7 @@ internal class OrderingViewModel @Inject constructor(
                 makeOrder(event.fields)
             }
             OrderingEvent.OpenMap -> {
-                navigator.goTo(Destination.Map)
+                navigator.goTo(Destination.Map())
             }
             OrderingEvent.DismissAlert -> {
                 state = state.copy(alert = null)

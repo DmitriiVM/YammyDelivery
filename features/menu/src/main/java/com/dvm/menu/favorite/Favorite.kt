@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
@@ -36,9 +37,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun Favorite(
-    state: FavoriteState,
-    onEvent: (FavoriteEvent) -> Unit
+    viewModel: FavoriteViewModel = hiltViewModel()
 ) {
+    val state: FavoriteState = viewModel.state
+    val onEvent: (FavoriteEvent) -> Unit = { viewModel.dispatch(it) }
+
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 

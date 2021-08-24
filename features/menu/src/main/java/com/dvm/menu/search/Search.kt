@@ -20,6 +20,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
@@ -36,9 +37,11 @@ import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
 internal fun Search(
-    state: SearchState,
-    onEvent: (SearchEvent) -> Unit
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
+    val state: SearchState = viewModel.state
+    val onEvent: (SearchEvent) -> Unit = { viewModel.dispatch(it) }
+
     Drawer(selected = DrawerItem.MENU) {
 
         Column(Modifier.fillMaxSize()) {

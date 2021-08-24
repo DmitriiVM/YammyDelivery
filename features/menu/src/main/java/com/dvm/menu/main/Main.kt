@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.CardDishDetails
 import com.dvm.menu.R
@@ -36,9 +37,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun Main(
-    state: MainState,
-    onEvent: (MainEvent) -> Unit
+    viewModel: MainViewModel = hiltViewModel()
 ) {
+    val state: MainState = viewModel.state
+    val onEvent: (MainEvent) -> Unit = { viewModel.dispatch(it) }
+
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 

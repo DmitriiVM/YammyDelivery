@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
@@ -32,9 +33,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun Profile(
-    state: ProfileState,
-    onEvent: (ProfileEvent) -> Unit,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val state: ProfileState = viewModel.state
+    val onEvent: (ProfileEvent) -> Unit = { viewModel.dispatch(it) }
+
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current

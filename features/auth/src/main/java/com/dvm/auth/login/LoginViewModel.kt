@@ -73,10 +73,10 @@ internal class LoginViewModel @Inject constructor(
                 passwordError.value = null
             }
             LoginEvent.RestorePassword -> {
-                navigator.goTo(Destination.PasswordRestore)
+                navigator.goTo(Destination.PasswordRestoration)
             }
             LoginEvent.Register -> {
-                navigator.goTo(Destination.Register)
+                navigator.goTo(Destination.Registration)
             }
             is LoginEvent.Login -> {
                 login(

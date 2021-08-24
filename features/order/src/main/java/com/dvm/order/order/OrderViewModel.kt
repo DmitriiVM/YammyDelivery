@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.db.api.CartRepository
@@ -19,43 +20,51 @@ import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-internal class OrderViewModel(
-    orderId: String,
-    private val context: Context,
+@HiltViewModel
+internal class OrderViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
     private val datastore: DatastoreRepository,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(OrderState())
         private set
 
+    private val orderId = savedState.getLiveData<String>(Destination.Order.ORDER_ID)
+
     init {
+        val id = requireNotNull(orderId.value)
+
         datastore
             .authorized()
             .filter { !it }
             .onEach {
-                navigator.goTo(Destination.Login(Destination.Order(orderId)))
+                navigator.goTo(Destination.Login(Destination.Order(id)))
             }
             .launchIn(viewModelScope)
 
         orderRepository
-            .order(orderId)
+            .order(id)
             .distinctUntilChanged()
             .onEach { state = state.copy(order = it) }
             .launchIn(viewModelScope)
     }
 
-    fun dispatchEvent(event: OrderEvent) {
+    fun dispatch(event: OrderEvent) {
         when (event) {
             OrderEvent.CancelOrder -> {
                 cancelOrder()

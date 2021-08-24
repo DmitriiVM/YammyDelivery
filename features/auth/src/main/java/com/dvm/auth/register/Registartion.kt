@@ -15,6 +15,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
@@ -25,12 +26,13 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
-fun Registration(
-    state: RegisterState,
-    onEvent: (RegisterEvent) -> Unit
+internal fun Registration(
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    Drawer(selected = DrawerItem.NONE) {
+    val state: RegisterState = viewModel.state
+    val onEvent: (RegisterEvent) -> Unit = { viewModel.dispatch(it) }
 
+    Drawer(selected = DrawerItem.NONE) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

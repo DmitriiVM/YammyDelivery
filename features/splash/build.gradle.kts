@@ -17,6 +17,7 @@ dependencies {
 
     implementation(libs.bundles.compose)
     implementation(libs.compose.lottie)
+    implementation(libs.compose.navigationHilt)
 
     implementation(libs.lifecycle.viewModel)
     kapt(libs.lifecycle.compiler)

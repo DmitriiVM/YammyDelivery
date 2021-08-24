@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
@@ -45,9 +46,11 @@ private val AppBarHeight = 56.dp
 
 @Composable
 internal fun Category(
-    state: CategoryState,
-    onEvent: (CategoryEvent) -> Unit,
+    viewModel: CategoryViewModel = hiltViewModel()
 ) {
+    val state: CategoryState = viewModel.state
+    val onEvent: (CategoryEvent) -> Unit = { viewModel.dispatch(it) }
+
     Drawer(selected = DrawerItem.MENU) {
         val lazyListState = rememberLazyListState()
         val titleHeight = remember { mutableStateOf(0) }

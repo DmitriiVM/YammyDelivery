@@ -16,6 +16,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
@@ -27,9 +28,11 @@ import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
 internal fun Login(
-    state: LoginState,
-    onEvent: (LoginEvent) -> Unit
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val state: LoginState = viewModel.state
+    val onEvent: (LoginEvent) -> Unit = { viewModel.dispatch(it) }
+
     Drawer(selected = DrawerItem.NONE) {
         Column(
             modifier = Modifier

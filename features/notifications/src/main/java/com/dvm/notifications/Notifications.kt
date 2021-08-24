@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
@@ -26,9 +27,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalComposeApi::class)
 @Composable
 internal fun Notifications(
-    state: NotificationState,
-    onEvent: (NotificationEvent) -> Unit
+    viewModel: NotificationViewModel = hiltViewModel()
 ) {
+    val state: NotificationState = viewModel.state
+    val onEvent: (NotificationEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()

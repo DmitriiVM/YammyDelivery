@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
@@ -28,11 +30,17 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun Cart(
-    state: CartState,
-    onEvent: (CartEvent) -> Unit,
+    viewModel: CartViewModel = hiltViewModel()
 ) {
+    val state: CartState = viewModel.state
+    val onEvent: (CartEvent) -> Unit = { viewModel.dispatch(it) }
+
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit){
+        viewModel.onViewAppeared()
+    }
 
     Drawer(
         drawerState = drawerState,
