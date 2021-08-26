@@ -87,7 +87,7 @@ internal class OrderViewModel @Inject constructor(
             OrderEvent.CancelOrdering -> {
                 navigator.back()
             }
-            OrderEvent.BackClick -> {
+            OrderEvent.Back -> {
                 navigator.back()
             }
         }

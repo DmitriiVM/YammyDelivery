@@ -16,7 +16,7 @@ import com.dvm.splash.api.SplashScreen
 fun NavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Destination.Splash.route
+        startDestination = Destination.Cart.route
     ) {
         composable(Destination.Splash.route) { SplashScreen() }
         composable(Destination.Main.route) { MainScreen() }
@@ -28,9 +28,10 @@ fun NavHost(navController: NavHostController) {
         composable(Destination.PasswordRestoration.route) { PasswordRestoreScreen() }
         composable(Destination.Cart.route) { CartScreen() }
         composable(Destination.Notification.route) { NotificationScreen() }
-        composable(Destination.Ordering.route) { OrderingScreen() }
+        composable(Destination.Ordering.route) { OrderingScreen(navController) }
         composable(Destination.Orders.route) { OrdersScreen() }
         composable(Destination.Profile.route) { ProfileScreen() }
+        composable(Destination.Map.ROUTE) { MapScreen() }
 
         composable("${Destination.Dish.ROUTE}/{${Destination.Dish.DISH_ID}}") { DishScreen() }
         composable("${Destination.Order.ROUTE}/{${Destination.Order.ORDER_ID}}") { OrderScreen() }

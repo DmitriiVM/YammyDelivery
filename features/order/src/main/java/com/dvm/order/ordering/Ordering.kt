@@ -22,7 +22,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.asFlow
+import androidx.navigation.NavHostController
 import com.dvm.appmenu_api.Drawer
+import com.dvm.navigation.api.model.Destination
 import com.dvm.order.R
 import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingFields
@@ -31,14 +34,27 @@ import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
+import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun Ordering(
+    navHostController: NavHostController,
     viewModel: OrderingViewModel = hiltViewModel()
 ) {
     val state: OrderingState = viewModel.state
     val onEvent: (OrderingEvent) -> Unit = { viewModel.dispatch(it) }
+
+    LaunchedEffect(Unit) {
+        navHostController
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<String>(Destination.Map.MAP_ADDRESS)
+            ?.asFlow()
+            ?.collect { address ->
+                onEvent(OrderingEvent.ChangeAddress(address))
+            }
+    }
 
     Drawer(selected = DrawerItem.ORDERS) {
         Column(Modifier.fillMaxSize()) {

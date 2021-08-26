@@ -54,8 +54,9 @@ sealed class Destination(val route: String = "") : Parcelable {
     data class BackToOrdering(val address: String) : Destination()
 
     @Parcelize
-    class Map : Destination("map") {
+    class Map : Destination() {
         companion object {
+            const val ROUTE = "map"
             const val MAP_ADDRESS = "map_back_address_result"
         }
     }

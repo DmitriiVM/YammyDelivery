@@ -4,4 +4,6 @@ import androidx.compose.runtime.Composable
 import com.dvm.profile.Profile
 
 @Composable
-fun ProfileScreen() { Profile() }
+fun ProfileScreen() {
+    Profile()
+}

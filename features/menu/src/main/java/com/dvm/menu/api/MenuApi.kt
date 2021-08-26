@@ -8,16 +8,26 @@ import com.dvm.menu.menu.Menu
 import com.dvm.menu.search.Search
 
 @Composable
-fun MenuScreen() { Menu() }
+fun MenuScreen() {
+    Menu()
+}
 
 @Composable
-fun SearchScreen() { Search() }
+fun SearchScreen() {
+    Search()
+}
 
 @Composable
-fun CategoryScreen() { Category() }
+fun CategoryScreen() {
+    Category()
+}
 
 @Composable
-fun FavoriteScreen() { Favorite() }
+fun FavoriteScreen() {
+    Favorite()
+}
 
 @Composable
-fun MainScreen() { Main() }
+fun MainScreen() {
+    Main()
+}

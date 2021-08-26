@@ -6,10 +6,16 @@ import com.dvm.auth.register.Registration
 import com.dvm.auth.restore.PasswordRestoration
 
 @Composable
-fun LoginScreen() { Login() }
+fun LoginScreen() {
+    Login()
+}
 
 @Composable
-fun RegistrationScreen() { Registration() }
+fun RegistrationScreen() {
+    Registration()
+}
 
 @Composable
-fun PasswordRestoreScreen() { PasswordRestoration() }
+fun PasswordRestoreScreen() {
+    PasswordRestoration()
+}

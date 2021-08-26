@@ -4,4 +4,6 @@ import androidx.compose.runtime.Composable
 import com.dvm.splash.Splash
 
 @Composable
-fun SplashScreen() { Splash() }
+fun SplashScreen() {
+    Splash()
+}

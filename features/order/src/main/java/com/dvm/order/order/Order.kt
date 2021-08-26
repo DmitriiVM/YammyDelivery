@@ -50,7 +50,7 @@ internal fun Order(
                     },
                     navigationIcon = {
                         AppBarIconBack {
-                            onEvent(OrderEvent.BackClick)
+                            onEvent(OrderEvent.Back)
                         }
                     },
                 )

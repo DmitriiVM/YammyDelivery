@@ -106,8 +106,4 @@ internal class OrderingViewModel @Inject constructor(
             }
         }
     }
-
-    fun setMapAddress(address: String) {
-        state = state.copy(address = address)
-    }
 }

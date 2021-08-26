@@ -1,8 +1,11 @@
-package com.dvm.order.map_address
+package com.dvm.order.map
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
@@ -10,49 +13,57 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.order.R
+import com.dvm.order.map.model.MapState
 import com.dvm.utils.getErrorMessage
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 @SuppressLint("StaticFieldLeak")
+@HiltViewModel
 internal class MapViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
 
-    private var googleMap: GoogleMap? = null
+    var state by mutableStateOf(MapState())
+        private set
 
     private val addressItems = savedState.getLiveData("address_items", emptyList<String>())
 
-    private val _error: Channel<String> = Channel<String>()
-    val error: Flow<String> = _error.receiveAsFlow()
+    init {
+        addressItems
+            .asFlow()
+            .distinctUntilChanged()
+            .map { it.joinToString(", ") }
+            .onEach { state = state.copy(address = it) }
+            .launchIn(viewModelScope)
+    }
 
-    val callback = OnMapReadyCallback { googleMap ->
-        this.googleMap = googleMap
+    fun dismissAlert() {
+        state = state.copy(alert = null)
+    }
 
-        moveToLocation()
+    fun onMapReady(map: GoogleMap) {
+        moveToLocation(map)
 
-        googleMap
+        map
             .locationFlow()
             .distinctUntilChanged()
             .debounce(500)
             .catch { throwable ->
-                _error.send(throwable.getErrorMessage(context))
+                state = state.copy(alert = throwable.getErrorMessage(context))
             }
             .onEach { latLng ->
                 addressItems.value = getAddress(latLng.latitude, latLng.longitude)
@@ -60,19 +71,25 @@ internal class MapViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun address(): Flow<String> =
-        addressItems
-            .asFlow()
-            .distinctUntilChanged()
-            .map { it.joinToString(", ") }
-            .flowOn(Dispatchers.IO)
+    fun onLocationPermissionGranted(map: GoogleMap) {
+        moveToLocation(map)
+    }
 
-    fun onLocationPermissionGranted() {
-        moveToLocation()
+    fun onButtonCompleteClick() {
+        if (addressItems.value?.size == 3) {
+            navigator.goTo(
+                Destination.BackToOrdering(
+                    addressItems.value.orEmpty().joinToString(", ")
+                )
+            )
+        } else {
+            state = state.copy(alert = context.getString(R.string.ordering_address_error))
+        }
     }
 
     @SuppressLint("MissingPermission")
     private fun moveToLocation(
+        map: GoogleMap,
         defaultLat: Double = 55.752,
         defaultLng: Double = 37.624,
     ) {
@@ -84,8 +101,8 @@ internal class MapViewModel @Inject constructor(
                     MarkerOptions()
                         .draggable(true)
                         .position(location)
-                googleMap?.addMarker(defaultMarker)
-                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17f))
+                map.addMarker(defaultMarker)
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17f))
             }
 
             LocationServices
@@ -108,7 +125,7 @@ internal class MapViewModel @Inject constructor(
                 .getFromLocation(latitude, longitude, 1)
                 .first()
         } catch (e: Exception) {
-            _error.trySend(context.getString(R.string.message_unknown_error))
+            state = state.copy(alert = context.getString(R.string.message_unknown_error))
             return emptyList()
         }
         val city = locationAddress.subAdminArea?.let {
@@ -123,30 +140,18 @@ internal class MapViewModel @Inject constructor(
         return listOfNotNull(city, building, flat)
     }
 
-    fun onButtonCompleteClick() {
-        if (addressItems.value?.size == 3) {
-            navigator.goTo(
-                Destination.BackToOrdering(
-                    addressItems.value.orEmpty().joinToString(", ")
-                )
-            )
-        } else {
-            _error.trySend(context.getString(R.string.ordering_address_error))
-        }
-    }
-
     private fun GoogleMap.locationFlow() = callbackFlow<LatLng> {
         setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
             override fun onMarkerDrag(marker: Marker) {
                 trySend(marker.position)
             }
 
-            override fun onMarkerDragStart(p0: Marker) {
-                /*do nothing*/
+            override fun onMarkerDragStart(marker: Marker) {
+                /* do nothing */
             }
 
-            override fun onMarkerDragEnd(p0: Marker) {
-                /*do nothing*/
+            override fun onMarkerDragEnd(marker: Marker) {
+                /* do nothing */
             }
         })
         awaitClose { setOnMarkerDragListener(null) }

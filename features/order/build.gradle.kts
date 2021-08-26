@@ -39,5 +39,6 @@ dependencies {
     implementation(libs.navigation.ui)
 
     implementation(libs.google.maps)
+    implementation(libs.google.mapsKtx)
     implementation(libs.google.location)
 }

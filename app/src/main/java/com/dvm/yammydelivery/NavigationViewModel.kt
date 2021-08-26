@@ -109,7 +109,7 @@ internal class NavigationViewModel @Inject constructor(
             }
             Destination.Main -> {
                 navController.navigate(Destination.Main.route) {
-                    if (currentDestination == Destination.Splash.route){
+                    if (currentDestination == Destination.Splash.route) {
                         navController.popBackStack()
                     }
                 }
@@ -125,7 +125,7 @@ internal class NavigationViewModel @Inject constructor(
                 navController.popBackStack(Destination.Login.ROUTE, true)
             }
             is Destination.Map -> {
-//                navController.navigate(MainGraphDirections.toMap())
+                navController.navigate(Destination.Map.ROUTE)
             }
             is Destination.LoginTarget -> {
                 val targetDestination = targetDestination
