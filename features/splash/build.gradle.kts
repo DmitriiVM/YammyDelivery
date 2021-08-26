@@ -8,7 +8,7 @@ plugins {
 dependencies {
     implementation(project(ModulePath.Core.UI))
     implementation(project(ModulePath.Core.DATASTORE))
-    implementation(project(ModulePath.Core.UPDATE_SERVICE))
+    implementation(project(ModulePath.Services.UPDATE))
     implementation(project(ModulePath.NAVIGATION))
 
     implementation(libs.android.core)

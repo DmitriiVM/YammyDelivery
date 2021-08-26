@@ -10,7 +10,7 @@ dependencies {
     implementation(project(ModulePath.Core.NETWORK))
     implementation(project(ModulePath.Core.DATABASE))
     implementation(project(ModulePath.Core.DATASTORE))
-    implementation(project(ModulePath.Feature.APP_MENU_API))
+    implementation(project(ModulePath.Feature.DRAWER_API))
     implementation(project(ModulePath.NAVIGATION))
 
     implementation(libs.android.core)

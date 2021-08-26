@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     implementation(project(ModulePath.Core.UTILS))
-    implementation(project(ModulePath.Feature.APP_MENU))
+    implementation(project(ModulePath.Feature.DRAWER))
 
     implementation(libs.bundles.compose)
     implementation(libs.compose.viewModel)

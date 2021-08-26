@@ -29,7 +29,7 @@ import com.dvm.splash.api.SplashScreen
 fun NavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Destination.Main.route
+        startDestination = Destination.Splash.route
     ) {
         composable(Destination.Splash.route) { SplashScreen() }
         composable(Destination.Main.route) { MainScreen() }

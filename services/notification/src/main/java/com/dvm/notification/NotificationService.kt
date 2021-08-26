@@ -1,4 +1,4 @@
-package com.dvm.notifications
+package com.dvm.notification
 
 import android.app.PendingIntent
 import android.content.Intent

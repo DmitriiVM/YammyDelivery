@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import com.dvm.notifications.NotificationService.Companion.NOTIFICATION_EXTRA
+import com.dvm.notification.NotificationService.Companion.NOTIFICATION_EXTRA
 import com.dvm.ui.YammyDeliveryScreen
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
