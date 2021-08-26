@@ -2,9 +2,25 @@ package com.dvm.db.impl.di
 
 import android.content.Context
 import androidx.room.Room
-import com.dvm.db.api.*
+import com.dvm.db.api.CartRepository
+import com.dvm.db.api.CategoryRepository
+import com.dvm.db.api.DishRepository
+import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.HintRepository
+import com.dvm.db.api.NotificationRepository
+import com.dvm.db.api.OrderRepository
+import com.dvm.db.api.ProfileRepository
+import com.dvm.db.api.ReviewRepository
 import com.dvm.db.impl.AppDatabase
-import com.dvm.db.impl.repositories.*
+import com.dvm.db.impl.repositories.DefaultCartRepository
+import com.dvm.db.impl.repositories.DefaultCategoryRepository
+import com.dvm.db.impl.repositories.DefaultDishRepository
+import com.dvm.db.impl.repositories.DefaultFavoriteRepository
+import com.dvm.db.impl.repositories.DefaultHintRepository
+import com.dvm.db.impl.repositories.DefaultNotificationRepository
+import com.dvm.db.impl.repositories.DefaultOrderRepository
+import com.dvm.db.impl.repositories.DefaultProfileRepository
+import com.dvm.db.impl.repositories.DefaultReviewRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

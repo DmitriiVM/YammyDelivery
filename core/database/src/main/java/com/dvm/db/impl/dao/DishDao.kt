@@ -1,6 +1,10 @@
 package com.dvm.db.impl.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.dvm.db.api.models.CardDishDetails
 import com.dvm.db.api.models.Dish
 import com.dvm.db.api.models.DishDetails

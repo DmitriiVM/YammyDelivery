@@ -8,7 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.appmenu.model.AppMenuEvent
 import com.dvm.appmenu.model.AppMenuState
-import com.dvm.db.api.*
+import com.dvm.db.api.CartRepository
+import com.dvm.db.api.FavoriteRepository
+import com.dvm.db.api.NotificationRepository
+import com.dvm.db.api.OrderRepository
+import com.dvm.db.api.ProfileRepository
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository

@@ -1,10 +1,18 @@
 package com.dvm.network.impl.di
 
-import com.dvm.network.api.*
+import com.dvm.network.api.AuthApi
+import com.dvm.network.api.CartApi
+import com.dvm.network.api.MenuApi
+import com.dvm.network.api.OrderApi
+import com.dvm.network.api.ProfileApi
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.ExceptionCallAdapterFactory
 import com.dvm.network.impl.TokenAuthenticator
-import com.dvm.network.impl.api.*
+import com.dvm.network.impl.api.DefaultAuthApi
+import com.dvm.network.impl.api.DefaultCartApi
+import com.dvm.network.impl.api.DefaultMenuApi
+import com.dvm.network.impl.api.DefaultOrderApi
+import com.dvm.network.impl.api.DefaultProfileApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

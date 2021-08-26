@@ -1,12 +1,32 @@
 package com.dvm.order.orders
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Divider
+import androidx.compose.material.DrawerValue
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.runtime.*
+import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
+import androidx.compose.material.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -19,7 +39,11 @@ import com.dvm.order.R
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
-import com.dvm.ui.components.*
+import com.dvm.ui.components.AppBarIconMenu
+import com.dvm.ui.components.DefaultAppBar
+import com.dvm.ui.components.EmptyPlaceholder
+import com.dvm.ui.components.LoadingScrim
+import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
@@ -86,7 +110,7 @@ internal fun Orders(
                     onClick = { onEvent(OrdersEvent.StatusSelect(OrderStatus.COMPLETED)) },
                 )
             }
-            if (state.orders.isEmpty()) {
+            if (state.empty) {
                 EmptyPlaceholder(
                     resId = R.raw.empty_image,
                     text = stringResource(R.string.orders_empty_placeholder)
