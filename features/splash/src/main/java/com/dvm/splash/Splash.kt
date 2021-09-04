@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
@@ -28,6 +29,7 @@ internal fun Splash(
 
         LottieAnimation(
             composition = composition,
+            iterations = LottieConstants.IterateForever,
             modifier = when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> Modifier.fillMaxHeight()
                 else -> Modifier.fillMaxWidth()
