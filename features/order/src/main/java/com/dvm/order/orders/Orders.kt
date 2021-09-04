@@ -17,7 +17,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberDrawerState
@@ -28,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,9 +47,13 @@ import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun Orders(
     viewModel: OrdersViewModel = hiltViewModel()
@@ -86,6 +88,8 @@ internal fun Orders(
                 },
             )
 
+            val pagerState = rememberPagerState(pageCount = 2)
+
             TabRow(
                 selectedTabIndex = state.status.ordinal,
                 backgroundColor = MaterialTheme.colors.surface,
@@ -93,7 +97,7 @@ internal fun Orders(
                 indicator = { tabPositions ->
                     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.primary) {
                         TabRowDefaults.Indicator(
-                            Modifier.tabIndicatorOffset(tabPositions[state.status.ordinal])
+                            Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
                         )
                     }
 
@@ -101,32 +105,44 @@ internal fun Orders(
             ) {
                 Tab(
                     text = { Text(stringResource(R.string.orders_tab_actual)) },
-                    selected = state.status == OrderStatus.ACTUAL,
-                    onClick = { onEvent(OrdersEvent.StatusSelect(OrderStatus.ACTUAL)) },
+                    selected = pagerState.currentPage == 0,
+                    onClick = {
+                        scope.launch {
+                            onEvent(OrdersEvent.StatusSelect(OrderStatus.ACTUAL))
+                            pagerState.animateScrollToPage(0)
+                        }
+                    },
                 )
                 Tab(
                     text = { Text(stringResource(R.string.orders_tab_completed)) },
-                    selected = state.status == OrderStatus.COMPLETED,
-                    onClick = { onEvent(OrdersEvent.StatusSelect(OrderStatus.COMPLETED)) },
+                    selected = pagerState.currentPage == 1,
+                    onClick = {
+                        scope.launch {
+                            onEvent(OrdersEvent.StatusSelect(OrderStatus.COMPLETED))
+                            pagerState.animateScrollToPage(1)
+                        }
+                    },
                 )
             }
-            if (state.empty) {
-                EmptyPlaceholder(
-                    resId = R.raw.empty_image,
-                    text = stringResource(R.string.orders_empty_placeholder)
-                )
-            } else {
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(start = 30.dp)
-                        .navigationBarsPadding()
-                ) {
-                    items(state.orders) { order ->
-                        OrderItem(
-                            order = order,
-                            onOrderClick = { onEvent(OrdersEvent.Order(order.id)) }
-                        )
+            HorizontalPager(pagerState) {
+                if (state.empty) {
+                    EmptyPlaceholder(
+                        resId = R.raw.empty_image,
+                        text = stringResource(R.string.orders_empty_placeholder)
+                    )
+                } else {
+                    LazyColumn(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(start = 30.dp)
+                            .navigationBarsPadding()
+                    ) {
+                        items(state.orders) { order ->
+                            OrderItem(
+                                order = order,
+                                onOrderClick = { onEvent(OrdersEvent.Order(order.id)) }
+                            )
+                        }
                     }
                 }
             }

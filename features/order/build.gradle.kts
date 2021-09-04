@@ -24,8 +24,11 @@ dependencies {
     implementation(libs.compose.iconsExtended)
     implementation(libs.compose.viewModel)
     implementation(libs.compose.coil)
-    implementation(libs.accompanist.insets)
     implementation(libs.compose.navigationHilt)
+
+    implementation(libs.accompanist.insets)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pagerIndicators)
 
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.viewModel)
