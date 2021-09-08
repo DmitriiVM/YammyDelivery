@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.appmenu.model.AppMenuEvent
-import com.dvm.appmenu.model.AppMenuState
+import com.dvm.appmenu.model.DrawerEvent
+import com.dvm.appmenu.model.DrawerState
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.FavoriteRepository
 import com.dvm.db.api.NotificationRepository
@@ -29,9 +29,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class AppMenuViewModel @Inject constructor() : ViewModel() {
+internal class DrawerViewModel @Inject constructor() : ViewModel() {
 
-    var state by mutableStateOf(AppMenuState())
+    var state by mutableStateOf(DrawerState())
         private set
 
     private lateinit var hiltEntryPoint: AppViewModelEntryPoint
@@ -73,9 +73,9 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
             .launchIn(viewModelScope)
     }
 
-    fun onEvent(event: AppMenuEvent) {
+    fun onEvent(event: DrawerEvent) {
         when (event) {
-            is AppMenuEvent.SelectItem -> {
+            is DrawerEvent.SelectItem -> {
                 viewModelScope.launch {
                     when (event.item) {
                         DrawerItem.MAIN -> navigator.goTo(Destination.Main)
@@ -89,7 +89,7 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             }
-            AppMenuEvent.Auth -> {
+            DrawerEvent.Auth -> {
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
@@ -100,7 +100,7 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             }
-            AppMenuEvent.Logout -> {
+            DrawerEvent.Logout -> {
                 state = state.copy(alert = null)
                 viewModelScope.launch {
                     datastore.deleteAccessToken()
@@ -110,7 +110,7 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                     cartRepository.clearCart()
                 }
             }
-            AppMenuEvent.DismissAlert -> {
+            DrawerEvent.DismissAlert -> {
                 state = state.copy(alert = null)
             }
         }

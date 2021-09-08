@@ -3,7 +3,7 @@ package com.dvm.appmenu.model
 import androidx.compose.runtime.Immutable
 
 @Immutable
-internal data class AppMenuState(
+internal data class DrawerState(
     val name: String = "",
     val email: String = "",
     val cartQuantity: Int = 0,

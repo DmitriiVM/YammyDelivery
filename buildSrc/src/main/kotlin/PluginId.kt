@@ -2,7 +2,6 @@ object PluginId {
     const val ANDROID_APPLICATION = "com.android.application"
     const val KOTLIN_ANDROID = "kotlin-android"
     const val KOTLIN_KAPT = "kotlin-kapt"
-    const val SAFE_ARGS = "androidx.navigation.safeargs.kotlin"
     const val DAGGER_HILT = "dagger.hilt.android.plugin"
     const val GOOGLE_SERVICES = "com.google.gms.google-services"
     const val KOTLIN_PARCELIZE = "kotlin-parcelize"

@@ -2,7 +2,6 @@ plugins {
     id(PluginId.COMPOSE_CONVENTION)
     id(PluginId.KOTLIN_KAPT)
     id(PluginId.DAGGER_HILT)
-    id(PluginId.SAFE_ARGS)
 }
 
 dependencies {
@@ -27,16 +26,7 @@ dependencies {
     implementation(libs.compose.navigationHilt)
 
     implementation(libs.lifecycle.livedata)
-    implementation(libs.lifecycle.viewModel)
-    implementation(libs.lifecycle.runtime)
-    kapt(libs.lifecycle.compiler)
-
-    implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
 
     implementation(libs.hilt.library)
     kapt(libs.hilt.compiler)
-
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
 }

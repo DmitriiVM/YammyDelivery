@@ -54,7 +54,6 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 
 datastore = "androidx.datastore:datastore-preferences:1.0.0-alpha08"
 
-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 
 firebase-bom = "com.google.firebase:firebase-bom:27.1.0"

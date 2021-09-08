@@ -14,9 +14,6 @@ dependencies {
 
     implementation(libs.bundles.coroutines)
 
-    implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
-
     implementation(libs.hilt.library)
     kapt(libs.hilt.compiler)
 }

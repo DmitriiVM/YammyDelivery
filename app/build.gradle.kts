@@ -3,7 +3,6 @@ plugins {
     id(PluginId.ANDROID_CONVENTION)
     id(PluginId.KOTLIN_ANDROID)
     id(PluginId.KOTLIN_KAPT)
-    id(PluginId.SAFE_ARGS)
     id(PluginId.DAGGER_HILT)
     id(PluginId.GOOGLE_SERVICES)
 }
@@ -48,23 +47,13 @@ dependencies {
     implementation(libs.android.material)
 
     implementation(libs.bundles.compose)
-    implementation(libs.compose.icons)
-    implementation(libs.compose.iconsExtended)
     implementation(libs.compose.navigation)
     implementation(libs.accompanist.insets)
-
-    implementation(libs.bundles.coroutines)
 
     implementation(libs.hilt.library)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
-
     implementation(libs.retrofit)
-
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)

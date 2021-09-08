@@ -2,7 +2,6 @@ plugins {
     id(PluginId.COMPOSE_CONVENTION)
     id(PluginId.KOTLIN_KAPT)
     id(PluginId.DAGGER_HILT)
-    id(PluginId.SAFE_ARGS)
     id(PluginId.KOTLIN_PARCELIZE)
 }
 
@@ -38,7 +37,6 @@ dependencies {
     implementation(libs.hilt.library)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
     implementation(libs.google.maps)
