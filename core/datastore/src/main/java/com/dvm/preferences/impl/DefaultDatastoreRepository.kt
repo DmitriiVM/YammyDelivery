@@ -2,11 +2,8 @@ package com.dvm.preferences.impl
 
 import com.dvm.preferences.api.DatastoreRepository
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class DefaultDatastoreRepository @Inject constructor(
+internal class DefaultDatastoreRepository(
     private val dataStore: DataStore
 ): DatastoreRepository {
 

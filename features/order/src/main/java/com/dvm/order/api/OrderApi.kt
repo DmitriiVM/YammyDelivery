@@ -1,4 +1,4 @@
-package com.dvm.auth.api
+package com.dvm.order.api
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -8,8 +8,8 @@ import com.dvm.order.ordering.Ordering
 import com.dvm.order.orders.Orders
 
 @Composable
-fun OrderScreen() {
-    Order()
+fun OrderScreen(orderId: String) {
+    Order(orderId)
 }
 
 @Composable

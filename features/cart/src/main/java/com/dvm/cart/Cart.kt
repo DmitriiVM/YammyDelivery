@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
@@ -53,10 +52,11 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getStateViewModel
 
 @Composable
 internal fun Cart(
-    viewModel: CartViewModel = hiltViewModel()
+    viewModel: CartViewModel = getStateViewModel()
 ) {
     val state: CartState = viewModel.state
     val onEvent: (CartEvent) -> Unit = { viewModel.dispatch(it) }

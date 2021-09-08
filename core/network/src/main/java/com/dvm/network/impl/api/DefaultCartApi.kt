@@ -8,9 +8,8 @@ import com.dvm.network.impl.request.CartItem
 import com.dvm.network.impl.request.CheckCoordinatesRequest
 import com.dvm.network.impl.request.CheckInputRequest
 import com.dvm.network.impl.request.UpdateCartRequest
-import javax.inject.Inject
 
-internal class DefaultCartApi @Inject constructor(
+internal class DefaultCartApi(
     private val apiService: ApiService
 ) : CartApi {
 

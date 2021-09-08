@@ -2,6 +2,7 @@ package com.dvm.menu.category.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,8 +23,6 @@ import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -32,24 +31,29 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class CategoryViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class CategoryViewModel(
+    private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val cartRepository: CartRepository,
     private val navigator: Navigator,
+    arguments: Bundle?,
     savedState: SavedStateHandle
 ) : ViewModel() {
 
     var state by mutableStateOf(CategoryState())
         private set
 
-    private val categoryId = savedState.getLiveData<String>(Destination.Category.CATEGORY_ID)
-    private val subcategoryId = savedState.getLiveData<String?>(Destination.Category.SUBCATEGORY_ID, null)
+    private val categoryId = savedState.getLiveData<String>(
+        Destination.Category.CATEGORY_ID,
+        arguments?.getString(Destination.Category.CATEGORY_ID)
+    )
+    private val subcategoryId = savedState.getLiveData<String?>(
+        Destination.Category.SUBCATEGORY_ID,
+        arguments?.getString(Destination.Category.SUBCATEGORY_ID)
+    )
     private val orderType = savedState.getLiveData("orderType", OrderType.ALPHABET_ASC)
 
     init {

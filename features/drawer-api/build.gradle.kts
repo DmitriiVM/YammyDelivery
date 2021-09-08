@@ -1,6 +1,5 @@
 plugins {
     id(PluginId.COMPOSE_CONVENTION)
-    id(PluginId.KOTLIN_KAPT)
 }
 
 dependencies {
@@ -8,9 +7,4 @@ dependencies {
     implementation(project(ModulePath.Feature.DRAWER))
 
     implementation(libs.bundles.compose)
-    implementation(libs.compose.viewModel)
-
-    implementation(libs.lifecycle.viewModel)
-    implementation(libs.lifecycle.runtime)
-    kapt(libs.lifecycle.compiler)
 }

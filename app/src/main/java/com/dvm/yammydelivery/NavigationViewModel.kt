@@ -11,16 +11,16 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@HiltViewModel
-internal class NavigationViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    navigator: Navigator
-) : ViewModel() {
+internal class NavigationViewModel(
+    private val savedStateHandle: SavedStateHandle
+): ViewModel(), KoinComponent {
+
+    private val navigator: Navigator by inject()
 
     var navController: NavHostController? = null
 
@@ -103,7 +103,7 @@ internal class NavigationViewModel @Inject constructor(
                 navController.navigate(
                     route = "${Destination.Category.ROUTE}/" +
                             "${destination.categoryId}/" +
-                            "?${Destination.Category.CATEGORY_ID}=${destination.subcategoryId}",
+                            "?${Destination.Category.SUBCATEGORY_ID}=${destination.subcategoryId}",
                     builder = builder
                 )
             }

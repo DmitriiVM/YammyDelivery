@@ -26,7 +26,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
@@ -40,10 +39,11 @@ import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
+import org.koin.androidx.compose.getStateViewModel
 
 @Composable
 internal fun Login(
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = getStateViewModel()
 ) {
     val state: LoginState = viewModel.state
     val onEvent: (LoginEvent) -> Unit = { viewModel.dispatch(it) }

@@ -35,7 +35,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.CardDishDetails
 import com.dvm.menu.R
@@ -52,10 +51,11 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 internal fun Main(
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = getViewModel()
 ) {
     val state: MainState = viewModel.state
     val onEvent: (MainEvent) -> Unit = { viewModel.dispatch(it) }

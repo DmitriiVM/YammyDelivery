@@ -18,9 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultUpdateService @Inject constructor(
+internal class DefaultUpdateService(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val reviewRepository: ReviewRepository,

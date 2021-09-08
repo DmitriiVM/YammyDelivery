@@ -40,7 +40,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
@@ -52,10 +51,11 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 internal fun Menu(
-    viewModel: MenuViewModel = hiltViewModel()
+    viewModel: MenuViewModel = getViewModel()
 ) {
     val menuItems = viewModel.menuItems
     val onEvent: (MenuEvent) -> Unit = { viewModel.dispatch(it) }

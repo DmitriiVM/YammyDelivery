@@ -14,24 +14,18 @@ import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.AppLauncher
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@AndroidEntryPoint
-class NotificationService : FirebaseMessagingService() {
+class NotificationService : FirebaseMessagingService(), KoinComponent {
 
-    @Inject
-    lateinit var navigator: Navigator
-    @Inject
-    lateinit var serviceScope: CoroutineScope
-    @Inject
-    lateinit var appLauncher: AppLauncher
-    @Inject
-    lateinit var notificationRepository: NotificationRepository
-    @Inject
-    lateinit var datastore: DatastoreRepository
+    private val datastore: DatastoreRepository by inject()
+    private val notificationRepository: NotificationRepository by inject()
+    private val navigator: Navigator by inject()
+    private val appLauncher: AppLauncher by inject()
+    private val serviceScope: CoroutineScope by inject()
 
     override fun onNewToken(token: String) {
         Log.d(NOTIFICATION_SERVICE, "Refreshed token: $token")

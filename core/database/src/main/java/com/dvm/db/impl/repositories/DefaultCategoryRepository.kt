@@ -8,9 +8,8 @@ import com.dvm.db.impl.dao.CategoryDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultCategoryRepository @Inject constructor(
+internal class DefaultCategoryRepository(
     private val categoryDao: CategoryDao
 ) : CategoryRepository {
 

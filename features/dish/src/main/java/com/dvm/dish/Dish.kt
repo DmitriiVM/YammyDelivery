@@ -47,7 +47,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.dish.model.DishEvent
 import com.dvm.ui.components.Alert
@@ -60,6 +59,8 @@ import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
+import org.koin.androidx.compose.getStateViewModel
+import org.koin.core.parameter.parametersOf
 
 private const val HORIZONTAL_POINT_OFFSET = 50f
 private const val VERTICAL_POINT_OFFSET = 50f
@@ -67,7 +68,8 @@ private const val VERTICAL_POINT_OFFSET = 50f
 @OptIn(ExperimentalStdlibApi::class, ExperimentalComposeApi::class)
 @Composable
 internal fun Dish(
-    viewModel: DishViewModel = hiltViewModel()
+    dishId: String,
+    viewModel: DishViewModel = getStateViewModel { parametersOf(dishId) }
 ) {
     val state = viewModel.state
     val onEvent: (DishEvent) -> Unit = { viewModel.dispatch(it) }

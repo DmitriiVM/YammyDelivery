@@ -15,17 +15,13 @@ import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class FavoriteViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class FavoriteViewModel(
+    private val context: Context,
     private val cartRepository: CartRepository,
     private val navigator: Navigator,
     dishRepository: DishRepository,

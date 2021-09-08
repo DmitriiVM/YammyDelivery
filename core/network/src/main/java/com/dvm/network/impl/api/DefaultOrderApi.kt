@@ -8,9 +8,8 @@ import com.dvm.network.impl.getAllChunks
 import com.dvm.network.impl.request.CancelOrderRequest
 import com.dvm.network.impl.request.CreateOrderRequest
 import com.dvm.utils.hasCode
-import javax.inject.Inject
 
-internal class DefaultOrderApi @Inject constructor(
+internal class DefaultOrderApi(
     private val apiService: ApiService
 ) : OrderApi {
 

@@ -18,18 +18,14 @@ import com.dvm.order.ordering.model.OrderingFields
 import com.dvm.order.ordering.model.OrderingState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
 @SuppressLint("StaticFieldLeak")
-internal class OrderingViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class OrderingViewModel(
+    private val context: Context,
     private val orderApi: OrderApi,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,

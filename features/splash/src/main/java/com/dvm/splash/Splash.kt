@@ -10,15 +10,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 internal fun Splash(
-    viewModel: SplashViewModel = hiltViewModel()
+    viewModel: SplashViewModel = getViewModel()
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),

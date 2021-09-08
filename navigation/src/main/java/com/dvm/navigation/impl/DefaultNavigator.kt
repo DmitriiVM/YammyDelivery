@@ -3,11 +3,8 @@ package com.dvm.navigation.impl
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import kotlinx.coroutines.flow.MutableSharedFlow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class DefaultNavigator @Inject constructor() : Navigator {
+internal class DefaultNavigator : Navigator {
 
     override val destination: MutableSharedFlow<Destination> = MutableSharedFlow(1)
     override val currentDestination: Destination?

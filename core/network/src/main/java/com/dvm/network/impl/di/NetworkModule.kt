@@ -13,62 +13,73 @@ import com.dvm.network.impl.api.DefaultCartApi
 import com.dvm.network.impl.api.DefaultMenuApi
 import com.dvm.network.impl.api.DefaultOrderApi
 import com.dvm.network.impl.api.DefaultProfileApi
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface NetworkModule {
+val networkModule = module {
 
-    @Binds
-    fun provideAuthService(authService: DefaultAuthApi): AuthApi
+    single {
+        Retrofit.Builder()
+            .baseUrl("https://sandbox.skill-branch.ru/")
+            .client(get())
+            .addCallAdapterFactory(ExceptionCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
 
-    @Binds
-    fun provideCartService(cartService: DefaultCartApi): CartApi
+    single {
+        OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .addInterceptor(
+                HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
+            .authenticator(get())
+            .build()
+    }
 
-    @Binds
-    fun provideMenuService(menuService: DefaultMenuApi): MenuApi
+    single<Authenticator> {
+        TokenAuthenticator(
+            datastore = get(),
+            authApi = lazy { get() }
+        )
+    }
 
-    @Binds
-    fun provideOrderService(orderService: DefaultOrderApi): OrderApi
+    factory<AuthApi> {
+        DefaultAuthApi(
+            apiService = get()
+        )
+    }
 
-    @Binds
-    fun provideProfileService(profileService: DefaultProfileApi): ProfileApi
+    factory<CartApi> {
+        DefaultCartApi(
+            apiService = get()
+        )
+    }
 
-    companion object {
+    factory<MenuApi> {
+        DefaultMenuApi(
+            apiService = get()
+        )
+    }
 
-        @Singleton
-        @Provides
-        fun provideApiService(client: OkHttpClient): ApiService =
-            Retrofit.Builder()
-                .baseUrl("https://sandbox.skill-branch.ru/")
-                .client(client)
-                .addCallAdapterFactory(ExceptionCallAdapterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ApiService::class.java)
+    factory<OrderApi> {
+        DefaultOrderApi(
+            apiService = get()
+        )
+    }
 
-        @Singleton
-        @Provides
-        fun provideOkHttpClient(authenticator: TokenAuthenticator): OkHttpClient =
-            OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(20, TimeUnit.SECONDS)
-                .addInterceptor(
-                    HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-                .authenticator(authenticator)
-                .build()
+    factory<ProfileApi> {
+        DefaultProfileApi(
+            apiService = get()
+        )
     }
 }

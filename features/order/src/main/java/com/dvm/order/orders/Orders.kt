@@ -30,7 +30,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.OrderData
 import com.dvm.order.R
@@ -52,11 +51,12 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getStateViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun Orders(
-    viewModel: OrdersViewModel = hiltViewModel()
+    viewModel: OrdersViewModel = getStateViewModel()
 ) {
     val state: OrdersState = viewModel.state
     val onEvent: (OrdersEvent) -> Unit = { viewModel.dispatch(it) }

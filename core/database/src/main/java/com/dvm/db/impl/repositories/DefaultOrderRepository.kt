@@ -1,14 +1,17 @@
 package com.dvm.db.impl.repositories
 
 import com.dvm.db.api.OrderRepository
-import com.dvm.db.api.models.*
+import com.dvm.db.api.models.Order
+import com.dvm.db.api.models.OrderData
+import com.dvm.db.api.models.OrderItem
+import com.dvm.db.api.models.OrderStatus
+import com.dvm.db.api.models.OrderWithItems
 import com.dvm.db.impl.dao.OrderDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultOrderRepository @Inject constructor(
+internal class DefaultOrderRepository(
     private val orderDao: OrderDao
 ) : OrderRepository {
 

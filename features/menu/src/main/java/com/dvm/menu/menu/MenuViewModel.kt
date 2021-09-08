@@ -11,13 +11,10 @@ import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @OptIn(ExperimentalStdlibApi::class)
-@HiltViewModel
-internal class MenuViewModel @Inject constructor(
+internal class MenuViewModel(
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val navigator: Navigator

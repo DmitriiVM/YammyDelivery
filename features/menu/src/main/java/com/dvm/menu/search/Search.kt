@@ -48,7 +48,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
@@ -62,10 +61,11 @@ import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
+import org.koin.androidx.compose.getStateViewModel
 
 @Composable
 internal fun Search(
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = getStateViewModel()
 ) {
     val state: SearchState = viewModel.state
     val onEvent: (SearchEvent) -> Unit = { viewModel.dispatch(it) }

@@ -9,9 +9,7 @@ import androidx.core.view.WindowCompat
 import com.dvm.notification.NotificationService.Companion.NOTIFICATION_EXTRA
 import com.dvm.ui.YammyDeliveryScreen
 import com.google.accompanist.insets.ProvideWindowInsets
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 internal class MainActivity : AppCompatActivity() {
 
     private val viewModel: NavigationViewModel by viewModels()
@@ -22,7 +20,7 @@ internal class MainActivity : AppCompatActivity() {
         viewModel.setNavHostController(this)
         setContent {
             YammyDeliveryScreen(this) {
-                ProvideWindowInsets(windowInsetsAnimationsEnabled = true){
+                ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     NavHost(viewModel.navController!!)
                 }
             }

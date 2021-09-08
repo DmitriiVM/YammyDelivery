@@ -5,9 +5,8 @@ import com.dvm.network.api.response.ProfileResponse
 import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.request.ChangePasswordRequest
 import com.dvm.network.impl.request.EdieProfileRequest
-import javax.inject.Inject
 
-internal class DefaultProfileApi @Inject constructor(
+internal class DefaultProfileApi(
     private val apiService: ApiService
 ) : ProfileApi {
 

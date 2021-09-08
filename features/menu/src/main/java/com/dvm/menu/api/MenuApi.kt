@@ -1,5 +1,6 @@
 package com.dvm.menu.api
 
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import com.dvm.menu.category.presentation.Category
 import com.dvm.menu.favorite.Favorite
@@ -18,8 +19,8 @@ fun SearchScreen() {
 }
 
 @Composable
-fun CategoryScreen() {
-    Category()
+fun CategoryScreen(arguments: Bundle?) {
+    Category(arguments)
 }
 
 @Composable

@@ -9,9 +9,8 @@ import com.dvm.db.impl.dao.DishDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultDishRepository @Inject constructor(
+internal class DefaultDishRepository(
     private val dishDao: DishDao
 ) : DishRepository {
 

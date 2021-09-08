@@ -1,6 +1,7 @@
 package com.dvm.menu.category.presentation
 
 import android.content.res.Configuration
+import android.os.Bundle
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Animatable
@@ -51,7 +52,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
@@ -66,12 +66,15 @@ import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
+import org.koin.androidx.compose.getStateViewModel
+import org.koin.core.parameter.parametersOf
 
 private val AppBarHeight = 56.dp
 
 @Composable
 internal fun Category(
-    viewModel: CategoryViewModel = hiltViewModel()
+    arguments: Bundle?,
+    viewModel: CategoryViewModel = getStateViewModel { parametersOf(arguments) }
 ) {
     val state: CategoryState = viewModel.state
     val onEvent: (CategoryEvent) -> Unit = { viewModel.dispatch(it) }

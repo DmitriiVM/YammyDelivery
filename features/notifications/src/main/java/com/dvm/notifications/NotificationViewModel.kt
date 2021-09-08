@@ -11,16 +11,13 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
 import com.dvm.preferences.api.DatastoreRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-internal class NotificationViewModel @Inject constructor(
+internal class NotificationViewModel(
     private val notificationRepository: NotificationRepository,
     private val navigator: Navigator,
     datastore: DatastoreRepository

@@ -6,9 +6,8 @@ import com.dvm.db.impl.dao.HintDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultHintRepository @Inject constructor(
+internal class DefaultHintRepository(
     private val hintDao: HintDao
 ) : HintRepository {
 

@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.order.R
 import com.dvm.order.map.model.MapState
 import com.dvm.ui.components.Alert
@@ -32,10 +31,11 @@ import com.dvm.ui.components.AlertButton
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.maps.android.ktx.awaitMap
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getStateViewModel
 
 @Composable
 internal fun Map(
-    viewModel: MapViewModel = hiltViewModel()
+    viewModel: MapViewModel = getStateViewModel()
 ) {
     val state: MapState = viewModel.state
 

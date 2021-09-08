@@ -1,7 +1,5 @@
 plugins {
     id(PluginId.LIBRARY_CONVENTION)
-    id(PluginId.KOTLIN_KAPT)
-    id(PluginId.DAGGER_HILT)
 }
 
 dependencies {
@@ -14,9 +12,6 @@ dependencies {
 
     implementation(libs.bundles.coroutines)
 
-    implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
-
-    implementation(libs.hilt.library)
-    kapt(libs.hilt.compiler)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 }

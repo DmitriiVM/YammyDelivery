@@ -45,8 +45,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.dvm.appmenu.model.AppMenuEvent
+import com.dvm.appmenu.model.DrawerEvent
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.themes.DecorColors
@@ -54,6 +53,7 @@ import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -63,16 +63,12 @@ fun AppDrawer(
     content: @Composable () -> Unit
 ) {
 
-    val viewModel: AppMenuViewModel = viewModel()
+    val viewModel: DrawerViewModel = getViewModel()
     val state = viewModel.state
 
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
-
-    LaunchedEffect(Unit) {
-        viewModel.init(context.applicationContext)
-    }
 
     LaunchedEffect(drawerState.isOpen) {
         if (drawerState.isOpen) {
@@ -120,17 +116,17 @@ fun AppDrawer(
                         email = state.email,
                         onProfileClick = {
                             viewModel.onEvent(
-                                AppMenuEvent.SelectItem(DrawerItem.PROFILE)
+                                DrawerEvent.SelectItem(DrawerItem.PROFILE)
                             )
                         },
                         onAuthButtonClick = {
                             if (state.email.isEmpty()) {
                                 scope.launch {
                                     drawerState.close()
-                                    viewModel.onEvent(AppMenuEvent.Auth)
+                                    viewModel.onEvent(DrawerEvent.Auth)
                                 }
                             } else {
-                                viewModel.onEvent(AppMenuEvent.Auth)
+                                viewModel.onEvent(DrawerEvent.Auth)
                             }
                         }
                     )
@@ -148,7 +144,7 @@ fun AppDrawer(
 
                     val onClick: suspend (DrawerItem) -> Unit = { item ->
                         drawerState.close()
-                        viewModel.onEvent(AppMenuEvent.SelectItem(item))
+                        viewModel.onEvent(DrawerEvent.SelectItem(item))
                     }
 
                     DrawerItem(
@@ -208,7 +204,7 @@ fun AppDrawer(
     )
 
     if (!state.alert.isNullOrEmpty()) {
-        val onDismiss = { viewModel.onEvent(AppMenuEvent.DismissAlert) }
+        val onDismiss = { viewModel.onEvent(DrawerEvent.DismissAlert) }
         Alert(
             message = state.alert,
             onDismiss = onDismiss,
@@ -219,7 +215,7 @@ fun AppDrawer(
                 )
                 AlertButton(
                     text = { Text(stringResource(R.string.common_yes)) },
-                    onClick = { viewModel.onEvent(AppMenuEvent.Logout) }
+                    onClick = { viewModel.onEvent(DrawerEvent.Logout) }
                 )
             }
         )

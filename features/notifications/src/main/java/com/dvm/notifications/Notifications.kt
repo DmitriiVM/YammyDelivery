@@ -28,7 +28,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.notifications.model.NotificationEvent
 import com.dvm.notifications.model.NotificationState
@@ -41,11 +40,12 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeApi::class)
 @Composable
 internal fun Notifications(
-    viewModel: NotificationViewModel = hiltViewModel()
+    viewModel: NotificationViewModel = getViewModel()
 ) {
     val state: NotificationState = viewModel.state
     val onEvent: (NotificationEvent) -> Unit = { viewModel.dispatch(it) }

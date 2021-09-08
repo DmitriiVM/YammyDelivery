@@ -2,25 +2,18 @@ package com.dvm.yammydelivery.di
 
 import com.dvm.utils.AppLauncher
 import com.dvm.yammydelivery.DefaultAppLauncher
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface AppModule {
+val appModule = module {
 
-    @Binds
-    fun provideAppLauncher(appLauncher: DefaultAppLauncher): AppLauncher
+    factory<AppLauncher> {
+        DefaultAppLauncher()
+    }
 
-    companion object {
-        @Provides
-        fun provideServiceScope(): CoroutineScope =
-            CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    factory {
+        CoroutineScope(SupervisorJob() + Dispatchers.IO)
     }
 }

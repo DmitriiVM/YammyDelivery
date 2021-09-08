@@ -21,8 +21,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -33,12 +31,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class MapViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class MapViewModel(
+    private val context: Context,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {

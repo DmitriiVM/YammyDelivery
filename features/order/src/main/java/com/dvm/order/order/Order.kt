@@ -22,7 +22,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.db.api.models.OrderItem
 import com.dvm.order.R
@@ -37,10 +36,13 @@ import com.dvm.ui.components.LoadingScrim
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
 import com.google.accompanist.insets.statusBarsHeight
+import org.koin.androidx.compose.getStateViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun Order(
-    viewModel: OrderViewModel = hiltViewModel()
+    orderId: String,
+    viewModel: OrderViewModel = getStateViewModel { parametersOf(orderId) }
 ) {
     val state: OrderState = viewModel.state
     val onEvent: (OrderEvent) -> Unit = { viewModel.dispatch(it) }

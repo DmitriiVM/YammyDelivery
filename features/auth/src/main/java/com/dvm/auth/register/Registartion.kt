@@ -25,7 +25,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
@@ -39,10 +38,11 @@ import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
+import org.koin.androidx.compose.getStateViewModel
 
 @Composable
 internal fun Registration(
-    viewModel: RegisterViewModel = hiltViewModel()
+    viewModel: RegisterViewModel = getStateViewModel()
 ) {
     val state: RegisterState = viewModel.state
     val onEvent: (RegisterEvent) -> Unit = { viewModel.dispatch(it) }

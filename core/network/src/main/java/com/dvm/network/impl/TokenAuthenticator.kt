@@ -2,15 +2,13 @@ package com.dvm.network.impl
 
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
-import dagger.Lazy
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import javax.inject.Inject
 
-internal class TokenAuthenticator @Inject constructor(
+internal class TokenAuthenticator(
     private val datastore: DatastoreRepository,
     private val authApi: Lazy<AuthApi>
 ) : Authenticator {
@@ -23,7 +21,7 @@ internal class TokenAuthenticator @Inject constructor(
             refreshToken ?: return@runBlocking null
 
             val tokens = try {
-                authApi.get().refreshToken(refreshToken)
+                authApi.value.refreshToken(refreshToken)
             } catch (exception: Exception) {
                 return@runBlocking null
             }

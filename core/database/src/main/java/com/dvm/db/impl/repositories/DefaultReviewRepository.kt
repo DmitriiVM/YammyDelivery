@@ -5,9 +5,8 @@ import com.dvm.db.api.models.Review
 import com.dvm.db.impl.dao.ReviewDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultReviewRepository @Inject constructor(
+internal class DefaultReviewRepository(
     private val reviewDao: ReviewDao
 ) : ReviewRepository {
 

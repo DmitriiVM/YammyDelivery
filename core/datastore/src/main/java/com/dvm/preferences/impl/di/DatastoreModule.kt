@@ -1,15 +1,22 @@
 package com.dvm.preferences.impl.di
 
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.preferences.impl.DataStore
 import com.dvm.preferences.impl.DefaultDatastoreRepository
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface DatastoreModule {
-    @Binds
-    fun provideDatastoreRepository(repository: DefaultDatastoreRepository): DatastoreRepository
+val datastoreModule = module{
+
+    factory<DatastoreRepository> {
+        DefaultDatastoreRepository(
+            dataStore = get()
+        )
+    }
+
+    single {
+        DataStore(
+            context = get()
+        )
+    }
+
 }

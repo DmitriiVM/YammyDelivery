@@ -5,9 +5,8 @@ import com.dvm.db.api.models.Favorite
 import com.dvm.db.impl.dao.FavoriteDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultFavoriteRepository @Inject constructor(
+internal class DefaultFavoriteRepository(
     private val favoriteDao: FavoriteDao
 ) : FavoriteRepository {
 

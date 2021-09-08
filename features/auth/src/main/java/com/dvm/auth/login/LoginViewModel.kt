@@ -23,18 +23,14 @@ import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.getErrorMessage
 import com.dvm.utils.hasCode
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class LoginViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class LoginViewModel(
+    private val context: Context,
     private val authApi: AuthApi,
     private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,

@@ -1,5 +1,6 @@
 package com.dvm.yammydelivery
 
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,11 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import com.dvm.auth.api.CartScreen
 import com.dvm.auth.api.LoginScreen
-import com.dvm.auth.api.MapScreen
 import com.dvm.auth.api.NotificationScreen
-import com.dvm.auth.api.OrderScreen
-import com.dvm.auth.api.OrderingScreen
-import com.dvm.auth.api.OrdersScreen
 import com.dvm.auth.api.PasswordRestoreScreen
 import com.dvm.auth.api.ProfileScreen
 import com.dvm.auth.api.RegistrationScreen
@@ -23,6 +20,10 @@ import com.dvm.menu.api.MainScreen
 import com.dvm.menu.api.MenuScreen
 import com.dvm.menu.api.SearchScreen
 import com.dvm.navigation.api.model.Destination
+import com.dvm.order.api.MapScreen
+import com.dvm.order.api.OrderScreen
+import com.dvm.order.api.OrderingScreen
+import com.dvm.order.api.OrdersScreen
 import com.dvm.splash.api.SplashScreen
 
 @Composable
@@ -46,8 +47,14 @@ fun NavHost(navController: NavHostController) {
         composable(Destination.Profile.route) { ProfileScreen() }
         composable(Destination.Map.ROUTE) { MapScreen() }
 
-        composable("${Destination.Dish.ROUTE}/{${Destination.Dish.DISH_ID}}") { DishScreen() }
-        composable("${Destination.Order.ROUTE}/{${Destination.Order.ORDER_ID}}") { OrderScreen() }
+        composable("${Destination.Dish.ROUTE}/{${Destination.Dish.DISH_ID}}") { entry ->
+            val dishId = entry.arguments?.getString(Destination.Dish.DISH_ID)
+            DishScreen(requireNotNull(dishId))
+        }
+        composable("${Destination.Order.ROUTE}/{${Destination.Order.ORDER_ID}}") { entry ->
+            val orderId = entry.arguments?.getString(Destination.Order.ORDER_ID)
+            OrderScreen(requireNotNull(orderId))
+        }
 
         composable(
             route = "${Destination.Category.ROUTE}/" +
@@ -60,8 +67,9 @@ fun NavHost(navController: NavHostController) {
                     defaultValue = null
                 }
             )
-        ) {
-            CategoryScreen()
+        ) { entry ->
+            val arguments: Bundle? = entry.arguments
+            CategoryScreen(arguments)
         }
     }
 }

@@ -7,9 +7,8 @@ import com.dvm.db.impl.dao.CartDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultCartRepository @Inject constructor(
+internal class DefaultCartRepository(
     private val cartDao: CartDao
 ) : CartRepository {
 

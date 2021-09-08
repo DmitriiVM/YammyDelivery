@@ -9,9 +9,8 @@ import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.getAllChunks
 import com.dvm.network.impl.request.AddReviewRequest
 import com.dvm.network.impl.request.ChangeFavoriteRequest
-import javax.inject.Inject
 
-internal class DefaultMenuApi @Inject constructor(
+internal class DefaultMenuApi(
     private val apiService: ApiService
 ) : MenuApi {
 

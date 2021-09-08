@@ -1,8 +1,5 @@
 plugins {
     id(PluginId.COMPOSE_CONVENTION)
-    id(PluginId.KOTLIN_KAPT)
-    id(PluginId.DAGGER_HILT)
-    id(PluginId.SAFE_ARGS)
     id(PluginId.KOTLIN_PARCELIZE)
 }
 
@@ -19,26 +16,21 @@ dependencies {
     implementation(libs.android.core)
     implementation(libs.android.appcompat)
 
+    implementation(libs.activity.compose)
     implementation(libs.bundles.compose)
     implementation(libs.compose.icons)
-    implementation(libs.compose.iconsExtended)
-    implementation(libs.compose.viewModel)
     implementation(libs.compose.coil)
-    implementation(libs.compose.navigationHilt)
 
     implementation(libs.accompanist.insets)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pagerIndicators)
 
     implementation(libs.lifecycle.livedata)
-    implementation(libs.lifecycle.viewModel)
-    implementation(libs.lifecycle.runtime)
-    kapt(libs.lifecycle.compiler)
 
-    implementation(libs.hilt.library)
-    kapt(libs.hilt.compiler)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
 
-    implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
     implementation(libs.google.maps)

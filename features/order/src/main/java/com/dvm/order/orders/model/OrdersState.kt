@@ -1,9 +1,7 @@
 package com.dvm.order.orders.model
 
 import com.dvm.db.api.models.OrderData
-import javax.annotation.concurrent.Immutable
 
-@Immutable
 internal data class OrdersState(
     val status: OrderStatus = OrderStatus.ACTUAL,
     val orders: List<OrderData> = emptyList(),

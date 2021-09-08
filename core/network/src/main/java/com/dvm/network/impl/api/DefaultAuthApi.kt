@@ -4,10 +4,14 @@ import com.dvm.network.api.AuthApi
 import com.dvm.network.api.response.AuthResponse
 import com.dvm.network.api.response.TokenResponse
 import com.dvm.network.impl.ApiService
-import com.dvm.network.impl.request.*
-import javax.inject.Inject
+import com.dvm.network.impl.request.LoginRequest
+import com.dvm.network.impl.request.RefreshTokenRequest
+import com.dvm.network.impl.request.RegisterRequest
+import com.dvm.network.impl.request.ResetPasswordRequest
+import com.dvm.network.impl.request.SendCodeRequest
+import com.dvm.network.impl.request.SendEmailRequest
 
-internal class DefaultAuthApi @Inject constructor(
+internal class DefaultAuthApi(
     private val apiService: ApiService
 ) : AuthApi {
 

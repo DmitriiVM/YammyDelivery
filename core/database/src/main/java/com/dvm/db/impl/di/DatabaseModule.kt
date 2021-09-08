@@ -1,6 +1,5 @@
 package com.dvm.db.impl.di
 
-import android.content.Context
 import androidx.room.Room
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.CategoryRepository
@@ -21,79 +20,108 @@ import com.dvm.db.impl.repositories.DefaultNotificationRepository
 import com.dvm.db.impl.repositories.DefaultOrderRepository
 import com.dvm.db.impl.repositories.DefaultProfileRepository
 import com.dvm.db.impl.repositories.DefaultReviewRepository
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface DatabaseModule {
+val databaseModule = module {
 
-    @Binds
-    fun provideCategoryRepository(repository: DefaultCategoryRepository): CategoryRepository
+    single {
+        Room
+            .databaseBuilder(
+                get(),
+                AppDatabase::class.java,
+                "YammyDatabase"
+            )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
-    @Binds
-    fun provideDishRepository(repository: DefaultDishRepository): DishRepository
+    single {
+        get<AppDatabase>().cartDao()
+    }
 
-    @Binds
-    fun provideCartRepository(repository: DefaultCartRepository): CartRepository
+    single {
+        get<AppDatabase>().dishDao()
+    }
 
-    @Binds
-    fun provideFavoriteRepository(repository: DefaultFavoriteRepository): FavoriteRepository
+    single {
+        get<AppDatabase>().categoryDao()
+    }
 
-    @Binds
-    fun provideReviewRepository(repository: DefaultReviewRepository): ReviewRepository
+    single {
+        get<AppDatabase>().favoriteDao()
+    }
 
-    @Binds
-    fun provideNotificationRepository(repository: DefaultNotificationRepository): NotificationRepository
+    single {
+        get<AppDatabase>().reviewDao()
+    }
 
-    @Binds
-    fun provideProfileRepository(repository: DefaultProfileRepository): ProfileRepository
+    single {
+        get<AppDatabase>().hintDao()
+    }
 
-    @Binds
-    fun provideOrderRepository(repository: DefaultOrderRepository): OrderRepository
+    single {
+        get<AppDatabase>().notificationDao()
+    }
 
-    @Binds
-    fun provideHintRepository(repository: DefaultHintRepository): HintRepository
+    single {
+        get<AppDatabase>().profileDao()
+    }
 
-    companion object {
-        @Singleton
-        @Provides
-        fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
-            Room
-                .databaseBuilder(context, AppDatabase::class.java, "YammyDatabase")
-                .fallbackToDestructiveMigration()
-                .build()
+    single {
+        get<AppDatabase>().orderDao()
+    }
 
-        @Provides
-        fun provideCartDao(database: AppDatabase) = database.cartDao()
+    factory<CategoryRepository> {
+        DefaultCategoryRepository(
+            categoryDao = get()
+        )
+    }
 
-        @Provides
-        fun provideDishDao(database: AppDatabase) = database.dishDao()
+    factory<DishRepository> {
+        DefaultDishRepository(
+            dishDao = get()
+        )
+    }
 
-        @Provides
-        fun provideCategoryDao(database: AppDatabase) = database.categoryDao()
+    factory<CartRepository> {
+        DefaultCartRepository(
+            cartDao = get()
+        )
+    }
 
-        @Provides
-        fun provideFavoriteDao(database: AppDatabase) = database.favoriteDao()
+    factory<FavoriteRepository> {
+        DefaultFavoriteRepository(
+            favoriteDao = get()
+        )
+    }
 
-        @Provides
-        fun provideReviewDao(database: AppDatabase) = database.reviewDao()
+    factory<ReviewRepository> {
+        DefaultReviewRepository(
+            reviewDao = get()
+        )
+    }
 
-        @Provides
-        fun provideHintDao(database: AppDatabase) = database.hintDao()
+    factory<NotificationRepository> {
+        DefaultNotificationRepository(
+            notificationDao = get()
+        )
+    }
 
-        @Provides
-        fun provideNotificationDao(database: AppDatabase) = database.notificationDao()
+    factory<ProfileRepository> {
+        DefaultProfileRepository(
+            profileDao = get()
+        )
+    }
 
-        @Provides
-        fun provideProfileDao(database: AppDatabase) = database.profileDao()
+    factory<OrderRepository> {
+        DefaultOrderRepository(
+            orderDao = get()
+        )
+    }
 
-        @Provides
-        fun provideOrderDao(database: AppDatabase) = database.orderDao()
+    factory<HintRepository> {
+        DefaultHintRepository(
+            hintDao = get()
+        )
     }
 }

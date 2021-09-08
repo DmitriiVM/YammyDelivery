@@ -6,9 +6,8 @@ import com.dvm.db.impl.dao.NotificationDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultNotificationRepository @Inject constructor(
+internal class DefaultNotificationRepository(
     private val notificationDao: NotificationDao
 ) : NotificationRepository {
 

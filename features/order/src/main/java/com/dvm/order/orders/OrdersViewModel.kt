@@ -18,8 +18,6 @@ import com.dvm.order.orders.model.OrdersState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.getErrorMessage
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -28,12 +26,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class OrdersViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class OrdersViewModel(
+    private val context: Context,
     private val orderRepository: OrderRepository,
     private val updateService: UpdateService,
     private val navigator: Navigator,

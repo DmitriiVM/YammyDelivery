@@ -21,17 +21,14 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.MenuApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class DishViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class DishViewModel(
+    _dishId: String,
+    private val context: Context,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
     private val menuApi: MenuApi,
@@ -44,8 +41,8 @@ internal class DishViewModel @Inject constructor(
     var state by mutableStateOf(DishState())
         private set
 
+    private val dishId = savedState.getLiveData(Destination.Dish.DISH_ID, _dishId)
     private val quantity = savedState.getLiveData("quantity", 1)
-    private val dishId = savedState.getLiveData<String>(Destination.Dish.DISH_ID)
     private val id: String
         get() = requireNotNull(dishId.value)
 

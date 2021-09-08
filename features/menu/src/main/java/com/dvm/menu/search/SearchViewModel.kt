@@ -20,8 +20,6 @@ import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -31,12 +29,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class SearchViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class SearchViewModel(
+    private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val hintRepository: HintRepository,

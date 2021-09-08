@@ -39,7 +39,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
@@ -53,11 +52,12 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun Profile(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = getViewModel()
 ) {
     val state: ProfileState = viewModel.state
     val onEvent: (ProfileEvent) -> Unit = { viewModel.dispatch(it) }

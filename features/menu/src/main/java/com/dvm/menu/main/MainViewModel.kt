@@ -16,17 +16,13 @@ import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class MainViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class MainViewModel(
+    private val context: Context,
     private val datastore: DatastoreRepository,
     private val cartRepository: CartRepository,
     private val navigator: Navigator,

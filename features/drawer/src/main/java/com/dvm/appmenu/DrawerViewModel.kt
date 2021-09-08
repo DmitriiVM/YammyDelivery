@@ -1,13 +1,14 @@
 package com.dvm.appmenu
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.appmenu.model.AppMenuEvent
-import com.dvm.appmenu.model.AppMenuState
+import com.dvm.appmenu.model.DrawerEvent
+import com.dvm.appmenu.model.DrawerState
 import com.dvm.db.api.CartRepository
 import com.dvm.db.api.FavoriteRepository
 import com.dvm.db.api.NotificationRepository
@@ -17,38 +18,26 @@ import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.DrawerItem
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-internal class AppMenuViewModel @Inject constructor() : ViewModel() {
+@SuppressLint("StaticFieldLeak")
+internal class DrawerViewModel(
+    private val context : Context,
+    private val datastore: DatastoreRepository,
+    private val profileRepository: ProfileRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val orderRepository: OrderRepository,
+    private val cartRepository: CartRepository,
+    private val notificationRepository: NotificationRepository,
+    private val navigator: Navigator
+): ViewModel() {
 
-    var state by mutableStateOf(AppMenuState())
+    var state by mutableStateOf(DrawerState())
         private set
 
-    private lateinit var hiltEntryPoint: AppViewModelEntryPoint
-
-    private val datastore get() = hiltEntryPoint.datastore()
-    private val profileRepository get() = hiltEntryPoint.profileRepository()
-    private val favoriteRepository get() = hiltEntryPoint.favoriteRepository()
-    private val orderRepository get() = hiltEntryPoint.orderRepository()
-    private val cartRepository get() = hiltEntryPoint.cartRepository()
-    private val notificationRepository get() = hiltEntryPoint.notificationRepository()
-    private val navigator get() = hiltEntryPoint.navigator()
-    private val appContext get() = hiltEntryPoint.context()
-
-    fun init(context: Context) {
-        hiltEntryPoint =
-            EntryPointAccessors.fromApplication(context, AppViewModelEntryPoint::class.java)
-
+    init {
         combine(
             profileRepository.profile(),
             notificationRepository.count(),
@@ -73,9 +62,9 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
             .launchIn(viewModelScope)
     }
 
-    fun onEvent(event: AppMenuEvent) {
+    fun onEvent(event: DrawerEvent) {
         when (event) {
-            is AppMenuEvent.SelectItem -> {
+            is DrawerEvent.SelectItem -> {
                 viewModelScope.launch {
                     when (event.item) {
                         DrawerItem.MAIN -> navigator.goTo(Destination.Main)
@@ -89,18 +78,18 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                     }
                 }
             }
-            AppMenuEvent.Auth -> {
+            DrawerEvent.Auth -> {
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
-                            alert = appContext.getString(R.string.app_menu_message_logout)
+                            alert = context.getString(R.string.app_menu_message_logout)
                         )
                     } else {
-                        hiltEntryPoint.navigator().goTo(Destination.Login())
+                        navigator.goTo(Destination.Login())
                     }
                 }
             }
-            AppMenuEvent.Logout -> {
+            DrawerEvent.Logout -> {
                 state = state.copy(alert = null)
                 viewModelScope.launch {
                     datastore.deleteAccessToken()
@@ -110,23 +99,9 @@ internal class AppMenuViewModel @Inject constructor() : ViewModel() {
                     cartRepository.clearCart()
                 }
             }
-            AppMenuEvent.DismissAlert -> {
+            DrawerEvent.DismissAlert -> {
                 state = state.copy(alert = null)
             }
         }
-    }
-
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface AppViewModelEntryPoint {
-        fun navigator(): Navigator
-        fun datastore(): DatastoreRepository
-        fun profileRepository(): ProfileRepository
-        fun favoriteRepository(): FavoriteRepository
-        fun orderRepository(): OrderRepository
-        fun cartRepository(): CartRepository
-        fun notificationRepository(): NotificationRepository
-        @ApplicationContext
-        fun context(): Context
     }
 }

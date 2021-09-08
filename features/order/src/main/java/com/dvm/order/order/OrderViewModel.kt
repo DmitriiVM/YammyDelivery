@@ -20,19 +20,16 @@ import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-internal class OrderViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class OrderViewModel(
+    _orderId: String,
+    private val context: Context,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
@@ -44,7 +41,7 @@ internal class OrderViewModel @Inject constructor(
     var state by mutableStateOf(OrderState())
         private set
 
-    private val orderId = savedState.getLiveData<String>(Destination.Order.ORDER_ID)
+    private val orderId = savedState.getLiveData(Destination.Order.ORDER_ID, _orderId)
 
     init {
         val id = requireNotNull(orderId.value)

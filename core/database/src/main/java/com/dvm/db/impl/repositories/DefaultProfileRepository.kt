@@ -6,9 +6,8 @@ import com.dvm.db.impl.dao.ProfileDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class DefaultProfileRepository @Inject constructor(
+internal class DefaultProfileRepository(
     private val profileDao: ProfileDao
 ) : ProfileRepository {
 

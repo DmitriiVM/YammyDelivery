@@ -1,7 +1,5 @@
 plugins {
     id(PluginId.LIBRARY_CONVENTION)
-    id(PluginId.KOTLIN_KAPT)
-    id(PluginId.DAGGER_HILT)
 }
 
 dependencies {
@@ -13,8 +11,8 @@ dependencies {
     implementation(libs.android.core)
     implementation(libs.bundles.coroutines)
 
-    implementation(libs.hilt.library)
-    kapt(libs.hilt.compiler)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
