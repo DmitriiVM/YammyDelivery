@@ -23,9 +23,6 @@ dependencies {
 
     implementation(libs.lifecycle.livedata)
 
-    implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
-
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)

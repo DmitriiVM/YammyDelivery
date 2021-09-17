@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.ProfileRepository
-import com.dvm.db.api.models.Profile
+import com.dvm.database.Profile
+import com.dvm.database.api.ProfileRepository
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.ProfileApi
@@ -121,7 +121,7 @@ internal class ProfileViewModel(
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
-                val message = if (exception.hasCode(400)){
+                val message = if (exception.hasCode(400)) {
                     context.getString(R.string.profile_message_wrong_password)
                 } else {
                     exception.getErrorMessage(context)

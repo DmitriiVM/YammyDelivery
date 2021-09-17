@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.OrderData
+import com.dvm.database.api.models.Order
 import com.dvm.order.R
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
@@ -157,7 +157,7 @@ internal fun Orders(
 @OptIn(ExperimentalComposeApi::class)
 @Composable
 private fun OrderItem(
-    order: OrderData,
+    order: Order,
     onOrderClick: () -> Unit
 ) {
     Column(

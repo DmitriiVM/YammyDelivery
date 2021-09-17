@@ -10,11 +10,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.CartRepository
-import com.dvm.db.api.CategoryRepository
-import com.dvm.db.api.DishRepository
-import com.dvm.db.api.models.CardDishDetails
-import com.dvm.db.api.models.CartItem
+import com.dvm.database.CartItem
+import com.dvm.database.api.CartRepository
+import com.dvm.database.api.CategoryRepository
+import com.dvm.database.api.DishRepository
+import com.dvm.database.api.models.CardDish
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryData
 import com.dvm.menu.category.presentation.model.CategoryEvent
@@ -158,7 +158,7 @@ internal class CategoryViewModel(
         }
     }
 
-    private fun List<CardDishDetails>.order(orderType: OrderType) =
+    private fun List<CardDish>.order(orderType: OrderType) =
         when (orderType) {
             OrderType.ALPHABET_ASC -> this.sortedBy { it.name }
             OrderType.ALPHABET_DESC -> this.sortedByDescending { it.name }

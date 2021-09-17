@@ -1,12 +1,12 @@
 package com.dvm.menu.search.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.api.models.CardDishDetails
+import com.dvm.database.api.models.CardDish
 
 @Immutable
 internal data class MainState(
-    val recommended: List<CardDishDetails> = emptyList(),
-    val best: List<CardDishDetails> = emptyList(),
-    val popular: List<CardDishDetails> = emptyList(),
+    val recommended: List<CardDish> = emptyList(),
+    val best: List<CardDish> = emptyList(),
+    val popular: List<CardDish> = emptyList(),
     val alert: String? = null,
 )

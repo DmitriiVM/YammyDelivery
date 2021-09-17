@@ -1,7 +1,7 @@
 package com.dvm.notifications.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.api.models.Notification
+import com.dvm.database.Notification
 
 @Immutable
 data class NotificationState(

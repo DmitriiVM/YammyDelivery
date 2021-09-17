@@ -4,7 +4,7 @@ import android.app.Application
 import com.dvm.appmenu.drawerModule
 import com.dvm.auth.authModule
 import com.dvm.cart.cartModule
-import com.dvm.db.impl.di.databaseModule
+import com.dvm.database.impl.di.databaseModule
 import com.dvm.dish.dishModule
 import com.dvm.menu.menuModule
 import com.dvm.navigation.impl.di.navigatorModule

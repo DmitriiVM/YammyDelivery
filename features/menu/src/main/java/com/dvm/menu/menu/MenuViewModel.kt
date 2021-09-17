@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.CategoryRepository
-import com.dvm.db.api.DishRepository
+import com.dvm.database.api.CategoryRepository
+import com.dvm.database.api.DishRepository
 import com.dvm.menu.menu.model.MenuEvent
 import com.dvm.menu.menu.model.MenuItem
 import com.dvm.navigation.api.Navigator

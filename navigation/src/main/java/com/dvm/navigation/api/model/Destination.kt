@@ -64,7 +64,7 @@ sealed class Destination(val route: String = "") : Parcelable {
     @Parcelize
     data class Login(
         val targetDestination: Destination? = null
-    ) : Destination() {
+    ) : Destination(ROUTE) {
         companion object {
             const val ROUTE = "login"
         }

@@ -3,7 +3,7 @@ compose = "1.0.1"  # update kotlinCompilerExtensionVersion in compose-convention
 coroutines = "1.5.1"
 retrofit = "2.9.0"
 gson = "2.8.6"
-room = "2.3.0"
+sqldelight = "1.5.0"
 koin= "3.1.2"
 lifecycle = "2.4.0-alpha02"
 navigation = "2.3.5"
@@ -44,9 +44,8 @@ lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", versi
 lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
 lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "lifecycle" }
 
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+sqldelight-androidDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions-jvm", version.ref = "sqldelight" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -67,4 +66,3 @@ google-location = "com.google.android.gms:play-services-location:18.0.0"
 [bundles]
 coroutines = ["coroutines-core", "coroutines-android"]
 compose = ["compose-ui", "compose-tooling", "compose-foundation", "compose-material"]
-room = ["room-runtime", "room-ktx"]

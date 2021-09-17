@@ -11,8 +11,8 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
-import com.dvm.db.api.ProfileRepository
-import com.dvm.db.api.models.Profile
+import com.dvm.database.Profile
+import com.dvm.database.api.ProfileRepository
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi

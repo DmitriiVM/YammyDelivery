@@ -8,10 +8,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.CartRepository
-import com.dvm.db.api.OrderRepository
-import com.dvm.db.api.mappers.toDbEntity
-import com.dvm.db.api.models.CartItem
+import com.dvm.database.CartItem
+import com.dvm.database.api.CartRepository
+import com.dvm.database.api.OrderRepository
+import com.dvm.database.api.mappers.toDbEntity
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.OrderApi

@@ -253,7 +253,7 @@ private fun SearchResult(
                 onCategoryClick = {
                     onEvent(
                         SearchEvent.OpenSubcategory(
-                            subcategory.parent,
+                            subcategory.parent!!,
                             subcategory.id,
                             subcategory.name
                         )

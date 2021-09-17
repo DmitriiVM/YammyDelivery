@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS recommended(
+    dishId TEXT NOT NULL PRIMARY KEY
+);
+
+
+insert:
+INSERT OR REPLACE INTO recommended(dishId)
+VALUES (?);

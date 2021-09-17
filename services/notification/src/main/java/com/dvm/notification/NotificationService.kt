@@ -6,8 +6,7 @@ import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.dvm.db.api.NotificationRepository
-import com.dvm.db.api.models.Notification
+import com.dvm.database.api.NotificationRepository
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
@@ -41,11 +40,9 @@ class NotificationService : FirebaseMessagingService(), KoinComponent {
             val text = message.data[NOTIFICATION_TEXT].orEmpty()
 
             notificationRepository.insertNotification(
-                Notification(
-                    title = title,
-                    text = text,
-                    seen = false
-                )
+                title = title,
+                text = text,
+                seen = false
             )
 
             if (navigator.currentDestination == Destination.Notification) return@launch

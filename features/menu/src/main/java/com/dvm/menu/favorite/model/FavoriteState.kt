@@ -1,10 +1,10 @@
 package com.dvm.menu.favorite.model
 
 import androidx.compose.runtime.Immutable
-import com.dvm.db.api.models.CardDishDetails
+import com.dvm.database.api.models.CardDish
 
 @Immutable
 internal data class FavoriteState(
-    val dishes: List<CardDishDetails> = emptyList(),
+    val dishes: List<CardDish> = emptyList(),
     val alert: String? = null,
 )

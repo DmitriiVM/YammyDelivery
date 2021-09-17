@@ -1,7 +1,7 @@
 package com.dvm.menu.category.presentation.model
 
-import com.dvm.db.api.models.CardDishDetails
-import com.dvm.db.api.models.Subcategory
+import com.dvm.database.Subcategory
+import com.dvm.database.api.models.CardDish
 
 internal data class CategoryData(
     val title: String,
@@ -9,5 +9,5 @@ internal data class CategoryData(
     val orderType: OrderType,
     val subcategories: List<Subcategory>,
     val selectedId: String? = null,
-    val dishes: List<CardDishDetails> = emptyList()
+    val dishes: List<CardDish> = emptyList()
 )

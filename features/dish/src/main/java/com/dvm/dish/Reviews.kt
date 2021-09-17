@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.dvm.db.api.models.Review
+import com.dvm.database.Review
 import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.extensions.formatAsDate
 

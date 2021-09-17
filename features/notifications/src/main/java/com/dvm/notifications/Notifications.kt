@@ -106,7 +106,7 @@ internal fun Notifications(
                         NotificationItem(
                             title = notification.title,
                             text = notification.text,
-                            seen = notification.seen
+                            seen = notification.seen ?: false
                         )
                     }
                 }

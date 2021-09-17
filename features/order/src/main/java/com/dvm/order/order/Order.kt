@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.OrderItem
+import com.dvm.database.OrderItem
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState

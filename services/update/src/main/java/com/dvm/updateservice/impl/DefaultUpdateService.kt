@@ -1,14 +1,12 @@
 package com.dvm.updateservice.impl
 
-import com.dvm.db.api.CategoryRepository
-import com.dvm.db.api.DishRepository
-import com.dvm.db.api.FavoriteRepository
-import com.dvm.db.api.OrderRepository
-import com.dvm.db.api.ProfileRepository
-import com.dvm.db.api.ReviewRepository
-import com.dvm.db.api.mappers.toDbEntity
-import com.dvm.db.api.models.Favorite
-import com.dvm.db.api.models.Recommended
+import com.dvm.database.api.CategoryRepository
+import com.dvm.database.api.DishRepository
+import com.dvm.database.api.FavoriteRepository
+import com.dvm.database.api.OrderRepository
+import com.dvm.database.api.ProfileRepository
+import com.dvm.database.api.ReviewRepository
+import com.dvm.database.api.mappers.toDbEntity
 import com.dvm.network.api.MenuApi
 import com.dvm.network.api.OrderApi
 import com.dvm.network.api.ProfileApi
@@ -63,15 +61,12 @@ internal class DefaultUpdateService(
                 .map { it.toDbEntity() }
         )
         dishRepository.insertRecommended(
-            recommended
-                .await()
-                .map { Recommended(it) }
+            recommended.await()
         )
         reviewRepository.insertReviews(
             reviews
                 .awaitAll()
                 .flatten()
-                .map { it.toDbEntity() }
         )
         profile?.await()?.toDbEntity()?.let {
             profileRepository.updateProfile(it)
@@ -123,7 +118,7 @@ internal class DefaultUpdateService(
             localFavorites
                 .filter { !remoteFavorites.contains(it) }
 
-        favoriteRepository.addListToFavorite(favoritesToLocal.map { Favorite(it) })
+        favoriteRepository.addListToFavorite(favoritesToLocal)
 
         menuApi.changeFavorite(
             token = token,

@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
-import com.dvm.db.api.models.CartItemDetails
+import com.dvm.database.CartItemDetails
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
 import com.dvm.ui.components.AppBarIconMenu
