@@ -15,8 +15,8 @@ import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
 import com.dvm.navigation.api.Navigator
 import com.dvm.network.api.AuthApi
+import com.dvm.utils.AppException
 import com.dvm.utils.getErrorMessage
-import com.dvm.utils.hasCode
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -79,7 +79,7 @@ internal class PasswordRestoreViewModel(
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
-                    alert = if (exception.hasCode(400)) {
+                    alert = if (exception is AppException.BadRequest) {
                         context.getString(R.string.password_restoration_message_already_sent)
                     } else {
                         exception.getErrorMessage(context)
@@ -99,7 +99,7 @@ internal class PasswordRestoreViewModel(
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
-                    alert = if (exception.hasCode(400)) {
+                    alert = if (exception is AppException.BadRequest) {
                         context.getString(R.string.password_restoration_message_wrong_code)
                     } else {
                         exception.getErrorMessage(context)
@@ -126,7 +126,7 @@ internal class PasswordRestoreViewModel(
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
-                    alert = if (exception.hasCode(402)) {
+                    alert = if (exception is AppException.IncorrectData) {
                         context.getString(R.string.password_restoration_message_expired_code)
                     } else {
                         exception.getErrorMessage(context)

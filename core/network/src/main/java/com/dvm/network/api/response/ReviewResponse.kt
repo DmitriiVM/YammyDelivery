@@ -1,5 +1,8 @@
 package com.dvm.network.api.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ReviewResponse(
     val dishId: String,
     val author: String,

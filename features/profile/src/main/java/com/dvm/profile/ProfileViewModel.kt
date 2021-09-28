@@ -15,10 +15,10 @@ import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
+import com.dvm.utils.AppException
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import com.dvm.utils.getErrorMessage
-import com.dvm.utils.hasCode
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -121,11 +121,12 @@ internal class ProfileViewModel(
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
-                val message = if (exception.hasCode(400)) {
-                    context.getString(R.string.profile_message_wrong_password)
-                } else {
-                    exception.getErrorMessage(context)
-                }
+                val message =
+                    if (exception is AppException.BadRequest) {
+                        context.getString(R.string.profile_message_wrong_password)
+                    } else {
+                        exception.getErrorMessage(context)
+                    }
                 state = state.copy(
                     alert = message,
                     progress = false

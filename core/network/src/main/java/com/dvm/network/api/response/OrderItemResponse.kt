@@ -1,5 +1,8 @@
 package com.dvm.network.api.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class OrderItemResponse(
     val name: String,
     val image: String,

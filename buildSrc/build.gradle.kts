@@ -12,4 +12,5 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
     implementation("com.google.gms:google-services:4.3.10")
     implementation("com.squareup.sqldelight:gradle-plugin:1.5.0")
+    implementation("org.jetbrains.kotlin:kotlin-serialization:1.5.21")
 }

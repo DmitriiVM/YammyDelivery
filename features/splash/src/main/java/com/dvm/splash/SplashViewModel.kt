@@ -39,7 +39,7 @@ internal class SplashViewModel(
     }
 
     companion object {
-        private const val TIMEOUT = 10000L
+        private const val TIMEOUT = 15000L
         private const val MIN_SPLASH_DURATION = 3000L
     }
 }

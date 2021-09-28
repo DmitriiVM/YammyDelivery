@@ -26,152 +26,201 @@ import com.dvm.network.impl.request.ResetPasswordRequest
 import com.dvm.network.impl.request.SendCodeRequest
 import com.dvm.network.impl.request.SendEmailRequest
 import com.dvm.network.impl.request.UpdateCartRequest
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 
-internal interface ApiService {
+internal class ApiService(
+    private val client: HttpClient
+) {
 
-    @GET("main/recommend")
-    suspend fun getRecommended(): List<String>
+    suspend fun getRecommended(): List<String> =
+        client.get("main/recommend")
 
-    @GET("categories")
     suspend fun getCategories(
-        @Header("If-Modified-Since") ifModifiedSince: Long?,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int
-    ): List<CategoryResponse>
+        ifModifiedSince: Long?,
+        offset: Int,
+        limit: Int
+    ): List<CategoryResponse> =
+        client.get("categories") {
+            header(HttpHeaders.IfModifiedSince, ifModifiedSince)
+            parameter(HEADER_OFFSET, offset)
+            parameter(HEADER_LIMIT, limit)
+        }
 
-    @GET("dishes")
     suspend fun getDishes(
-        @Header("If-Modified-Since") ifModifiedSince: Long?,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int
-    ): List<DishResponse>
+        ifModifiedSince: Long?,
+        offset: Int,
+        limit: Int
+    ): List<DishResponse> =
+        client.get("dishes") {
+            header(HttpHeaders.IfModifiedSince, ifModifiedSince)
+            parameter(HEADER_OFFSET, offset)
+            parameter(HEADER_LIMIT, limit)
+        }
 
-    @GET("reviews/{dishId}")
     suspend fun getReviews(
-        @Path("dishId") dishId: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long?,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int
-    ): List<ReviewResponse>
+        dishId: String,
+        ifModifiedSince: Long?,
+        offset: Int,
+        limit: Int
+    ): List<ReviewResponse> =
+        client.get("reviews/$dishId") {
+            header(HttpHeaders.IfModifiedSince, ifModifiedSince)
+            parameter(HEADER_OFFSET, offset)
+            parameter(HEADER_LIMIT, limit)
+        }
 
-    @POST("reviews/{dishId}")
     suspend fun addReview(
-        @Path("dishId") dishId: String,
-        @Header("Authorization") token: String,
-        @Body addReviewRequest: AddReviewRequest
-    )
+        dishId: String,
+        token: String,
+        addReviewRequest: AddReviewRequest
+    ): Unit =
+        client.post("reviews/$dishId") {
+            header(HttpHeaders.Authorization, token)
+            body = addReviewRequest
+        }
 
-    @GET("favorite")
     suspend fun getFavorite(
-        @Header("Authorization") token: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long?,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int
-    ): List<FavoriteResponse>
+        token: String,
+        ifModifiedSince: Long?,
+        offset: Int,
+        limit: Int
+    ): List<FavoriteResponse> =
+        client.get("favorite") {
+            header(HttpHeaders.Authorization, token)
+            header(HttpHeaders.IfModifiedSince, ifModifiedSince)
+            parameter(HEADER_OFFSET, offset)
+            parameter(HEADER_LIMIT, limit)
+        }
 
-    @PUT("favorite/change")
     suspend fun changeFavorite(
-        @Header("Authorization") token: String,
-        @Body changeFavoriteRequest: List<ChangeFavoriteRequest>
-    )
+        token: String,
+        changeFavoriteRequest: List<ChangeFavoriteRequest>
+    ): Unit =
+        client.put("favorite/change") {
+            header(HttpHeaders.Authorization, token)
+            body = changeFavoriteRequest
+        }
 
-    @GET("cart")
-    suspend fun getCart(
-        @Header("Authorization") token: String
-    ): CartResponse
+    suspend fun getCart(token: String): CartResponse =
+        client.get("cart") {
+            header(HttpHeaders.Authorization, token)
+        }
 
-    @PUT("cart")
     suspend fun updateCart(
-        @Header("Authorization") token: String,
-        @Body updateCartRequest: UpdateCartRequest
-    ): CartResponse
+        token: String,
+        updateCartRequest: UpdateCartRequest
+    ): CartResponse =
+        client.put("cart") {
+            header(HttpHeaders.Authorization, token)
+            body = updateCartRequest
+        }
 
-    @POST("address/input")
-    suspend fun checkInput(
-        @Body checkInputRequest: CheckInputRequest
-    ): AddressResponse
+    suspend fun checkInput(checkInputRequest: CheckInputRequest): AddressResponse =
+        client.post("address/input") {
+            body = checkInputRequest
+        }
 
-    @POST("address/coordinates")
     suspend fun checkCoordinates(
-        @Body checkCoordinatesRequest: CheckCoordinatesRequest
-    ): AddressResponse
+        checkCoordinatesRequest: CheckCoordinatesRequest
+    ): AddressResponse =
+        client.post("address/coordinates") {
+            body = checkCoordinatesRequest
+        }
 
-    @POST("auth/login")
-    suspend fun login(
-        @Body loginRequest: LoginRequest
-    ): AuthResponse
+    suspend fun login(loginRequest: LoginRequest): AuthResponse =
+        client.post("auth/login") {
+            body = loginRequest
+        }
 
-    @POST("auth/register")
-    suspend fun register(
-        @Body registerRequest: RegisterRequest
-    ): AuthResponse
+    suspend fun register(registerRequest: RegisterRequest): AuthResponse =
+        client.post("auth/register") {
+            body = registerRequest
+        }
 
-    @POST("auth/recovery/email")
-    suspend fun sendEmail(
-        @Body sendEmailRequest: SendEmailRequest
-    )
 
-    @POST("auth/recovery/code")
-    suspend fun sendCode(
-        @Body sendCodeRequest: SendCodeRequest
-    )
+    suspend fun sendEmail(sendEmailRequest: SendEmailRequest): Unit =
+        client.post("auth/recovery/email") {
+            body = sendEmailRequest
+        }
 
-    @POST("auth/recovery/password")
-    suspend fun resetPassword(
-        @Body resetPasswordRequest: ResetPasswordRequest
-    )
+    suspend fun sendCode(sendCodeRequest: SendCodeRequest): Unit =
+        client.post("auth/recovery/code") {
+            body = sendCodeRequest
+        }
 
-    @POST("auth/refresh")
-    suspend fun refreshToken(
-        @Body rerTokenRequest: RefreshTokenRequest
-    ): TokenResponse
+    suspend fun resetPassword(resetPasswordRequest: ResetPasswordRequest): Unit =
+        client.post("auth/recovery/password") {
+            body = resetPasswordRequest
+        }
 
-    @POST("orders/new")
+    suspend fun refreshToken(refreshTokenRequest: RefreshTokenRequest): TokenResponse =
+        client.post("auth/refresh") {
+            body = refreshTokenRequest
+        }
+
     suspend fun createOrder(
-        @Header("Authorization") token: String,
-        @Body createOrderRequest: CreateOrderRequest
-    ): OrderResponse
+        token: String,
+        createOrderRequest: CreateOrderRequest
+    ): OrderResponse =
+        client.post("orders/new") {
+            header(HttpHeaders.Authorization, token)
+            body = createOrderRequest
+        }
 
-    @GET("orders")
     suspend fun getOrders(
-        @Header("Authorization") token: String,
-        @Header("If-Modified-Since") ifModifiedSince: Long?,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int,
-    ): List<OrderResponse>
+        token: String,
+        ifModifiedSince: Long?,
+        offset: Int,
+        limit: Int,
+    ): List<OrderResponse> =
+        client.get("orders") {
+            header(HttpHeaders.Authorization, token)
+            header(HttpHeaders.IfModifiedSince, ifModifiedSince)
+            parameter(HEADER_OFFSET, offset)
+            parameter(HEADER_LIMIT, limit)
+        }
 
-    @GET("orders/statuses")
-    suspend fun getStatuses(
-        @Header("If-Modified-Since") ifModifiedSince: Long?,
-    ): List<StatusResponse>
+    suspend fun getStatuses(ifModifiedSince: Long?): List<StatusResponse> =
+        client.get("orders/statuses") {
+            header(HttpHeaders.IfModifiedSince, ifModifiedSince)
+        }
 
-    @PUT("orders/cancel")
     suspend fun cancelOrder(
-        @Header("Authorization") token: String,
-        @Body cancelOrderRequest: CancelOrderRequest
-    ): OrderResponse
+        token: String,
+        cancelOrderRequest: CancelOrderRequest
+    ): OrderResponse =
+        client.put("orders/cancel") {
+            header(HttpHeaders.Authorization, token)
+            body = cancelOrderRequest
+        }
 
-    @GET("profile")
-    suspend fun getProfile(
-        @Header("Authorization") token: String
-    ): ProfileResponse
+    suspend fun getProfile(token: String): ProfileResponse =
+        client.get("profile") {
+            header(HttpHeaders.Authorization, token)
+        }
 
-    @PUT("profile")
     suspend fun editProfile(
-        @Header("Authorization") token: String,
-        @Body editProfileRequest: EdieProfileRequest
-    ): ProfileResponse
+        token: String,
+        editProfileRequest: EdieProfileRequest
+    ): ProfileResponse =
+        client.put("profile") {
+            header(HttpHeaders.Authorization, token)
+            body = editProfileRequest
+        }
 
-    @PUT("profile/password")
     suspend fun changePassword(
-        @Header("Authorization") token: String,
-        @Body changePasswordRequest: ChangePasswordRequest
-    )
+        token: String,
+        changePasswordRequest: ChangePasswordRequest
+    ): Unit =
+        client.put("profile/password") {
+            header(HttpHeaders.Authorization, token)
+            body = changePasswordRequest
+        }
+
+    companion object {
+        private const val HEADER_OFFSET = "offset"
+        private const val HEADER_LIMIT = "limit"
+    }
 }

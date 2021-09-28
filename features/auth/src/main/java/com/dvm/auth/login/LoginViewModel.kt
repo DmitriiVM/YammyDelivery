@@ -19,10 +19,10 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
+import com.dvm.utils.AppException
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.getErrorMessage
-import com.dvm.utils.hasCode
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -124,11 +124,12 @@ internal class LoginViewModel(
                 updateService.syncFavorites()
                 navigator.goTo(Destination.LoginTarget)
             } catch (exception: Exception) {
-                val message = if (exception.hasCode(402)){
-                    context.getString(R.string.auth_error_incorrect_data)
-                } else {
-                    exception.getErrorMessage(context)
-                }
+                val message =
+                    if (exception is AppException.IncorrectData) {
+                        context.getString(R.string.auth_error_incorrect_data)
+                    } else {
+                        exception.getErrorMessage(context)
+                    }
                 state = state.copy(
                     alert = message,
                     progress = false

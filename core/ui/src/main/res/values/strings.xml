@@ -135,7 +135,7 @@
     <string name="message_favorite_delete_error">Не удалось добавить в избранное. Ошибка интернет-соединения.</string>
     <string name="message_dish_added_to_cart">Блюдо \"%s\" добавлено в корзину</string>
     <string name="message_need_auth">Необходима авторизация. Войти в профиль?</string>
-    <string name="message_network_timeout">Ошибка. Попробуйте позже</string>
+    <string name="message_wifi_error">Нет доступа к интернету. Попробуйте позже или переключитесь на мобильный интернет</string>
     <string name="message_network_error">Нет доступа к интернету. Попробуйте позже</string>
     <string name="message_unknown_error">Что-то пошло не так. Мы уже работаем над этим.</string>
     <string name="app_menu_message_logout">Вы действительно хотите выйти из аккаунта?</string>

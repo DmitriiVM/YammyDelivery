@@ -1,5 +1,6 @@
 plugins {
     id(PluginId.LIBRARY_CONVENTION)
+    id(PluginId.KOTLIN_SERIALIZATION)
 }
 
 dependencies {
@@ -8,10 +9,7 @@ dependencies {
 
     implementation(libs.bundles.coroutines)
 
-    implementation(libs.retrofit)
-    implementation(libs.gsonConverter)
-    implementation(libs.gson)
-    implementation(libs.loggingInterceptor)
+    implementation(libs.bundles.ktor)
 
     implementation(libs.koin.core)
 }

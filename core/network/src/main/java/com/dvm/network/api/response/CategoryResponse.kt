@@ -1,10 +1,11 @@
 package com.dvm.network.api.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class CategoryResponse(
-    @SerializedName("categoryId")
+    @SerialName("categoryId")
     val id: String,
     val name: String,
     val order: Int,

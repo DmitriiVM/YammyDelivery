@@ -1,8 +1,7 @@
 [versions]
 compose = "1.0.1"  # update kotlinCompilerExtensionVersion in compose-convention.gradle.kts
 coroutines = "1.5.1"
-retrofit = "2.9.0"
-gson = "2.8.6"
+ktor = "1.6.3"
 sqldelight = "1.5.0"
 koin= "3.1.2"
 lifecycle = "2.4.0-alpha02"
@@ -34,10 +33,11 @@ accompanist-insets = { module = "com.google.accompanist:accompanist-insets", ver
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-gsonConverter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:4.9.1"
+ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor"}
+ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor"}
+ktor-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor"}
+ktor-serialization = { module = "io.ktor:ktor-client-serialization-jvm", version.ref = "ktor"}
+ktor-logging = { module = "io.ktor:ktor-client-logging-jvm", version.ref = "ktor"}
 
 lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -66,3 +66,4 @@ google-location = "com.google.android.gms:play-services-location:18.0.0"
 [bundles]
 coroutines = ["coroutines-core", "coroutines-android"]
 compose = ["compose-ui", "compose-tooling", "compose-foundation", "compose-material"]
+ktor = ["ktor-android", "ktor-cio", "ktor-json", "ktor-serialization", "ktor-logging"]
