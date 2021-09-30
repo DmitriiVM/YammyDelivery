@@ -6,5 +6,10 @@ import com.dvm.database.api.models.CardDish
 @Immutable
 internal data class FavoriteState(
     val dishes: List<CardDish> = emptyList(),
-    val alert: String? = null,
-)
+    val alert: Alert? = null,
+) {
+    data class Alert(
+        val text: Int,
+        val argument: Any
+    )
+}

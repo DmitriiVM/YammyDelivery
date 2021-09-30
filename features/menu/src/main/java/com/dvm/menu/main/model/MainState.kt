@@ -8,5 +8,10 @@ internal data class MainState(
     val recommended: List<CardDish> = emptyList(),
     val best: List<CardDish> = emptyList(),
     val popular: List<CardDish> = emptyList(),
-    val alert: String? = null,
-)
+    val alert: Alert? = null,
+) {
+    data class Alert(
+        val text: Int,
+        val argument: Any? = null
+    )
+}

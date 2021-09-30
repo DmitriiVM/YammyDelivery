@@ -105,7 +105,10 @@ internal fun Search(
 
     state.alert?.let {
         Alert(
-            message = state.alert,
+            message = stringResource(
+                id = state.alert.text,
+                state.alert.argument
+            ),
             onDismiss = { onEvent(SearchEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(SearchEvent.DismissAlert) })

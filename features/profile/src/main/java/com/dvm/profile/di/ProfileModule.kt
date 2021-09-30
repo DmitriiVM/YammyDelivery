@@ -7,7 +7,6 @@ val profileModule = module {
 
     viewModel {
         ProfileViewModel(
-            context = get(),
             profileApi = get(),
             profileRepository = get(),
             datastore = get(),

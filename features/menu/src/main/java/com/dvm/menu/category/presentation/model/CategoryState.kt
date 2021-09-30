@@ -6,10 +6,15 @@ import com.dvm.database.api.models.CardDish
 
 @Immutable
 internal data class CategoryState(
-    val title: String = "",
+    val title: Title? = null,
     val subcategories: List<Subcategory> = emptyList(),
     val selectedId: String? = null,
     val dishes: List<CardDish> = emptyList(),
     val orderType: OrderType = OrderType.ALPHABET_ASC,
-    val alert: String? = null
-)
+    val alert: Alert? = null
+) {
+    data class Alert(
+        val text: Int,
+        val argument: Any
+    )
+}

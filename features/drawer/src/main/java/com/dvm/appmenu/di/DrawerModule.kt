@@ -7,7 +7,6 @@ val drawerModule = module {
 
     viewModel {
         DrawerViewModel(
-            context = get(),
             datastore = get(),
             profileRepository = get(),
             favoriteRepository = get(),

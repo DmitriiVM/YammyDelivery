@@ -1,7 +1,5 @@
 package com.dvm.profile
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -25,9 +23,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class ProfileViewModel(
-    private val context: Context,
     private val profileApi: ProfileApi,
     private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,
@@ -116,16 +112,16 @@ internal class ProfileViewModel(
                     newPassword = newPassword
                 )
                 state = state.copy(
-                    alert = context.getString(R.string.profile_message_password_changed),
+                    alert = R.string.profile_message_password_changed,
                     progress = false,
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
                 val message =
                     if (exception is AppException.BadRequest) {
-                        context.getString(R.string.profile_message_wrong_password)
+                        R.string.profile_message_wrong_password
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 state = state.copy(
                     alert = message,
@@ -138,16 +134,16 @@ internal class ProfileViewModel(
     private fun saveProfile() {
 
         val firstNameError =
-            state.firstName.getTextFieldErrorOrNull(context)
+            state.firstName.getTextFieldErrorOrNull()
         val lastNameError =
-            state.lastName.getTextFieldErrorOrNull(context)
+            state.lastName.getTextFieldErrorOrNull()
         val emailError =
-            state.email.getEmailErrorOrNull(context)
+            state.email.getEmailErrorOrNull()
 
         if (
-            !firstNameError.isNullOrEmpty() ||
-            !lastNameError.isNullOrEmpty() ||
-            !emailError.isNullOrEmpty()
+            firstNameError != null ||
+            lastNameError != null ||
+            emailError != null
         ) {
             state = state.copy(
                 firstNameError = firstNameError,
@@ -182,7 +178,7 @@ internal class ProfileViewModel(
                 )
             } catch (exception: Exception) {
                 state = state.copy(
-                    alert = exception.getErrorMessage(context),
+                    alert = exception.getErrorMessage(),
                     progress = false
                 )
             }

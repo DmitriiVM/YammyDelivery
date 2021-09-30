@@ -242,10 +242,10 @@ internal fun Ordering(
         }
     }
 
-    if (!state.alert.isNullOrEmpty()) {
+    if (state.alert != null) {
         val onDismiss = { onEvent(OrderingEvent.DismissAlert) }
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

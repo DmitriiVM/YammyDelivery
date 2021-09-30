@@ -4,7 +4,7 @@ import com.dvm.database.Subcategory
 import com.dvm.database.api.models.CardDish
 
 internal data class CategoryData(
-    val title: String,
+    val title: Title,
     val categoryId: String,
     val orderType: OrderType,
     val subcategories: List<Subcategory>,

@@ -16,6 +16,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -24,7 +25,7 @@ fun EditTextField(
     text: String,
     label: String,
     modifier: Modifier = Modifier,
-    error: String? = null,
+    error: Int? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     onValueChange: (String) -> Unit,
@@ -38,17 +39,19 @@ fun EditTextField(
         label = { Text(label) },
         enabled = enabled,
         readOnly = readOnly,
-        isError = !error.isNullOrEmpty(),
-        modifier = modifier.fillMaxWidth().focusable(false),
+        isError = error != null,
+        modifier = modifier
+            .fillMaxWidth()
+            .focusable(false),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         colors = colors
     )
-    if (!error.isNullOrEmpty()) {
+    if (error != null) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = error,
+                text = stringResource(error),
                 modifier = Modifier.fillMaxWidth(),
                 style = LocalTextStyle.current.copy(
                     fontSize = 12.sp,

@@ -1,7 +1,5 @@
 package com.dvm.order.ordering
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,9 +21,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class OrderingViewModel(
-    private val context: Context,
     private val orderApi: OrderApi,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
@@ -97,7 +93,7 @@ internal class OrderingViewModel(
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
-                    alert = exception.getErrorMessage(context)
+                    alert = exception.getErrorMessage()
                 )
             }
         }

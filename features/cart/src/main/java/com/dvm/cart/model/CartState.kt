@@ -11,5 +11,5 @@ internal data class CartState(
     val promoCodeText: String = "",
     val appliedPromoCode: Boolean = false,
     val progress: Boolean = false,
-    val alert: String? = null
+    val alert: Int? = null
 )

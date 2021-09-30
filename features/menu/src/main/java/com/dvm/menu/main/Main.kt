@@ -177,7 +177,14 @@ internal fun Main(
 
     state.alert?.let {
         Alert(
-            message = state.alert,
+            message = if (state.alert.argument != null) {
+                stringResource(
+                    id = state.alert.text,
+                    state.alert.argument
+                )
+            } else {
+                stringResource(state.alert.text)
+            },
             onDismiss = { onEvent(MainEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })

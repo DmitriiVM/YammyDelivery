@@ -8,5 +8,5 @@ internal data class DrawerState(
     val email: String = "",
     val cartQuantity: Int = 0,
     val newNotificationCount: Int = 0,
-    val alert: String? = null,
+    val alert: Int? = null,
 )

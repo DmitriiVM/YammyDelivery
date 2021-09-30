@@ -8,7 +8,7 @@ internal data class OrdersState(
     val orders: List<Order> = emptyList(),
     val empty: Boolean = false,
     val progress: Boolean = false,
-    val alert: String? = null
+    val alert: Int? = null
 )
 
 internal enum class OrderStatus{

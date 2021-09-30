@@ -12,5 +12,10 @@ internal data class SearchState(
     val categories: List<ParentCategory> = emptyList(),
     val subcategories: List<Subcategory> = emptyList(),
     val hints: List<String> = emptyList(),
-    val alert: String? = null
-)
+    val alert: Alert? = null
+) {
+    data class Alert(
+        val text: Int,
+        val argument: Any
+    )
+}

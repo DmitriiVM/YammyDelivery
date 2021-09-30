@@ -254,10 +254,10 @@ internal fun Profile(
         }
     }
 
-    if (!state.alert.isNullOrEmpty()) {
+    if (state.alert != null) {
         val onDismiss = { onEvent(ProfileEvent.DismissAlert) }
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

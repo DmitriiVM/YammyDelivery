@@ -7,7 +7,6 @@ val cartModule = module {
 
     viewModel {
         CartViewModel(
-            context = get(),
             cartRepository = get(),
             cartApi = get(),
             datastore = get(),

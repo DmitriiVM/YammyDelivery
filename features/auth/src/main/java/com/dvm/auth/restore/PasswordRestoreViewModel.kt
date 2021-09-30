@@ -1,7 +1,5 @@
 package com.dvm.auth.restore
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,9 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class PasswordRestoreViewModel(
-    private val context: Context,
     private val authApi: AuthApi,
     private val navigator: Navigator,
     savedState: SavedStateHandle
@@ -80,9 +76,9 @@ internal class PasswordRestoreViewModel(
                 state = state.copy(
                     progress = false,
                     alert = if (exception is AppException.BadRequest) {
-                        context.getString(R.string.password_restoration_message_already_sent)
+                        R.string.password_restoration_message_already_sent
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 )
             }
@@ -100,9 +96,9 @@ internal class PasswordRestoreViewModel(
                 state = state.copy(
                     progress = false,
                     alert = if (exception is AppException.BadRequest) {
-                        context.getString(R.string.password_restoration_message_wrong_code)
+                        R.string.password_restoration_message_wrong_code
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 )
             }
@@ -127,9 +123,9 @@ internal class PasswordRestoreViewModel(
                 state = state.copy(
                     progress = false,
                     alert = if (exception is AppException.IncorrectData) {
-                        context.getString(R.string.password_restoration_message_expired_code)
+                        R.string.password_restoration_message_expired_code
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 )
             }

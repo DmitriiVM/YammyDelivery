@@ -20,7 +20,6 @@ val menuModule = module {
 
     viewModel { params ->
         CategoryViewModel(
-            context = get(),
             categoryRepository = get(),
             dishRepository = get(),
             cartRepository = get(),
@@ -32,7 +31,6 @@ val menuModule = module {
 
     viewModel {
         FavoriteViewModel(
-            context = get(),
             cartRepository = get(),
             navigator = get(),
             dishRepository = get()
@@ -41,7 +39,6 @@ val menuModule = module {
 
     viewModel {
         MainViewModel(
-            context = get(),
             datastore = get(),
             cartRepository = get(),
             navigator = get(),
@@ -51,7 +48,6 @@ val menuModule = module {
 
     viewModel {
         SearchViewModel(
-            context = get(),
             categoryRepository = get(),
             dishRepository = get(),
             hintRepository = get(),

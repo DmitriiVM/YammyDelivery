@@ -162,7 +162,7 @@ internal fun Dish(
 
     state.alert?.let {
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = { onEvent(DishEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(DishEvent.DismissAlert) })

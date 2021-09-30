@@ -10,7 +10,6 @@ val authModule = module {
 
     viewModel {
         LoginViewModel(
-            context = get(),
             authApi = get(),
             profileRepository = get(),
             datastore = get(),
@@ -22,7 +21,6 @@ val authModule = module {
 
     viewModel {
         RegisterViewModel(
-            context = get(),
             authApi = get(),
             datastore = get(),
             profileRepository = get(),
@@ -34,7 +32,6 @@ val authModule = module {
 
     viewModel {
         PasswordRestoreViewModel(
-            context = get(),
             authApi = get(),
             navigator = get(),
             savedState = get()

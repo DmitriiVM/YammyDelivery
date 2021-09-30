@@ -49,14 +49,14 @@ internal fun Map(
         if (granted) {
             scope.launch {
                 val googleMap = map.awaitMap()
-                viewModel.onLocationPermissionGranted(googleMap)
+                viewModel.onLocationPermissionGranted(context, googleMap)
             }
         }
     }
 
     LaunchedEffect(map) {
         val googleMap = map.awaitMap()
-        viewModel.onMapReady(googleMap)
+        viewModel.onMapReady(context, googleMap)
         val locationPermission =
             ContextCompat.checkSelfPermission(context, ACCESS_FINE_LOCATION)
         if (locationPermission != PackageManager.PERMISSION_GRANTED) {
@@ -98,10 +98,10 @@ internal fun Map(
         }
     }
 
-    if (!state.alert.isNullOrEmpty()) {
+    if (state.alert != null) {
         val onDismiss = { viewModel.dismissAlert() }
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

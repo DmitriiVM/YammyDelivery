@@ -1,7 +1,5 @@
 package com.dvm.order.orders
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,9 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class OrdersViewModel(
-    private val context: Context,
     private val orderRepository: OrderRepository,
     private val updateService: UpdateService,
     private val navigator: Navigator,
@@ -56,7 +52,7 @@ internal class OrdersViewModel(
             try {
                 updateService.updateOrders()
             } catch (exception: Exception) {
-                state = state.copy(alert = exception.getErrorMessage(context))
+                state = state.copy(alert = exception.getErrorMessage())
             } finally {
                 state = state.copy(progress = false)
             }

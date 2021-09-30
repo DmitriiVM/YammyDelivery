@@ -1,7 +1,5 @@
 package com.dvm.menu.category.presentation
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +18,7 @@ import com.dvm.menu.category.presentation.model.CategoryData
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
+import com.dvm.menu.category.presentation.model.Title
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
@@ -32,9 +31,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class CategoryViewModel(
-    private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val cartRepository: CartRepository,
@@ -67,7 +64,7 @@ internal class CategoryViewModel(
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     CategoryData(
-                        title = context.getString(R.string.menu_item_special_offer),
+                        title = Title.Resource(R.string.menu_item_special_offer),
                         categoryId = categoryId,
                         subcategories = emptyList(),
                         selectedId = null,
@@ -76,7 +73,7 @@ internal class CategoryViewModel(
                 }
                 else -> {
                     val subcategories = categoryRepository.getSubcategories(categoryId)
-                    // TODO figure out why passing of nullable optional arguments doesn't work
+                    // TODO figure out why passing nullable optional arguments doesn't work
                     val selectedId = if (subcategoryId != null && subcategoryId != "null") {
                         subcategoryId
                     } else {
@@ -85,7 +82,7 @@ internal class CategoryViewModel(
                     }
                     val title = categoryRepository.getCategoryTitle(categoryId)
                     CategoryData(
-                        title = title,
+                        title = Title.Text(title),
                         categoryId = categoryId,
                         subcategories = subcategories,
                         selectedId = selectedId,
@@ -131,11 +128,9 @@ internal class CategoryViewModel(
                         )
                     )
                     state = state.copy(
-                        alert = String.format(
-                            context.getString(
-                                R.string.message_dish_added_to_cart,
-                                event.name
-                            )
+                        alert = CategoryState.Alert(
+                            text = R.string.message_dish_added_to_cart,
+                            argument = event.name
                         )
                     )
                 }

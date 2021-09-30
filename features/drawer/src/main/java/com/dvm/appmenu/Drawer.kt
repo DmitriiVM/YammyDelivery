@@ -40,7 +40,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -66,7 +65,6 @@ fun AppDrawer(
     val viewModel: DrawerViewModel = getViewModel()
     val state = viewModel.state
 
-    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
 
@@ -203,10 +201,10 @@ fun AppDrawer(
         }
     )
 
-    if (!state.alert.isNullOrEmpty()) {
+    if (state.alert != null) {
         val onDismiss = { viewModel.onEvent(DrawerEvent.DismissAlert) }
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(

@@ -102,10 +102,10 @@ internal fun PasswordRestoration(
         LoadingScrim()
     }
 
-    if (!state.alert.isNullOrEmpty()) {
+    if (state.alert != null) {
         val onDismiss = { onEvent(RestoreEvent.DismissAlert) }
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )

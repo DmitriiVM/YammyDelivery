@@ -57,6 +57,7 @@ import com.dvm.database.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
+import com.dvm.menu.category.presentation.model.Title
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
@@ -124,7 +125,10 @@ internal fun Category(
 
         state.alert?.let {
             Alert(
-                message = state.alert,
+                message = stringResource(
+                    id = state.alert.text,
+                    state.alert.argument
+                ),
                 onDismiss = { onEvent(CategoryEvent.DismissAlert) }
             ) {
                 AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
@@ -263,13 +267,18 @@ private fun DishListHeader(
 ) {
     Spacer(Modifier.statusBarsHeight())
     Spacer(Modifier.height(AppBarHeight))
-    Text(
-        text = state.title,
-        style = MaterialTheme.typography.h2,
-        modifier = Modifier
-            .onSizeChanged { size -> titleHeight.value = size.height }
-            .padding(start = 20.dp, bottom = 15.dp)
-    )
+    state.title?.let { title ->
+        Text(
+            text = when (title) {
+                is Title.Resource -> stringResource(title.value)
+                is Title.Text -> title.value
+            },
+            style = MaterialTheme.typography.h2,
+            modifier = Modifier
+                .onSizeChanged { size -> titleHeight.value = size.height }
+                .padding(start = 20.dp, bottom = 15.dp)
+        )
+    }
 
     if (state.subcategories.isNotEmpty()) {
         Spacer(Modifier.height(AppBarHeight))

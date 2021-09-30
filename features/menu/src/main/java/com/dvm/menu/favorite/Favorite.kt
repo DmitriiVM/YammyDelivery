@@ -110,7 +110,10 @@ internal fun Favorite(
 
     state.alert?.let {
         Alert(
-            message = state.alert,
+            message = stringResource(
+                id = state.alert.text,
+                state.alert.argument
+            ),
             onDismiss = { onEvent(FavoriteEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(FavoriteEvent.DismissAlert) })

@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 @Immutable
 data class RestoreState(
     val screen: Screen = Screen.EMAIL,
-    val alert: String? = null,
+    val alert: Int? = null,
     val progress: Boolean = false
 )
 

@@ -1,7 +1,5 @@
 package com.dvm.menu.search
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,9 +28,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 
-@SuppressLint("StaticFieldLeak")
 internal class SearchViewModel(
-    private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val hintRepository: HintRepository,
@@ -121,11 +117,9 @@ internal class SearchViewModel(
                         )
                     )
                     state = state.copy(
-                        alert = String.format(
-                            context.getString(
-                                R.string.message_dish_added_to_cart,
-                                event.name
-                            )
+                        alert = SearchState.Alert(
+                            text = R.string.message_dish_added_to_cart,
+                            argument = event.name
                         )
                     )
                 }

@@ -1,7 +1,6 @@
 package com.dvm.appmenu
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,7 +23,6 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
 internal class DrawerViewModel(
-    private val context : Context,
     private val datastore: DatastoreRepository,
     private val profileRepository: ProfileRepository,
     private val favoriteRepository: FavoriteRepository,
@@ -82,7 +80,7 @@ internal class DrawerViewModel(
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
-                            alert = context.getString(R.string.app_menu_message_logout)
+                            alert = R.string.app_menu_message_logout
                         )
                     } else {
                         navigator.goTo(Destination.Login())

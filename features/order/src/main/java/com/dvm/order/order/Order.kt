@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -142,18 +143,18 @@ internal fun Order(
         LoadingScrim()
     }
 
-    if (!state.alert.isNullOrEmpty()) {
+    if (state.alert != null) {
         val onDismiss = { onEvent(OrderEvent.DismissAlert) }
         Alert(
-            message = state.alert,
+            message = stringResource(state.alert),
             onDismiss = onDismiss,
             buttons = { AlertButton(onClick = onDismiss) }
         )
     }
 
-    if (!state.cancelMessage.isNullOrEmpty()) {
+    if (state.cancelMessage != null) {
         Alert(
-            message = state.cancelMessage,
+            message = stringResource(state.cancelMessage),
             onDismiss = { onEvent(OrderEvent.CancelOrdering) },
             buttons = {
                 AlertButton(
@@ -163,10 +164,19 @@ internal fun Order(
         )
     }
 
-    if (!state.orderAgainMessage.isNullOrEmpty()) {
+    if (state.orderAgainMessage != null) {
         val onDismiss = { onEvent(OrderEvent.DismissAlert) }
+        val resources = LocalContext.current.resources
+        val message = stringResource(
+            id = state.orderAgainMessage.text,
+            resources.getQuantityString(
+                state.orderAgainMessage.dish,
+                state.orderAgainMessage.count,
+                state.orderAgainMessage.count,
+            )
+        )
         Alert(
-            message = state.orderAgainMessage,
+            message = message,
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(

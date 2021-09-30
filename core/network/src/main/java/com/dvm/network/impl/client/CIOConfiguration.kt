@@ -13,7 +13,7 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-object CIOConfiguration {
+internal object CIOConfiguration {
 
     operator fun invoke(
         context: Context,

@@ -12,7 +12,6 @@ val orderModule = module {
     viewModel { params ->
         OrderViewModel(
             _orderId = params.get(),
-            context = get(),
             orderRepository = get(),
             cartRepository = get(),
             orderApi = get(),
@@ -24,7 +23,6 @@ val orderModule = module {
 
     viewModel {
         OrderingViewModel(
-            context = get(),
             orderApi = get(),
             orderRepository = get(),
             cartRepository = get(),
@@ -35,7 +33,6 @@ val orderModule = module {
 
     viewModel {
         OrdersViewModel(
-            context = get(),
             orderRepository = get(),
             updateService = get(),
             navigator = get(),
@@ -46,7 +43,6 @@ val orderModule = module {
 
     viewModel {
         MapViewModel(
-            context = get(),
             navigator = get(),
             savedState = get()
         )

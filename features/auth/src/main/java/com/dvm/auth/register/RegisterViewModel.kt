@@ -1,7 +1,5 @@
 package com.dvm.auth.register
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,9 +25,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class RegisterViewModel(
-    private val context: Context,
     private val authApi: AuthApi,
     private val datastore: DatastoreRepository,
     private val profileRepository: ProfileRepository,
@@ -41,10 +37,10 @@ internal class RegisterViewModel(
     var state by mutableStateOf(RegisterState())
         private set
 
-    private val firstNameError = savedState.getLiveData("register_name_error", "")
-    private val lastNameError = savedState.getLiveData("register_last_name_error", "")
-    private val emailError = savedState.getLiveData("register_email_error", "")
-    private val passwordError = savedState.getLiveData("register_password_error", "")
+    private val firstNameError = savedState.getLiveData<Int>("register_name_error")
+    private val lastNameError = savedState.getLiveData<Int>("register_last_name_error")
+    private val emailError = savedState.getLiveData<Int>("register_email_error")
+    private val passwordError = savedState.getLiveData<Int>("register_password_error")
 
     init {
         combine(
@@ -108,16 +104,16 @@ internal class RegisterViewModel(
         password: String
     ) {
 
-        val firstNameError = firstName.getTextFieldErrorOrNull(context)
-        val lastNameError = lastName.getTextFieldErrorOrNull(context)
-        val emailError = email.getEmailErrorOrNull(context)
-        val passwordError = password.getPasswordErrorOrNull(context)
+        val firstNameError = firstName.getTextFieldErrorOrNull()
+        val lastNameError = lastName.getTextFieldErrorOrNull()
+        val emailError = email.getEmailErrorOrNull()
+        val passwordError = password.getPasswordErrorOrNull()
 
         if (
-            !firstNameError.isNullOrEmpty() ||
-            !lastNameError.isNullOrEmpty() ||
-            !emailError.isNullOrEmpty() ||
-            !passwordError.isNullOrEmpty()
+            firstNameError != null ||
+            lastNameError != null ||
+            emailError != null ||
+            passwordError != null
         ) {
             this.firstNameError.value = firstNameError
             this.lastNameError.value = lastNameError
@@ -149,7 +145,7 @@ internal class RegisterViewModel(
                 navigator.goTo(Destination.FinishRegister)
             } catch (exception: Exception) {
                 state = state.copy(
-                    alert = exception.getErrorMessage(context),
+                    alert = exception.getErrorMessage(),
                     progress = false
                 )
             }

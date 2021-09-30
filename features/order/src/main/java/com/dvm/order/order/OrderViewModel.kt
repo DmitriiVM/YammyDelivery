@@ -1,7 +1,5 @@
 package com.dvm.order.order
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,10 +24,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class OrderViewModel(
     _orderId: String,
-    private val context: Context,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
@@ -102,12 +98,12 @@ internal class OrderViewModel(
 
                 state = state.copy(
                     progress = false,
-                    cancelMessage = context.getString(R.string.order_message_order_canceled)
+                    cancelMessage = R.string.order_message_order_canceled
                 )
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
-                    alert = exception.getErrorMessage(context)
+                    alert = exception.getErrorMessage()
                 )
             }
         }
@@ -121,13 +117,10 @@ internal class OrderViewModel(
                 return@launch
             }
             state = state.copy(
-                orderAgainMessage = context.getString(
-                    R.string.order_message_cart_not_empty,
-                    context.resources.getQuantityString(
-                        R.plurals.order_message_plural_dish,
-                        cartCount,
-                        cartCount,
-                    )
+                orderAgainMessage = OrderState.Message(
+                    text = R.string.order_message_cart_not_empty,
+                    dish = R.plurals.order_message_plural_dish,
+                    count = cartCount
                 )
             )
         }

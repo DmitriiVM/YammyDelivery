@@ -1,7 +1,5 @@
 package com.dvm.menu.favorite
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,9 +17,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
 internal class FavoriteViewModel(
-    private val context: Context,
     private val cartRepository: CartRepository,
     private val navigator: Navigator,
     dishRepository: DishRepository,
@@ -48,11 +44,9 @@ internal class FavoriteViewModel(
                         )
                     )
                     state = state.copy(
-                        alert = String.format(
-                            context.getString(
-                                R.string.message_dish_added_to_cart,
-                                event.name
-                            )
+                        alert = FavoriteState.Alert(
+                            text = R.string.message_dish_added_to_cart,
+                            argument = event.name
                         )
                     )
                 }
