@@ -127,6 +127,10 @@ internal class NavigationViewModel @Inject constructor(
             is Destination.Map -> {
                 navController.navigate(Destination.Map.ROUTE)
             }
+            is Destination.Login -> {
+                targetDestination = destination.targetDestination
+                navController.navigate(destination.route, builder)
+            }
             is Destination.LoginTarget -> {
                 val targetDestination = targetDestination
                 if (targetDestination != null) {
