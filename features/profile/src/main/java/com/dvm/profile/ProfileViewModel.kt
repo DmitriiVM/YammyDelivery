@@ -1,7 +1,5 @@
 package com.dvm.profile
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -20,7 +18,6 @@ import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import com.dvm.utils.getErrorMessage
 import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -28,10 +25,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class ProfileViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val profileApi: ProfileApi,
     private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,
@@ -120,15 +115,15 @@ internal class ProfileViewModel @Inject constructor(
                     newPassword = newPassword
                 )
                 state = state.copy(
-                    alert = context.getString(R.string.profile_message_password_changed),
+                    alert = R.string.profile_message_password_changed,
                     progress = false,
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
-                val message = if (exception.hasCode(400)){
-                    context.getString(R.string.profile_message_wrong_password)
+                val message = if (exception.hasCode(400)) {
+                    R.string.profile_message_wrong_password
                 } else {
-                    exception.getErrorMessage(context)
+                    exception.getErrorMessage()
                 }
                 state = state.copy(
                     alert = message,
@@ -140,17 +135,14 @@ internal class ProfileViewModel @Inject constructor(
 
     private fun saveProfile() {
 
-        val firstNameError =
-            state.firstName.getTextFieldErrorOrNull(context)
-        val lastNameError =
-            state.lastName.getTextFieldErrorOrNull(context)
-        val emailError =
-            state.email.getEmailErrorOrNull(context)
+        val firstNameError = state.firstName.getTextFieldErrorOrNull()
+        val lastNameError = state.lastName.getTextFieldErrorOrNull()
+        val emailError = state.email.getEmailErrorOrNull()
 
         if (
-            !firstNameError.isNullOrEmpty() ||
-            !lastNameError.isNullOrEmpty() ||
-            !emailError.isNullOrEmpty()
+            firstNameError != null ||
+            lastNameError != null ||
+            emailError != null
         ) {
             state = state.copy(
                 firstNameError = firstNameError,
@@ -185,7 +177,7 @@ internal class ProfileViewModel @Inject constructor(
                 )
             } catch (exception: Exception) {
                 state = state.copy(
-                    alert = exception.getErrorMessage(context),
+                    alert = exception.getErrorMessage(),
                     progress = false
                 )
             }

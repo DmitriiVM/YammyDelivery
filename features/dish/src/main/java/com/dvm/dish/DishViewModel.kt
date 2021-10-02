@@ -1,7 +1,5 @@
 package com.dvm.dish
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,16 +20,13 @@ import com.dvm.network.api.MenuApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class DishViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
     private val menuApi: MenuApi,
@@ -89,9 +84,7 @@ internal class DishViewModel @Inject constructor(
                         state = state.copy(reviewDialog = true)
                     } else {
                         state = state.copy(
-                            alert = context.getString(
-                                R.string.dish_message_unauthorized_review
-                            )
+                            alert = R.string.dish_message_unauthorized_review
                         )
                     }
                 }
@@ -117,7 +110,7 @@ internal class DishViewModel @Inject constructor(
         )
         state = state.copy(
             quantity = 1,
-            alert = context.getString(R.string.dish_message_added_to_cart)
+            alert = R.string.dish_message_added_to_cart
         )
     }
 
@@ -159,11 +152,11 @@ internal class DishViewModel @Inject constructor(
                 state = state.copy(
                     progress = false,
                     reviewDialog = false,
-                    alert = context.getString(R.string.dish_message_review_result)
+                    alert = R.string.dish_message_review_result
                 )
             } catch (exception: Exception) {
                 state = state.copy(
-                    alert = exception.getErrorMessage(context),
+                    alert = exception.getErrorMessage(),
                     progress = false
                 )
             }

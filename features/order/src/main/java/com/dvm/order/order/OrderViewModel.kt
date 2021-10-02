@@ -1,7 +1,5 @@
 package com.dvm.order.order
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -21,7 +19,6 @@ import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -29,10 +26,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class OrderViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
@@ -105,12 +100,12 @@ internal class OrderViewModel @Inject constructor(
 
                 state = state.copy(
                     progress = false,
-                    cancelMessage = context.getString(R.string.order_message_order_canceled)
+                    cancelMessage = R.string.order_message_order_canceled
                 )
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
-                    alert = exception.getErrorMessage(context)
+                    alert = exception.getErrorMessage()
                 )
             }
         }
@@ -124,13 +119,10 @@ internal class OrderViewModel @Inject constructor(
                 return@launch
             }
             state = state.copy(
-                orderAgainMessage = context.getString(
-                    R.string.order_message_cart_not_empty,
-                    context.resources.getQuantityString(
-                        R.plurals.order_message_plural_dish,
-                        cartCount,
-                        cartCount,
-                    )
+                orderAgainMessage = OrderState.Message(
+                    text = R.string.order_message_cart_not_empty,
+                    dish = R.plurals.order_message_plural_dish,
+                    count = cartCount
                 )
             )
         }

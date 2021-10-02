@@ -1,7 +1,5 @@
 package com.dvm.auth.login
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,17 +22,14 @@ import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.getErrorMessage
 import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val authApi: AuthApi,
     private val profileRepository: ProfileRepository,
     private val datastore: DatastoreRepository,
@@ -46,8 +41,8 @@ internal class LoginViewModel @Inject constructor(
     var state by mutableStateOf(LoginState())
         private set
 
-    private val emailError = savedState.getLiveData("login_email_error", "")
-    private val passwordError = savedState.getLiveData("login_password_error", "")
+    private val emailError = savedState.getLiveData<Int>("login_email_error")
+    private val passwordError = savedState.getLiveData<Int>("login_password_error")
 
     init {
         combine(
@@ -98,10 +93,10 @@ internal class LoginViewModel @Inject constructor(
         password: String
     ) {
 
-        val emailError = email.getEmailErrorOrNull(context)
-        val passwordError = password.getPasswordErrorOrNull(context)
+        val emailError = email.getEmailErrorOrNull()
+        val passwordError = password.getPasswordErrorOrNull()
 
-        if (!emailError.isNullOrEmpty() || !passwordError.isNullOrEmpty()) {
+        if (emailError != null || passwordError != null) {
             this.emailError.value = emailError
             this.passwordError.value = passwordError
             return
@@ -129,9 +124,9 @@ internal class LoginViewModel @Inject constructor(
                 navigator.goTo(Destination.LoginTarget)
             } catch (exception: Exception) {
                 val message = if (exception.hasCode(402)){
-                    context.getString(R.string.auth_error_incorrect_data)
+                    R.string.auth_error_incorrect_data
                 } else {
-                    exception.getErrorMessage(context)
+                    exception.getErrorMessage()
                 }
                 state = state.copy(
                     alert = message,

@@ -1,7 +1,5 @@
 package com.dvm.menu.search
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -21,22 +19,13 @@ import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val hintRepository: HintRepository,
@@ -125,11 +114,9 @@ internal class SearchViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alert = String.format(
-                            context.getString(
-                                R.string.message_dish_added_to_cart,
-                                event.name
-                            )
+                        alert = SearchState.Alert(
+                            text = R.string.message_dish_added_to_cart,
+                            argument = event.name
                         )
                     )
                 }

@@ -27,12 +27,7 @@ import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
-import com.dvm.ui.components.Alert
-import com.dvm.ui.components.AlertButton
-import com.dvm.ui.components.AppBarIconMenu
-import com.dvm.ui.components.DefaultAppBar
-import com.dvm.ui.components.EmptyPlaceholder
-import com.dvm.ui.components.verticalGradient
+import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
@@ -110,7 +105,10 @@ internal fun Favorite(
 
     state.alert?.let {
         Alert(
-            message = state.alert,
+            message = stringResource(
+                id = state.alert.text,
+                state.alert.argument
+            ),
             onDismiss = { onEvent(FavoriteEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(FavoriteEvent.DismissAlert) })

@@ -1,7 +1,5 @@
 package com.dvm.menu.category.presentation
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,29 +13,17 @@ import com.dvm.db.api.DishRepository
 import com.dvm.db.api.models.CardDishDetails
 import com.dvm.db.api.models.CartItem
 import com.dvm.menu.R
-import com.dvm.menu.category.presentation.model.CategoryData
-import com.dvm.menu.category.presentation.model.CategoryEvent
-import com.dvm.menu.category.presentation.model.CategoryState
-import com.dvm.menu.category.presentation.model.OrderType
+import com.dvm.menu.category.presentation.model.*
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class CategoryViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val categoryRepository: CategoryRepository,
     private val dishRepository: DishRepository,
     private val cartRepository: CartRepository,
@@ -63,7 +49,7 @@ internal class CategoryViewModel @Inject constructor(
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     CategoryData(
-                        title = context.getString(R.string.menu_item_special_offer),
+                        title = Title.Resource(R.string.menu_item_special_offer),
                         categoryId = categoryId,
                         subcategories = emptyList(),
                         selectedId = null,
@@ -72,7 +58,7 @@ internal class CategoryViewModel @Inject constructor(
                 }
                 else -> {
                     val subcategories = categoryRepository.getSubcategories(categoryId)
-                    // TODO figure out why passing of nullable optional arguments doesn't work
+                    // TODO figure out why passing nullable optional arguments doesn't work
                     val selectedId = if (subcategoryId != null && subcategoryId != "null") {
                         subcategoryId
                     } else {
@@ -81,7 +67,7 @@ internal class CategoryViewModel @Inject constructor(
                     }
                     val title = categoryRepository.getCategoryTitle(categoryId)
                     CategoryData(
-                        title = title,
+                        title = Title.Text(title),
                         categoryId = categoryId,
                         subcategories = subcategories,
                         selectedId = selectedId,
@@ -127,11 +113,9 @@ internal class CategoryViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alert = String.format(
-                            context.getString(
-                                R.string.message_dish_added_to_cart,
-                                event.name
-                            )
+                        alert = CategoryState.Alert(
+                            text = R.string.message_dish_added_to_cart,
+                            argument = event.name
                         )
                     )
                 }

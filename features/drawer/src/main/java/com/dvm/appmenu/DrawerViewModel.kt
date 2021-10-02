@@ -8,11 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.appmenu.model.DrawerEvent
 import com.dvm.appmenu.model.DrawerState
-import com.dvm.db.api.CartRepository
-import com.dvm.db.api.FavoriteRepository
-import com.dvm.db.api.NotificationRepository
-import com.dvm.db.api.OrderRepository
-import com.dvm.db.api.ProfileRepository
+import com.dvm.db.api.*
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
@@ -21,7 +17,6 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -43,7 +38,6 @@ internal class DrawerViewModel @Inject constructor() : ViewModel() {
     private val cartRepository get() = hiltEntryPoint.cartRepository()
     private val notificationRepository get() = hiltEntryPoint.notificationRepository()
     private val navigator get() = hiltEntryPoint.navigator()
-    private val appContext get() = hiltEntryPoint.context()
 
     fun init(context: Context) {
         hiltEntryPoint =
@@ -93,7 +87,7 @@ internal class DrawerViewModel @Inject constructor() : ViewModel() {
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
-                            alert = appContext.getString(R.string.app_menu_message_logout)
+                            alert = R.string.app_menu_message_logout
                         )
                     } else {
                         hiltEntryPoint.navigator().goTo(Destination.Login())
@@ -126,7 +120,5 @@ internal class DrawerViewModel @Inject constructor() : ViewModel() {
         fun orderRepository(): OrderRepository
         fun cartRepository(): CartRepository
         fun notificationRepository(): NotificationRepository
-        @ApplicationContext
-        fun context(): Context
     }
 }

@@ -7,42 +7,17 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector4D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Surface
-import androidx.compose.material.Tab
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Sort
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -57,6 +32,7 @@ import com.dvm.db.api.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
+import com.dvm.menu.category.presentation.model.Title
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
@@ -121,7 +97,10 @@ internal fun Category(
 
         state.alert?.let {
             Alert(
-                message = state.alert,
+                message = stringResource(
+                    id = state.alert.text,
+                    state.alert.argument
+                ),
                 onDismiss = { onEvent(CategoryEvent.DismissAlert) }
             ) {
                 AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
@@ -260,13 +239,18 @@ private fun DishListHeader(
 ) {
     Spacer(Modifier.statusBarsHeight())
     Spacer(Modifier.height(AppBarHeight))
-    Text(
-        text = state.title,
-        style = MaterialTheme.typography.h2,
-        modifier = Modifier
-            .onSizeChanged { size -> titleHeight.value = size.height }
-            .padding(start = 20.dp, bottom = 15.dp)
-    )
+    state.title?.let { title ->
+        Text(
+            text = when (title) {
+                is Title.Resource -> stringResource(title.value)
+                is Title.Text -> title.value
+            },
+            style = MaterialTheme.typography.h2,
+            modifier = Modifier
+                .onSizeChanged { size -> titleHeight.value = size.height }
+                .padding(start = 20.dp, bottom = 15.dp)
+        )
+    }
 
     if (state.subcategories.isNotEmpty()) {
         Spacer(Modifier.height(AppBarHeight))

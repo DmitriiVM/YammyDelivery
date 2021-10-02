@@ -1,7 +1,5 @@
 package com.dvm.auth.restore
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,17 +16,14 @@ import com.dvm.network.api.AuthApi
 import com.dvm.utils.getErrorMessage
 import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class PasswordRestoreViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val authApi: AuthApi,
     private val navigator: Navigator,
     savedState: SavedStateHandle
@@ -84,9 +79,9 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 state = state.copy(
                     progress = false,
                     alert = if (exception.hasCode(400)) {
-                        context.getString(R.string.password_restoration_message_already_sent)
+                        R.string.password_restoration_message_already_sent
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 )
             }
@@ -104,9 +99,9 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 state = state.copy(
                     progress = false,
                     alert = if (exception.hasCode(400)) {
-                        context.getString(R.string.password_restoration_message_wrong_code)
+                        R.string.password_restoration_message_wrong_code
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 )
             }
@@ -131,9 +126,9 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 state = state.copy(
                     progress = false,
                     alert = if (exception.hasCode(402)) {
-                        context.getString(R.string.password_restoration_message_expired_code)
+                        R.string.password_restoration_message_expired_code
                     } else {
-                        exception.getErrorMessage(context)
+                        exception.getErrorMessage()
                     }
                 )
             }

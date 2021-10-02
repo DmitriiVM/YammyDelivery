@@ -22,23 +22,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class MapViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val navigator: Navigator,
     savedState: SavedStateHandle
 ) : ViewModel() {
@@ -61,24 +52,34 @@ internal class MapViewModel @Inject constructor(
         state = state.copy(alert = null)
     }
 
-    fun onMapReady(map: GoogleMap) {
-        moveToLocation(map)
+    fun onMapReady(
+        context: Context,
+        map: GoogleMap
+    ) {
+        moveToLocation(context, map)
 
         map
             .locationFlow()
             .distinctUntilChanged()
             .debounce(500)
             .catch { throwable ->
-                state = state.copy(alert = throwable.getErrorMessage(context))
+                state = state.copy(alert = throwable.getErrorMessage())
             }
             .onEach { latLng ->
-                addressItems.value = getAddress(latLng.latitude, latLng.longitude)
+                addressItems.value = getAddress(
+                    context = context,
+                    latitude = latLng.latitude,
+                    longitude = latLng.longitude
+                )
             }
             .launchIn(viewModelScope)
     }
 
-    fun onLocationPermissionGranted(map: GoogleMap) {
-        moveToLocation(map)
+    fun onLocationPermissionGranted(
+        context: Context,
+        map: GoogleMap
+    ) {
+        moveToLocation(context, map)
     }
 
     fun onButtonCompleteClick() {
@@ -89,12 +90,13 @@ internal class MapViewModel @Inject constructor(
                 )
             )
         } else {
-            state = state.copy(alert = context.getString(R.string.ordering_address_error))
+            state = state.copy(alert = R.string.ordering_address_error)
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun moveToLocation(
+        context: Context,
         map: GoogleMap,
         defaultLat: Double = 55.752,
         defaultLng: Double = 37.624,
@@ -116,22 +118,34 @@ internal class MapViewModel @Inject constructor(
                 .lastLocation
                 .addOnSuccessListener { location ->
                     move(location.latitude, location.longitude)
-                    addressItems.value = getAddress(location.latitude, location.longitude)
+                    addressItems.value = getAddress(
+                        context = context,
+                        latitude = location.latitude,
+                        longitude = location.longitude
+                    )
                 }
                 .addOnFailureListener {
                     move(defaultLat, defaultLng)
-                    addressItems.value = getAddress(defaultLat, defaultLng)
+                    addressItems.value = getAddress(
+                        context = context,
+                        latitude = defaultLat,
+                        longitude = defaultLng
+                    )
                 }
         }
     }
 
-    private fun getAddress(latitude: Double, longitude: Double): List<String> {
+    private fun getAddress(
+        context: Context,
+        latitude: Double,
+        longitude: Double
+    ): List<String> {
         val locationAddress = try {
             Geocoder(context)
                 .getFromLocation(latitude, longitude, 1)
                 .first()
         } catch (e: Exception) {
-            state = state.copy(alert = context.getString(R.string.message_unknown_error))
+            state = state.copy(alert = R.string.message_unknown_error)
             return emptyList()
         }
         val city = locationAddress.subAdminArea?.let {

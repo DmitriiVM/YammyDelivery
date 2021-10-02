@@ -1,7 +1,5 @@
 package com.dvm.order.orders
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,21 +17,12 @@ import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class OrdersViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val orderRepository: OrderRepository,
     private val updateService: UpdateService,
     private val navigator: Navigator,
@@ -60,7 +49,7 @@ internal class OrdersViewModel @Inject constructor(
             try {
                 updateService.updateOrders()
             } catch (exception: Exception) {
-                state = state.copy(alert = exception.getErrorMessage(context))
+                state = state.copy(alert = exception.getErrorMessage())
             } finally {
                 state = state.copy(progress = false)
             }

@@ -1,7 +1,5 @@
 package com.dvm.cart
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,16 +16,13 @@ import com.dvm.network.api.CartApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class CartViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val cartRepository: CartRepository,
     private val cartApi: CartApi,
     private val datastore: DatastoreRepository,
@@ -97,8 +92,7 @@ internal class CartViewModel @Inject constructor(
                         appliedPromoCode.value = true
                     } else {
                         state =
-                            state.copy(alert = context.getString(R.string.cart_message_promocode_fail))
-                    }
+                            state.copy(alert = R.string.cart_message_promocode_fail)                   }
                 }
             }
             CartEvent.CancelPromoCode -> {
@@ -140,7 +134,7 @@ internal class CartViewModel @Inject constructor(
                     onUpdated(cart.promocode, cart.promotext)
                 } catch (exception: Exception) {
                     state = state.copy(
-                        alert = exception.getErrorMessage(context),
+                        alert = exception.getErrorMessage(),
                         progress = false
                     )
                 }
