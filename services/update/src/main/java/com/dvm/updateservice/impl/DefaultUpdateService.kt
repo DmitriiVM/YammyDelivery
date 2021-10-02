@@ -1,14 +1,9 @@
 package com.dvm.updateservice.impl
 
-import com.dvm.db.api.CategoryRepository
-import com.dvm.db.api.DishRepository
-import com.dvm.db.api.FavoriteRepository
-import com.dvm.db.api.OrderRepository
-import com.dvm.db.api.ProfileRepository
-import com.dvm.db.api.ReviewRepository
-import com.dvm.db.api.mappers.toDbEntity
-import com.dvm.db.api.models.Favorite
-import com.dvm.db.api.models.Recommended
+import com.dvm.database.api.*
+import com.dvm.database.api.mappers.toDbEntity
+import com.dvm.database.api.models.Favorite
+import com.dvm.database.api.models.Recommended
 import com.dvm.network.api.MenuApi
 import com.dvm.network.api.OrderApi
 import com.dvm.network.api.ProfileApi

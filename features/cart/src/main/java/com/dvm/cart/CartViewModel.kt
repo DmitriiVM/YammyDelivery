@@ -9,7 +9,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
-import com.dvm.db.api.CartRepository
+import com.dvm.database.api.CartRepository
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.CartApi

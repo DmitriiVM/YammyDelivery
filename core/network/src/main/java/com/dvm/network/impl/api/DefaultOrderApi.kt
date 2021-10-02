@@ -7,7 +7,7 @@ import com.dvm.network.impl.ApiService
 import com.dvm.network.impl.getAllChunks
 import com.dvm.network.impl.request.CancelOrderRequest
 import com.dvm.network.impl.request.CreateOrderRequest
-import com.dvm.utils.hasCode
+import com.dvm.utils.AppException
 import javax.inject.Inject
 
 internal class DefaultOrderApi @Inject constructor(
@@ -53,7 +53,7 @@ internal class DefaultOrderApi @Inject constructor(
         try {
             apiService.getStatuses(lastUpdateTime)
         } catch (exception: Exception) {
-            if (exception.hasCode(304)) {
+            if (exception is AppException.NotModifiedException) {
                 emptyList()
             } else {
                 throw exception

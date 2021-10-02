@@ -145,7 +145,7 @@ internal class MapViewModel @Inject constructor(
                 .getFromLocation(latitude, longitude, 1)
                 .first()
         } catch (e: Exception) {
-            state = state.copy(alert = R.string.message_unknown_error)
+            state = state.copy(alert = R.string.message_general_error)
             return emptyList()
         }
         val city = locationAddress.subAdminArea?.let {

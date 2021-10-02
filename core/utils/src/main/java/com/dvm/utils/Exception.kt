@@ -1,22 +1,17 @@
 package com.dvm.utils
 
 sealed class AppException : Exception() {
-    data class ApiException(
-        override val message: String,
-        val code: Int
-    ) : AppException()
-
-    object TimeoutException : AppException()
-    object NetworkException : AppException()
-    object UnknownException : AppException()
+    object WifiException : AppException()
+    object CellularException : AppException()
+    object GeneralException : AppException()
+    object NotModifiedException : AppException()
+    object BadRequest : AppException()
+    object IncorrectData : AppException()
 }
 
 fun Throwable.getErrorMessage() =
     when (this) {
-        is AppException.TimeoutException -> R.string.message_network_timeout
-        is AppException.NetworkException -> R.string.message_network_error
-        else -> R.string.message_unknown_error
+        is AppException.WifiException -> R.string.message_network_error
+        is AppException.CellularException -> R.string.message_network_error
+        else -> R.string.message_general_error
     }
-
-fun Exception.hasCode(code: Int) =
-    this is AppException.ApiException && this.code == code

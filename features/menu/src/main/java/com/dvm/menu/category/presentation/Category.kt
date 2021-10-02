@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.Subcategory
+import com.dvm.database.api.models.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType

@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.dvm.db.api.models.CardDishDetails
+import com.dvm.database.api.models.CardDishDetails
 import com.dvm.menu.R
 import com.dvm.ui.components.Image
 

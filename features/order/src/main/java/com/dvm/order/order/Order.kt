@@ -19,7 +19,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.OrderItem
+import com.dvm.database.api.models.OrderItem
 import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState

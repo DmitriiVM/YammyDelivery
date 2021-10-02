@@ -1,6 +1,6 @@
 package com.dvm.order.orders.model
 
-import com.dvm.db.api.models.OrderData
+import com.dvm.database.api.models.OrderData
 
 internal data class OrdersState(
     val status: OrderStatus = OrderStatus.ACTUAL,

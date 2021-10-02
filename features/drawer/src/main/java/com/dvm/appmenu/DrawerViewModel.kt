@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.appmenu.model.DrawerEvent
 import com.dvm.appmenu.model.DrawerState
-import com.dvm.db.api.*
+import com.dvm.database.api.*
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository

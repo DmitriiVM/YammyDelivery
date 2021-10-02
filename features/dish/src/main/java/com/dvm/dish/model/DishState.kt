@@ -1,7 +1,7 @@
 package com.dvm.dish.model
 
-import com.dvm.db.api.models.DishDetails
-import com.dvm.db.api.models.Review
+import com.dvm.database.api.models.DishDetails
+import com.dvm.database.api.models.Review
 
 internal data class DishState(
     val dish: DishDetails? = null,

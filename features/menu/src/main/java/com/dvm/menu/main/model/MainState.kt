@@ -1,6 +1,6 @@
 package com.dvm.menu.search.model
 
-import com.dvm.db.api.models.CardDishDetails
+import com.dvm.database.api.models.CardDishDetails
 
 internal data class MainState(
     val recommended: List<CardDishDetails> = emptyList(),

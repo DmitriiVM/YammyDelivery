@@ -1,9 +1,9 @@
 package com.dvm.network.impl
 
-import com.dvm.utils.hasCode
+import com.dvm.utils.AppException
 
 internal suspend fun <T> getAllChunks(
-    limit: Int = 30,
+    limit: Int = 100,
     call: suspend (offset: Int, limit: Int) -> List<T>
 ): List<T> {
 
@@ -14,7 +14,7 @@ internal suspend fun <T> getAllChunks(
         val chunk = try {
             call(offset * limit, limit)
         } catch (exception: Exception) {
-            if (exception.hasCode(304)) {
+            if (exception is AppException.NotModifiedException) {
                 break
             } else {
                 throw exception

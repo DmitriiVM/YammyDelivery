@@ -1,19 +1,16 @@
 package com.dvm.network.impl
 
+import android.content.Context
 import com.dvm.utils.AppException
 import okhttp3.Request
 import okio.Timeout
-import retrofit2.Call
-import retrofit2.CallAdapter
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import java.io.IOException
+import retrofit2.*
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
-import java.net.SocketTimeoutException
 
-internal class ExceptionCallAdapterFactory : CallAdapter.Factory() {
+internal class ExceptionCallAdapterFactory(
+    private val context: Context
+) : CallAdapter.Factory() {
 
     override fun get(
         returnType: Type,
@@ -31,19 +28,21 @@ internal class ExceptionCallAdapterFactory : CallAdapter.Factory() {
 
         val responseType = getParameterUpperBound(0, returnType)
 
-        return ResponseCallAdapter<Any>(responseType)
+        return ResponseCallAdapter<Any>(context, responseType)
     }
 
     private class ResponseCallAdapter<T>(
+        private val context: Context,
         private val responseType: Type
     ) : CallAdapter<T, Call<T>> {
 
         override fun responseType(): Type = responseType
 
-        override fun adapt(call: Call<T>): Call<T> = ResponseCall(call)
+        override fun adapt(call: Call<T>): Call<T> = ResponseCall(context, call)
     }
 
     private class ResponseCall<T>(
+        private val context: Context,
         private val delegate: Call<T>,
     ) : Call<T> {
         override fun enqueue(callback: Callback<T>) {
@@ -52,19 +51,26 @@ internal class ExceptionCallAdapterFactory : CallAdapter.Factory() {
                     if (response.isSuccessful) {
                         callback.onResponse(this@ResponseCall, response)
                     } else {
-                        val exception = AppException.ApiException(
-                            code = response.code(),
-                            message = response.message()
-                        )
+                        val exception = when (response.code()) {
+                            304 -> AppException.NotModifiedException
+                            400 -> AppException.BadRequest
+                            402 -> AppException.IncorrectData
+                            else -> AppException.GeneralException
+                        }
                         callback.onFailure(this@ResponseCall, exception)
                     }
                 }
 
                 override fun onFailure(call: Call<T>, throwable: Throwable) {
-                    val exception = when (throwable) {
-                        is SocketTimeoutException -> AppException.TimeoutException
-                        is IOException -> AppException.NetworkException
-                        else -> AppException.UnknownException
+                    val networkCapabilities = context.getNetworkCapabilities()
+                    val exception = if (networkCapabilities?.isConnected() != true) {
+                        if (networkCapabilities.isWifiError()) {
+                            AppException.WifiException
+                        } else {
+                            AppException.CellularException
+                        }
+                    } else {
+                        AppException.GeneralException
                     }
                     callback.onFailure(this@ResponseCall, exception)
                 }

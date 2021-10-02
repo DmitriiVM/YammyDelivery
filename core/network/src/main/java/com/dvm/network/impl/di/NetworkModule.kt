@@ -1,28 +1,19 @@
 package com.dvm.network.impl.di
 
-import com.dvm.network.api.AuthApi
-import com.dvm.network.api.CartApi
-import com.dvm.network.api.MenuApi
-import com.dvm.network.api.OrderApi
-import com.dvm.network.api.ProfileApi
+import android.content.Context
+import com.dvm.network.api.*
 import com.dvm.network.impl.ApiService
-import com.dvm.network.impl.ExceptionCallAdapterFactory
 import com.dvm.network.impl.TokenAuthenticator
-import com.dvm.network.impl.api.DefaultAuthApi
-import com.dvm.network.impl.api.DefaultCartApi
-import com.dvm.network.impl.api.DefaultMenuApi
-import com.dvm.network.impl.api.DefaultOrderApi
-import com.dvm.network.impl.api.DefaultProfileApi
+import com.dvm.network.impl.api.*
+import com.dvm.network.impl.buildApiService
+import com.dvm.network.impl.buildOkHttpClient
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -48,27 +39,20 @@ internal interface NetworkModule {
 
         @Singleton
         @Provides
-        fun provideApiService(client: OkHttpClient): ApiService =
-            Retrofit.Builder()
-                .baseUrl("https://sandbox.skill-branch.ru/")
-                .client(client)
-                .addCallAdapterFactory(ExceptionCallAdapterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ApiService::class.java)
+        fun provideApiService(
+            @ApplicationContext context: Context,
+            client: OkHttpClient
+        ): ApiService =
+            buildApiService(
+                context = context,
+                client = client
+            )
 
         @Singleton
         @Provides
-        fun provideOkHttpClient(authenticator: TokenAuthenticator): OkHttpClient =
-            OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(20, TimeUnit.SECONDS)
-                .addInterceptor(
-                    HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-                .authenticator(authenticator)
-                .build()
+        fun provideOkHttpClient(
+            authenticator: TokenAuthenticator
+        ): OkHttpClient =
+            buildOkHttpClient(authenticator)
     }
 }

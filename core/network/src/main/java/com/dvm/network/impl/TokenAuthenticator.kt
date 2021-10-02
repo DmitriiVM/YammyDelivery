@@ -35,7 +35,7 @@ internal class TokenAuthenticator @Inject constructor(
 
         return response.request
             .newBuilder()
-            .header("Authorization", "Bearer $newAccessToken")
+            .header(ApiService.HEADER_AUTHORIZATION, "Bearer $newAccessToken")
             .build()
     }
 }

@@ -1,6 +1,6 @@
 package com.dvm.order.order.model
 
-import com.dvm.db.api.models.OrderWithItems
+import com.dvm.database.api.models.OrderWithItems
 
 internal data class OrderState(
     val order: OrderWithItems? = null,

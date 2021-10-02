@@ -10,17 +10,17 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
-import com.dvm.db.api.ProfileRepository
-import com.dvm.db.api.models.Profile
+import com.dvm.database.api.ProfileRepository
+import com.dvm.database.api.models.Profile
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
+import com.dvm.utils.AppException
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.getErrorMessage
-import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -123,11 +123,12 @@ internal class LoginViewModel @Inject constructor(
                 updateService.syncFavorites()
                 navigator.goTo(Destination.LoginTarget)
             } catch (exception: Exception) {
-                val message = if (exception.hasCode(402)){
-                    R.string.auth_error_incorrect_data
-                } else {
-                    exception.getErrorMessage()
-                }
+                val message =
+                    if (exception is AppException.IncorrectData) {
+                        R.string.auth_error_incorrect_data
+                    } else {
+                        exception.getErrorMessage()
+                    }
                 state = state.copy(
                     alert = message,
                     progress = false

@@ -1,8 +1,8 @@
 package com.dvm.menu.search.model
 
-import com.dvm.db.api.models.CardDishDetails
-import com.dvm.db.api.models.ParentCategory
-import com.dvm.db.api.models.Subcategory
+import com.dvm.database.api.models.CardDishDetails
+import com.dvm.database.api.models.ParentCategory
+import com.dvm.database.api.models.Subcategory
 
 internal data class SearchState(
     val query: String = "",

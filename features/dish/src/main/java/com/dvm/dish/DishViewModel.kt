@@ -8,10 +8,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.CartRepository
-import com.dvm.db.api.DishRepository
-import com.dvm.db.api.FavoriteRepository
-import com.dvm.db.api.models.CartItem
+import com.dvm.database.api.CartRepository
+import com.dvm.database.api.DishRepository
+import com.dvm.database.api.FavoriteRepository
+import com.dvm.database.api.models.CartItem
 import com.dvm.dish.model.DishEvent
 import com.dvm.dish.model.DishState
 import com.dvm.navigation.api.Navigator

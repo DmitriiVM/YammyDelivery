@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
-import com.dvm.db.api.models.CardDishDetails
+import com.dvm.database.api.models.CardDishDetails
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.search.model.MainEvent

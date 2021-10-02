@@ -1,6 +1,6 @@
 package com.dvm.cart.model
 
-import com.dvm.db.api.models.CartItemDetails
+import com.dvm.database.api.models.CartItemDetails
 
 internal data class CartState(
     val items: List<CartItemDetails> = emptyList(),

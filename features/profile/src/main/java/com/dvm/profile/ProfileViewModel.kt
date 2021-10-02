@@ -5,18 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.ProfileRepository
-import com.dvm.db.api.models.Profile
+import com.dvm.database.api.ProfileRepository
+import com.dvm.database.api.models.Profile
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.profile.model.ProfileEvent
 import com.dvm.profile.model.ProfileState
+import com.dvm.utils.AppException
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import com.dvm.utils.getErrorMessage
-import com.dvm.utils.hasCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -120,11 +120,12 @@ internal class ProfileViewModel @Inject constructor(
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
-                val message = if (exception.hasCode(400)) {
-                    R.string.profile_message_wrong_password
-                } else {
-                    exception.getErrorMessage()
-                }
+                val message =
+                    if (exception is AppException.BadRequest) {
+                        R.string.profile_message_wrong_password
+                    } else {
+                        exception.getErrorMessage()
+                    }
                 state = state.copy(
                     alert = message,
                     progress = false

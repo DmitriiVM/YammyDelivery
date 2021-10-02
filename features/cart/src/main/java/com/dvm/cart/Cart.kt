@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.cart.model.CartEvent
 import com.dvm.cart.model.CartState
-import com.dvm.db.api.models.CartItemDetails
+import com.dvm.database.api.models.CartItemDetails
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding

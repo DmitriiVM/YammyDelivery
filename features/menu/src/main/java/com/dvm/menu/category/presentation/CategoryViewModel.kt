@@ -7,11 +7,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.db.api.CartRepository
-import com.dvm.db.api.CategoryRepository
-import com.dvm.db.api.DishRepository
-import com.dvm.db.api.models.CardDishDetails
-import com.dvm.db.api.models.CartItem
+import com.dvm.database.api.CartRepository
+import com.dvm.database.api.CategoryRepository
+import com.dvm.database.api.DishRepository
+import com.dvm.database.api.models.CardDishDetails
+import com.dvm.database.api.models.CartItem
 import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.*
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
