@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.compose.coil)
     implementation(libs.accompanist.insets)
 
-    implementation(libs.bundles.coroutines)
+    implementation(libs.coroutines)
 
     implementation(libs.lifecycle.livedata)
 

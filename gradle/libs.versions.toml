@@ -30,8 +30,7 @@ accompanist-pager = { module = "com.google.accompanist:accompanist-pager", versi
 accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
 
-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor"}
 ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor"}
@@ -64,6 +63,5 @@ google-mapsKtx = "com.google.maps.android:maps-ktx:2.3.0"
 google-location = "com.google.android.gms:play-services-location:18.0.0"
 
 [bundles]
-coroutines = ["coroutines-core", "coroutines-android"]
 compose = ["compose-ui", "compose-tooling", "compose-foundation", "compose-material"]
 ktor = ["ktor-android", "ktor-cio", "ktor-json", "ktor-serialization", "ktor-logging"]

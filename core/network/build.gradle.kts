@@ -7,7 +7,7 @@ dependencies {
     implementation(project(ModulePath.Core.UTILS))
     implementation(project(ModulePath.Core.DATASTORE))
 
-    implementation(libs.bundles.coroutines)
+    implementation(libs.coroutines)
 
     implementation(libs.bundles.ktor)
 

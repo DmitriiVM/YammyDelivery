@@ -10,7 +10,7 @@ dependencies {
 
     implementation(libs.android.core)
 
-    implementation(libs.bundles.coroutines)
+    implementation(libs.coroutines)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)
