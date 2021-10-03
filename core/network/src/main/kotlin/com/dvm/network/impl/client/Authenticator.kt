@@ -3,6 +3,7 @@ package com.dvm.network
 import com.dvm.network.api.response.TokenResponse
 import com.dvm.network.impl.request.RefreshTokenRequest
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.utils.createFullToken
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -28,7 +29,7 @@ internal fun HttpClientConfig<*>.Authenticator(
                     val newResponse = request<HttpResponse> {
                         takeFrom(response.request)
                         headers.remove(HttpHeaders.Authorization)
-                        header(HttpHeaders.Authorization, "Bearer $newToken")
+                        header(HttpHeaders.Authorization, createFullToken(newToken))
                     }
                     proceedWith(newResponse)
                 }

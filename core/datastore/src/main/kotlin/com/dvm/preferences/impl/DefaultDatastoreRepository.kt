@@ -1,6 +1,7 @@
 package com.dvm.preferences.impl
 
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.utils.createFullToken
 import kotlinx.coroutines.flow.Flow
 
 internal class DefaultDatastoreRepository(
@@ -14,7 +15,7 @@ internal class DefaultDatastoreRepository(
     override suspend fun isAuthorized(): Boolean = dataStore.isAuthorized()
 
     override suspend fun getAccessToken(): String? =
-        dataStore.getAccessToken()?.let { "Bearer $it" }
+        dataStore.getAccessToken()?.let { createFullToken(it) }
 
     override suspend fun saveAccessToken(token: String) {
         dataStore.saveAccessToken(token)
