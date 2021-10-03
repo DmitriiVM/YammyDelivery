@@ -27,5 +27,5 @@ dependencies {
     implementation(libs.hilt.library)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.bundles.coroutines)
+    implementation(libs.coroutines)
 }

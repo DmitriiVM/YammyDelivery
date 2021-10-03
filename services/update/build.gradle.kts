@@ -12,7 +12,7 @@ dependencies {
 
     implementation(libs.android.core)
 
-    implementation(libs.bundles.coroutines)
+    implementation(libs.coroutines)
 
     implementation(libs.hilt.library)
     kapt(libs.hilt.compiler)

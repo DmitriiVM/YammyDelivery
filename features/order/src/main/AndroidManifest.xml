@@ -9,8 +9,10 @@
 <!--            android:name="com.google.android.geo.API_KEY"-->
 <!--            android:value="@string/google_key" />-->
 
-<!--            It's better to put api key in gitignore file. So i did it.   />-->
-<!--            But this key is for testing purposes so i put it here to make this app easy to use and test.  />-->
+<!--            Typically we shouldn't store key in public repository,-->
+<!--            so I put it to local.properties which is in gitignore file.-->
+<!--            However this is just a sample project and a key is for learning purposes, -->
+<!--            so i put it here to make this app easy to use and check.-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCmDIaA1AZCqGm1LUbSJnXVsZFvPGJBVeI" />
