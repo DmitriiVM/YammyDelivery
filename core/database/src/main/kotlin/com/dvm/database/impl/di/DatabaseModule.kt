@@ -1,0 +1,133 @@
+package com.dvm.database.impl.di
+
+import com.dvm.database.AppDatabase
+import com.dvm.database.Hint
+import com.dvm.database.OrderDetails
+import com.dvm.database.api.*
+import com.dvm.database.impl.DateAdapter
+import com.dvm.database.impl.repositories.*
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
+import org.koin.dsl.module
+
+val databaseModule = module {
+
+    single {
+        val driver: SqlDriver = AndroidSqliteDriver(
+            schema = AppDatabase.Schema,
+            context = get(),
+            name = "AppDatabase"
+        )
+        AppDatabase(
+            driver = driver,
+            hintAdapter = Hint.Adapter(DateAdapter),
+            orderDetailsAdapter = OrderDetails.Adapter(DateAdapter),
+        )
+    }
+
+    single {
+        get<AppDatabase>().cartQueries
+    }
+
+    single {
+        get<AppDatabase>().categoryQueries
+    }
+
+    single {
+        get<AppDatabase>().dishQueries
+    }
+
+    single {
+        get<AppDatabase>().favoriteQueries
+    }
+
+    single {
+        get<AppDatabase>().hintQueries
+    }
+
+    single {
+        get<AppDatabase>().notificationQueries
+    }
+
+    single {
+        get<AppDatabase>().orderDetailsQueries
+    }
+
+    single {
+        get<AppDatabase>().orderItemQueries
+    }
+
+    single {
+        get<AppDatabase>().orderStatusQueries
+    }
+
+    single {
+        get<AppDatabase>().profileQueries
+    }
+
+    single {
+        get<AppDatabase>().recommendedQueries
+    }
+
+    single {
+        get<AppDatabase>().reviewQueries
+    }
+
+    factory<CategoryRepository> {
+        DefaultCategoryRepository(
+            categoryQueries = get()
+        )
+    }
+
+    factory<DishRepository> {
+        DefaultDishRepository(
+            dishQueries = get(),
+            recommendedQueries = get(),
+            reviewsQueries = get()
+        )
+    }
+
+    factory<CartRepository> {
+        DefaultCartRepository(
+            cartQueries = get()
+        )
+    }
+
+    factory<FavoriteRepository> {
+        DefaultFavoriteRepository(
+            favoriteQueries = get()
+        )
+    }
+
+    factory<ReviewRepository> {
+        DefaultReviewRepository(
+            reviewsQueries = get()
+        )
+    }
+
+    factory<NotificationRepository> {
+        DefaultNotificationRepository(
+            notificationQueries = get()
+        )
+    }
+
+    factory<ProfileRepository> {
+        DefaultProfileRepository(
+            profileQueries = get()
+        )
+    }
+
+    factory<OrderRepository> {
+        DefaultOrderRepository(
+            orderQueries = get(),
+            orderItemQueries = get(),
+            orderStatusQueries = get()
+        )
+    }
+
+    factory<HintRepository> {
+        DefaultHintRepository(
+            hintQueries = get()
+        )
+    }
+}
