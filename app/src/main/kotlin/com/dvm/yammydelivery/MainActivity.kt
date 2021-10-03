@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import com.dvm.notification.NotificationService.Companion.NOTIFICATION_EXTRA
 import com.dvm.ui.YammyDeliveryScreen
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -17,11 +18,12 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        viewModel.setNavHostController(this)
         setContent {
             YammyDeliveryScreen(this) {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-                    NavHost(viewModel.navController!!)
+                    val navController = rememberNavController()
+                    viewModel.navController = navController
+                    NavHost(navController)
                 }
             }
         }

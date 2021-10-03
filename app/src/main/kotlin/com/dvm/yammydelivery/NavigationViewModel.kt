@@ -1,14 +1,11 @@
 package com.dvm.yammydelivery
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.compose.DialogNavigator
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import kotlinx.coroutines.flow.launchIn
@@ -23,13 +20,6 @@ internal class NavigationViewModel(
     private val navigator: Navigator by inject()
 
     var navController: NavHostController? = null
-
-    fun setNavHostController(context: Context) {
-        navController = NavHostController(context).apply {
-            navigatorProvider.addNavigator(ComposeNavigator())
-            navigatorProvider.addNavigator(DialogNavigator())
-        }
-    }
 
     private val currentDestination
         get() = navController?.currentBackStackEntry?.destination?.route
