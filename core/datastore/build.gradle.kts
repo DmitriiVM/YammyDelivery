@@ -5,6 +5,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(ModulePath.Core.UTILS))
+
     implementation(libs.android.core)
     implementation(libs.datastore)
 

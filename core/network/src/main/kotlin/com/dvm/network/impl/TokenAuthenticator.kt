@@ -2,6 +2,7 @@ package com.dvm.network.impl
 
 import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.utils.createFullToken
 import dagger.Lazy
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -35,7 +36,7 @@ internal class TokenAuthenticator @Inject constructor(
 
         return response.request
             .newBuilder()
-            .header(ApiService.HEADER_AUTHORIZATION, "Bearer $newAccessToken")
+            .header(ApiService.HEADER_AUTHORIZATION, createFullToken(newAccessToken))
             .build()
     }
 }
