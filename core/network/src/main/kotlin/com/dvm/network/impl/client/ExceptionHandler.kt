@@ -29,7 +29,7 @@ internal fun HttpClientConfig<*>.ExceptionHandler(
                     throw AppException.CellularException
                 }
             } else {
-                throw AppException.UnknownException
+                throw AppException.GeneralException
             }
         }
     }
