@@ -18,20 +18,22 @@
             <option value="$PROJECT_DIR$/core/datastore" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/ui" />
-            <option value="$PROJECT_DIR$/core/updateservice" />
             <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/features" />
-            <option value="$PROJECT_DIR$/features/appmenu" />
-            <option value="$PROJECT_DIR$/features/appmenu-api" />
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/cart" />
             <option value="$PROJECT_DIR$/features/dish" />
+            <option value="$PROJECT_DIR$/features/drawer" />
+            <option value="$PROJECT_DIR$/features/drawer-api" />
             <option value="$PROJECT_DIR$/features/menu" />
             <option value="$PROJECT_DIR$/features/notifications" />
             <option value="$PROJECT_DIR$/features/order" />
             <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/services" />
+            <option value="$PROJECT_DIR$/services/notification" />
+            <option value="$PROJECT_DIR$/services/update" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,25 +39,18 @@ fun EditTextField(
             .focusable(false),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        colors = colors
+        colors = colors,
+        singleLine = true
     )
-    if (error != null) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = stringResource(error),
-                modifier = Modifier.fillMaxWidth(),
-                style = LocalTextStyle.current.copy(
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colors.error
-                )
-            )
-        }
-    } else {
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Spacer(modifier = Modifier.width(16.dp))
         Text(
-            text = "",
-            fontSize = 12.sp,
-            color = Color.Transparent
+            text = error?.let { stringResource(it) } ?: "",
+            modifier = Modifier.fillMaxWidth(),
+            style = LocalTextStyle.current.copy(
+                fontSize = 12.sp,
+                color = MaterialTheme.colors.error
+            )
         )
     }
 }

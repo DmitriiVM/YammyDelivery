@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
+import com.dvm.navigation.api.model.Destination
 import com.dvm.notification.NotificationService.Companion.NOTIFICATION_EXTRA
 import com.dvm.ui.YammyDeliveryScreen
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -22,29 +23,37 @@ internal class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             YammyDeliveryScreen(this) {
-                ProvideWindowInsets(windowInsetsAnimationsEnabled = true){
+                ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     val navController = rememberNavController()
                     viewModel.navController = navController
-                    NavHost(navController)
+                    NavHost(
+                        navController = navController,
+                        startDestination = if (fromNotification(intent)) {
+                            Destination.Main.route
+                        } else {
+                            Destination.Splash.route
+                        }
+                    )
+                    if (fromNotification(intent)) {
+                        handleNotificationIntent(intent)
+                    }
                 }
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        handleNotificationIntent(intent)
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        handleNotificationIntent(intent)
+        if (fromNotification(intent)) {
+            handleNotificationIntent(intent)
+        }
     }
 
     private fun handleNotificationIntent(intent: Intent?) {
-        if (intent?.hasExtra(NOTIFICATION_EXTRA) == true) {
-            viewModel.navigateToNotification()
-            intent.removeExtra(NOTIFICATION_EXTRA)
-        }
+        viewModel.navigateToNotification()
+        intent?.removeExtra(NOTIFICATION_EXTRA)
     }
+
+    private fun fromNotification(intent: Intent?): Boolean =
+        intent?.hasExtra(NOTIFICATION_EXTRA) == true
 }

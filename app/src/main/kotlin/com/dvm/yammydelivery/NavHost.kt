@@ -13,10 +13,13 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.splash.api.SplashScreen
 
 @Composable
-fun NavHost(navController: NavHostController) {
+fun NavHost(
+    navController: NavHostController,
+    startDestination: String,
+) {
     NavHost(
         navController = navController,
-        startDestination = Destination.Splash.route
+        startDestination = startDestination
     ) {
         composable(Destination.Splash.route) { SplashScreen() }
         composable(Destination.Main.route) { MainScreen() }
