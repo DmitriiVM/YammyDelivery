@@ -41,12 +41,6 @@ internal class DataStore(
             }
             .first()
 
-    fun accessToken(): Flow<String?> =
-        context.dataStore.data
-            .map { preferences ->
-                preferences[ACCESS_TOKEN]
-            }
-
     fun authorized(): Flow<Boolean> =
         context.dataStore.data
             .map { preferences ->
@@ -59,6 +53,12 @@ internal class DataStore(
 
     suspend fun saveAccessToken(accessToken: String) {
         save(ACCESS_TOKEN, accessToken)
+    }
+
+    suspend fun deleteAccessToken() {
+        context.dataStore.edit { settings ->
+            settings.remove(ACCESS_TOKEN)
+        }
     }
 
     suspend fun getRefreshToken(): String? = get(REFRESH_TOKEN)

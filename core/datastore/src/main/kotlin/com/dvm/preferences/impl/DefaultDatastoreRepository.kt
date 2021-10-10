@@ -6,16 +6,16 @@ import kotlinx.coroutines.flow.Flow
 
 internal class DefaultDatastoreRepository(
     private val dataStore: DataStore
-): DatastoreRepository {
-
-    override fun accessToken(): Flow<String?> = dataStore.accessToken()
+) : DatastoreRepository {
 
     override fun authorized(): Flow<Boolean> = dataStore.authorized()
 
     override suspend fun isAuthorized(): Boolean = dataStore.isAuthorized()
 
     override suspend fun getAccessToken(): String? =
-        dataStore.getAccessToken()?.let { createFullToken(it) }
+        dataStore.getAccessToken()
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { createFullToken(it) }
 
     override suspend fun saveAccessToken(token: String) {
         dataStore.saveAccessToken(token)
@@ -28,7 +28,7 @@ internal class DefaultDatastoreRepository(
     }
 
     override suspend fun deleteAccessToken() {
-        dataStore.saveAccessToken("")
+        dataStore.deleteAccessToken()
     }
 
     override suspend fun setUpdateError(error: Boolean) {

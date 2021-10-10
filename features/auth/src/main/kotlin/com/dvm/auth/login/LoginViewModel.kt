@@ -70,12 +70,6 @@ internal class LoginViewModel(
             LoginEvent.Register -> {
                 navigator.goTo(Destination.Registration)
             }
-            is LoginEvent.Login -> {
-                login(
-                    email = event.email,
-                    password = event.password
-                )
-            }
             LoginEvent.DismissAlert -> {
                 state = state.copy(alert = null)
             }
@@ -85,9 +79,10 @@ internal class LoginViewModel(
         }
     }
 
-    private fun login(
+    fun login(
         email: String,
-        password: String
+        password: String,
+        onSuccess: () -> Unit
     ) {
 
         val emailError = email.getEmailErrorOrNull()
@@ -117,6 +112,7 @@ internal class LoginViewModel(
                         email = loginData.email
                     )
                 )
+                onSuccess()
                 updateService.syncFavorites()
                 navigator.goTo(Destination.LoginTarget)
             } catch (exception: Exception) {

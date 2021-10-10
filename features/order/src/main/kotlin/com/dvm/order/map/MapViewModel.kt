@@ -115,11 +115,16 @@ internal class MapViewModel(
                 .getFusedLocationProviderClient(context)
                 .lastLocation
                 .addOnSuccessListener { location ->
-                    move(location.latitude, location.longitude)
+                    val (latitude, longitude) = if (location != null){
+                        location.latitude to location.longitude
+                    } else {
+                        defaultLat to defaultLng
+                    }
+                    move(latitude, longitude)
                     addressItems.value = getAddress(
                         context = context,
-                        latitude = location.latitude,
-                        longitude = location.longitude
+                        latitude = latitude,
+                        longitude = longitude
                     )
                 }
                 .addOnFailureListener {
@@ -153,7 +158,7 @@ internal class MapViewModel(
             context.getString(R.string.ordering_address_street, locationAddress.thoroughfare)
         }
         val flat = locationAddress.subThoroughfare?.let {
-            context.getString(R.string.ordering_address_street, locationAddress.subThoroughfare)
+            context.getString(R.string.ordering_address_flat, locationAddress.subThoroughfare)
         }
         return listOfNotNull(city, building, flat)
     }

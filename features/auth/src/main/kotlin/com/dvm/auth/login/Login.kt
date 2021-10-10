@@ -10,9 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -26,12 +28,15 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun Login(
     viewModel: LoginViewModel = getStateViewModel()
 ) {
     val state: LoginState = viewModel.state
     val onEvent: (LoginEvent) -> Unit = { viewModel.dispatch(it) }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Drawer(selected = DrawerItem.NONE) {
         Column(
@@ -57,6 +62,15 @@ internal fun Login(
                 var password by rememberSaveable { mutableStateOf("") }
 
                 val passwordFocusRequest = remember { FocusRequester() }
+
+                val login = {
+                    viewModel.login(
+                        email = email,
+                        password = password,
+                    ) {
+                        keyboardController?.hide()
+                    }
+                }
 
                 EditTextField(
                     text = email,
@@ -84,14 +98,7 @@ internal fun Login(
                     modifier = Modifier.focusRequester(passwordFocusRequest),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
-                        onDone = {
-                            onEvent(
-                                LoginEvent.Login(
-                                    email = email,
-                                    password = password,
-                                )
-                            )
-                        }
+                        onDone = { login() }
                     )
                 )
                 Spacer(Modifier.height(30.dp))
@@ -101,12 +108,7 @@ internal fun Login(
                     progress = state.progress,
                     onClick = {
                         if (!state.progress) {
-                            onEvent(
-                                LoginEvent.Login(
-                                    email = email,
-                                    password = password,
-                                )
-                            )
+                            login()
                         }
                     }
                 )

@@ -3,7 +3,6 @@ package com.dvm.preferences.api
 import kotlinx.coroutines.flow.Flow
 
 interface DatastoreRepository {
-    fun accessToken(): Flow<String?>
     fun authorized(): Flow<Boolean>
     suspend fun isAuthorized(): Boolean
     suspend fun getAccessToken(): String?
