@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.dvm.database.ParentCategory
 import com.dvm.database.Subcategory
 import com.dvm.database.api.models.CardDish
+import com.dvm.utils.Text
 
 @Immutable
 internal data class SearchState(
@@ -12,10 +13,5 @@ internal data class SearchState(
     val categories: List<ParentCategory> = emptyList(),
     val subcategories: List<Subcategory> = emptyList(),
     val hints: List<String> = emptyList(),
-    val alert: Alert? = null
-) {
-    data class Alert(
-        val text: Int,
-        val argument: Any
-    )
-}
+    val alert: Text? = null
+)

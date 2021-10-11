@@ -10,8 +10,6 @@ internal data class OrderState(
     val progress: Boolean = false
 ){
     data class Message(
-        val text: Int,
-        val dish: Int,
         val count: Int
     )
 }

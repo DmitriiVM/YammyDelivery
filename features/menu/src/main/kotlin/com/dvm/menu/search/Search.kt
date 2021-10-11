@@ -14,6 +14,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
@@ -31,6 +32,7 @@ import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
+import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
@@ -41,6 +43,8 @@ internal fun Search(
 ) {
     val state: SearchState = viewModel.state
     val onEvent: (SearchEvent) -> Unit = { viewModel.dispatch(it) }
+
+    val context = LocalContext.current
 
     Drawer(selected = DrawerItem.MENU) {
 
@@ -77,10 +81,7 @@ internal fun Search(
 
     state.alert?.let {
         Alert(
-            message = stringResource(
-                id = state.alert.text,
-                state.alert.argument
-            ),
+            message = state.alert.asString(context),
             onDismiss = { onEvent(SearchEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(SearchEvent.DismissAlert) })

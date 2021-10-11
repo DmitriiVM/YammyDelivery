@@ -116,13 +116,7 @@ internal class OrderViewModel(
                 orderAgain()
                 return@launch
             }
-            state = state.copy(
-                orderAgainMessage = OrderState.Message(
-                    text = R.string.order_message_cart_not_empty,
-                    dish = R.plurals.order_message_plural_dish,
-                    count = cartCount
-                )
-            )
+            state = state.copy(orderAgainMessage = OrderState.Message(cartCount))
         }
     }
 

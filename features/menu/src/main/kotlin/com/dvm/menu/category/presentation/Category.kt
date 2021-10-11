@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,7 +33,6 @@ import com.dvm.database.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
 import com.dvm.menu.category.presentation.model.OrderType
-import com.dvm.menu.category.presentation.model.Title
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
@@ -40,6 +40,7 @@ import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
+import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
@@ -54,6 +55,7 @@ internal fun Category(
 ) {
     val state: CategoryState = viewModel.state
     val onEvent: (CategoryEvent) -> Unit = { viewModel.dispatch(it) }
+    val context = LocalContext.current
 
     Drawer(selected = DrawerItem.MENU) {
         val lazyListState = rememberLazyListState()
@@ -100,10 +102,7 @@ internal fun Category(
 
         state.alert?.let {
             Alert(
-                message = stringResource(
-                    id = state.alert.text,
-                    state.alert.argument
-                ),
+                message = state.alert.asString(context),
                 onDismiss = { onEvent(CategoryEvent.DismissAlert) }
             ) {
                 AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
@@ -243,11 +242,9 @@ private fun DishListHeader(
     Spacer(Modifier.statusBarsHeight())
     Spacer(Modifier.height(AppBarHeight))
     state.title?.let { title ->
+        val context = LocalContext.current
         Text(
-            text = when (title) {
-                is Title.Resource -> stringResource(title.value)
-                is Title.Text -> title.value
-            },
+            text = title.asString(context),
             style = MaterialTheme.typography.h2,
             modifier = Modifier
                 .onSizeChanged { size -> titleHeight.value = size.height }

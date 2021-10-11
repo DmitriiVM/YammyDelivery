@@ -14,6 +14,7 @@ import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
+import com.dvm.utils.Text
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ internal class MainViewModel(
         viewModelScope.launch {
             if (datastore.isUpdateError()) {
                 state = state.copy(
-                    alert = MainState.Alert(R.string.main_message_update_error)
+                    alert = Text.Resource(R.string.main_message_update_error)
                 )
                 datastore.setUpdateError(false)
             }
@@ -60,9 +61,9 @@ internal class MainViewModel(
                     cartRepository.addToCart(cartItem)
                 }
                 state = state.copy(
-                    alert = MainState.Alert(
-                        text = R.string.message_dish_added_to_cart,
-                        argument = event.name
+                    alert = Text.Resource(
+                        resId = R.string.message_dish_added_to_cart,
+                        formatArgs = listOf(event.name)
                     )
                 )
             }

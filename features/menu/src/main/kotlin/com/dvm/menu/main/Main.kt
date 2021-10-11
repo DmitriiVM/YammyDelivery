@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import com.dvm.menu.search.model.MainState
 import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
+import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -44,6 +46,7 @@ internal fun Main(
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Drawer(
         drawerState = drawerState,
@@ -159,14 +162,7 @@ internal fun Main(
 
     state.alert?.let {
         Alert(
-            message = if (state.alert.argument != null) {
-                stringResource(
-                    id = state.alert.text,
-                    state.alert.argument
-                )
-            } else {
-                stringResource(state.alert.text)
-            },
+            message = state.alert.asString(context),
             onDismiss = { onEvent(MainEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })

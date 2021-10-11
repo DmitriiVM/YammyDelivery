@@ -13,6 +13,7 @@ import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
+import com.dvm.utils.Text
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -44,9 +45,9 @@ internal class FavoriteViewModel(
                         )
                     )
                     state = state.copy(
-                        alert = FavoriteState.Alert(
-                            text = R.string.message_dish_added_to_cart,
-                            argument = event.name
+                        alert = Text.Resource(
+                            resId = R.string.message_dish_added_to_cart,
+                            formatArgs = listOf(event.name)
                         )
                     )
                 }
