@@ -155,9 +155,9 @@ internal fun Order(
         val onDismiss = { onEvent(OrderEvent.DismissAlert) }
         val resources = LocalContext.current.resources
         val message = stringResource(
-            id = state.orderAgainMessage.text,
+            id = R.string.order_message_cart_not_empty,
             resources.getQuantityString(
-                state.orderAgainMessage.dish,
+                R.plurals.order_message_plural_dish,
                 state.orderAgainMessage.count,
                 state.orderAgainMessage.count,
             )

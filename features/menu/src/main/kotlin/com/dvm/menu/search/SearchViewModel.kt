@@ -18,6 +18,7 @@ import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
+import com.dvm.utils.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -114,9 +115,9 @@ internal class SearchViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alert = SearchState.Alert(
-                            text = R.string.message_dish_added_to_cart,
-                            argument = event.name
+                        alert = Text.Resource(
+                            resId = R.string.message_dish_added_to_cart,
+                            formatArgs = listOf(event.name)
                         )
                     )
                 }

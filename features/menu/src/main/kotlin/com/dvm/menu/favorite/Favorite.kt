@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +31,7 @@ import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
+import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
@@ -44,6 +46,7 @@ internal fun Favorite(
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Drawer(
         drawerState = drawerState,
@@ -105,10 +108,7 @@ internal fun Favorite(
 
     state.alert?.let {
         Alert(
-            message = stringResource(
-                id = state.alert.text,
-                state.alert.argument
-            ),
+            message = state.alert.asString(context),
             onDismiss = { onEvent(FavoriteEvent.DismissAlert) }
         ) {
             AlertButton(onClick = { onEvent(FavoriteEvent.DismissAlert) })

@@ -13,10 +13,14 @@ import com.dvm.database.api.DishRepository
 import com.dvm.database.api.models.CardDishDetails
 import com.dvm.database.api.models.CartItem
 import com.dvm.menu.R
-import com.dvm.menu.category.presentation.model.*
+import com.dvm.menu.category.presentation.model.CategoryData
+import com.dvm.menu.category.presentation.model.CategoryEvent
+import com.dvm.menu.category.presentation.model.CategoryState
+import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
+import com.dvm.utils.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -49,7 +53,7 @@ internal class CategoryViewModel @Inject constructor(
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     CategoryData(
-                        title = Title.Resource(R.string.menu_item_special_offer),
+                        title = Text.Resource(R.string.menu_item_special_offer),
                         categoryId = categoryId,
                         subcategories = emptyList(),
                         selectedId = null,
@@ -67,7 +71,7 @@ internal class CategoryViewModel @Inject constructor(
                     }
                     val title = categoryRepository.getCategoryTitle(categoryId)
                     CategoryData(
-                        title = Title.Text(title),
+                        title = Text.Plain(title),
                         categoryId = categoryId,
                         subcategories = subcategories,
                         selectedId = selectedId,
@@ -113,9 +117,9 @@ internal class CategoryViewModel @Inject constructor(
                         )
                     )
                     state = state.copy(
-                        alert = CategoryState.Alert(
-                            text = R.string.message_dish_added_to_cart,
-                            argument = event.name
+                        alert = Text.Resource(
+                            resId = R.string.message_dish_added_to_cart,
+                            formatArgs = listOf(event.name)
                         )
                     )
                 }
