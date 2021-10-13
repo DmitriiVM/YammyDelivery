@@ -19,7 +19,7 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
-internal fun PasswordRestoration(
+internal fun PasswordRestoreScreen(
     viewModel: PasswordRestoreViewModel = hiltViewModel()
 ) {
     val state: RestoreState = viewModel.state

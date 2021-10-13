@@ -29,7 +29,7 @@ import com.dvm.utils.extensions.format
 import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
-internal fun Order(
+internal fun OrderScreen(
     viewModel: OrderViewModel = hiltViewModel()
 ) {
     val state: OrderState = viewModel.state

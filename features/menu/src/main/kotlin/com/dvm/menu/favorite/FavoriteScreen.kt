@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun Favorite(
+internal fun FavoriteScreen(
     viewModel: FavoriteViewModel = hiltViewModel()
 ) {
     val state: FavoriteState = viewModel.state

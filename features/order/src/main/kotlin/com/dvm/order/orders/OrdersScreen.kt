@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun Orders(
+internal fun OrdersScreen(
     viewModel: OrdersViewModel = hiltViewModel()
 ) {
     val state: OrdersState = viewModel.state

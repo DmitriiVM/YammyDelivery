@@ -22,7 +22,7 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Email(
+internal fun Email(
     email: String,
     onEmailChanged: (String) -> Unit,
     onSend: () -> Unit

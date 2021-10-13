@@ -22,7 +22,7 @@ import com.dvm.auth.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Code(
+internal fun Code(
     code: String,
     onCodeChanged: (String) -> Unit,
     onComplete: () -> Unit

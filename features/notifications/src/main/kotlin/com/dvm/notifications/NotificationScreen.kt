@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeApi::class)
 @Composable
-internal fun Notifications(
+internal fun NotificationScreen(
     viewModel: NotificationViewModel = hiltViewModel()
 ) {
     val state: NotificationState = viewModel.state

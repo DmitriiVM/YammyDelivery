@@ -30,7 +30,7 @@ import com.google.accompanist.insets.statusBarsHeight
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Login(
+internal fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state: LoginState = viewModel.state

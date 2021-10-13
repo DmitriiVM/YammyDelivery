@@ -27,7 +27,7 @@ import com.dvm.appmenu_api.Drawer
 import com.dvm.database.api.models.CardDishDetails
 import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
-import com.dvm.menu.search.model.MainEvent
+import com.dvm.menu.main.model.MainEvent
 import com.dvm.menu.search.model.MainState
 import com.dvm.ui.components.*
 import com.dvm.ui.themes.DecorColors
@@ -38,7 +38,7 @@ import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Main(
+internal fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val state: MainState = viewModel.state

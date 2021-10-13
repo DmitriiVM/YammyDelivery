@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Ordering(
+internal fun OrderingScreen(
     navHostController: NavHostController,
     viewModel: OrderingViewModel = hiltViewModel()
 ) {

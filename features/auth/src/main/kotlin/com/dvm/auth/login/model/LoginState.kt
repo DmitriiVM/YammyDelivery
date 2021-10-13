@@ -1,6 +1,9 @@
 package com.dvm.auth.login.model
 
-data class LoginState(
+import androidx.compose.runtime.Immutable
+
+@Immutable
+internal data class LoginState(
     val emailError: Int? = null,
     val passwordError: Int? = null,
     val alert: Int? = null,

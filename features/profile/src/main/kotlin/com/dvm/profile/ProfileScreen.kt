@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Profile(
+internal fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state: ProfileState = viewModel.state

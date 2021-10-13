@@ -38,7 +38,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
-internal fun Search(
+internal fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val state: SearchState = viewModel.state

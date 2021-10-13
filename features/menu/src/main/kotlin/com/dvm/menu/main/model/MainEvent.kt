@@ -1,4 +1,4 @@
-package com.dvm.menu.search.model
+package com.dvm.menu.main.model
 
 internal sealed class MainEvent {
     data class AddToCart(val dishId: String, val name: String) : MainEvent()

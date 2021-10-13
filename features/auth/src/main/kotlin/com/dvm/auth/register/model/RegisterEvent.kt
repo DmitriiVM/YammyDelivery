@@ -1,6 +1,6 @@
 package com.dvm.auth.register.model
 
-sealed class RegisterEvent {
+internal sealed class RegisterEvent {
 
     data class Register(
         val firstName: String,

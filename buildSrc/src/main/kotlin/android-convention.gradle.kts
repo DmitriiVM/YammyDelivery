@@ -13,8 +13,6 @@ configure<BaseExtension> {
     defaultConfig {
         minSdk = 23
         targetSdk = 31
-
-        resValue("string", "google_key", properties.getProperty("GOOGLE_API_KEY"))
     }
 
     buildTypes {

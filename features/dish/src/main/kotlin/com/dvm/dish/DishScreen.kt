@@ -44,7 +44,7 @@ private const val VERTICAL_POINT_OFFSET = 50f
 
 @OptIn(ExperimentalStdlibApi::class, ExperimentalComposeApi::class)
 @Composable
-internal fun Dish(
+internal fun DishScreen(
     viewModel: DishViewModel = hiltViewModel()
 ) {
     val state = viewModel.state

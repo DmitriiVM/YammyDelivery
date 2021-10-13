@@ -47,7 +47,7 @@ import com.google.accompanist.insets.statusBarsHeight
 private val AppBarHeight = 56.dp
 
 @Composable
-internal fun Category(
+internal fun CategoryScreen(
     viewModel: CategoryViewModel = hiltViewModel()
 ) {
     val state: CategoryState = viewModel.state

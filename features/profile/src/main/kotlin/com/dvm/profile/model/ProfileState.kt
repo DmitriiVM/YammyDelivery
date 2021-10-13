@@ -1,5 +1,8 @@
 package com.dvm.profile.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 internal data class ProfileState(
     val firstName: String = "",
     val firstNameError: Int? = null,

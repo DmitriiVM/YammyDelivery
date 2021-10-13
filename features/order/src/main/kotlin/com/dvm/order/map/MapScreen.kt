@@ -34,7 +34,7 @@ import com.google.maps.android.ktx.awaitMap
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Map(
+internal fun MapScreen(
     viewModel: MapViewModel = hiltViewModel()
 ) {
     val state: MapState = viewModel.state

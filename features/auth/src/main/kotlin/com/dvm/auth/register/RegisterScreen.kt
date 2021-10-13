@@ -26,7 +26,7 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
-internal fun Registration(
+internal fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state: RegisterState = viewModel.state

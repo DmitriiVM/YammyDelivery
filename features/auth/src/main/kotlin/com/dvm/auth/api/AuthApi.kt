@@ -1,21 +1,21 @@
 package com.dvm.auth.api
 
 import androidx.compose.runtime.Composable
-import com.dvm.auth.login.Login
-import com.dvm.auth.register.Registration
-import com.dvm.auth.restore.PasswordRestoration
+import com.dvm.auth.login.LoginScreen
+import com.dvm.auth.register.RegisterScreen
+import com.dvm.auth.restore.PasswordRestoreScreen
 
 @Composable
-fun LoginScreen() {
-    Login()
+fun Login() {
+    LoginScreen()
 }
 
 @Composable
-fun RegistrationScreen() {
-    Registration()
+fun Registration() {
+    RegisterScreen()
 }
 
 @Composable
-fun PasswordRestoreScreen() {
-    PasswordRestoration()
+fun PasswordRestoration() {
+    PasswordRestoreScreen()
 }

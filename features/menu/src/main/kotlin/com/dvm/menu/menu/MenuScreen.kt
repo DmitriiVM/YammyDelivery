@@ -39,7 +39,7 @@ import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Menu(
+internal fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel()
 ) {
     val menuItems = viewModel.menuItems

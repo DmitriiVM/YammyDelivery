@@ -17,7 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
-internal fun Splash(
+internal fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     Box(

@@ -29,7 +29,7 @@ import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Cart(
+internal fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val state: CartState = viewModel.state
