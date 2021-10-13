@@ -26,7 +26,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeApi::class)
 @Composable
-internal fun Notifications(
+internal fun NotificationScreen(
     viewModel: NotificationViewModel = getViewModel()
 ) {
     val state: NotificationState = viewModel.state

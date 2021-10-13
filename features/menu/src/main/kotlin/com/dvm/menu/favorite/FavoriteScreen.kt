@@ -38,7 +38,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun Favorite(
+internal fun FavoriteScreen(
     viewModel: FavoriteViewModel = getViewModel()
 ) {
     val state: FavoriteState = viewModel.state

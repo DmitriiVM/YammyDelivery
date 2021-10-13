@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getStateViewModel
 
 @Composable
-internal fun Cart(
+internal fun CartScreen(
     viewModel: CartViewModel = getStateViewModel()
 ) {
     val state: CartState = viewModel.state

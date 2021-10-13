@@ -1,9 +1,9 @@
-package com.dvm.auth.api
+package com.dvm.notifications.api
 
 import androidx.compose.runtime.Composable
-import com.dvm.notifications.Notifications
+import com.dvm.notifications.NotificationScreen
 
 @Composable
-fun NotificationScreen() {
-    Notifications()
+fun Notification() {
+    NotificationScreen()
 }

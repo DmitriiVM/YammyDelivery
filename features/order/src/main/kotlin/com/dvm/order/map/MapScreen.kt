@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getStateViewModel
 
 @Composable
-internal fun Map(
+internal fun MapScreen(
     viewModel: MapViewModel = getStateViewModel()
 ) {
     val state: MapState = viewModel.state

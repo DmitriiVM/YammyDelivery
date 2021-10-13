@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-internal fun Menu(
+internal fun MenuScreen(
     viewModel: MenuViewModel = getViewModel()
 ) {
     val menuItems = viewModel.menuItems

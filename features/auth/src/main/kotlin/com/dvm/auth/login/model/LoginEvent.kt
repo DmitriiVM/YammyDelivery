@@ -1,6 +1,6 @@
 package com.dvm.auth.login.model
 
-sealed class LoginEvent {
+internal sealed class LoginEvent {
     object Register: LoginEvent()
     object RestorePassword: LoginEvent()
     object DismissAlert: LoginEvent()

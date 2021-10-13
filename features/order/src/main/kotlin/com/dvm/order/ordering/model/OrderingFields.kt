@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class OrderingFields(
+internal data class OrderingFields(
     val entrance: String = "",
     val floor: String = "",
     val apartment: String = "",

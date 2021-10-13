@@ -31,7 +31,7 @@ import org.koin.androidx.compose.getStateViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun Orders(
+internal fun OrdersScreen(
     viewModel: OrdersViewModel = getStateViewModel()
 ) {
     val state: OrdersState = viewModel.state

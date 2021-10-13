@@ -32,7 +32,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Profile(
+internal fun ProfileScreen(
     viewModel: ProfileViewModel = getViewModel()
 ) {
     val state: ProfileState = viewModel.state

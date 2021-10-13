@@ -17,7 +17,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-internal fun Splash(
+internal fun SplashScreen(
     viewModel: SplashViewModel = getViewModel()
 ) {
     Box(

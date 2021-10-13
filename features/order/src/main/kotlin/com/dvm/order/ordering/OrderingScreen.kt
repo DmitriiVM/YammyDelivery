@@ -38,7 +38,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Ordering(
+internal fun OrderingScreen(
     navHostController: NavHostController,
     viewModel: OrderingViewModel = getViewModel()
 ) {

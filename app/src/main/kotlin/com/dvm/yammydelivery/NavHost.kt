@@ -7,15 +7,20 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import com.dvm.auth.api.*
-import com.dvm.dish.api.DishScreen
+import com.dvm.auth.api.Login
+import com.dvm.auth.api.PasswordRestoration
+import com.dvm.auth.api.Registration
+import com.dvm.cart.api.Cart
+import com.dvm.dish.api.Dish
 import com.dvm.menu.api.*
 import com.dvm.navigation.api.model.Destination
-import com.dvm.order.api.MapScreen
-import com.dvm.order.api.OrderScreen
-import com.dvm.order.api.OrderingScreen
-import com.dvm.order.api.OrdersScreen
-import com.dvm.splash.api.SplashScreen
+import com.dvm.notifications.api.Notification
+import com.dvm.order.api.Map
+import com.dvm.order.api.Order
+import com.dvm.order.api.Ordering
+import com.dvm.order.api.Orders
+import com.dvm.profile.api.Profile
+import com.dvm.splash.api.Splash
 
 @Composable
 fun NavHost(
@@ -26,28 +31,28 @@ fun NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Destination.Splash.route) { SplashScreen() }
-        composable(Destination.Main.route) { MainScreen() }
-        composable(Destination.Menu.route) { MenuScreen() }
-        composable(Destination.Search.route) { SearchScreen() }
-        composable(Destination.Favorite.route) { FavoriteScreen() }
-        composable(Destination.Login.ROUTE) { LoginScreen() }
-        composable(Destination.Registration.route) { RegistrationScreen() }
-        composable(Destination.PasswordRestoration.route) { PasswordRestoreScreen() }
-        composable(Destination.Cart.route) { CartScreen() }
-        composable(Destination.Notification.route) { NotificationScreen() }
-        composable(Destination.Ordering.route) { OrderingScreen(navController) }
-        composable(Destination.Orders.route) { OrdersScreen() }
-        composable(Destination.Profile.route) { ProfileScreen() }
-        composable(Destination.Map.ROUTE) { MapScreen() }
+        composable(Destination.Splash.route) { Splash() }
+        composable(Destination.Main.route) { Main() }
+        composable(Destination.Menu.route) { Menu() }
+        composable(Destination.Search.route) { Search() }
+        composable(Destination.Favorite.route) { Favorite() }
+        composable(Destination.Login.ROUTE) { Login() }
+        composable(Destination.Registration.route) { Registration() }
+        composable(Destination.PasswordRestoration.route) { PasswordRestoration() }
+        composable(Destination.Cart.route) { Cart() }
+        composable(Destination.Notification.route) { Notification() }
+        composable(Destination.Ordering.route) { Ordering(navController) }
+        composable(Destination.Orders.route) { Orders() }
+        composable(Destination.Profile.route) { Profile() }
+        composable(Destination.Map.ROUTE) { Map() }
 
         composable("${Destination.Dish.ROUTE}/{${Destination.Dish.DISH_ID}}") { entry ->
             val dishId = entry.arguments?.getString(Destination.Dish.DISH_ID)
-            DishScreen(requireNotNull(dishId))
+            Dish(requireNotNull(dishId))
         }
         composable("${Destination.Order.ROUTE}/{${Destination.Order.ORDER_ID}}") { entry ->
             val orderId = entry.arguments?.getString(Destination.Order.ORDER_ID)
-            OrderScreen(requireNotNull(orderId))
+            Order(requireNotNull(orderId))
         }
 
         composable(
@@ -63,7 +68,7 @@ fun NavHost(
             )
         ) { entry ->
             val arguments: Bundle? = entry.arguments
-            CategoryScreen(arguments)
+            Category(arguments)
         }
     }
 }

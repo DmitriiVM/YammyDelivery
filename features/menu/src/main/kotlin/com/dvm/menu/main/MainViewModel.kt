@@ -9,7 +9,7 @@ import com.dvm.database.CartItem
 import com.dvm.database.api.CartRepository
 import com.dvm.database.api.DishRepository
 import com.dvm.menu.R
-import com.dvm.menu.search.model.MainEvent
+import com.dvm.menu.main.model.MainEvent
 import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination

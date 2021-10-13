@@ -24,7 +24,7 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Password(
+internal fun Password(
     password: String,
     confirmPassword: String,
     onPasswordChanged: (String) -> Unit,

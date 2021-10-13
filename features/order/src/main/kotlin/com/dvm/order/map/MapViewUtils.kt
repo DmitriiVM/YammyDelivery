@@ -12,7 +12,7 @@ import com.dvm.order.R
 import com.google.android.gms.maps.MapView
 
 @Composable
-fun rememberMapViewWithLifecycle(): MapView {
+internal fun rememberMapViewWithLifecycle(): MapView {
     val context = LocalContext.current
     val mapView = remember {
         MapView(context).apply {

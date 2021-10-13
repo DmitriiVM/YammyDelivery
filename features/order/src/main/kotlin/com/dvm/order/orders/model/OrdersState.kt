@@ -1,8 +1,9 @@
 package com.dvm.order.orders.model
 
+import androidx.compose.runtime.Immutable
 import com.dvm.database.api.models.Order
 
-
+@Immutable
 internal data class OrdersState(
     val status: OrderStatus = OrderStatus.ACTUAL,
     val orders: List<Order> = emptyList(),

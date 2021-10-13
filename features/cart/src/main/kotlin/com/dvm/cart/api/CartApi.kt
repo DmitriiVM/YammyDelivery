@@ -1,9 +1,9 @@
-package com.dvm.auth.api
+package com.dvm.cart.api
 
 import androidx.compose.runtime.Composable
-import com.dvm.cart.Cart
+import com.dvm.cart.CartScreen
 
 @Composable
-fun CartScreen() {
-    Cart()
+fun Cart() {
+    CartScreen()
 }

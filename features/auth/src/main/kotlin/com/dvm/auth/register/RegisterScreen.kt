@@ -26,7 +26,7 @@ import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
 
 @Composable
-internal fun Registration(
+internal fun RegisterScreen(
     viewModel: RegisterViewModel = getStateViewModel()
 ) {
     val state: RegisterState = viewModel.state

@@ -30,7 +30,7 @@ import org.koin.androidx.compose.getStateViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-internal fun Order(
+internal fun OrderScreen(
     orderId: String,
     viewModel: OrderViewModel = getStateViewModel { parametersOf(orderId) }
 ) {

@@ -30,7 +30,7 @@ import org.koin.androidx.compose.getStateViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun Login(
+internal fun LoginScreen(
     viewModel: LoginViewModel = getStateViewModel()
 ) {
     val state: LoginState = viewModel.state

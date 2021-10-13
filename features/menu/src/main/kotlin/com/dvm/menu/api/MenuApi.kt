@@ -2,33 +2,33 @@ package com.dvm.menu.api
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
-import com.dvm.menu.category.presentation.Category
-import com.dvm.menu.favorite.Favorite
-import com.dvm.menu.main.Main
-import com.dvm.menu.menu.Menu
-import com.dvm.menu.search.Search
+import com.dvm.menu.category.presentation.CategoryScreen
+import com.dvm.menu.favorite.FavoriteScreen
+import com.dvm.menu.main.MainScreen
+import com.dvm.menu.menu.MenuScreen
+import com.dvm.menu.search.SearchScreen
 
 @Composable
-fun MenuScreen() {
-    Menu()
+fun Menu() {
+    MenuScreen()
 }
 
 @Composable
-fun SearchScreen() {
-    Search()
+fun Search() {
+    SearchScreen()
 }
 
 @Composable
-fun CategoryScreen(arguments: Bundle?) {
-    Category(arguments)
+fun Category(arguments: Bundle?) {
+    CategoryScreen(arguments)
 }
 
 @Composable
-fun FavoriteScreen() {
-    Favorite()
+fun Favorite() {
+    FavoriteScreen()
 }
 
 @Composable
-fun MainScreen() {
-    Main()
+fun Main() {
+    MainScreen()
 }

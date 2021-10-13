@@ -3,7 +3,7 @@ package com.dvm.auth.register.model
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class RegisterState(
+internal data class RegisterState(
     val firstNameError: Int? = null,
     val lastNameError: Int? = null,
     val emailError: Int? = null,

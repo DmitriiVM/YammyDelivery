@@ -1,9 +1,9 @@
-package com.dvm.auth.api
+package com.dvm.profile.api
 
 import androidx.compose.runtime.Composable
-import com.dvm.profile.Profile
+import com.dvm.profile.ProfileScreen
 
 @Composable
-fun ProfileScreen() {
-    Profile()
+fun Profile() {
+    ProfileScreen()
 }

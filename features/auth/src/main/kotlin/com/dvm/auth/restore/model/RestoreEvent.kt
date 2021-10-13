@@ -1,6 +1,6 @@
 package com.dvm.auth.restore.model
 
-sealed class RestoreEvent {
+internal sealed class RestoreEvent {
 
     data class VerifyCode(
         val email: String,

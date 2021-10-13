@@ -19,7 +19,7 @@ import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
 
 @Composable
-internal fun PasswordRestoration(
+internal fun PasswordRestoreScreen(
     viewModel: PasswordRestoreViewModel = getStateViewModel()
 ) {
     val state: RestoreState = viewModel.state

@@ -49,7 +49,7 @@ import org.koin.core.parameter.parametersOf
 private val AppBarHeight = 56.dp
 
 @Composable
-internal fun Category(
+internal fun CategoryScreen(
     arguments: Bundle?,
     viewModel: CategoryViewModel = getStateViewModel { parametersOf(arguments) }
 ) {

@@ -38,7 +38,7 @@ import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
 
 @Composable
-internal fun Search(
+internal fun SearchScreen(
     viewModel: SearchViewModel = getStateViewModel()
 ) {
     val state: SearchState = viewModel.state
