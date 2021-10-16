@@ -43,6 +43,7 @@ import com.dvm.utils.DrawerItem
 import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.statusBarsPadding
 import org.koin.androidx.compose.getStateViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -88,17 +89,9 @@ internal fun CategoryScreen(
             onAddToCartClick = { dishId, dishName ->
                 onEvent(CategoryEvent.AddToCart(dishId, dishName))
             },
+            onBackClick = { onEvent(CategoryEvent.Back) },
+            onOrderClick = { onEvent(CategoryEvent.OrderBy(it)) }
         )
-
-        Column {
-            Spacer(Modifier.statusBarsHeight())
-            CategoryAppBar(
-                selectedOrder = state.orderType,
-                selectedColor = selectedColor.color,
-                offset = offset,
-                onEvent = onEvent
-            )
-        }
 
         state.alert?.let {
             Alert(
@@ -121,7 +114,9 @@ private fun CategoryContent(
     onColorSelected: (DecorColors) -> Unit,
     onSubcategoryClick: (subcategoryId: String) -> Unit,
     onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String, dishName: String) -> Unit
+    onAddToCartClick: (dishId: String, dishName: String) -> Unit,
+    onBackClick: () -> Unit,
+    onOrderClick: (OrderType) -> Unit
 ) {
     Box {
         val backgroundColor = MaterialTheme.colors.surface
@@ -143,6 +138,15 @@ private fun CategoryContent(
             selectedColor = selectedColor,
             onDishClick = onDishClick,
             onAddToCartClick = onAddToCartClick
+        )
+
+        CategoryAppBar(
+            selectedOrder = state.orderType,
+            selectedColor = selectedColor,
+            offset = offset,
+            modifier = Modifier.statusBarsPadding(),
+            onBackClick = onBackClick,
+            onOrderClick = onOrderClick
         )
 
         val subcategories = state.subcategories
@@ -270,7 +274,9 @@ private fun CategoryAppBar(
     selectedOrder: OrderType?,
     selectedColor: Color,
     offset: Int,
-    onEvent: (CategoryEvent) -> Unit
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    onOrderClick: (OrderType) -> Unit
 ) {
     TopAppBar(
         title = { },
@@ -281,11 +287,12 @@ private fun CategoryAppBar(
                         translationX = offset.toFloat(),
                         alpha = 1f + offset * 0.03f
                     ),
-                onNavigateUp = { onEvent(CategoryEvent.Back) }
+                onNavigateUp = onBackClick
             )
         },
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
+        modifier = modifier,
         actions = {
 
             var expanded by remember { mutableStateOf(false) }
@@ -297,8 +304,8 @@ private fun CategoryAppBar(
                 OrderType.values().forEach { type ->
                     DropdownMenuItem(
                         onClick = {
-                            onEvent(CategoryEvent.OrderBy(type))
                             expanded = false
+                            onOrderClick(type)
                         }
                     ) {
                         Row(Modifier.fillMaxWidth()) {
