@@ -43,6 +43,7 @@ import com.dvm.utils.DrawerItem
 import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.statusBarsPadding
 
 private val AppBarHeight = 56.dp
 
@@ -60,7 +61,8 @@ internal fun CategoryScreen(
         var selectedColor by rememberSaveable {
             mutableStateOf(DecorColors.values().random())
         }
-
+        val backgroundColor = MaterialTheme.colors.surface
+        val animatableColor = remember { Animatable(backgroundColor) }
         val density = LocalDensity.current
         val appBarHeight = remember {
             with(density) { AppBarHeight.toPx() }.toInt()
@@ -73,28 +75,54 @@ internal fun CategoryScreen(
             -maxTabOffset
         }
 
-        CategoryContent(
-            state = state,
-            selectedColor = selectedColor.color,
-            onColorSelected = { selectedColor = it },
-            lazyListState = lazyListState,
-            offset = offset,
-            titleHeight = titleHeight,
-            onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) },
-            onDishClick = { onEvent(CategoryEvent.OpenDish(it)) },
-            onAddToCartClick = { dishId, dishName ->
-                onEvent(CategoryEvent.AddToCart(dishId, dishName))
-            },
-        )
+        LaunchedEffect(selectedColor) {
+            animatableColor.animateTo(
+                targetValue = selectedColor.color,
+                animationSpec = tween(durationMillis = 1000)
+            )
+        }
 
-        Column {
-            Spacer(Modifier.statusBarsHeight())
+        Box {
+            DishList(
+                state = state,
+                offset = offset,
+                lazyListState = lazyListState,
+                titleHeight = titleHeight,
+                animatableColor = animatableColor,
+                selectedColor = selectedColor.color,
+                onDishClick = { onEvent(CategoryEvent.OpenDish(it)) },
+                onAddToCartClick = { dishId, dishName ->
+                    onEvent(CategoryEvent.AddToCart(dishId, dishName))
+                }
+            )
+
             CategoryAppBar(
                 selectedOrder = state.orderType,
                 selectedColor = selectedColor.color,
                 offset = offset,
-                onEvent = onEvent
+                modifier = Modifier.statusBarsPadding(),
+                onBackClick = { onEvent(CategoryEvent.Back) },
+                onOrderClick = { onEvent(CategoryEvent.OrderBy(it)) }
             )
+
+            val subcategories = state.subcategories
+            if (subcategories.isNotEmpty()) {
+                Column {
+                    Spacer(Modifier.statusBarsHeight())
+                    Spacer(Modifier.height(AppBarHeight))
+                    val titleHeightDp = with(LocalDensity.current) { titleHeight.value.toDp() }
+                    Spacer(Modifier.height(titleHeightDp))
+                    val selectedTabIndex =
+                        subcategories.indexOfFirst { it.id == state.selectedId }
+                    SubcategoryTabs(
+                        subcategories = subcategories,
+                        selectedTabIndex = selectedTabIndex,
+                        offset = offset,
+                        onColorSelected = { selectedColor = it },
+                        onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) }
+                    )
+                }
+            }
         }
 
         state.alert?.let {
@@ -103,61 +131,6 @@ internal fun CategoryScreen(
                 onDismiss = { onEvent(CategoryEvent.DismissAlert) }
             ) {
                 AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
-            }
-        }
-    }
-}
-
-@Composable
-private fun CategoryContent(
-    state: CategoryState,
-    selectedColor: Color,
-    lazyListState: LazyListState,
-    offset: Int,
-    titleHeight: MutableState<Int>,
-    onColorSelected: (DecorColors) -> Unit,
-    onSubcategoryClick: (subcategoryId: String) -> Unit,
-    onDishClick: (dishId: String) -> Unit,
-    onAddToCartClick: (dishId: String, dishName: String) -> Unit
-) {
-    Box {
-        val backgroundColor = MaterialTheme.colors.surface
-        val animatableColor = remember { Animatable(backgroundColor) }
-
-        LaunchedEffect(selectedColor) {
-            animatableColor.animateTo(
-                targetValue = selectedColor,
-                animationSpec = tween(durationMillis = 1000)
-            )
-        }
-
-        DishList(
-            state = state,
-            offset = offset,
-            lazyListState = lazyListState,
-            titleHeight = titleHeight,
-            animatableColor = animatableColor,
-            selectedColor = selectedColor,
-            onDishClick = onDishClick,
-            onAddToCartClick = onAddToCartClick
-        )
-
-        val subcategories = state.subcategories
-        if (subcategories.isNotEmpty()) {
-            Column {
-                Spacer(Modifier.statusBarsHeight())
-                Spacer(Modifier.height(AppBarHeight))
-                val titleHeightDp = with(LocalDensity.current) { titleHeight.value.toDp() }
-                Spacer(Modifier.height(titleHeightDp))
-                val selectedTabIndex =
-                    subcategories.indexOfFirst { it.id == state.selectedId }
-                SubcategoryTabs(
-                    subcategories = subcategories,
-                    selectedTabIndex = selectedTabIndex,
-                    offset = offset,
-                    onColorSelected = onColorSelected,
-                    onSubcategoryClick = onSubcategoryClick
-                )
             }
         }
     }
@@ -267,7 +240,9 @@ private fun CategoryAppBar(
     selectedOrder: OrderType?,
     selectedColor: Color,
     offset: Int,
-    onEvent: (CategoryEvent) -> Unit
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    onOrderClick: (OrderType) -> Unit
 ) {
     TopAppBar(
         title = { },
@@ -278,11 +253,12 @@ private fun CategoryAppBar(
                         translationX = offset.toFloat(),
                         alpha = 1f + offset * 0.03f
                     ),
-                onNavigateUp = { onEvent(CategoryEvent.Back) }
+                onNavigateUp = onBackClick
             )
         },
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
+        modifier = modifier,
         actions = {
 
             var expanded by remember { mutableStateOf(false) }
@@ -294,8 +270,8 @@ private fun CategoryAppBar(
                 OrderType.values().forEach { type ->
                     DropdownMenuItem(
                         onClick = {
-                            onEvent(CategoryEvent.OrderBy(type))
                             expanded = false
+                            onOrderClick(type)
                         }
                     ) {
                         Row(Modifier.fillMaxWidth()) {
