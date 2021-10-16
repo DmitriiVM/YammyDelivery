@@ -17,8 +17,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -113,17 +111,8 @@ private fun SearchField(
             focusRequester.requestFocus()
         }
 
-        var queryValue by remember {
-            mutableStateOf(TextFieldValue())
-        }
-        LaunchedEffect(Unit) {
-            queryValue = TextFieldValue(
-                text = query,
-                selection = TextRange(query.length)
-            )
-        }
         OutlinedTextField(
-            value = queryValue,
+            value = query,
             placeholder = {
                 CompositionLocalProvider(
                     LocalContentAlpha provides ContentAlpha.disabled
@@ -132,8 +121,7 @@ private fun SearchField(
                 }
             },
             onValueChange = { value ->
-                queryValue = value
-                onQueryChange(value.text)
+                onQueryChange(value)
             },
             modifier = Modifier
                 .weight(1f)
@@ -144,7 +132,7 @@ private fun SearchField(
             Icon(
                 painter = painterResource(R.drawable.icon_cancel),
                 contentDescription = null,
-                Modifier.size(12.dp)
+                modifier = Modifier.size(12.dp)
             )
         }
     }

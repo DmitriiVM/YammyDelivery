@@ -64,29 +64,35 @@ internal class SearchViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        combine(
-            query.asFlow(),
-            hintRepository.hints()
-        ) { query, hints ->
-            state = state.copy(
-                query = query,
-                hints = hints
-            )
-        }
+        query
+            .asFlow()
+            .onEach {
+                state = state.copy(query = it)
+            }
+            .launchIn(viewModelScope)
+
+        hintRepository
+            .hints()
+            .onEach {
+                state = state.copy(hints = it)
+            }
             .launchIn(viewModelScope)
     }
 
     fun dispatch(event: SearchEvent) {
         when (event) {
             is SearchEvent.OpenDish -> {
+                state = state.copy(query = "")
                 saveHint(event.name)
                 navigator.goTo(Destination.Dish(event.dishId))
             }
             is SearchEvent.OpenCategory -> {
+                state = state.copy(query = "")
                 saveHint(event.name)
                 navigator.goTo(Destination.Category(event.categoryId))
             }
             is SearchEvent.OpenSubcategory -> {
+                state = state.copy(query = "")
                 saveHint(event.name)
                 navigator.goTo(
                     Destination.Category(
