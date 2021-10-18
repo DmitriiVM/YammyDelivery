@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class ProfileViewModel @Inject constructor(
@@ -115,14 +116,14 @@ internal class ProfileViewModel @Inject constructor(
                     newPassword = newPassword
                 )
                 state = state.copy(
-                    alert = R.string.profile_message_password_changed,
+                    alert = CoreR.string.profile_message_password_changed,
                     progress = false,
                     passwordChanging = false
                 )
             } catch (exception: Exception) {
                 val message =
                     if (exception is AppException.BadRequest) {
-                        R.string.profile_message_wrong_password
+                        CoreR.string.profile_message_wrong_password
                     } else {
                         exception.getErrorMessage()
                     }

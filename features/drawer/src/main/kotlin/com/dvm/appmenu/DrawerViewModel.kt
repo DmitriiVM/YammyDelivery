@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class DrawerViewModel @Inject constructor() : ViewModel() {
@@ -87,7 +88,7 @@ internal class DrawerViewModel @Inject constructor() : ViewModel() {
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
-                            alert = R.string.app_menu_message_logout
+                            alert = CoreR.string.app_menu_message_logout
                         )
                     } else {
                         hiltEntryPoint.navigator().goTo(Destination.Login())

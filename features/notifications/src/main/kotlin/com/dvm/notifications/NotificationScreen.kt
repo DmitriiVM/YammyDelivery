@@ -23,6 +23,7 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeApi::class)
 @Composable
@@ -51,7 +52,7 @@ internal fun NotificationScreen(
         ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.notification_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.notification_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch {
@@ -63,8 +64,8 @@ internal fun NotificationScreen(
 
             if (state.notifications.isEmpty()) {
                 EmptyPlaceholder(
-                    resId = R.raw.empty_image,
-                    text = stringResource(R.string.notification_empty_placeholder),
+                    resId = com.dvm.ui.R.raw.empty_image,
+                    text = stringResource(CoreR.string.notification_empty_placeholder),
                     modifier = Modifier.fillMaxSize()
                 )
             } else {

@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.database.api.CartRepository
 import com.dvm.database.api.DishRepository
 import com.dvm.database.api.models.CartItem
-import com.dvm.menu.R
 import com.dvm.menu.main.model.MainEvent
 import com.dvm.menu.search.model.MainState
 import com.dvm.navigation.api.Navigator
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
@@ -36,7 +36,7 @@ internal class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (datastore.isUpdateError()) {
                 state = state.copy(
-                    alert = Text.Resource(R.string.main_message_update_error)
+                    alert = Text.Resource(CoreR.string.main_message_update_error)
                 )
                 datastore.setUpdateError(false)
             }
@@ -65,7 +65,7 @@ internal class MainViewModel @Inject constructor(
                 }
                 state = state.copy(
                     alert = Text.Resource(
-                        resId = R.string.message_dish_added_to_cart,
+                        resId = CoreR.string.message_dish_added_to_cart,
                         formatArgs = listOf(event.name)
                     )
                 )

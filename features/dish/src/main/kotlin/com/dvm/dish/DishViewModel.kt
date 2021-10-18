@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class DishViewModel @Inject constructor(
@@ -84,7 +85,7 @@ internal class DishViewModel @Inject constructor(
                         state = state.copy(reviewDialog = true)
                     } else {
                         state = state.copy(
-                            alert = R.string.dish_message_unauthorized_review
+                            alert = CoreR.string.dish_message_unauthorized_review
                         )
                     }
                 }
@@ -110,7 +111,7 @@ internal class DishViewModel @Inject constructor(
         )
         state = state.copy(
             quantity = 1,
-            alert = R.string.dish_message_added_to_cart
+            alert = CoreR.string.dish_message_added_to_cart
         )
     }
 
@@ -152,7 +153,7 @@ internal class DishViewModel @Inject constructor(
                 state = state.copy(
                     progress = false,
                     reviewDialog = false,
-                    alert = R.string.dish_message_review_result
+                    alert = CoreR.string.dish_message_review_result
                 )
             } catch (exception: Exception) {
                 state = state.copy(

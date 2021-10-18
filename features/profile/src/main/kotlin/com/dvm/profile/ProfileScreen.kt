@@ -29,6 +29,7 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -52,7 +53,7 @@ internal fun ProfileScreen(
         ) {
             Spacer(Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.profile_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.profile_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch {
@@ -74,7 +75,7 @@ internal fun ProfileScreen(
 
                 EditTextField(
                     state.firstName,
-                    label = stringResource(R.string.profile_text_field_name),
+                    label = stringResource(CoreR.string.profile_text_field_name),
                     error = state.firstNameError,
                     enabled = !state.progress && state.editing,
                     readOnly = state.progress || !state.editing,
@@ -89,7 +90,7 @@ internal fun ProfileScreen(
                 )
                 EditTextField(
                     state.lastName,
-                    label = stringResource(R.string.profile_text_field_last_name),
+                    label = stringResource(CoreR.string.profile_text_field_last_name),
                     error = state.lastNameError,
                     enabled = !state.progress && state.editing,
                     readOnly = state.progress || !state.editing,
@@ -105,7 +106,7 @@ internal fun ProfileScreen(
                 )
                 EditTextField(
                     state.email,
-                    label = stringResource(R.string.profile_text_field_email),
+                    label = stringResource(CoreR.string.profile_text_field_email),
                     error = state.emailError,
                     enabled = !state.progress && state.editing,
                     readOnly = state.progress || !state.editing,
@@ -123,13 +124,13 @@ internal fun ProfileScreen(
                 Spacer(modifier = Modifier.height(10.dp))
                 if (state.editing) {
                     ProgressButton(
-                        stringResource(R.string.profile_button_save),
+                        stringResource(CoreR.string.profile_button_save),
                         progress = state.progress,
                         onClick = { onEvent(ProfileEvent.SaveProfile) }
                     )
                 } else {
                     ProgressButton(
-                        stringResource(R.string.profile_button_change_mode),
+                        stringResource(CoreR.string.profile_button_change_mode),
                         progress = state.progress,
                         onClick = { onEvent(ProfileEvent.ChangeEditingMode(true)) }
                     )
@@ -154,7 +155,7 @@ internal fun ProfileScreen(
                         modifier = modifier
                             .fillMaxWidth()
                     ) {
-                        Text(stringResource(R.string.profile_button_cancel))
+                        Text(stringResource(CoreR.string.profile_button_cancel))
                     }
                 } else {
                     OutlinedButton(
@@ -163,7 +164,7 @@ internal fun ProfileScreen(
                         modifier = modifier
                             .fillMaxWidth()
                     ) {
-                        Text(stringResource(R.string.profile_button_change_password))
+                        Text(stringResource(CoreR.string.profile_button_change_password))
                     }
                 }
                 Spacer(Modifier.height(100.dp))
@@ -192,11 +193,11 @@ internal fun ProfileScreen(
                     var oldPassword by rememberSaveable { mutableStateOf("") }
 
                     Text(
-                        stringResource(R.string.profile_dialog_title),
+                        stringResource(CoreR.string.profile_dialog_title),
                         style = MaterialTheme.typography.h5
                     )
                     Spacer(Modifier.height(30.dp))
-                    Text(stringResource(R.string.profile_dialog_field_new_password))
+                    Text(stringResource(CoreR.string.profile_dialog_field_new_password))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !state.progress,
@@ -204,7 +205,7 @@ internal fun ProfileScreen(
                         onValueChange = { newPassword = it }
                     )
                     Spacer(Modifier.height(10.dp))
-                    Text(stringResource(R.string.profile_dialog_field_old_password))
+                    Text(stringResource(CoreR.string.profile_dialog_field_old_password))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !state.progress,
@@ -213,7 +214,7 @@ internal fun ProfileScreen(
                     )
                     Spacer(Modifier.height(30.dp))
                     ProgressButton(
-                        text = stringResource(R.string.profile_dialog_button_save),
+                        text = stringResource(CoreR.string.profile_dialog_button_save),
                         progress = state.progress,
                         enabled = newPassword.isNotEmpty() && oldPassword.isNotEmpty() && !state.progress,
                         onClick = {

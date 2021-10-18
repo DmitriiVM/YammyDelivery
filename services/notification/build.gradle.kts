@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation(project(ModulePath.Core.UTILS))
+    implementation(project(ModulePath.Core.UI))
     implementation(project(ModulePath.Core.DATABASE))
     implementation(project(ModulePath.Core.DATASTORE))
     implementation(project(ModulePath.NAVIGATION))

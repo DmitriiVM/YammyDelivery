@@ -36,6 +36,7 @@ import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun MainScreen(
@@ -110,7 +111,7 @@ internal fun MainScreen(
 
                     if (state.recommended.isNotEmpty()) {
                         DishesRowHeader(
-                            text = stringResource(R.string.main_recommended),
+                            text = stringResource(CoreR.string.main_recommended),
                             seeAllClick = { onEvent(MainEvent.SeeAll) }
                         )
                         LazyRow {
@@ -126,7 +127,7 @@ internal fun MainScreen(
                     }
                     if (state.best.isNotEmpty()) {
                         DishesRowHeader(
-                            text = stringResource(R.string.main_best),
+                            text = stringResource(CoreR.string.main_best),
                             seeAllClick = { onEvent(MainEvent.SeeAll) }
                         )
                         LazyRow {
@@ -141,7 +142,7 @@ internal fun MainScreen(
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                     DishesRowHeader(
-                        text = stringResource(R.string.main_popular),
+                        text = stringResource(CoreR.string.main_popular),
                         seeAllClick = { onEvent(MainEvent.SeeAll) }
                     )
                     LazyRow {
@@ -200,7 +201,7 @@ private fun DishesRowHeader(
             style = MaterialTheme.typography.h6
         )
         Text(
-            text = stringResource(R.string.main_see_all),
+            text = stringResource(CoreR.string.main_see_all),
             color = MaterialTheme.colors.primary,
             modifier = Modifier.clickable { seeAllClick() }
         )

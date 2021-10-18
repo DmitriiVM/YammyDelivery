@@ -20,13 +20,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.database.api.models.OrderItem
-import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
 import com.google.accompanist.insets.statusBarsHeight
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun OrderScreen(
@@ -44,7 +44,7 @@ internal fun OrderScreen(
                     title = {
                         Text(
                             stringResource(
-                                R.string.order_appbar_title,
+                                CoreR.string.order_appbar_title,
                                 order.createdAt.time.toString().take(5)
                             )
                         )
@@ -63,22 +63,22 @@ internal fun OrderScreen(
                 ) {
 
                     OrderField(
-                        prependText = stringResource(R.string.order_field_status),
+                        prependText = stringResource(CoreR.string.order_field_status),
                         text = order.status.name
                     )
                     OrderField(
-                        prependText = stringResource(R.string.order_field_total),
+                        prependText = stringResource(CoreR.string.order_field_total),
                         text = stringResource(
-                            R.string.order_price,
+                            CoreR.string.order_price,
                             order.total
                         )
                     )
                     OrderField(
-                        prependText = stringResource(R.string.order_field_address),
+                        prependText = stringResource(CoreR.string.order_field_address),
                         text = order.address
                     )
                     OrderField(
-                        prependText = stringResource(R.string.order_field_date),
+                        prependText = stringResource(CoreR.string.order_field_date),
                         text = order.createdAt.format()
                     )
 
@@ -96,14 +96,14 @@ internal fun OrderScreen(
                             .padding(vertical = 10.dp)
                     ) {
                         if (order.completed) {
-                            Text(stringResource(R.string.order_button_order_again))
+                            Text(stringResource(CoreR.string.order_button_order_again))
                         } else {
-                            Text(stringResource(R.string.order_button_cancel_order))
+                            Text(stringResource(CoreR.string.order_button_cancel_order))
                         }
                     }
 
                     Text(
-                        text = stringResource(R.string.order_order_content),
+                        text = stringResource(CoreR.string.order_order_content),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
@@ -155,9 +155,9 @@ internal fun OrderScreen(
         val onDismiss = { onEvent(OrderEvent.DismissAlert) }
         val resources = LocalContext.current.resources
         val message = stringResource(
-            id = R.string.order_message_cart_not_empty,
+            id = CoreR.string.order_message_cart_not_empty,
             resources.getQuantityString(
-                R.plurals.order_message_plural_dish,
+                com.dvm.ui.R.plurals.order_message_plural_dish,
                 state.orderAgainMessage.count,
                 state.orderAgainMessage.count,
             )
@@ -167,11 +167,11 @@ internal fun OrderScreen(
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(
-                    text = { Text(stringResource(R.string.common_no)) },
+                    text = { Text(stringResource(CoreR.string.common_no)) },
                     onClick = onDismiss
                 )
                 AlertButton(
-                    text = { Text(stringResource(R.string.common_ok)) },
+                    text = { Text(stringResource(CoreR.string.common_ok)) },
                     onClick = { onEvent(OrderEvent.OrderAgain) }
                 )
             }
@@ -202,14 +202,14 @@ private fun OrderItem(item: OrderItem) {
         Row(Modifier.fillMaxWidth()) {
             Text(
                 text = stringResource(
-                    R.string.order_amount,
+                    CoreR.string.order_amount,
                     item.amount
                 ),
                 modifier = Modifier.weight(1f)
             )
             Text(
                 text = stringResource(
-                    R.string.dish_item_price,
+                    CoreR.string.dish_item_price,
                     item.price
                 ),
                 color = MaterialTheme.colors.primary

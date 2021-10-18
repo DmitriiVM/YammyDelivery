@@ -12,7 +12,6 @@ import com.dvm.database.api.CategoryRepository
 import com.dvm.database.api.DishRepository
 import com.dvm.database.api.models.CardDishDetails
 import com.dvm.database.api.models.CartItem
-import com.dvm.menu.R
 import com.dvm.menu.category.presentation.model.CategoryData
 import com.dvm.menu.category.presentation.model.CategoryEvent
 import com.dvm.menu.category.presentation.model.CategoryState
@@ -25,6 +24,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class CategoryViewModel @Inject constructor(
@@ -53,7 +53,7 @@ internal class CategoryViewModel @Inject constructor(
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     CategoryData(
-                        title = Text.Resource(R.string.menu_item_special_offer),
+                        title = Text.Resource(CoreR.string.menu_item_special_offer),
                         categoryId = categoryId,
                         subcategories = emptyList(),
                         selectedId = null,
@@ -118,7 +118,7 @@ internal class CategoryViewModel @Inject constructor(
                     )
                     state = state.copy(
                         alert = Text.Resource(
-                            resId = R.string.message_dish_added_to_cart,
+                            resId = CoreR.string.message_dish_added_to_cart,
                             formatArgs = listOf(event.name)
                         )
                     )

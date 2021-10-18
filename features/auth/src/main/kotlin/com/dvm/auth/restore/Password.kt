@@ -18,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dvm.auth.R
 import com.dvm.ui.components.EditTextField
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -39,11 +39,11 @@ internal fun Password(
         passwordFocus.requestFocus()
     }
 
-    Text(stringResource(R.string.password_restoration_password_description))
+    Text(stringResource(CoreR.string.password_restoration_password_description))
     Spacer(modifier = Modifier.padding(bottom = 15.dp))
     EditTextField(
         text = password,
-        label = stringResource(R.string.password_restoration_password_label),
+        label = stringResource(CoreR.string.password_restoration_password_label),
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(passwordFocus),
@@ -56,7 +56,7 @@ internal fun Password(
     )
     EditTextField(
         text = confirmPassword,
-        label = stringResource(R.string.password_restoration_confirm_password_label),
+        label = stringResource(CoreR.string.password_restoration_confirm_password_label),
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(confirmPasswordFocus),
@@ -80,6 +80,6 @@ internal fun Password(
             onSave()
         }
     ) {
-        Text(stringResource(R.string.password_restoration_password_button))
+        Text(stringResource(CoreR.string.password_restoration_password_button))
     }
 }

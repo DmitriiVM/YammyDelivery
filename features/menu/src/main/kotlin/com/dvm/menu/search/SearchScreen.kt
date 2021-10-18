@@ -34,6 +34,7 @@ import com.dvm.utils.DrawerItem
 import com.dvm.utils.asString
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun SearchScreen(
@@ -117,7 +118,7 @@ private fun SearchField(
                 CompositionLocalProvider(
                     LocalContentAlpha provides ContentAlpha.disabled
                 ) {
-                    Text(stringResource(R.string.search_text_field_hint))
+                    Text(stringResource(CoreR.string.search_text_field_hint))
                 }
             },
             onValueChange = { value ->

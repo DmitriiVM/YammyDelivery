@@ -13,7 +13,6 @@ import com.dvm.database.api.models.CartItem
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.OrderApi
-import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
@@ -25,6 +24,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class OrderViewModel @Inject constructor(
@@ -100,7 +100,7 @@ internal class OrderViewModel @Inject constructor(
 
                 state = state.copy(
                     progress = false,
-                    cancelMessage = R.string.order_message_order_canceled
+                    cancelMessage = CoreR.string.order_message_order_canceled
                 )
             } catch (exception: Exception) {
                 state = state.copy(

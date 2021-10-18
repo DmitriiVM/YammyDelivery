@@ -13,7 +13,6 @@ import com.dvm.database.api.DishRepository
 import com.dvm.database.api.HintRepository
 import com.dvm.database.api.models.CartItem
 import com.dvm.database.api.models.Hint
-import com.dvm.menu.R
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.api.Navigator
@@ -24,6 +23,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
@@ -122,7 +122,7 @@ internal class SearchViewModel @Inject constructor(
                     )
                     state = state.copy(
                         alert = Text.Resource(
-                            resId = R.string.message_dish_added_to_cart,
+                            resId = CoreR.string.message_dish_added_to_cart,
                             formatArgs = listOf(event.name)
                         )
                     )

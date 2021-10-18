@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class CartViewModel @Inject constructor(
@@ -92,7 +93,7 @@ internal class CartViewModel @Inject constructor(
                         appliedPromoCode.value = true
                     } else {
                         state =
-                            state.copy(alert = R.string.cart_message_promocode_fail)                   }
+                            state.copy(alert = CoreR.string.cart_message_promocode_fail)                   }
                 }
             }
             CartEvent.CancelPromoCode -> {

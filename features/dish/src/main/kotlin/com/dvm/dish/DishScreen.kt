@@ -38,6 +38,7 @@ import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.statusBarsHeight
+import com.dvm.ui.R as CoreR
 
 private const val HORIZONTAL_POINT_OFFSET = 50f
 private const val VERTICAL_POINT_OFFSET = 50f
@@ -329,20 +330,20 @@ private fun PurchaseSection(
     ) {
         if (oldPrice > price) {
             Text(
-                text = stringResource(R.string.dish_item_price, oldPrice),
+                text = stringResource(CoreR.string.dish_item_price, oldPrice),
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
                 fontSize = 16.sp,
                 textDecoration = TextDecoration.LineThrough
             )
             Text(
-                text = stringResource(R.string.dish_item_price, price),
+                text = stringResource(CoreR.string.dish_item_price, price),
                 modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.h6,
                 color = MaterialTheme.colors.primary
             )
         } else {
             Text(
-                text = stringResource(R.string.dish_item_price, price),
+                text = stringResource(CoreR.string.dish_item_price, price),
                 modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.h6,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.8f)
@@ -365,7 +366,7 @@ private fun PurchaseSection(
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
     ) {
-        Text(stringResource(R.string.dish_button_add_to_cart))
+        Text(stringResource(CoreR.string.dish_button_add_to_cart))
     }
 }
 

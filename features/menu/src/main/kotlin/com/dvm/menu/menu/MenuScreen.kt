@@ -37,6 +37,7 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun MenuScreen(
@@ -55,7 +56,7 @@ internal fun MenuScreen(
         Column {
             Spacer(Modifier.statusBarsHeight())
             TopAppBar(
-                title = { Text(stringResource(R.string.menu_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.menu_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu(
                         onAppMenuClick = {

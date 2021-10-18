@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dvm.auth.R
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -35,7 +35,7 @@ internal fun Code(
     }
 
     Text(
-        stringResource(R.string.password_restoration_code_description),
+        stringResource(CoreR.string.password_restoration_code_description),
         Modifier
             .fillMaxWidth()
             .wrapContentWidth()

@@ -32,6 +32,7 @@ import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsPadding
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -131,28 +132,28 @@ fun AppDrawer(
 
                     DrawerItem(
                         item = DrawerItem.MAIN,
-                        text = stringResource(R.string.drawer_item_main),
+                        text = stringResource(CoreR.string.drawer_item_main),
                         painter = painterResource(R.drawable.icon_home),
                         selectedItem = selected,
                         onClick = { onClick(DrawerItem.MAIN) }
                     )
                     DrawerItem(
                         item = DrawerItem.MENU,
-                        text = stringResource(R.string.drawer_item_menu),
+                        text = stringResource(CoreR.string.drawer_item_menu),
                         painter = painterResource(R.drawable.icon_menu),
                         selectedItem = selected,
                         onClick = { onClick(DrawerItem.MENU) }
                     )
                     DrawerItem(
                         item = DrawerItem.FAVORITE,
-                        text = stringResource(R.string.drawer_item_favorite),
+                        text = stringResource(CoreR.string.drawer_item_favorite),
                         painter = painterResource(R.drawable.icon_favorite),
                         selectedItem = selected,
                         onClick = { onClick(DrawerItem.FAVORITE) }
                     )
                     DrawerItem(
                         item = DrawerItem.CART,
-                        text = stringResource(R.string.drawer_item_cart),
+                        text = stringResource(CoreR.string.drawer_item_cart),
                         painter = painterResource(R.drawable.icon_cart),
                         count = state.cartQuantity,
                         selectedItem = selected,
@@ -160,21 +161,21 @@ fun AppDrawer(
                     )
                     DrawerItem(
                         item = DrawerItem.PROFILE,
-                        text = stringResource(R.string.drawer_item_profile),
+                        text = stringResource(CoreR.string.drawer_item_profile),
                         painter = painterResource(R.drawable.icon_profile),
                         selectedItem = selected,
                         onClick = { onClick(DrawerItem.PROFILE) }
                     )
                     DrawerItem(
                         item = DrawerItem.ORDERS,
-                        text = stringResource(R.string.drawer_item_orders),
+                        text = stringResource(CoreR.string.drawer_item_orders),
                         painter = painterResource(R.drawable.icon_order),
                         selectedItem = selected,
                         onClick = { onClick(it) }
                     )
                     DrawerItem(
                         item = DrawerItem.NOTIFICATION,
-                        text = stringResource(R.string.drawer_item_notifications),
+                        text = stringResource(CoreR.string.drawer_item_notifications),
                         painter = painterResource(R.drawable.icon_notification),
                         count = state.newNotificationCount,
                         selectedItem = selected,
@@ -192,11 +193,11 @@ fun AppDrawer(
             onDismiss = onDismiss,
             buttons = {
                 AlertButton(
-                    text = { Text(stringResource(R.string.common_no)) },
+                    text = { Text(stringResource(CoreR.string.common_no)) },
                     onClick = onDismiss
                 )
                 AlertButton(
-                    text = { Text(stringResource(R.string.common_yes)) },
+                    text = { Text(stringResource(CoreR.string.common_yes)) },
                     onClick = { viewModel.onEvent(DrawerEvent.Logout) }
                 )
             }

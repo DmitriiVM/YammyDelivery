@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.database.api.models.OrderData
-import com.dvm.order.R
 import com.dvm.order.orders.model.OrderStatus
 import com.dvm.order.orders.model.OrdersEvent
 import com.dvm.order.orders.model.OrdersState
@@ -28,6 +27,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -56,7 +56,7 @@ internal fun OrdersScreen(
         ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.orders_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.orders_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch { drawerState.open() }
@@ -80,7 +80,7 @@ internal fun OrdersScreen(
                 }
             ) {
                 Tab(
-                    text = { Text(stringResource(R.string.orders_tab_actual)) },
+                    text = { Text(stringResource(CoreR.string.orders_tab_actual)) },
                     selected = pagerState.currentPage == 0,
                     onClick = {
                         scope.launch {
@@ -90,7 +90,7 @@ internal fun OrdersScreen(
                     },
                 )
                 Tab(
-                    text = { Text(stringResource(R.string.orders_tab_completed)) },
+                    text = { Text(stringResource(CoreR.string.orders_tab_completed)) },
                     selected = pagerState.currentPage == 1,
                     onClick = {
                         scope.launch {
@@ -103,8 +103,8 @@ internal fun OrdersScreen(
             HorizontalPager(pagerState) {
                 if (state.empty) {
                     EmptyPlaceholder(
-                        resId = R.raw.empty_image,
-                        text = stringResource(R.string.orders_empty_placeholder)
+                        resId = com.dvm.ui.R.raw.empty_image,
+                        text = stringResource(CoreR.string.orders_empty_placeholder)
                     )
                 } else {
                     LazyColumn(
@@ -149,7 +149,7 @@ private fun OrderItem(
         Row {
             Text(
                 text = stringResource(
-                    R.string.orders_order_number,
+                    CoreR.string.orders_order_number,
                     order.createdAt.time.toString().take(5)
                 ),
                 modifier = Modifier.weight(1f),
@@ -157,7 +157,7 @@ private fun OrderItem(
             )
             Text(
                 text = stringResource(
-                    R.string.dish_item_price,
+                    CoreR.string.dish_item_price,
                     order.total
                 ),
                 modifier = Modifier.padding(end = 8.dp),

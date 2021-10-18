@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.database.api.CartRepository
 import com.dvm.database.api.DishRepository
 import com.dvm.database.api.models.CartItem
-import com.dvm.menu.R
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.navigation.api.Navigator
@@ -19,6 +18,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.dvm.ui.R as CoreR
 
 @HiltViewModel
 internal class FavoriteViewModel @Inject constructor(
@@ -49,7 +49,7 @@ internal class FavoriteViewModel @Inject constructor(
                     )
                     state = state.copy(
                         alert = Text.Resource(
-                            resId = R.string.message_dish_added_to_cart,
+                            resId = CoreR.string.message_dish_added_to_cart,
                             formatArgs = listOf(event.name)
                         )
                     )

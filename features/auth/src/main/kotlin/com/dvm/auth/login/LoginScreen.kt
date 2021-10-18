@@ -20,13 +20,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
-import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -49,7 +49,7 @@ internal fun LoginScreen(
             Column {
                 Spacer(Modifier.statusBarsHeight())
                 DefaultAppBar(
-                    title = { Text(stringResource(R.string.login_appbar_title)) },
+                    title = { Text(stringResource(CoreR.string.login_appbar_title)) },
                     navigationIcon = {
                         AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.Back) })
                     }
@@ -74,7 +74,7 @@ internal fun LoginScreen(
 
                 EditTextField(
                     text = email,
-                    label = stringResource(R.string.login_field_email),
+                    label = stringResource(CoreR.string.login_field_email),
                     error = state.emailError,
                     enabled = !state.progress,
                     onValueChange = {
@@ -88,7 +88,7 @@ internal fun LoginScreen(
                 )
                 EditTextField(
                     text = password,
-                    label = stringResource(R.string.login_field_password),
+                    label = stringResource(CoreR.string.login_field_password),
                     error = state.passwordError,
                     enabled = !state.progress,
                     onValueChange = {
@@ -104,7 +104,7 @@ internal fun LoginScreen(
                 Spacer(Modifier.height(30.dp))
 
                 ProgressButton(
-                    text = stringResource(R.string.login_button_login),
+                    text = stringResource(CoreR.string.login_button_login),
                     progress = state.progress,
                     onClick = {
                         if (!state.progress) {
@@ -119,7 +119,7 @@ internal fun LoginScreen(
                     onClick = { onEvent(LoginEvent.Register) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = stringResource(R.string.login_button_registartion))
+                    Text(text = stringResource(CoreR.string.login_button_registartion))
                 }
             }
 
@@ -129,7 +129,7 @@ internal fun LoginScreen(
                     onClick = { onEvent(LoginEvent.RestorePassword) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = stringResource(R.string.login_button_restore_password))
+                    Text(text = stringResource(CoreR.string.login_button_restore_password))
                 }
                 Spacer(Modifier.navigationBarsWithImePadding())
             }
