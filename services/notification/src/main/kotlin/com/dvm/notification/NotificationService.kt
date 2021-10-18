@@ -59,7 +59,7 @@ class NotificationService : FirebaseMessagingService(), KoinComponent {
 
             val notification = NotificationCompat
                 .Builder(this@NotificationService, CHANNEL_ID)
-                .setSmallIcon(R.drawable.icon_logo)
+                .setSmallIcon(com.dvm.ui.R.drawable.icon_logo)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setStyle(

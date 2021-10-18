@@ -22,6 +22,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.dvm.database.Review
 import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.extensions.formatAsDate
+import com.dvm.ui.R as CoreR
 
 @Composable
 fun ReviewHeader(
@@ -46,7 +47,7 @@ fun ReviewHeader(
     ) {
 
         Text(
-            text = stringResource(R.string.dish_text_reviews),
+            text = stringResource(CoreR.string.dish_text_reviews),
             modifier = Modifier.padding(end = 10.dp),
             style = MaterialTheme.typography.h6
         )
@@ -63,7 +64,7 @@ fun ReviewHeader(
                 contentColor = color
             )
         ) {
-            Text(stringResource(R.string.dish_button_add_review))
+            Text(stringResource(CoreR.string.dish_button_add_review))
         }
     }
 }
@@ -137,7 +138,7 @@ internal fun ReviewDialog(
                 var text by rememberSaveable { mutableStateOf("") }
 
                 Text(
-                    text = stringResource(R.string.dish_review_title),
+                    text = stringResource(CoreR.string.dish_review_title),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
@@ -174,7 +175,7 @@ internal fun ReviewDialog(
 
                 Spacer(Modifier.height(30.dp))
                 ProgressButton(
-                    text = stringResource(R.string.dish_review_send),
+                    text = stringResource(CoreR.string.dish_review_send),
                     progress = networkCall,
                     enabled = rating > 0 && !networkCall,
                     onClick = {

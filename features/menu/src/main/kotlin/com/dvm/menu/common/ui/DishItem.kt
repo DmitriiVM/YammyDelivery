@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.dvm.database.api.models.CardDish
-import com.dvm.menu.R
 import com.dvm.ui.components.Image
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun DishItem(
@@ -87,7 +87,7 @@ internal fun DishItem(
                     }
             ) {
                 Text(
-                    text = stringResource(R.string.dish_item_price, dish.price),
+                    text = stringResource(CoreR.string.dish_item_price, dish.price),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 15.dp, bottom = 5.dp)
                 )
@@ -113,7 +113,7 @@ internal fun DishItem(
 
         if (dish.oldPrice > dish.price) {
             Text(
-                text = stringResource(R.string.dish_item_label_special_offer),
+                text = stringResource(CoreR.string.dish_item_label_special_offer),
                 fontSize = 10.sp,
                 letterSpacing = 2.5.sp,
                 modifier = Modifier

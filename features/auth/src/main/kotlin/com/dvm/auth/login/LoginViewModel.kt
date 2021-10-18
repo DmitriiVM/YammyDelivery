@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.auth.R
 import com.dvm.auth.login.model.LoginEvent
 import com.dvm.auth.login.model.LoginState
 import com.dvm.database.Profile
@@ -25,6 +24,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class LoginViewModel(
     private val authApi: AuthApi,
@@ -118,7 +118,7 @@ internal class LoginViewModel(
             } catch (exception: Exception) {
                 val message =
                     if (exception is AppException.IncorrectData) {
-                        R.string.auth_error_incorrect_data
+                        CoreR.string.auth_error_incorrect_data
                     } else {
                         exception.getErrorMessage()
                     }

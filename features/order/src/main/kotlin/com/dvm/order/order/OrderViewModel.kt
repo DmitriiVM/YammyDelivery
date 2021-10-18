@@ -13,7 +13,6 @@ import com.dvm.database.api.mappers.toDbEntity
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.OrderApi
-import com.dvm.order.R
 import com.dvm.order.order.model.OrderEvent
 import com.dvm.order.order.model.OrderState
 import com.dvm.preferences.api.DatastoreRepository
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class OrderViewModel(
     _orderId: String,
@@ -98,7 +98,7 @@ internal class OrderViewModel(
 
                 state = state.copy(
                     progress = false,
-                    cancelMessage = R.string.order_message_order_canceled
+                    cancelMessage = CoreR.string.order_message_order_canceled
                 )
             } catch (exception: Exception) {
                 state = state.copy(

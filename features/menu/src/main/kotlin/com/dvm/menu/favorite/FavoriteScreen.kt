@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.menu.R
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
@@ -35,6 +34,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -64,7 +64,7 @@ internal fun FavoriteScreen(
         ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.favorite_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.favorite_appbar_title)) },
                 navigationIcon = {
                     AppBarIconMenu {
                         scope.launch {
@@ -76,8 +76,8 @@ internal fun FavoriteScreen(
 
             if (state.dishes.isEmpty()){
                 EmptyPlaceholder(
-                    resId = R.raw.empty_image,
-                    text = stringResource(R.string.favorite_empty_placeholder),
+                    resId = com.dvm.ui.R.raw.empty_image,
+                    text = stringResource(CoreR.string.favorite_empty_placeholder),
                     modifier = Modifier.fillMaxSize()
                 )
             } else {

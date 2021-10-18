@@ -25,7 +25,6 @@ import androidx.lifecycle.asFlow
 import androidx.navigation.NavHostController
 import com.dvm.appmenu_api.Drawer
 import com.dvm.navigation.api.model.Destination
-import com.dvm.order.R
 import com.dvm.order.ordering.model.OrderingEvent
 import com.dvm.order.ordering.model.OrderingFields
 import com.dvm.order.ordering.model.OrderingState
@@ -35,6 +34,7 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.getViewModel
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -60,7 +60,7 @@ internal fun OrderingScreen(
         Column(Modifier.fillMaxSize()) {
             Spacer(Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.ordering_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.ordering_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack {
                         onEvent(OrderingEvent.Back)
@@ -107,13 +107,13 @@ internal fun OrderingScreen(
                             LaunchedEffect(Unit) {
                                 addressFocus.requestFocus()
                             }
-                            Text(stringResource(R.string.ordering_field_address))
+                            Text(stringResource(CoreR.string.ordering_field_address))
                         }
                     )
                 } else {
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = "${stringResource(R.string.ordering_field_address)}${state.address}",
+                        text = "${stringResource(CoreR.string.ordering_field_address)}${state.address}",
                         modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
                     )
                     Divider()
@@ -134,9 +134,9 @@ internal fun OrderingScreen(
                         }
                     ) {
                         if (isEditing) {
-                            Text(stringResource(R.string.ordering_button_apply))
+                            Text(stringResource(CoreR.string.ordering_button_apply))
                         } else {
-                            Text(stringResource(R.string.ordering_button_fill))
+                            Text(stringResource(CoreR.string.ordering_button_fill))
                         }
                     }
                     Button(
@@ -145,7 +145,7 @@ internal fun OrderingScreen(
                             .padding(start = 4.dp),
                         onClick = { onEvent(OrderingEvent.OpenMap) }
                     ) {
-                        Text(stringResource(R.string.ordering_button_use_map))
+                        Text(stringResource(CoreR.string.ordering_button_use_map))
                     }
                 }
                 Spacer(Modifier.height(8.dp))
@@ -160,7 +160,7 @@ internal fun OrderingScreen(
                     keyboardActions = KeyboardActions(
                         onNext = { floorFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.ordering_field_entrance)) }
+                    startText = { Text(stringResource(CoreR.string.ordering_field_entrance)) }
                 )
                 OrderingTextField(
                     value = fields.floor,
@@ -173,7 +173,7 @@ internal fun OrderingScreen(
                     keyboardActions = KeyboardActions(
                         onNext = { apartmentFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.ordering_field_floor)) }
+                    startText = { Text(stringResource(CoreR.string.ordering_field_floor)) }
                 )
                 OrderingTextField(
                     value = fields.apartment,
@@ -185,7 +185,7 @@ internal fun OrderingScreen(
                     keyboardActions = KeyboardActions(
                         onNext = { intercomFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.ordering_field_apartment)) }
+                    startText = { Text(stringResource(CoreR.string.ordering_field_apartment)) }
                 )
                 OrderingTextField(
                     value = fields.intercom,
@@ -197,7 +197,7 @@ internal fun OrderingScreen(
                     keyboardActions = KeyboardActions(
                         onNext = { commentFocus.requestFocus() }
                     ),
-                    startText = { Text(stringResource(R.string.ordering_field_intercom)) }
+                    startText = { Text(stringResource(CoreR.string.ordering_field_intercom)) }
                 )
                 OrderingTextField(
                     value = fields.comment,
@@ -211,7 +211,7 @@ internal fun OrderingScreen(
                             keyboardController?.hide()
                         }
                     ),
-                    startText = { Text(stringResource(R.string.ordering_field_comment)) }
+                    startText = { Text(stringResource(CoreR.string.ordering_field_comment)) }
                 )
             }
             Button(
@@ -222,7 +222,7 @@ internal fun OrderingScreen(
                     .navigationBarsWithImePadding(),
                 onClick = { onEvent(OrderingEvent.MakeOrder(fields)) }
             ) {
-                Text(stringResource(R.string.ordering_button_create_order))
+                Text(stringResource(CoreR.string.ordering_button_create_order))
             }
         }
     }

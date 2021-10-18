@@ -13,7 +13,6 @@ import com.dvm.database.api.CartRepository
 import com.dvm.database.api.CategoryRepository
 import com.dvm.database.api.DishRepository
 import com.dvm.database.api.HintRepository
-import com.dvm.menu.R
 import com.dvm.menu.search.model.SearchEvent
 import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.api.Navigator
@@ -22,6 +21,7 @@ import com.dvm.utils.Text
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
+import com.dvm.ui.R as CoreR
 
 internal class SearchViewModel(
     private val categoryRepository: CategoryRepository,
@@ -120,7 +120,7 @@ internal class SearchViewModel(
                     )
                     state = state.copy(
                         alert = Text.Resource(
-                            resId = R.string.message_dish_added_to_cart,
+                            resId = CoreR.string.message_dish_added_to_cart,
                             formatArgs = listOf(event.name)
                         )
                     )

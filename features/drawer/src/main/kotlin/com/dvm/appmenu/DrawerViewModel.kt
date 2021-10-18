@@ -1,6 +1,5 @@
 package com.dvm.appmenu
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,8 +15,8 @@ import com.dvm.utils.DrawerItem
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
-@SuppressLint("StaticFieldLeak")
 internal class DrawerViewModel(
     private val datastore: DatastoreRepository,
     private val profileRepository: ProfileRepository,
@@ -76,7 +75,7 @@ internal class DrawerViewModel(
                 viewModelScope.launch {
                     if (datastore.isAuthorized()) {
                         state = state.copy(
-                            alert = R.string.app_menu_message_logout
+                            alert = CoreR.string.app_menu_message_logout
                         )
                     } else {
                         navigator.goTo(Destination.Login())

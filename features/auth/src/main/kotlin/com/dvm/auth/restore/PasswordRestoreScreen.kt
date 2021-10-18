@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.auth.R
 import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
@@ -17,6 +16,7 @@ import com.dvm.ui.components.*
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun PasswordRestoreScreen(
@@ -37,7 +37,7 @@ internal fun PasswordRestoreScreen(
         ) {
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.password_restoration_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.password_restoration_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack { onEvent(RestoreEvent.Back) }
                 },

@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.dvm.appmenu_api.Drawer
-import com.dvm.auth.R
 import com.dvm.auth.register.model.RegisterEvent
 import com.dvm.auth.register.model.RegisterState
 import com.dvm.ui.components.*
@@ -24,6 +23,7 @@ import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun RegisterScreen(
@@ -41,7 +41,7 @@ internal fun RegisterScreen(
         ) {
             Spacer(Modifier.statusBarsHeight())
             DefaultAppBar(
-                title = { Text(stringResource(R.string.registration_appbar_title)) },
+                title = { Text(stringResource(CoreR.string.registration_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.Back) })
                 }
@@ -63,7 +63,7 @@ internal fun RegisterScreen(
 
                 EditTextField(
                     text = firstName,
-                    label = stringResource(R.string.registration_field_name),
+                    label = stringResource(CoreR.string.registration_field_name),
                     error = state.firstNameError,
                     enabled = !state.progress,
                     onValueChange = {
@@ -77,7 +77,7 @@ internal fun RegisterScreen(
                 )
                 EditTextField(
                     text = lastName,
-                    label = stringResource(R.string.registration_field_last_name),
+                    label = stringResource(CoreR.string.registration_field_last_name),
                     error = state.lastNameError,
                     enabled = !state.progress,
                     onValueChange = {
@@ -92,7 +92,7 @@ internal fun RegisterScreen(
                 )
                 EditTextField(
                     text = email,
-                    label = stringResource(R.string.registration_field_email),
+                    label = stringResource(CoreR.string.registration_field_email),
                     error = state.emailError,
                     enabled = !state.progress,
                     onValueChange = {
@@ -107,7 +107,7 @@ internal fun RegisterScreen(
                 )
                 EditTextField(
                     text = password,
-                    label = stringResource(R.string.registration_field_password),
+                    label = stringResource(CoreR.string.registration_field_password),
                     error = state.passwordError,
                     enabled = !state.progress,
                     onValueChange = {
@@ -132,7 +132,7 @@ internal fun RegisterScreen(
 
                 Spacer(Modifier.height(10.dp))
                 ProgressButton(
-                    text = stringResource(R.string.registration_button_register),
+                    text = stringResource(CoreR.string.registration_button_register),
                     progress = state.progress,
                     onClick = {
                         onEvent(
@@ -153,7 +153,7 @@ internal fun RegisterScreen(
                         .fillMaxWidth()
                         .navigationBarsWithImePadding()
                 ) {
-                    Text(text = stringResource(R.string.registration_button_login))
+                    Text(text = stringResource(CoreR.string.registration_button_login))
                 }
                 Spacer(Modifier.height(100.dp))
             }

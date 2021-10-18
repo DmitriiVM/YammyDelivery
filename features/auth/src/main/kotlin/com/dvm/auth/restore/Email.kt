@@ -16,9 +16,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dvm.auth.R
 import com.dvm.ui.components.EditTextField
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -34,11 +34,11 @@ internal fun Email(
         focus.requestFocus()
     }
 
-    Text(stringResource(R.string.password_restoration_email_description))
+    Text(stringResource(CoreR.string.password_restoration_email_description))
     Spacer(modifier = Modifier.padding(bottom = 15.dp))
     EditTextField(
         text = email,
-        label = stringResource(R.string.password_restoration_email_label),
+        label = stringResource(CoreR.string.password_restoration_email_label),
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(focus),
@@ -55,6 +55,6 @@ internal fun Email(
             onSend()
         }
     ) {
-        Text(stringResource(R.string.password_restoration_email_button))
+        Text(stringResource(CoreR.string.password_restoration_email_button))
     }
 }

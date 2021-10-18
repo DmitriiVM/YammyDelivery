@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.dvm.database.CartItem
 import com.dvm.database.api.CartRepository
 import com.dvm.database.api.DishRepository
-import com.dvm.menu.R
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
 import com.dvm.navigation.api.Navigator
@@ -17,6 +16,7 @@ import com.dvm.utils.Text
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class FavoriteViewModel(
     private val cartRepository: CartRepository,
@@ -46,7 +46,7 @@ internal class FavoriteViewModel(
                     )
                     state = state.copy(
                         alert = Text.Resource(
-                            resId = R.string.message_dish_added_to_cart,
+                            resId = CoreR.string.message_dish_added_to_cart,
                             formatArgs = listOf(event.name)
                         )
                     )

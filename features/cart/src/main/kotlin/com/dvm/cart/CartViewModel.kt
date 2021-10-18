@@ -18,6 +18,7 @@ import com.dvm.utils.getErrorMessage
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class CartViewModel(
     private val cartRepository: CartRepository,
@@ -89,7 +90,7 @@ internal class CartViewModel(
                         appliedPromoCode.value = true
                     } else {
                         state =
-                            state.copy(alert = R.string.cart_message_promocode_fail)
+                            state.copy(alert = CoreR.string.cart_message_promocode_fail)
                     }
                 }
             }

@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.dvm.auth.R
 import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
@@ -19,6 +18,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class PasswordRestoreViewModel(
     private val authApi: AuthApi,
@@ -76,7 +76,7 @@ internal class PasswordRestoreViewModel(
                 state = state.copy(
                     progress = false,
                     alert = if (exception is AppException.BadRequest) {
-                        R.string.password_restoration_message_already_sent
+                        CoreR.string.password_restoration_message_already_sent
                     } else {
                         exception.getErrorMessage()
                     }
@@ -96,7 +96,7 @@ internal class PasswordRestoreViewModel(
                 state = state.copy(
                     progress = false,
                     alert = if (exception is AppException.BadRequest) {
-                        R.string.password_restoration_message_wrong_code
+                        CoreR.string.password_restoration_message_wrong_code
                     } else {
                         exception.getErrorMessage()
                     }
@@ -123,7 +123,7 @@ internal class PasswordRestoreViewModel(
                 state = state.copy(
                     progress = false,
                     alert = if (exception is AppException.IncorrectData) {
-                        R.string.password_restoration_message_expired_code
+                        CoreR.string.password_restoration_message_expired_code
                     } else {
                         exception.getErrorMessage()
                     }

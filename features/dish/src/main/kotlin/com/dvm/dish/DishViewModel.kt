@@ -22,6 +22,7 @@ import com.dvm.utils.getErrorMessage
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class DishViewModel(
     _dishId: String,
@@ -82,7 +83,7 @@ internal class DishViewModel(
                         state = state.copy(reviewDialog = true)
                     } else {
                         state = state.copy(
-                            alert = R.string.dish_message_unauthorized_review
+                            alert = CoreR.string.dish_message_unauthorized_review
                         )
                     }
                 }
@@ -108,7 +109,7 @@ internal class DishViewModel(
         )
         state = state.copy(
             quantity = 1,
-            alert = R.string.dish_message_added_to_cart
+            alert = CoreR.string.dish_message_added_to_cart
         )
     }
 
@@ -150,7 +151,7 @@ internal class DishViewModel(
                 state = state.copy(
                     progress = false,
                     reviewDialog = false,
-                    alert = R.string.dish_message_review_result
+                    alert = CoreR.string.dish_message_review_result
                 )
             } catch (exception: Exception) {
                 state = state.copy(

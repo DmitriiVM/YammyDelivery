@@ -27,6 +27,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getStateViewModel
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun CartScreen(
@@ -50,7 +51,7 @@ internal fun CartScreen(
             Spacer(modifier = Modifier.statusBarsHeight())
             DefaultAppBar(
                 title = {
-                    Text(stringResource(R.string.cart_appbar_title))
+                    Text(stringResource(CoreR.string.cart_appbar_title))
                 },
                 navigationIcon = {
                     AppBarIconMenu {
@@ -63,8 +64,8 @@ internal fun CartScreen(
 
             if (state.items.isEmpty()) {
                 EmptyPlaceholder(
-                    resId = R.raw.empty_image,
-                    text = stringResource(R.string.cart_message_info_empty_cart)
+                    resId = com.dvm.ui.R.raw.empty_image,
+                    text = stringResource(CoreR.string.cart_message_info_empty_cart)
                 )
             } else {
                 Column(
@@ -158,7 +159,7 @@ private fun CartItem(
         }
         Text(
             text = stringResource(
-                R.string.dish_item_price,
+                CoreR.string.dish_item_price,
                 item.price
             ),
             modifier = Modifier
@@ -246,9 +247,9 @@ private fun PromoCode(
             modifier = Modifier.align(Alignment.Bottom)
         ) {
             if (appliedPromoCode) {
-                Text(stringResource(R.string.cart_button_cancel_promocode))
+                Text(stringResource(CoreR.string.cart_button_cancel_promocode))
             } else {
-                Text(stringResource(R.string.cart_button_apply_promocode))
+                Text(stringResource(CoreR.string.cart_button_apply_promocode))
             }
         }
     }
@@ -269,10 +270,10 @@ private fun BottomContent(
                 .padding(bottom = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(stringResource(R.string.cart_total_price))
+            Text(stringResource(CoreR.string.cart_total_price))
             Text(
                 text = stringResource(
-                    R.string.dish_item_price,
+                    CoreR.string.dish_item_price,
                     totalPrice
                 )
             )
@@ -281,7 +282,7 @@ private fun BottomContent(
             onClick = onClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(stringResource(R.string.cart_button_create_order))
+            Text(stringResource(CoreR.string.cart_button_create_order))
         }
     }
 }

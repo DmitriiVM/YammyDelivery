@@ -1,8 +1,8 @@
 package com.dvm.utils.extensions
 
 import androidx.core.util.PatternsCompat
-import com.dvm.utils.R
 import java.util.regex.Pattern
+import com.dvm.ui.R as CoreR
 
 fun String.getTextFieldErrorOrNull()= when {
     isEmpty() -> emptyField
@@ -35,7 +35,7 @@ private fun String.isPasswordValid(): Boolean {
     return passwordPattern.matcher(this).matches()
 }
 
-private val emptyField = R.string.auth_field_error_empty
-private val letters = R.string.auth_field_error_letters_allowed
-private val incorrectEmail = R.string.auth_field_error_incorrect_email
-private val incorrectPassword = R.string.auth_field_error_incorrect_password
+private val emptyField = CoreR.string.auth_field_error_empty
+private val letters = CoreR.string.auth_field_error_letters_allowed
+private val incorrectEmail = CoreR.string.auth_field_error_incorrect_email
+private val incorrectPassword = CoreR.string.auth_field_error_incorrect_password

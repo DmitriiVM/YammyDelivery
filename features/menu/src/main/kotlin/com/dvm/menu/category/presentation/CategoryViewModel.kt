@@ -13,14 +13,17 @@ import com.dvm.database.api.CartRepository
 import com.dvm.database.api.CategoryRepository
 import com.dvm.database.api.DishRepository
 import com.dvm.database.api.models.CardDish
-import com.dvm.menu.R
-import com.dvm.menu.category.presentation.model.*
+import com.dvm.menu.category.presentation.model.CategoryData
+import com.dvm.menu.category.presentation.model.CategoryEvent
+import com.dvm.menu.category.presentation.model.CategoryState
+import com.dvm.menu.category.presentation.model.OrderType
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.Text
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
 internal class CategoryViewModel(
     private val categoryRepository: CategoryRepository,
@@ -55,7 +58,7 @@ internal class CategoryViewModel(
             when (categoryId) {
                 MENU_SPECIAL_OFFER -> {
                     CategoryData(
-                        title = Text.Resource(R.string.menu_item_special_offer),
+                        title = Text.Resource(CoreR.string.menu_item_special_offer),
                         categoryId = categoryId,
                         subcategories = emptyList(),
                         selectedId = null,
@@ -120,7 +123,7 @@ internal class CategoryViewModel(
                     )
                     state = state.copy(
                         alert = Text.Resource(
-                            resId = R.string.message_dish_added_to_cart,
+                            resId = CoreR.string.message_dish_added_to_cart,
                             formatArgs = listOf(event.name)
                         )
                     )

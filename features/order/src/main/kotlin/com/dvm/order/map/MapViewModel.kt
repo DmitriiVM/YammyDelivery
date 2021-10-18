@@ -12,7 +12,6 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
-import com.dvm.order.R
 import com.dvm.order.map.model.MapState
 import com.dvm.utils.getErrorMessage
 import com.google.android.gms.location.LocationServices
@@ -25,8 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import com.dvm.ui.R as CoreR
 
-@SuppressLint("StaticFieldLeak")
 internal class MapViewModel(
     private val navigator: Navigator,
     savedState: SavedStateHandle
@@ -88,7 +87,7 @@ internal class MapViewModel(
                 )
             )
         } else {
-            state = state.copy(alert = R.string.ordering_address_error)
+            state = state.copy(alert = CoreR.string.ordering_address_error)
         }
     }
 
@@ -148,17 +147,17 @@ internal class MapViewModel(
                 .getFromLocation(latitude, longitude, 1)
                 .first()
         } catch (e: Exception) {
-            state = state.copy(alert = R.string.message_unknown_error)
+            state = state.copy(alert = CoreR.string.message_unknown_error)
             return emptyList()
         }
         val city = locationAddress.subAdminArea?.let {
-            context.getString(R.string.ordering_address_city, locationAddress.subAdminArea)
+            context.getString(CoreR.string.ordering_address_city, locationAddress.subAdminArea)
         }
         val building = locationAddress.thoroughfare?.let {
-            context.getString(R.string.ordering_address_street, locationAddress.thoroughfare)
+            context.getString(CoreR.string.ordering_address_street, locationAddress.thoroughfare)
         }
         val flat = locationAddress.subThoroughfare?.let {
-            context.getString(R.string.ordering_address_flat, locationAddress.subThoroughfare)
+            context.getString(CoreR.string.ordering_address_flat, locationAddress.subThoroughfare)
         }
         return listOfNotNull(city, building, flat)
     }

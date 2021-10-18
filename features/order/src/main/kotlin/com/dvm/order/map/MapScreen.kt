@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import com.dvm.order.R
 import com.dvm.order.map.model.MapState
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
@@ -32,6 +31,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.maps.android.ktx.awaitMap
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getStateViewModel
+import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun MapScreen(
@@ -94,7 +94,7 @@ internal fun MapScreen(
                 .padding(bottom = 60.dp)
                 .fillMaxWidth()
         ) {
-            Text(stringResource(R.string.ordering_map_button_complete))
+            Text(stringResource(CoreR.string.ordering_map_button_complete))
         }
     }
 
