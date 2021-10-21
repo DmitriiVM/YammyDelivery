@@ -24,12 +24,16 @@ class NotificationService : FirebaseMessagingService() {
 
     @Inject
     lateinit var navigator: Navigator
+
     @Inject
     lateinit var serviceScope: CoroutineScope
+
     @Inject
     lateinit var appLauncher: AppLauncher
+
     @Inject
     lateinit var notificationRepository: NotificationRepository
+
     @Inject
     lateinit var datastore: DatastoreRepository
 
@@ -43,6 +47,7 @@ class NotificationService : FirebaseMessagingService() {
         serviceScope.launch {
             if (!datastore.isAuthorized()) return@launch
 
+            val id = message.data[NOTIFICATION_ID].orEmpty()
             val title = message.data[NOTIFICATION_TITLE].orEmpty()
             val text = message.data[NOTIFICATION_TEXT].orEmpty()
 
@@ -56,7 +61,8 @@ class NotificationService : FirebaseMessagingService() {
 
             if (navigator.currentDestination == Destination.Notification) return@launch
 
-            val notificationManager = NotificationManagerCompat.from(this@NotificationService)
+            val notificationManager =
+                NotificationManagerCompat.from(this@NotificationService)
 
             notificationManager.createNotificationChannel(
                 NotificationChannelCompat
@@ -71,33 +77,35 @@ class NotificationService : FirebaseMessagingService() {
                 .setSmallIcon(com.dvm.ui.R.drawable.icon_logo)
                 .setContentTitle(title)
                 .setContentText(text)
-                .setStyle(
-                    NotificationCompat
-                        .BigTextStyle()
-                        .bigText(text)
-                )
                 .setAutoCancel(true)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(
-                    PendingIntent.getActivity(
-                        this@NotificationService,
-                        title.hashCode(),
-                        appLauncher.getLauncherIntent(this@NotificationService)
-                            .putExtra(NOTIFICATION_EXTRA, true)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
-                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                )
+                .setContentIntent(createPendingIntent(id.hashCode()))
                 .build()
 
-            notificationManager.notify(title.hashCode(), notification)
+            notificationManager.notify(id.hashCode(), notification)
         }
+    }
+
+    private fun createPendingIntent(requestCode: Int): PendingIntent {
+        val intent =
+            appLauncher.getLauncherIntent(this)
+                .putExtra(NOTIFICATION_EXTRA, true)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        return PendingIntent.getActivity(
+            this,
+            requestCode.hashCode(),
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
     }
 
     companion object {
         private const val NOTIFICATION_SERVICE = "NotificationService"
         private const val CHANNEL_NAME = "Yammy Delivery"
         private const val CHANNEL_ID = "yammy_delivery"
+        private const val NOTIFICATION_ID = "id"
         private const val NOTIFICATION_TITLE = "title"
         private const val NOTIFICATION_TEXT = "text"
         const val NOTIFICATION_EXTRA = "notification"

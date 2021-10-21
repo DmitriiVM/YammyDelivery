@@ -26,17 +26,15 @@ internal class MainActivity : AppCompatActivity() {
                 ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                     val navController = rememberNavController()
                     viewModel.navController = navController
+                    val startDestination = if (fromNotification(intent)) {
+                        Destination.Main.route
+                    } else {
+                        Destination.Splash.route
+                    }
                     NavHost(
                         navController = navController,
-                        startDestination = if (fromNotification(intent)) {
-                            Destination.Main.route
-                        } else {
-                            Destination.Splash.route
-                        }
+                        startDestination = startDestination
                     )
-                    if (fromNotification(intent)) {
-                        handleNotificationIntent(intent)
-                    }
                 }
             }
         }
@@ -45,13 +43,9 @@ internal class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (fromNotification(intent)) {
-            handleNotificationIntent(intent)
+            viewModel.navigateToNotification()
+            intent?.removeExtra(NOTIFICATION_EXTRA)
         }
-    }
-
-    private fun handleNotificationIntent(intent: Intent?) {
-        viewModel.navigateToNotification()
-        intent?.removeExtra(NOTIFICATION_EXTRA)
     }
 
     private fun fromNotification(intent: Intent?): Boolean =
