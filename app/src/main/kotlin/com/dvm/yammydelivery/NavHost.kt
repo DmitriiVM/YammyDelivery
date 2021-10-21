@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
+import androidx.navigation.navDeepLink
 import com.dvm.auth.api.Login
 import com.dvm.auth.api.PasswordRestoration
 import com.dvm.auth.api.Registration
@@ -38,13 +39,12 @@ fun NavHost(
         composable(Destination.Favorite.route) { Favorite() }
         composable(Destination.Login.ROUTE) { Login() }
         composable(Destination.Registration.route) { Registration() }
-        composable(Destination.PasswordRestoration.route) { PasswordRestoration() }
         composable(Destination.Cart.route) { Cart() }
-        composable(Destination.Notification.route) { Notification() }
-        composable(Destination.Ordering.route) { Ordering(navController) }
         composable(Destination.Orders.route) { Orders() }
         composable(Destination.Profile.route) { Profile() }
         composable(Destination.Map.ROUTE) { Map() }
+        composable(Destination.Ordering.route) { Ordering(navController) }
+        composable(Destination.PasswordRestoration.route) { PasswordRestoration() }
 
         composable("${Destination.Dish.ROUTE}/{${Destination.Dish.DISH_ID}}") { entry ->
             val dishId = entry.arguments?.getString(Destination.Dish.DISH_ID)
@@ -53,6 +53,13 @@ fun NavHost(
         composable("${Destination.Order.ROUTE}/{${Destination.Order.ORDER_ID}}") { entry ->
             val orderId = entry.arguments?.getString(Destination.Order.ORDER_ID)
             Order(requireNotNull(orderId))
+        }
+
+        composable(
+            route = Destination.Notification.route,
+            deepLinks = listOf(navDeepLink { uriPattern = NOTIFICATION_URI })
+        ) {
+            Notification()
         }
 
         composable(
@@ -72,3 +79,5 @@ fun NavHost(
         }
     }
 }
+
+internal const val NOTIFICATION_URI = "app://com.dvm.yammydelivery"

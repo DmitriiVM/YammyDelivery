@@ -72,4 +72,4 @@ Receiving notifications via Firebase Cloud Messaging.
 Navigating to notification screen when the app is opened and the app is closed.
 New notifications are marked with indicator which disappears after 1 second after being seen.
 
-<img src="screenshots/notifications.gif"  width="300" />
+<img src="screenshots/notification.gif"  width="300" />
