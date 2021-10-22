@@ -28,6 +28,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.fastForEachIndexed
 import com.dvm.appmenu_api.Drawer
 import com.dvm.database.Subcategory
 import com.dvm.menu.category.presentation.model.CategoryEvent
@@ -186,7 +188,7 @@ private fun DishList(
                 val chunkedDishes = state.dishes.chunked(rows)
                 items(chunkedDishes) { dishes ->
                     Row(Modifier.fillMaxWidth()) {
-                        dishes.forEach { dish ->
+                        dishes.fastForEach { dish ->
                             DishItem(
                                 dish = dish,
                                 modifier = Modifier
@@ -336,7 +338,7 @@ private fun SubcategoryTabs(
 
         val colors = rememberSaveable { DecorColors.values().toList().shuffled() }
 
-        subcategories.forEachIndexed { index, subcategory ->
+        subcategories.fastForEachIndexed { index, subcategory ->
 
             val color = remember { colors[index % colors.size] }
             val selected = index == selectedTabIndex

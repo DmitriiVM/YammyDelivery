@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastMap
 import com.dvm.appmenu.model.DrawerEvent
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
@@ -212,7 +213,7 @@ fun DrawerHeader(
             .toList()
             .filterNot { it == DecorColors.YELLOW }
             .shuffled()
-            .map { it.color.copy(alpha = 0.7f) }
+            .fastMap { it.color.copy(alpha = 0.7f) }
             .take(3)
     }
 

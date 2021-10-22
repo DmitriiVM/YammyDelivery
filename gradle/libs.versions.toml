@@ -16,6 +16,7 @@ activity-compose = "androidx.activity:activity-compose:1.4.0-alpha01"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-icons = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
@@ -64,5 +65,5 @@ google-location = "com.google.android.gms:play-services-location:18.0.0"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 
 [bundles]
-compose = ["compose-ui", "compose-tooling", "compose-foundation", "compose-material"]
+compose = ["compose-ui", "compose-tooling", "compose-util", "compose-foundation", "compose-material"]
 ktor = ["ktor-android", "ktor-cio", "ktor-json", "ktor-serialization", "ktor-logging"]
