@@ -5,12 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application>
-<!--            Typically we shouldn't store key in public repository.-->
-<!--            However this is just a sample project and a key is for learning purposes, -->
-<!--            so i put it here to make this app easy to use and check.-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCmDIaA1AZCqGm1LUbSJnXVsZFvPGJBVeI" />
+            android:value="@string/google_key" />
     </application>
 
 </manifest>
