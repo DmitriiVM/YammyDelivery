@@ -1,12 +1,11 @@
 package com.dvm.yammydelivery
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import androidx.navigation.navDeepLink
 import com.dvm.auth.api.Login
 import com.dvm.auth.api.PasswordRestoration
 import com.dvm.auth.api.Registration
@@ -21,6 +20,9 @@ import com.dvm.order.api.Ordering
 import com.dvm.order.api.Orders
 import com.dvm.profile.api.Profile
 import com.dvm.splash.api.Splash
+import com.dvm.utils.BackStackValueObserver
+import com.dvm.utils.addUri
+import com.dvm.utils.navDeepLinks
 
 @Composable
 fun NavHost(
@@ -42,23 +44,27 @@ fun NavHost(
         composable(Destination.Orders.route) { Orders() }
         composable(Destination.Profile.route) { Profile() }
         composable(Destination.Map.ROUTE) { Map() }
-        composable(Destination.Ordering.route) { Ordering(navController) }
+        composable(Destination.Dish.ROUTE) { Dish() }
+        composable(Destination.Order.ROUTE) { Order()}
         composable(Destination.PasswordRestoration.route) { PasswordRestoration() }
-
-        composable("${Destination.Dish.ROUTE}/{${Destination.Dish.DISH_ID}}") { Dish() }
-        composable("${Destination.Order.ROUTE}/{${Destination.Order.ORDER_ID}}") { Order() }
 
         composable(
             route = Destination.Notification.route,
-            deepLinks = listOf(navDeepLink { uriPattern = NOTIFICATION_URI })
+            deepLinks = navDeepLinks.addUri(NOTIFICATION_URI)
         ) {
             Notification()
         }
 
+        composable(Destination.Ordering.route) {
+            var address by remember { mutableStateOf("") }
+            navController.BackStackValueObserver<String>(Destination.Map.MAP_ADDRESS) {
+                address = it
+            }
+            Ordering(address)
+        }
+
         composable(
-            route = "${Destination.Category.ROUTE}/" +
-                    "{${Destination.Category.CATEGORY_ID}}/" +
-                    "?subcategoryId={${Destination.Category.SUBCATEGORY_ID}}",
+            route = Destination.Category.ROUTE,
             arguments = listOf(
                 navArgument(Destination.Category.SUBCATEGORY_ID) {
                     type = NavType.StringType
