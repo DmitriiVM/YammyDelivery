@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastMap
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.dish.model.DishEvent
@@ -433,7 +434,7 @@ private fun DrawScope.pointGrid(
     movingLines: List<Pair<Int, Direction>>
 ) {
     repeat(lines) { index ->
-        val offset = if (movingLines.map { it.first }.contains(index)) {
+        val offset = if (movingLines.fastMap { it.first }.contains(index)) {
             when (movingLines.first { it.first == index }.second) {
                 Direction.LEFT -> translationOffset
                 Direction.RIGHT -> -translationOffset

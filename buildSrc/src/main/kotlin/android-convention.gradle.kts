@@ -17,7 +17,7 @@ configure<BaseExtension> {
 
     buildTypes {
         getByName("release") {
-            minifyEnabled(false)
+            minifyEnabled(true)
         }
     }
 

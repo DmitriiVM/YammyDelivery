@@ -17,6 +17,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dvm.appmenu_api.Drawer
 import com.dvm.database.api.models.OrderItem
@@ -108,7 +109,7 @@ internal fun OrderScreen(
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
 
-                    order.items.forEachIndexed { index, item ->
+                    order.items.fastForEachIndexed { index, item ->
                         Row(
                             Modifier
                                 .fillMaxWidth()
