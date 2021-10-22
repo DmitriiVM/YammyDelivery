@@ -75,13 +75,13 @@ internal class NavigationViewModel(
         when (destination) {
             is Destination.Dish -> {
                 navController.navigate(
-                    route = "${Destination.Dish.ROUTE}/${destination.dishId}",
+                    route = destination.createRoute(destination.dishId),
                     builder = builder
                 )
             }
             is Destination.Order -> {
                 navController.navigate(
-                    route = "${Destination.Order.ROUTE}/${destination.orderId}",
+                    route = destination.createRoute(destination.orderId),
                     builder = {
                         if (currentDestination == Destination.Ordering.route) {
                             popUpTo(currentDestination!!) { inclusive = true }
@@ -91,9 +91,10 @@ internal class NavigationViewModel(
             }
             is Destination.Category -> {
                 navController.navigate(
-                    route = "${Destination.Category.ROUTE}/" +
-                            "${destination.categoryId}/" +
-                            "?${Destination.Category.SUBCATEGORY_ID}=${destination.subcategoryId}",
+                    route = destination.createRoute(
+                        categoryId = destination.categoryId,
+                        subcategoryId = destination.subcategoryId
+                    ),
                     builder = builder
                 )
             }
