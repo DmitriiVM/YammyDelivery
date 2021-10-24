@@ -1,7 +1,6 @@
 plugins {
     id(PluginId.ANDROID_APPLICATION)
     id(PluginId.ANDROID_CONVENTION)
-    id(PluginId.KOTLIN_ANDROID)
     id(PluginId.KOTLIN_KAPT)
     id(PluginId.DAGGER_HILT)
     id(PluginId.GOOGLE_SERVICES)
@@ -20,6 +19,13 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.0.1"
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+        }
     }
 }
 

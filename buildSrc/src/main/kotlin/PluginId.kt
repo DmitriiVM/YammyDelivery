@@ -5,6 +5,7 @@ object PluginId {
     const val DAGGER_HILT = "dagger.hilt.android.plugin"
     const val GOOGLE_SERVICES = "com.google.gms.google-services"
     const val KOTLIN_PARCELIZE = "kotlin-parcelize"
+    const val DETEKT = "io.gitlab.arturbosch.detekt"
 
     const val ANDROID_CONVENTION = "android-convention"
     const val LIBRARY_CONVENTION = "library-convention"
