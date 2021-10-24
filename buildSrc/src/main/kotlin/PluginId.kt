@@ -6,6 +6,7 @@ object PluginId {
     const val KOTLIN_PARCELIZE = "kotlin-parcelize"
     const val SQLDELIGHT = "com.squareup.sqldelight"
     const val KOTLIN_SERIALIZATION = "kotlinx-serialization"
+    const val DETEKT = "io.gitlab.arturbosch.detekt"
 
     const val ANDROID_CONVENTION = "android-convention"
     const val LIBRARY_CONVENTION = "library-convention"
