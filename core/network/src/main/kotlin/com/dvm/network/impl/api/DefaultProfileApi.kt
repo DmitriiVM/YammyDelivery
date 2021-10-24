@@ -30,7 +30,6 @@ internal class DefaultProfileApi(
             )
         )
 
-
     override suspend fun changePassword(
         token: String,
         oldPassword: String,

@@ -9,7 +9,7 @@ internal data class RestoreState(
     val progress: Boolean = false
 )
 
-internal enum class Screen{
+internal enum class Screen {
     EMAIL,
     CODE,
     PASSWORD

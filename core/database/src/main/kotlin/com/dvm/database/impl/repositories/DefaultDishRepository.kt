@@ -22,6 +22,7 @@ internal class DefaultDishRepository(
     private val reviewsQueries: ReviewQueries
 ) : DishRepository {
 
+    @Suppress("MaxLineLength")
     private val cardDishMapper: (String, String, String?, String, Int, Int, Double, Int, Int, String, Boolean) -> CardDish =
         { id, name, description, image,
           oldPrice, price, rating, commentsCount,
@@ -40,30 +41,29 @@ internal class DefaultDishRepository(
         }
 
     override fun dish(dishId: String): Flow<DishDetails> =
-            dishQueries
-                .dish(dishId)
-                .asFlow()
-                .mapToOne(Dispatchers.IO)
-                .flatMapLatest { dish ->
-                    reviewsQueries
-                        .reviews(dishId)
-                        .asFlow()
-                        .mapToList(Dispatchers.IO)
-                        .map { reviews ->
-                            DishDetails(
-                                id = dish.id,
-                                name = dish.name,
-                                description = dish.description,
-                                image = dish.image,
-                                oldPrice = dish.oldPrice,
-                                price = dish.price,
-                                rating = dish.rating,
-                                isFavorite = dish.isFavorite,
-                                reviews = reviews,
-                            )
-                        }
-                }
-
+        dishQueries
+            .dish(dishId)
+            .asFlow()
+            .mapToOne(Dispatchers.IO)
+            .flatMapLatest { dish ->
+                reviewsQueries
+                    .reviews(dishId)
+                    .asFlow()
+                    .mapToList(Dispatchers.IO)
+                    .map { reviews ->
+                        DishDetails(
+                            id = dish.id,
+                            name = dish.name,
+                            description = dish.description,
+                            image = dish.image,
+                            oldPrice = dish.oldPrice,
+                            price = dish.price,
+                            rating = dish.rating,
+                            isFavorite = dish.isFavorite,
+                            reviews = reviews,
+                        )
+                    }
+            }
 
     override fun search(query: String): Flow<List<CardDish>> =
         dishQueries

@@ -1,6 +1,11 @@
 package com.dvm.updateservice.impl
 
-import com.dvm.database.api.*
+import com.dvm.database.api.CategoryRepository
+import com.dvm.database.api.DishRepository
+import com.dvm.database.api.FavoriteRepository
+import com.dvm.database.api.OrderRepository
+import com.dvm.database.api.ProfileRepository
+import com.dvm.database.api.ReviewRepository
 import com.dvm.database.api.mappers.toDbEntity
 import com.dvm.network.api.MenuApi
 import com.dvm.network.api.OrderApi

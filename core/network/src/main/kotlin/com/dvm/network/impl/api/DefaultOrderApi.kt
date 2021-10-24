@@ -59,7 +59,6 @@ internal class DefaultOrderApi(
             }
         }
 
-
     override suspend fun cancelOrder(
         token: String,
         orderId: String

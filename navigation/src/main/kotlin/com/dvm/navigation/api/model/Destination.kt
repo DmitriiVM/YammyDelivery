@@ -75,6 +75,7 @@ sealed class Destination(val route: String = "") : Parcelable {
         val dishId: String
     ) : Destination(ROUTE) {
         fun createRoute(dishId: String) = "dish/$dishId"
+
         companion object {
             const val ROUTE = "dish/{dishId}"
             const val DISH_ID = "dishId"
@@ -86,6 +87,7 @@ sealed class Destination(val route: String = "") : Parcelable {
         val orderId: String
     ) : Destination(ROUTE) {
         fun createRoute(orderId: String) = "order/$orderId"
+
         companion object {
             const val ROUTE = "order/{orderId}"
             const val ORDER_ID = "orderId"

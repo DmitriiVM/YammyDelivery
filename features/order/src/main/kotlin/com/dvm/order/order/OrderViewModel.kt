@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import com.dvm.ui.R as CoreR
 
 internal class OrderViewModel(
-    _orderId: String,
+    orderId: String,
     private val orderRepository: OrderRepository,
     private val cartRepository: CartRepository,
     private val orderApi: OrderApi,
@@ -37,10 +37,10 @@ internal class OrderViewModel(
     var state by mutableStateOf(OrderState())
         private set
 
-    private val orderId = savedState.getLiveData(Destination.Order.ORDER_ID, _orderId)
+    private val id = savedState.getLiveData(Destination.Order.ORDER_ID, orderId)
 
     init {
-        val id = requireNotNull(orderId.value)
+        val id = requireNotNull(id.value)
 
         datastore
             .authorized()

@@ -30,7 +30,7 @@ internal class FavoriteViewModel(
     init {
         dishRepository
             .favorite()
-            .onEach { state = state.copy(dishes = it)}
+            .onEach { state = state.copy(dishes = it) }
             .launchIn(viewModelScope)
     }
 

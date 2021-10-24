@@ -1,13 +1,17 @@
-package com.dvm.appmenu
+package com.dvm.drawer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.appmenu.model.DrawerEvent
-import com.dvm.appmenu.model.DrawerState
-import com.dvm.database.api.*
+import com.dvm.database.api.CartRepository
+import com.dvm.database.api.FavoriteRepository
+import com.dvm.database.api.NotificationRepository
+import com.dvm.database.api.OrderRepository
+import com.dvm.database.api.ProfileRepository
+import com.dvm.drawer.model.DrawerEvent
+import com.dvm.drawer.model.DrawerState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
@@ -25,7 +29,7 @@ internal class DrawerViewModel(
     private val cartRepository: CartRepository,
     private val notificationRepository: NotificationRepository,
     private val navigator: Navigator
-): ViewModel() {
+) : ViewModel() {
 
     var state by mutableStateOf(DrawerState())
         private set

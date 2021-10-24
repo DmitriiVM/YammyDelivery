@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import com.dvm.ui.R as CoreR
 
 internal class DishViewModel(
-    _dishId: String,
+    dishId: String,
     private val favoriteRepository: FavoriteRepository,
     private val cartRepository: CartRepository,
     private val menuApi: MenuApi,
@@ -38,10 +38,10 @@ internal class DishViewModel(
     var state by mutableStateOf(DishState())
         private set
 
-    private val dishId = savedState.getLiveData(Destination.Dish.DISH_ID, _dishId)
+    private val dishIdLiveData = savedState.getLiveData(Destination.Dish.DISH_ID, dishId)
     private val quantity = savedState.getLiveData("quantity", 1)
     private val id: String
-        get() = requireNotNull(dishId.value)
+        get() = requireNotNull(dishIdLiveData.value)
 
     init {
         combine(

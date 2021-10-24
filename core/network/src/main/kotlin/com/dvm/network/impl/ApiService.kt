@@ -1,10 +1,38 @@
 package com.dvm.network.impl
 
-import com.dvm.network.api.response.*
-import com.dvm.network.impl.request.*
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+import com.dvm.network.api.response.AddressResponse
+import com.dvm.network.api.response.AuthResponse
+import com.dvm.network.api.response.CartResponse
+import com.dvm.network.api.response.CategoryResponse
+import com.dvm.network.api.response.DishResponse
+import com.dvm.network.api.response.FavoriteResponse
+import com.dvm.network.api.response.OrderResponse
+import com.dvm.network.api.response.ProfileResponse
+import com.dvm.network.api.response.ReviewResponse
+import com.dvm.network.api.response.StatusResponse
+import com.dvm.network.api.response.TokenResponse
+import com.dvm.network.impl.request.AddReviewRequest
+import com.dvm.network.impl.request.CancelOrderRequest
+import com.dvm.network.impl.request.ChangeFavoriteRequest
+import com.dvm.network.impl.request.ChangePasswordRequest
+import com.dvm.network.impl.request.CheckCoordinatesRequest
+import com.dvm.network.impl.request.CheckInputRequest
+import com.dvm.network.impl.request.CreateOrderRequest
+import com.dvm.network.impl.request.EdieProfileRequest
+import com.dvm.network.impl.request.LoginRequest
+import com.dvm.network.impl.request.RefreshTokenRequest
+import com.dvm.network.impl.request.RegisterRequest
+import com.dvm.network.impl.request.ResetPasswordRequest
+import com.dvm.network.impl.request.SendCodeRequest
+import com.dvm.network.impl.request.SendEmailRequest
+import com.dvm.network.impl.request.UpdateCartRequest
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.put
+import io.ktor.http.HttpHeaders
 
 internal class ApiService(
     private val client: HttpClient
@@ -114,7 +142,6 @@ internal class ApiService(
         client.post("auth/register") {
             body = registerRequest
         }
-
 
     suspend fun sendEmail(sendEmailRequest: SendEmailRequest): Unit =
         client.post("auth/recovery/email") {

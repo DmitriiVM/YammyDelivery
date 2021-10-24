@@ -1,5 +1,6 @@
-package com.dvm.appmenu
+package com.dvm.drawer_api
 
+import com.dvm.drawer.DrawerViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

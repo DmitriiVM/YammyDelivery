@@ -4,7 +4,7 @@ plugins {
 }
 
 sqldelight {
-    database("AppDatabase"){ }
+    database("AppDatabase") { }
 }
 
 dependencies {

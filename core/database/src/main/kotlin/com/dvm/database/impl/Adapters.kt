@@ -1,9 +1,9 @@
 package com.dvm.database.impl
 
 import com.squareup.sqldelight.ColumnAdapter
-import java.util.*
+import java.util.Date
 
-internal object DateAdapter: ColumnAdapter<Date, Long> {
+internal object DateAdapter : ColumnAdapter<Date, Long> {
 
     override fun decode(databaseValue: Long): Date =
         Date(databaseValue)

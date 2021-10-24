@@ -5,9 +5,9 @@ import com.dvm.network.impl.getNetworkCapabilities
 import com.dvm.network.impl.isConnected
 import com.dvm.network.impl.isWifiError
 import com.dvm.utils.AppException
-import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.http.*
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.features.HttpResponseValidator
+import io.ktor.http.HttpStatusCode
 
 internal fun HttpClientConfig<*>.ExceptionHandler(
     context: Context

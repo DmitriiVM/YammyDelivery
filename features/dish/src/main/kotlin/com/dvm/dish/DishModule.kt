@@ -7,7 +7,7 @@ val dishModule = module {
 
     viewModel { params ->
         DishViewModel(
-            _dishId = params.get(),
+            dishId = params.get(),
             favoriteRepository = get(),
             cartRepository = get(),
             menuApi = get(),

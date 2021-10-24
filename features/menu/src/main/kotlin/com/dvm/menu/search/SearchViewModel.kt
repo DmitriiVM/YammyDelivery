@@ -18,9 +18,15 @@ import com.dvm.menu.search.model.SearchState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.Text
-import kotlinx.coroutines.flow.*
+import java.util.Date
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
 import com.dvm.ui.R as CoreR
 
 internal class SearchViewModel(

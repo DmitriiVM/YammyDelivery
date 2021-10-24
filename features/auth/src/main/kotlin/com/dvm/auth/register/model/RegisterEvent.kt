@@ -7,13 +7,13 @@ internal sealed class RegisterEvent {
         val lastName: String,
         val email: String,
         val password: String
-    ): RegisterEvent()
+    ) : RegisterEvent()
 
-    object Login: RegisterEvent()
-    object DismissAlert: RegisterEvent()
-    object ChangeFirstName: RegisterEvent()
-    object ChangeLastName: RegisterEvent()
-    object ChangeEmail: RegisterEvent()
-    object ChangePassword: RegisterEvent()
-    object Back: RegisterEvent()
+    object Login : RegisterEvent()
+    object DismissAlert : RegisterEvent()
+    object ChangeFirstName : RegisterEvent()
+    object ChangeLastName : RegisterEvent()
+    object ChangeEmail : RegisterEvent()
+    object ChangePassword : RegisterEvent()
+    object Back : RegisterEvent()
 }

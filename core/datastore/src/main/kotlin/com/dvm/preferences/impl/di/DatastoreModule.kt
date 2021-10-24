@@ -5,7 +5,7 @@ import com.dvm.preferences.impl.DataStore
 import com.dvm.preferences.impl.DefaultDatastoreRepository
 import org.koin.dsl.module
 
-val datastoreModule = module{
+val datastoreModule = module {
 
     factory<DatastoreRepository> {
         DefaultDatastoreRepository(

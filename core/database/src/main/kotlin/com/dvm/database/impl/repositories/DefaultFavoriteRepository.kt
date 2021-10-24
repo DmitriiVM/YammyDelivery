@@ -42,7 +42,7 @@ internal class DefaultFavoriteRepository(
             }
         }
 
-    override suspend fun deleteFavorites()  =
+    override suspend fun deleteFavorites() =
         withContext(Dispatchers.IO) {
             favoriteQueries.deleteAll()
         }

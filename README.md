@@ -3,33 +3,37 @@
 YammyDelivery - a food delivery application for learning purposes and technology playground.
 
 ## Architecture:
+
 * Multi-module,
 * MVVM + MVI/Redux principles (UDF, common state for screen)
 
 ## Tech stack:
 
 #### *Branch 1 – master:*
-*  Jetpack Compose,
-*  Coroutines and Kotlin Flow,
-*  Dagger Hilt,
-*  Room,
-*  Datastore
-*  Navigation Component,
-*  Retrofit,
-*  Google Maps,
-*  Firebase Cloud Messaging
+
+* Jetpack Compose,
+* Coroutines and Kotlin Flow,
+* Dagger Hilt,
+* Room,
+* Datastore
+* Navigation Component,
+* Retrofit,
+* Google Maps,
+* Firebase Cloud Messaging
 
 #### *Branch 2 – koin-ktor-sqldelight:*
 
 Difference with branch 1
-*  Koin (instead of Dagger Hilt),
-*  SQLDelight (instead of Room),
-*  Ktor (instead of Retrofit)
+
+* Koin (instead of Dagger Hilt),
+* SQLDelight (instead of Room),
+* Ktor (instead of Retrofit)
 
 #### *Branch 3 – compose-fragments:*
 
-Stale branch that launches Jetpack Compose functions in fragments. Tech stack is similar to branch 1.
+Stale branch that launches Jetpack Compose functions in fragments. Tech stack is similar to branch
 
+1.
 
 ## Scheme
 
@@ -53,14 +57,13 @@ Dish details screen, reviews, adding review.
 
 <img src="screenshots/details.gif"  width="300" />
 
-Search screen. The search is carried out by the names of categories, subcategories and dishes.
-The selected query is cached.
+Search screen. The search is carried out by the names of categories, subcategories and dishes. The
+selected query is cached.
 
 <img src="screenshots/search.gif"  width="300" />
 
-Login process, conditional navigation.
-When navigating to the screen that requires authorization, the login screen opens.
-After successful authorization, the required screen opens.
+Login process, conditional navigation. When navigating to the screen that requires authorization,
+the login screen opens. After successful authorization, the required screen opens.
 
 <img src="screenshots/login.gif"  width="300" />
 
@@ -68,8 +71,8 @@ Ordering process, picking address on the map and returning result back.
 
 <img src="screenshots/ordering.gif"  width="300" />
 
-Receiving notifications via Firebase Cloud Messaging.
-Navigating to notification screen when the app is opened and the app is closed.
-New notifications are marked with indicator which disappears after 1 second after being seen.
+Receiving notifications via Firebase Cloud Messaging. Navigating to notification screen when the app
+is opened and the app is closed. New notifications are marked with indicator which disappears after
+1 second after being seen.
 
 <img src="screenshots/notification.gif"  width="300" />

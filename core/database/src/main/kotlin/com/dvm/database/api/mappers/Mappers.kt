@@ -1,8 +1,18 @@
 package com.dvm.database.api.mappers
 
-import com.dvm.database.*
-import com.dvm.network.api.response.*
-import java.util.*
+import com.dvm.database.Category
+import com.dvm.database.Dish
+import com.dvm.database.OrderDetails
+import com.dvm.database.OrderItem
+import com.dvm.database.OrderStatus
+import com.dvm.database.Profile
+import com.dvm.network.api.response.CategoryResponse
+import com.dvm.network.api.response.DishResponse
+import com.dvm.network.api.response.OrderItemResponse
+import com.dvm.network.api.response.OrderResponse
+import com.dvm.network.api.response.ProfileResponse
+import com.dvm.network.api.response.StatusResponse
+import java.util.Date
 
 fun CategoryResponse.toDbEntity() =
     Category(

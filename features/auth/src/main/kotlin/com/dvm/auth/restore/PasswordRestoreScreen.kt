@@ -1,6 +1,10 @@
 package com.dvm.auth.restore
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -8,11 +12,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu_api.Drawer
 import com.dvm.auth.restore.model.RestoreEvent
 import com.dvm.auth.restore.model.RestoreState
 import com.dvm.auth.restore.model.Screen
-import com.dvm.ui.components.*
+import com.dvm.drawer_api.Drawer
+import com.dvm.ui.components.Alert
+import com.dvm.ui.components.AlertButton
+import com.dvm.ui.components.AppBarIconBack
+import com.dvm.ui.components.DefaultAppBar
+import com.dvm.ui.components.LoadingScrim
 import com.dvm.utils.DrawerItem
 import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.getStateViewModel

@@ -4,19 +4,19 @@ import androidx.core.util.PatternsCompat
 import java.util.regex.Pattern
 import com.dvm.ui.R as CoreR
 
-fun String.getTextFieldErrorOrNull()= when {
+fun String.getTextFieldErrorOrNull() = when {
     isEmpty() -> emptyField
     !isTextValid() -> letters
     else -> null
 }
 
-fun String.getEmailErrorOrNull()= when {
+fun String.getEmailErrorOrNull() = when {
     isEmpty() -> emptyField
     !isEmailValid() -> incorrectEmail
     else -> null
 }
 
-fun String.getPasswordErrorOrNull()= when {
+fun String.getPasswordErrorOrNull() = when {
     isEmpty() -> emptyField
     !isPasswordValid() -> incorrectPassword
     else -> null

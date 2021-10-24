@@ -1,7 +1,12 @@
 package com.dvm.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -21,8 +26,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun EmptyPlaceholder(
     text: String,
     @androidx.annotation.RawRes resId: Int,
-    modifier: Modifier = Modifier,
-    repeatCount: Int = Integer.MAX_VALUE
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier

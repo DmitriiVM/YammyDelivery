@@ -1,10 +1,10 @@
-package com.dvm.appmenu_api
+package com.dvm.drawer_api
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
-import com.dvm.appmenu.AppDrawer
+import com.dvm.drawer.AppDrawer
 import com.dvm.utils.DrawerItem
 
 // It's not the way how we usually handle features api.

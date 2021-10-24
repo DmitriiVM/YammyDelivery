@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import com.dvm.utils.AppLauncher
 
-class DefaultAppLauncher: AppLauncher {
+class DefaultAppLauncher : AppLauncher {
 
     override fun getLauncherIntent(context: Context): Intent {
         val activityManager =

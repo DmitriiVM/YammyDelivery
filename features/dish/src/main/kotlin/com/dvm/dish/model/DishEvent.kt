@@ -7,12 +7,12 @@ internal sealed class DishEvent {
         val text: String
     ) : DishEvent()
 
-    object AddToCart: DishEvent()
-    object AddPiece: DishEvent()
-    object RemovePiece: DishEvent()
-    object ToggleFavorite: DishEvent()
-    object AddReview: DishEvent()
+    object AddToCart : DishEvent()
+    object AddPiece : DishEvent()
+    object RemovePiece : DishEvent()
+    object ToggleFavorite : DishEvent()
+    object AddReview : DishEvent()
     object DismissAlert : DishEvent()
     object DismissReviewDialog : DishEvent()
-    object Back: DishEvent()
+    object Back : DishEvent()
 }

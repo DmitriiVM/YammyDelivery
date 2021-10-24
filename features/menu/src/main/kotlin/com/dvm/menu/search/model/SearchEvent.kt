@@ -19,6 +19,6 @@ internal sealed class SearchEvent {
     data class AddToCart(val dishId: String, val name: String) : SearchEvent()
     data class SelectHint(val hint: String) : SearchEvent()
     object RemoveQuery : SearchEvent()
-    object DismissAlert: SearchEvent()
+    object DismissAlert : SearchEvent()
     object Back : SearchEvent()
 }

@@ -2,7 +2,7 @@ package com.dvm.database.api.models
 
 import com.dvm.database.OrderItem
 import com.dvm.database.OrderStatus
-import java.util.*
+import java.util.Date
 
 data class Order(
     val id: String,

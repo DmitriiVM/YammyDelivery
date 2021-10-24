@@ -4,14 +4,19 @@ import android.content.Context
 import android.util.Log
 import com.dvm.network.Authenticator
 import com.dvm.preferences.api.DatastoreRepository
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.cio.CIOEngineConfig
+import io.ktor.client.features.HttpTimeout
+import io.ktor.client.features.defaultRequest
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logger
+import io.ktor.client.features.logging.Logging
+import io.ktor.client.request.host
+import io.ktor.http.ContentType
+import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
 
 internal object CIOConfiguration {
 

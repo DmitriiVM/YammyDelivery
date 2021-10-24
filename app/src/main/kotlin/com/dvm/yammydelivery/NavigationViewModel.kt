@@ -15,7 +15,7 @@ import org.koin.core.component.inject
 
 internal class NavigationViewModel(
     private val savedStateHandle: SavedStateHandle
-): ViewModel(), KoinComponent {
+) : ViewModel(), KoinComponent {
 
     private val navigator: Navigator by inject()
 

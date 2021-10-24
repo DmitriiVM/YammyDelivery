@@ -22,11 +22,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dvm.appmenu_api.Drawer
+import com.dvm.drawer_api.Drawer
 import com.dvm.menu.common.ui.DishItem
 import com.dvm.menu.favorite.model.FavoriteEvent
 import com.dvm.menu.favorite.model.FavoriteState
-import com.dvm.ui.components.*
+import com.dvm.ui.components.Alert
+import com.dvm.ui.components.AlertButton
+import com.dvm.ui.components.AppBarIconMenu
+import com.dvm.ui.components.DefaultAppBar
+import com.dvm.ui.components.EmptyPlaceholder
+import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.asString
@@ -74,7 +79,7 @@ internal fun FavoriteScreen(
                 }
             )
 
-            if (state.dishes.isEmpty()){
+            if (state.dishes.isEmpty()) {
                 EmptyPlaceholder(
                     resId = com.dvm.ui.R.raw.empty_image,
                     text = stringResource(CoreR.string.favorite_empty_placeholder),
@@ -97,10 +102,17 @@ internal fun FavoriteScreen(
                             dish = dish,
                             modifier = Modifier.padding(5.dp),
                             onDishClick = { onEvent(FavoriteEvent.OpenDish(it)) },
-                            onAddToCartClick = { onEvent(FavoriteEvent.AddToCart(dish.id, dish.name)) },
+                            onAddToCartClick = {
+                                onEvent(
+                                    FavoriteEvent.AddToCart(
+                                        dishId = dish.id,
+                                        name = dish.name
+                                    )
+                                )
+                            },
                         )
                     }
-                    items(2){ Spacer(Modifier.navigationBarsPadding()) }
+                    items(2) { Spacer(Modifier.navigationBarsPadding()) }
                 }
             }
         }

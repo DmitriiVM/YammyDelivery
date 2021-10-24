@@ -11,7 +11,7 @@ val orderModule = module {
 
     viewModel { params ->
         OrderViewModel(
-            _orderId = params.get(),
+            orderId = params.get(),
             orderRepository = get(),
             cartRepository = get(),
             orderApi = get(),

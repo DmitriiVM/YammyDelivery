@@ -4,10 +4,15 @@ import com.dvm.network.api.response.TokenResponse
 import com.dvm.network.impl.request.RefreshTokenRequest
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.createFullToken
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.request
+import io.ktor.client.request.takeFrom
+import io.ktor.client.statement.HttpReceivePipeline
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.request
+import io.ktor.http.HttpHeaders
 
 internal fun HttpClientConfig<*>.Authenticator(
     datastore: DatastoreRepository

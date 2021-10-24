@@ -1,4 +1,4 @@
-package com.dvm.appmenu.model
+package com.dvm.drawer.model
 
 import androidx.compose.runtime.Immutable
 

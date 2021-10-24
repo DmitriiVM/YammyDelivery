@@ -12,7 +12,7 @@ internal data class OrdersState(
     val alert: Int? = null
 )
 
-internal enum class OrderStatus{
+internal enum class OrderStatus {
     ACTUAL,
     COMPLETED
 }

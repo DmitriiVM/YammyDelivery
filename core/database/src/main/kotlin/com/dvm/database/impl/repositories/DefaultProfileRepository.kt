@@ -28,7 +28,7 @@ internal class DefaultProfileRepository(
         }
 
     override suspend fun deleteProfile() =
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             profileQueries.delete()
         }
 }

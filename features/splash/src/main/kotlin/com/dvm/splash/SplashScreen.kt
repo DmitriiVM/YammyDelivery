@@ -17,6 +17,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import org.koin.androidx.compose.getViewModel
 
 @Composable
+@Suppress("UnusedPrivateMember")
 internal fun SplashScreen(
     viewModel: SplashViewModel = getViewModel()
 ) {
