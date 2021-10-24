@@ -45,7 +45,6 @@ internal fun OrderScreen(
     viewModel: OrderViewModel = hiltViewModel()
 ) {
     val state: OrderState = viewModel.state
-    val onEvent: (OrderEvent) -> Unit = { viewModel.dispatch(it) }
 
     Drawer(selected = DrawerItem.ORDERS) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -63,7 +62,7 @@ internal fun OrderScreen(
                     },
                     navigationIcon = {
                         AppBarIconBack {
-                            onEvent(OrderEvent.Back)
+                            viewModel.dispatch(OrderEvent.Back)
                         }
                     },
                 )
@@ -98,9 +97,9 @@ internal fun OrderScreen(
                         enabled = order.completed || order.status.cancelable,
                         onClick = {
                             if (order.completed) {
-                                onEvent(OrderEvent.TryOrderAgain)
+                                viewModel.dispatch(OrderEvent.TryOrderAgain)
                             } else {
-                                onEvent(OrderEvent.CancelOrder)
+                                viewModel.dispatch(OrderEvent.CancelOrder)
                             }
                         },
                         modifier = Modifier
@@ -143,7 +142,7 @@ internal fun OrderScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(OrderEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(OrderEvent.DismissAlert) }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,
@@ -154,17 +153,17 @@ internal fun OrderScreen(
     if (state.cancelMessage != null) {
         Alert(
             message = stringResource(state.cancelMessage),
-            onDismiss = { onEvent(OrderEvent.CancelOrdering) },
+            onDismiss = { viewModel.dispatch(OrderEvent.CancelOrdering) },
             buttons = {
                 AlertButton(
-                    onClick = { onEvent(OrderEvent.CancelOrdering) }
+                    onClick = { viewModel.dispatch(OrderEvent.CancelOrdering) }
                 )
             }
         )
     }
 
     if (state.orderAgainMessage != null) {
-        val onDismiss = { onEvent(OrderEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(OrderEvent.DismissAlert) }
         val resources = LocalContext.current.resources
         val message = stringResource(
             id = CoreR.string.order_message_cart_not_empty,
@@ -184,7 +183,7 @@ internal fun OrderScreen(
                 )
                 AlertButton(
                     text = { Text(stringResource(CoreR.string.common_ok)) },
-                    onClick = { onEvent(OrderEvent.OrderAgain) }
+                    onClick = { viewModel.dispatch(OrderEvent.OrderAgain) }
                 )
             }
         )

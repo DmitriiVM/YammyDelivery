@@ -49,7 +49,6 @@ internal fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state: LoginState = viewModel.state
-    val onEvent: (LoginEvent) -> Unit = { viewModel.dispatch(it) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -66,7 +65,7 @@ internal fun LoginScreen(
                 DefaultAppBar(
                     title = { Text(stringResource(CoreR.string.login_appbar_title)) },
                     navigationIcon = {
-                        AppBarIconBack(onNavigateUp = { onEvent(LoginEvent.Back) })
+                        AppBarIconBack(onNavigateUp = { viewModel.dispatch(LoginEvent.Back) })
                     }
                 )
             }
@@ -94,7 +93,7 @@ internal fun LoginScreen(
                     enabled = !state.progress,
                     onValueChange = {
                         email = it
-                        onEvent(LoginEvent.ChangeLogin)
+                        viewModel.dispatch(LoginEvent.ChangeLogin)
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -108,7 +107,7 @@ internal fun LoginScreen(
                     enabled = !state.progress,
                     onValueChange = {
                         password = it
-                        onEvent(LoginEvent.ChangePassword)
+                        viewModel.dispatch(LoginEvent.ChangePassword)
                     },
                     modifier = Modifier.focusRequester(passwordFocusRequest),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -131,7 +130,7 @@ internal fun LoginScreen(
                 Spacer(Modifier.height(10.dp))
                 OutlinedButton(
                     enabled = !state.progress,
-                    onClick = { onEvent(LoginEvent.Register) },
+                    onClick = { viewModel.dispatch(LoginEvent.Register) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(CoreR.string.login_button_registartion))
@@ -141,7 +140,7 @@ internal fun LoginScreen(
             Column {
                 TextButton(
                     enabled = !state.progress,
-                    onClick = { onEvent(LoginEvent.RestorePassword) },
+                    onClick = { viewModel.dispatch(LoginEvent.RestorePassword) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(CoreR.string.login_button_restore_password))
@@ -152,7 +151,7 @@ internal fun LoginScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(LoginEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(LoginEvent.DismissAlert) }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,

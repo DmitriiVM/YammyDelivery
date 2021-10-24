@@ -61,7 +61,6 @@ internal fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state: ProfileState = viewModel.state
-    val onEvent: (ProfileEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -104,7 +103,7 @@ internal fun ProfileScreen(
                     error = state.firstNameError,
                     enabled = !state.progress && state.editing,
                     readOnly = state.progress || !state.editing,
-                    onValueChange = { onEvent(ProfileEvent.ChangeFirstName(it)) },
+                    onValueChange = { viewModel.dispatch(ProfileEvent.ChangeFirstName(it)) },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
                         onNext = { lastNameFocus.requestFocus() }
@@ -119,7 +118,7 @@ internal fun ProfileScreen(
                     error = state.lastNameError,
                     enabled = !state.progress && state.editing,
                     readOnly = state.progress || !state.editing,
-                    onValueChange = { onEvent(ProfileEvent.ChangeLastName(it)) },
+                    onValueChange = { viewModel.dispatch(ProfileEvent.ChangeLastName(it)) },
                     modifier = Modifier.focusRequester(lastNameFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -135,11 +134,11 @@ internal fun ProfileScreen(
                     error = state.emailError,
                     enabled = !state.progress && state.editing,
                     readOnly = state.progress || !state.editing,
-                    onValueChange = { onEvent(ProfileEvent.ChangeEmailText(it)) },
+                    onValueChange = { viewModel.dispatch(ProfileEvent.ChangeEmailText(it)) },
                     modifier = Modifier.focusRequester(emailFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
-                        onDone = { onEvent(ProfileEvent.SaveProfile) }
+                        onDone = { viewModel.dispatch(ProfileEvent.SaveProfile) }
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         disabledTextColor = LocalContentColor.current.copy(LocalContentAlpha.current)
@@ -151,13 +150,13 @@ internal fun ProfileScreen(
                     ProgressButton(
                         stringResource(CoreR.string.profile_button_save),
                         progress = state.progress,
-                        onClick = { onEvent(ProfileEvent.SaveProfile) }
+                        onClick = { viewModel.dispatch(ProfileEvent.SaveProfile) }
                     )
                 } else {
                     ProgressButton(
                         stringResource(CoreR.string.profile_button_change_mode),
                         progress = state.progress,
-                        onClick = { onEvent(ProfileEvent.ChangeEditingMode(true)) }
+                        onClick = { viewModel.dispatch(ProfileEvent.ChangeEditingMode(true)) }
                     )
                 }
 
@@ -174,7 +173,7 @@ internal fun ProfileScreen(
                     OutlinedButton(
                         enabled = !state.progress,
                         onClick = {
-                            onEvent(ProfileEvent.ChangeEditingMode(false))
+                            viewModel.dispatch(ProfileEvent.ChangeEditingMode(false))
                             keyboardController?.hide()
                         },
                         modifier = modifier
@@ -185,7 +184,7 @@ internal fun ProfileScreen(
                 } else {
                     OutlinedButton(
                         enabled = !state.progress,
-                        onClick = { onEvent(ProfileEvent.EditPassword) },
+                        onClick = { viewModel.dispatch(ProfileEvent.EditPassword) },
                         modifier = modifier
                             .fillMaxWidth()
                     ) {
@@ -200,7 +199,7 @@ internal fun ProfileScreen(
     if (state.passwordChanging) {
         Dialog(
             onDismissRequest = {
-                onEvent(ProfileEvent.DismissPasswordDialog)
+                viewModel.dispatch(ProfileEvent.DismissPasswordDialog)
             },
             properties = if (state.progress) {
                 DialogProperties(
@@ -243,7 +242,7 @@ internal fun ProfileScreen(
                         progress = state.progress,
                         enabled = newPassword.isNotEmpty() && oldPassword.isNotEmpty() && !state.progress,
                         onClick = {
-                            onEvent(
+                            viewModel.dispatch(
                                 ProfileEvent.ChangePassword(
                                     newPassword = newPassword,
                                     oldPassword = oldPassword
@@ -257,7 +256,7 @@ internal fun ProfileScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(ProfileEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(ProfileEvent.DismissAlert) }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,

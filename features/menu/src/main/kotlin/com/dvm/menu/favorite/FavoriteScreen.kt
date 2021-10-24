@@ -47,7 +47,6 @@ internal fun FavoriteScreen(
     viewModel: FavoriteViewModel = hiltViewModel()
 ) {
     val state: FavoriteState = viewModel.state
-    val onEvent: (FavoriteEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -101,9 +100,9 @@ internal fun FavoriteScreen(
                         DishItem(
                             dish = dish,
                             modifier = Modifier.padding(5.dp),
-                            onDishClick = { onEvent(FavoriteEvent.OpenDish(it)) },
+                            onDishClick = { viewModel.dispatch(FavoriteEvent.OpenDish(it)) },
                             onAddToCartClick = {
-                                onEvent(
+                                viewModel.dispatch(
                                     FavoriteEvent.AddToCart(
                                         dishId = dish.id,
                                         name = dish.name
@@ -121,9 +120,9 @@ internal fun FavoriteScreen(
     state.alert?.let {
         Alert(
             message = state.alert.asString(context),
-            onDismiss = { onEvent(FavoriteEvent.DismissAlert) }
+            onDismiss = { viewModel.dispatch(FavoriteEvent.DismissAlert) }
         ) {
-            AlertButton(onClick = { onEvent(FavoriteEvent.DismissAlert) })
+            AlertButton(onClick = { viewModel.dispatch(FavoriteEvent.DismissAlert) })
         }
     }
 }

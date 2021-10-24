@@ -61,7 +61,6 @@ internal fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val state: MainState = viewModel.state
-    val onEvent: (MainEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -83,7 +82,9 @@ internal fun MainScreen(
                     }
                 }
             ) {
-                IconButton(onClick = { onEvent(MainEvent.OpenCart) }) {
+                IconButton(
+                    onClick = { viewModel.dispatch(MainEvent.OpenCart) }
+                ) {
                     Icon(
                         imageVector = Icons.Default.ShoppingCart,
                         contentDescription = null
@@ -130,13 +131,13 @@ internal fun MainScreen(
                     if (state.recommended.isNotEmpty()) {
                         DishesRowHeader(
                             text = stringResource(CoreR.string.main_recommended),
-                            seeAllClick = { onEvent(MainEvent.SeeAll) }
+                            seeAllClick = { viewModel.dispatch(MainEvent.SeeAll) }
                         )
                         LazyRow {
                             items(state.recommended) { dish ->
                                 MainDishItem(
                                     dish = dish,
-                                    onEvent = onEvent,
+                                    onEvent = { viewModel.dispatch(it) },
                                     modifier = modifier
                                 )
                             }
@@ -146,13 +147,13 @@ internal fun MainScreen(
                     if (state.best.isNotEmpty()) {
                         DishesRowHeader(
                             text = stringResource(CoreR.string.main_best),
-                            seeAllClick = { onEvent(MainEvent.SeeAll) }
+                            seeAllClick = { viewModel.dispatch(MainEvent.SeeAll) }
                         )
                         LazyRow {
                             items(state.best) { dish ->
                                 MainDishItem(
                                     dish = dish,
-                                    onEvent = onEvent,
+                                    onEvent = { viewModel.dispatch(it) },
                                     modifier = modifier
                                 )
                             }
@@ -161,13 +162,13 @@ internal fun MainScreen(
                     }
                     DishesRowHeader(
                         text = stringResource(CoreR.string.main_popular),
-                        seeAllClick = { onEvent(MainEvent.SeeAll) }
+                        seeAllClick = { viewModel.dispatch(MainEvent.SeeAll) }
                     )
                     LazyRow {
                         items(state.popular) { dish ->
                             MainDishItem(
                                 dish = dish,
-                                onEvent = onEvent,
+                                onEvent = { viewModel.dispatch(it) },
                                 modifier = modifier
                             )
                         }
@@ -182,9 +183,9 @@ internal fun MainScreen(
     state.alert?.let {
         Alert(
             message = state.alert.asString(context),
-            onDismiss = { onEvent(MainEvent.DismissAlert) }
+            onDismiss = { viewModel.dispatch(MainEvent.DismissAlert) }
         ) {
-            AlertButton(onClick = { onEvent(MainEvent.DismissAlert) })
+            AlertButton(onClick = { viewModel.dispatch(MainEvent.DismissAlert) })
         }
     }
 }

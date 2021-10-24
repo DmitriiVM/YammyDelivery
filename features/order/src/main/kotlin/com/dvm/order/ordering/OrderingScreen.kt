@@ -54,10 +54,9 @@ internal fun OrderingScreen(
     viewModel: OrderingViewModel = hiltViewModel()
 ) {
     val state: OrderingState = viewModel.state
-    val onEvent: (OrderingEvent) -> Unit = { viewModel.dispatch(it) }
 
     LaunchedEffect(address) {
-        onEvent(OrderingEvent.ChangeAddress(address))
+        viewModel.dispatch(OrderingEvent.ChangeAddress(address))
     }
 
     Drawer(selected = DrawerItem.ORDERS) {
@@ -67,7 +66,7 @@ internal fun OrderingScreen(
                 title = { Text(stringResource(CoreR.string.ordering_appbar_title)) },
                 navigationIcon = {
                     AppBarIconBack {
-                        onEvent(OrderingEvent.Back)
+                        viewModel.dispatch(OrderingEvent.Back)
                     }
                 },
             )
@@ -100,7 +99,9 @@ internal fun OrderingScreen(
                 if (isEditing) {
                     OrderingTextField(
                         value = state.address,
-                        onValueChange = { onEvent(OrderingEvent.ChangeAddress(it)) },
+                        onValueChange = {
+                            viewModel.dispatch(OrderingEvent.ChangeAddress(it))
+                        },
                         singleLine = false,
                         imeAction = ImeAction.Next,
                         modifier = Modifier.focusRequester(addressFocus),
@@ -147,7 +148,7 @@ internal fun OrderingScreen(
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 4.dp),
-                        onClick = { onEvent(OrderingEvent.OpenMap) }
+                        onClick = { viewModel.dispatch(OrderingEvent.OpenMap) }
                     ) {
                         Text(stringResource(CoreR.string.ordering_button_use_map))
                     }
@@ -224,7 +225,7 @@ internal fun OrderingScreen(
                     .padding(20.dp)
                     .fillMaxWidth()
                     .navigationBarsWithImePadding(),
-                onClick = { onEvent(OrderingEvent.MakeOrder(fields)) }
+                onClick = { viewModel.dispatch(OrderingEvent.MakeOrder(fields)) }
             ) {
                 Text(stringResource(CoreR.string.ordering_button_create_order))
             }
@@ -232,7 +233,9 @@ internal fun OrderingScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(OrderingEvent.DismissAlert) }
+        val onDismiss = {
+            viewModel.dispatch(OrderingEvent.DismissAlert)
+        }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,
