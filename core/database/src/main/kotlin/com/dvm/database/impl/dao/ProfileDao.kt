@@ -1,6 +1,10 @@
 package com.dvm.database.impl.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.dvm.database.api.models.Profile
 import kotlinx.coroutines.flow.Flow
 
@@ -16,7 +20,7 @@ internal abstract class ProfileDao {
     abstract fun profile(): Flow<Profile?>
 
     @Transaction
-    open suspend fun updateProfile(profile: Profile){
+    open suspend fun updateProfile(profile: Profile) {
         deleteProfile()
         insertProfile(profile)
     }

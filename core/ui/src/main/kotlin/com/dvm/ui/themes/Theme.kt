@@ -19,7 +19,7 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
 
-    LaunchedEffect(darkTheme){
+    LaunchedEffect(darkTheme) {
         setSystemUiColors(
             window = window,
             darkTheme = darkTheme
@@ -65,7 +65,7 @@ private fun setSystemUiColors(window: Window, darkTheme: Boolean) {
         if (darkTheme) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
                     View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-            if (Build.VERSION.SDK_INT >= 26){
+            if (Build.VERSION.SDK_INT >= 26) {
                 window.navigationBarColor = systemBackgroundColor
                 window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
                         View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
@@ -73,7 +73,7 @@ private fun setSystemUiColors(window: Window, darkTheme: Boolean) {
         } else {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            if (Build.VERSION.SDK_INT >= 26){
+            if (Build.VERSION.SDK_INT >= 26) {
                 window.navigationBarColor = systemBackgroundColor
                 window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                         View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

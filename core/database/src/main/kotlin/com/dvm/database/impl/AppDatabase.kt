@@ -5,9 +5,28 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dvm.database.api.models.*
-import com.dvm.database.impl.dao.*
-import com.dvm.database.impl.data.DateConverter
+import com.dvm.database.api.models.CardDishDetails
+import com.dvm.database.api.models.CartItem
+import com.dvm.database.api.models.Category
+import com.dvm.database.api.models.Dish
+import com.dvm.database.api.models.Favorite
+import com.dvm.database.api.models.Hint
+import com.dvm.database.api.models.Notification
+import com.dvm.database.api.models.Order
+import com.dvm.database.api.models.OrderItem
+import com.dvm.database.api.models.OrderStatus
+import com.dvm.database.api.models.Profile
+import com.dvm.database.api.models.Recommended
+import com.dvm.database.api.models.Review
+import com.dvm.database.impl.dao.CartDao
+import com.dvm.database.impl.dao.CategoryDao
+import com.dvm.database.impl.dao.DishDao
+import com.dvm.database.impl.dao.FavoriteDao
+import com.dvm.database.impl.dao.HintDao
+import com.dvm.database.impl.dao.NotificationDao
+import com.dvm.database.impl.dao.OrderDao
+import com.dvm.database.impl.dao.ProfileDao
+import com.dvm.database.impl.dao.ReviewDao
 
 @Database(
     entities = [

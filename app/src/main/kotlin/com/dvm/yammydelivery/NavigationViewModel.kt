@@ -9,9 +9,9 @@ import androidx.navigation.NavOptionsBuilder
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 @HiltViewModel
 internal class NavigationViewModel @Inject constructor(

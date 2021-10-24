@@ -14,10 +14,10 @@ import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import com.dvm.ui.R as CoreR
 
 @HiltViewModel
@@ -33,7 +33,7 @@ internal class FavoriteViewModel @Inject constructor(
     init {
         dishRepository
             .favorite()
-            .onEach { state = state.copy(dishes = it)}
+            .onEach { state = state.copy(dishes = it) }
             .launchIn(viewModelScope)
     }
 

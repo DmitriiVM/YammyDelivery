@@ -2,7 +2,6 @@ package com.dvm.network.api.response
 
 import com.google.gson.annotations.SerializedName
 
-
 data class CategoryResponse(
     @SerializedName("categoryId")
     val id: String,
@@ -12,6 +11,6 @@ data class CategoryResponse(
     val icon: String? = null,
     val active: Boolean,
     val createdAt: Long,
-    val updatedAt: Long
+    val updatedAt: Long,
 )
 

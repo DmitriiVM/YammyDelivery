@@ -3,7 +3,7 @@ package com.dvm.navigation.api
 import com.dvm.navigation.api.model.Destination
 import kotlinx.coroutines.flow.SharedFlow
 
-interface Navigator{
+interface Navigator {
 
     val destination: SharedFlow<Destination>
     val currentDestination: Destination?

@@ -1,8 +1,38 @@
 package com.dvm.network.impl
 
-import com.dvm.network.api.response.*
-import com.dvm.network.impl.request.*
-import retrofit2.http.*
+import com.dvm.network.api.response.AddressResponse
+import com.dvm.network.api.response.AuthResponse
+import com.dvm.network.api.response.CartResponse
+import com.dvm.network.api.response.CategoryResponse
+import com.dvm.network.api.response.DishResponse
+import com.dvm.network.api.response.FavoriteResponse
+import com.dvm.network.api.response.OrderResponse
+import com.dvm.network.api.response.ProfileResponse
+import com.dvm.network.api.response.ReviewResponse
+import com.dvm.network.api.response.StatusResponse
+import com.dvm.network.api.response.TokenResponse
+import com.dvm.network.impl.request.AddReviewRequest
+import com.dvm.network.impl.request.CancelOrderRequest
+import com.dvm.network.impl.request.ChangeFavoriteRequest
+import com.dvm.network.impl.request.ChangePasswordRequest
+import com.dvm.network.impl.request.CheckCoordinatesRequest
+import com.dvm.network.impl.request.CheckInputRequest
+import com.dvm.network.impl.request.CreateOrderRequest
+import com.dvm.network.impl.request.EdieProfileRequest
+import com.dvm.network.impl.request.LoginRequest
+import com.dvm.network.impl.request.RefreshTokenRequest
+import com.dvm.network.impl.request.RegisterRequest
+import com.dvm.network.impl.request.ResetPasswordRequest
+import com.dvm.network.impl.request.SendCodeRequest
+import com.dvm.network.impl.request.SendEmailRequest
+import com.dvm.network.impl.request.UpdateCartRequest
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 internal interface ApiService {
 

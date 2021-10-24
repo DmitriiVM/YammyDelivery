@@ -21,9 +21,15 @@ import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.utils.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import com.dvm.ui.R as CoreR
 
 @HiltViewModel
@@ -39,7 +45,8 @@ internal class CategoryViewModel @Inject constructor(
         private set
 
     private val categoryId = savedState.getLiveData<String>(Destination.Category.CATEGORY_ID)
-    private val subcategoryId = savedState.getLiveData<String?>(Destination.Category.SUBCATEGORY_ID, null)
+    private val subcategoryId =
+        savedState.getLiveData<String?>(Destination.Category.SUBCATEGORY_ID, null)
     private val orderType = savedState.getLiveData("orderType", OrderType.ALPHABET_ASC)
 
     init {

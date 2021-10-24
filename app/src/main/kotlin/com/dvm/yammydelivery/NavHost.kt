@@ -1,6 +1,10 @@
 package com.dvm.yammydelivery
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,7 +15,11 @@ import com.dvm.auth.api.PasswordRestoration
 import com.dvm.auth.api.Registration
 import com.dvm.cart.api.Cart
 import com.dvm.dish.api.Dish
-import com.dvm.menu.api.*
+import com.dvm.menu.api.Category
+import com.dvm.menu.api.Favorite
+import com.dvm.menu.api.Main
+import com.dvm.menu.api.Menu
+import com.dvm.menu.api.Search
 import com.dvm.navigation.api.model.Destination
 import com.dvm.notifications.api.Notification
 import com.dvm.order.api.Map
@@ -45,7 +53,7 @@ fun NavHost(
         composable(Destination.Profile.route) { Profile() }
         composable(Destination.Map.ROUTE) { Map() }
         composable(Destination.Dish.ROUTE) { Dish() }
-        composable(Destination.Order.ROUTE) { Order()}
+        composable(Destination.Order.ROUTE) { Order() }
         composable(Destination.PasswordRestoration.route) { PasswordRestoration() }
 
         composable(

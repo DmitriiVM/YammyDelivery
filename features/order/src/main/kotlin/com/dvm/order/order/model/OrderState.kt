@@ -10,7 +10,7 @@ internal data class OrderState(
     val orderAgainMessage: Message? = null,
     val cancelMessage: Int? = null,
     val progress: Boolean = false
-){
+) {
     data class Message(
         val count: Int
     )

@@ -1,6 +1,5 @@
 package com.dvm.network.api.response
 
-
 data class DishResponse(
     val id: String,
     val name: String,

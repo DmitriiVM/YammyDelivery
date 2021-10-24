@@ -31,7 +31,6 @@ internal class DefaultProfileApi @Inject constructor(
             )
         )
 
-
     override suspend fun changePassword(
         token: String,
         oldPassword: String,

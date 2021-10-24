@@ -3,7 +3,7 @@ package com.dvm.database.api.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "orders")
 data class Order(

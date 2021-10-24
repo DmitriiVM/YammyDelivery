@@ -2,16 +2,21 @@ package com.dvm.preferences.impl
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class DataStore @Inject constructor(
@@ -20,10 +25,10 @@ internal class DataStore @Inject constructor(
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "yammy_datastore")
 
-    private val ACCESS_TOKEN = stringPreferencesKey("access_token")
-    private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
-    private val UPDATE_ERROR = booleanPreferencesKey("update_error")
-    private val LAST_UPDATE_TIME = longPreferencesKey("last_update_time")
+    private val accessToken = stringPreferencesKey("access_token")
+    private val refreshToken = stringPreferencesKey("refresh_token")
+    private val updateError = booleanPreferencesKey("update_error")
+    private val lastUpdateTime = longPreferencesKey("last_update_time")
 
     private suspend fun <T> save(key: Preferences.Key<T>, value: T) {
         context.dataStore.edit { settings ->
@@ -48,37 +53,37 @@ internal class DataStore @Inject constructor(
     fun authorized(): Flow<Boolean> =
         context.dataStore.data
             .map { preferences ->
-                !preferences[ACCESS_TOKEN].isNullOrEmpty()
+                !preferences[accessToken].isNullOrEmpty()
             }
 
-    suspend fun isAuthorized(): Boolean = !get(ACCESS_TOKEN).isNullOrBlank()
+    suspend fun isAuthorized(): Boolean = !get(accessToken).isNullOrBlank()
 
-    suspend fun getAccessToken(): String? = get(ACCESS_TOKEN)
+    suspend fun getAccessToken(): String? = get(accessToken)
 
     suspend fun saveAccessToken(accessToken: String) {
-        save(ACCESS_TOKEN, accessToken)
+        save(this.accessToken, accessToken)
     }
 
     suspend fun deleteAccessToken() {
         context.dataStore.edit { settings ->
-            settings.remove(ACCESS_TOKEN)
+            settings.remove(accessToken)
         }
     }
 
-    suspend fun getRefreshToken(): String? = get(REFRESH_TOKEN)
+    suspend fun getRefreshToken(): String? = get(refreshToken)
 
     suspend fun saveRefreshToken(refreshToken: String) {
-        save(REFRESH_TOKEN, refreshToken)
+        save(this.refreshToken, refreshToken)
     }
 
     suspend fun setUpdateError(error: Boolean) {
-        save(UPDATE_ERROR, error)
+        save(updateError, error)
     }
 
-    suspend fun isUpdateError(): Boolean = get(UPDATE_ERROR) ?: false
+    suspend fun isUpdateError(): Boolean = get(updateError) ?: false
 
     suspend fun setLastUpdateTime(time: Long) {
-        save(LAST_UPDATE_TIME, time)
+        save(lastUpdateTime, time)
     }
 
     // suspend fun getLastUpdateTime(): Long = get(LAST_UPDATE_TIME) ?: 0

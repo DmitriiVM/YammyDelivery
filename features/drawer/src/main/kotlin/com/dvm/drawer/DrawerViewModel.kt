@@ -1,4 +1,4 @@
-package com.dvm.appmenu
+package com.dvm.drawer
 
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -6,9 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dvm.appmenu.model.DrawerEvent
-import com.dvm.appmenu.model.DrawerState
-import com.dvm.database.api.*
+import com.dvm.database.api.CartRepository
+import com.dvm.database.api.FavoriteRepository
+import com.dvm.database.api.NotificationRepository
+import com.dvm.database.api.OrderRepository
+import com.dvm.database.api.ProfileRepository
+import com.dvm.drawer.model.DrawerEvent
+import com.dvm.drawer.model.DrawerState
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
@@ -18,10 +22,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import com.dvm.ui.R as CoreR
 
 @HiltViewModel

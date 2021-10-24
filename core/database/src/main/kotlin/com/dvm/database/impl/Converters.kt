@@ -1,7 +1,7 @@
-package com.dvm.database.impl.data
+package com.dvm.database.impl
 
 import androidx.room.TypeConverter
-import java.util.*
+import java.util.Date
 
 internal class DateConverter {
     @TypeConverter

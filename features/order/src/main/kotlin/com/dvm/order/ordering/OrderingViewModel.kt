@@ -17,11 +17,11 @@ import com.dvm.order.ordering.model.OrderingState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 internal class OrderingViewModel @Inject constructor(

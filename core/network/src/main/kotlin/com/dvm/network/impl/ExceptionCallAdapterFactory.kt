@@ -2,11 +2,15 @@ package com.dvm.network.impl
 
 import android.content.Context
 import com.dvm.utils.AppException
-import okhttp3.Request
-import okio.Timeout
-import retrofit2.*
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import okhttp3.Request
+import okio.Timeout
+import retrofit2.Call
+import retrofit2.CallAdapter
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 internal class ExceptionCallAdapterFactory(
     private val context: Context

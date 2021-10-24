@@ -17,6 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
+@Suppress("UnusedPrivateMember")
 internal fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel()
 ) {

@@ -3,10 +3,10 @@ package com.dvm.database.impl.repositories
 import com.dvm.database.api.NotificationRepository
 import com.dvm.database.api.models.Notification
 import com.dvm.database.impl.dao.NotificationDao
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultNotificationRepository @Inject constructor(
     private val notificationDao: NotificationDao

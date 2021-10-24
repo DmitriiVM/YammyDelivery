@@ -3,10 +3,10 @@ package com.dvm.database.impl.repositories
 import com.dvm.database.api.ProfileRepository
 import com.dvm.database.api.models.Profile
 import com.dvm.database.impl.dao.ProfileDao
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultProfileRepository @Inject constructor(
     private val profileDao: ProfileDao
@@ -20,7 +20,7 @@ internal class DefaultProfileRepository @Inject constructor(
         }
 
     override suspend fun deleteProfile() =
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             profileDao.deleteProfile()
         }
 }

@@ -60,7 +60,6 @@ internal class DefaultOrderApi @Inject constructor(
             }
         }
 
-
     override suspend fun cancelOrder(
         token: String,
         orderId: String

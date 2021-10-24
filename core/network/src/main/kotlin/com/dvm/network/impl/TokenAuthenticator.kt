@@ -4,12 +4,12 @@ import com.dvm.network.api.AuthApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.createFullToken
 import dagger.Lazy
+import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import javax.inject.Inject
 
 internal class TokenAuthenticator @Inject constructor(
     private val datastore: DatastoreRepository,

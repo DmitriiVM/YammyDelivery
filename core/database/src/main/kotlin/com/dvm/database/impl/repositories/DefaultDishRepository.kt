@@ -6,10 +6,10 @@ import com.dvm.database.api.models.Dish
 import com.dvm.database.api.models.DishDetails
 import com.dvm.database.api.models.Recommended
 import com.dvm.database.impl.dao.DishDao
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultDishRepository @Inject constructor(
     private val dishDao: DishDao

@@ -1,7 +1,7 @@
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 configure<BaseExtension> {
 

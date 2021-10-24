@@ -4,10 +4,10 @@ import com.dvm.database.api.CartRepository
 import com.dvm.database.api.models.CartItem
 import com.dvm.database.api.models.CartItemDetails
 import com.dvm.database.impl.dao.CartDao
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultCartRepository @Inject constructor(
     private val cartDao: CartDao

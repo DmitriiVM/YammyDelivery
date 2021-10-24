@@ -4,14 +4,29 @@ import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.DrawerValue
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -26,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dvm.appmenu_api.Drawer
+import com.dvm.drawer_api.Drawer
 import com.dvm.menu.R
 import com.dvm.menu.common.MENU_SPECIAL_OFFER
 import com.dvm.menu.menu.model.MenuEvent
@@ -41,7 +56,7 @@ import com.dvm.ui.R as CoreR
 
 @Composable
 internal fun MenuScreen(
-    viewModel: MenuViewModel = hiltViewModel()
+    viewModel: MenuViewModel = hiltViewModel(),
 ) {
     val menuItems = viewModel.menuItems
     val onEvent: (MenuEvent) -> Unit = { viewModel.dispatch(it) }
@@ -93,7 +108,7 @@ internal fun MenuScreen(
 @Composable
 private fun MenuContent(
     menuItems: List<MenuItem>,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
 
@@ -127,12 +142,12 @@ private fun MenuItem(
     index: Int,
     item: MenuItem,
     modifier: Modifier,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
 ) {
     val rowIndex = (index - index % 3) / 3
     val height = 128
     val startY = with(LocalDensity.current) { (-height * rowIndex).dp.toPx() }
-    val endY = with(LocalDensity.current) { (height * 5 - (height * rowIndex)).dp.toPx() }
+    val endY = with(LocalDensity.current) { (height * 5 - height * rowIndex).dp.toPx() }
 
     Card(
         elevation = 3.dp,

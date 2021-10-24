@@ -21,11 +21,17 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import com.dvm.ui.R as CoreR
 
 @HiltViewModel
@@ -117,7 +123,7 @@ internal class MapViewModel @Inject constructor(
                 .getFusedLocationProviderClient(context)
                 .lastLocation
                 .addOnSuccessListener { location ->
-                    val (latitude, longitude) = if (location != null){
+                    val (latitude, longitude) = if (location != null) {
                         location.latitude to location.longitude
                     } else {
                         defaultLat to defaultLng

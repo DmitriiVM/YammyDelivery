@@ -12,8 +12,8 @@ import com.dvm.menu.menu.model.MenuItem
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalStdlibApi::class)
 @HiltViewModel

@@ -2,9 +2,9 @@ package com.dvm.preferences.impl
 
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.createFullToken
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
 
 @Singleton
 internal class DefaultDatastoreRepository @Inject constructor(

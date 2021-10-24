@@ -6,5 +6,5 @@ internal sealed class OrderEvent {
     object OrderAgain : OrderEvent()
     object DismissAlert : OrderEvent()
     object CancelOrdering : OrderEvent()
-    object Back: OrderEvent()
+    object Back : OrderEvent()
 }

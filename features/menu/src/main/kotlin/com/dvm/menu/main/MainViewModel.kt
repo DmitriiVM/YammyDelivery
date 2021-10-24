@@ -15,10 +15,10 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import com.dvm.ui.R as CoreR
 
 @HiltViewModel

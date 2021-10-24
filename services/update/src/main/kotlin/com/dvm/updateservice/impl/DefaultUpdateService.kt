@@ -1,6 +1,11 @@
 package com.dvm.updateservice.impl
 
-import com.dvm.database.api.*
+import com.dvm.database.api.CategoryRepository
+import com.dvm.database.api.DishRepository
+import com.dvm.database.api.FavoriteRepository
+import com.dvm.database.api.OrderRepository
+import com.dvm.database.api.ProfileRepository
+import com.dvm.database.api.ReviewRepository
 import com.dvm.database.api.mappers.toDbEntity
 import com.dvm.database.api.models.Favorite
 import com.dvm.database.api.models.Recommended
@@ -9,11 +14,11 @@ import com.dvm.network.api.OrderApi
 import com.dvm.network.api.ProfileApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultUpdateService @Inject constructor(
     private val categoryRepository: CategoryRepository,

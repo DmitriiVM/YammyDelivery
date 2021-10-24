@@ -1,7 +1,8 @@
 package com.dvm.utils.extensions
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 fun Date.format(pattern: String = "d MMMM yyyy"): String {
     val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())

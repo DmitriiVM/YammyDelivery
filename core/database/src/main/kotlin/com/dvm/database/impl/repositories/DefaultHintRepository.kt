@@ -3,10 +3,10 @@ package com.dvm.database.impl.repositories
 import com.dvm.database.api.HintRepository
 import com.dvm.database.api.models.Hint
 import com.dvm.database.impl.dao.HintDao
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultHintRepository @Inject constructor(
     private val hintDao: HintDao

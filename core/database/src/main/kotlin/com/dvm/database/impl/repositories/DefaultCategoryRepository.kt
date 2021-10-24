@@ -5,10 +5,10 @@ import com.dvm.database.api.models.Category
 import com.dvm.database.api.models.ParentCategory
 import com.dvm.database.api.models.Subcategory
 import com.dvm.database.impl.dao.CategoryDao
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 internal class DefaultCategoryRepository @Inject constructor(
     private val categoryDao: CategoryDao
