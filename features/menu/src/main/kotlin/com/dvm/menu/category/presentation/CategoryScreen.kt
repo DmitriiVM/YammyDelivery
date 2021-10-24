@@ -82,7 +82,6 @@ internal fun CategoryScreen(
     viewModel: CategoryViewModel = getStateViewModel { parametersOf(arguments) }
 ) {
     val state: CategoryState = viewModel.state
-    val onEvent: (CategoryEvent) -> Unit = { viewModel.dispatch(it) }
     val context = LocalContext.current
 
     Drawer(selected = DrawerItem.MENU) {
@@ -120,9 +119,9 @@ internal fun CategoryScreen(
                 titleHeight = titleHeight,
                 animatableColor = animatableColor,
                 selectedColor = selectedColor.color,
-                onDishClick = { onEvent(CategoryEvent.OpenDish(it)) },
+                onDishClick = { viewModel.dispatch(CategoryEvent.OpenDish(it)) },
                 onAddToCartClick = { dishId, dishName ->
-                    onEvent(CategoryEvent.AddToCart(dishId, dishName))
+                    viewModel.dispatch(CategoryEvent.AddToCart(dishId, dishName))
                 }
             )
 
@@ -131,8 +130,8 @@ internal fun CategoryScreen(
                 selectedColor = selectedColor.color,
                 offset = offset,
                 modifier = Modifier.statusBarsPadding(),
-                onBackClick = { onEvent(CategoryEvent.Back) },
-                onOrderClick = { onEvent(CategoryEvent.OrderBy(it)) }
+                onBackClick = { viewModel.dispatch(CategoryEvent.Back) },
+                onOrderClick = { viewModel.dispatch(CategoryEvent.OrderBy(it)) }
             )
 
             val subcategories = state.subcategories
@@ -149,7 +148,7 @@ internal fun CategoryScreen(
                         selectedTabIndex = selectedTabIndex,
                         offset = offset,
                         onColorSelected = { selectedColor = it },
-                        onSubcategoryClick = { onEvent(CategoryEvent.ChangeSubcategory(it)) }
+                        onSubcategoryClick = { viewModel.dispatch(CategoryEvent.ChangeSubcategory(it)) }
                     )
                 }
             }
@@ -158,9 +157,9 @@ internal fun CategoryScreen(
         state.alert?.let {
             Alert(
                 message = state.alert.asString(context),
-                onDismiss = { onEvent(CategoryEvent.DismissAlert) }
+                onDismiss = { viewModel.dispatch(CategoryEvent.DismissAlert) }
             ) {
-                AlertButton(onClick = { onEvent(CategoryEvent.DismissAlert) })
+                AlertButton(onClick = { viewModel.dispatch(CategoryEvent.DismissAlert) })
             }
         }
     }

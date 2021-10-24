@@ -45,7 +45,6 @@ internal fun RegisterScreen(
     viewModel: RegisterViewModel = getStateViewModel()
 ) {
     val state: RegisterState = viewModel.state
-    val onEvent: (RegisterEvent) -> Unit = { viewModel.dispatch(it) }
 
     Drawer(selected = DrawerItem.NONE) {
         Column(
@@ -58,7 +57,7 @@ internal fun RegisterScreen(
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.registration_appbar_title)) },
                 navigationIcon = {
-                    AppBarIconBack(onNavigateUp = { onEvent(RegisterEvent.Back) })
+                    AppBarIconBack(onNavigateUp = { viewModel.dispatch(RegisterEvent.Back) })
                 }
             )
 
@@ -83,7 +82,7 @@ internal fun RegisterScreen(
                     enabled = !state.progress,
                     onValueChange = {
                         firstName = it
-                        onEvent(RegisterEvent.ChangeFirstName)
+                        viewModel.dispatch(RegisterEvent.ChangeFirstName)
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     keyboardActions = KeyboardActions(
@@ -97,7 +96,7 @@ internal fun RegisterScreen(
                     enabled = !state.progress,
                     onValueChange = {
                         lastName = it
-                        onEvent(RegisterEvent.ChangeLastName)
+                        viewModel.dispatch(RegisterEvent.ChangeLastName)
                     },
                     modifier = Modifier.focusRequester(lastNameFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -112,7 +111,7 @@ internal fun RegisterScreen(
                     enabled = !state.progress,
                     onValueChange = {
                         email = it
-                        onEvent(RegisterEvent.ChangeEmail)
+                        viewModel.dispatch(RegisterEvent.ChangeEmail)
                     },
                     modifier = Modifier.focusRequester(emailFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -127,13 +126,13 @@ internal fun RegisterScreen(
                     enabled = !state.progress,
                     onValueChange = {
                         password = it
-                        onEvent(RegisterEvent.ChangePassword)
+                        viewModel.dispatch(RegisterEvent.ChangePassword)
                     },
                     modifier = Modifier.focusRequester(passwordFocus),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
                         onDone = {
-                            onEvent(
+                            viewModel.dispatch(
                                 RegisterEvent.Register(
                                     firstName = firstName,
                                     lastName = lastName,
@@ -150,7 +149,7 @@ internal fun RegisterScreen(
                     text = stringResource(CoreR.string.registration_button_register),
                     progress = state.progress,
                     onClick = {
-                        onEvent(
+                        viewModel.dispatch(
                             RegisterEvent.Register(
                                 firstName = firstName,
                                 lastName = lastName,
@@ -163,7 +162,7 @@ internal fun RegisterScreen(
                 Spacer(Modifier.height(15.dp))
                 OutlinedButton(
                     enabled = !state.progress,
-                    onClick = { onEvent(RegisterEvent.Login) },
+                    onClick = { viewModel.dispatch(RegisterEvent.Login) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .navigationBarsWithImePadding()
@@ -176,7 +175,7 @@ internal fun RegisterScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(RegisterEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(RegisterEvent.DismissAlert) }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,

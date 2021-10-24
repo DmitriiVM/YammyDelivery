@@ -59,7 +59,6 @@ internal fun MenuScreen(
     viewModel: MenuViewModel = getViewModel()
 ) {
     val menuItems = viewModel.menuItems
-    val onEvent: (MenuEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -86,7 +85,7 @@ internal fun MenuScreen(
                 actions = {
                     IconButton(
                         modifier = Modifier.padding(end = 12.dp),
-                        onClick = { onEvent(MenuEvent.Search) }
+                        onClick = { viewModel.dispatch(MenuEvent.Search) }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Search,
@@ -98,7 +97,7 @@ internal fun MenuScreen(
             Divider()
             MenuContent(
                 menuItems = menuItems,
-                onItemClick = { onEvent(MenuEvent.OpenMenuItem(it)) }
+                onItemClick = { viewModel.dispatch(MenuEvent.OpenMenuItem(it)) }
             )
         }
     }

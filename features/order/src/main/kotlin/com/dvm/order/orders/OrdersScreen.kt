@@ -59,7 +59,6 @@ internal fun OrdersScreen(
     viewModel: OrdersViewModel = getStateViewModel()
 ) {
     val state: OrdersState = viewModel.state
-    val onEvent: (OrdersEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -108,7 +107,7 @@ internal fun OrdersScreen(
                     selected = pagerState.currentPage == 0,
                     onClick = {
                         scope.launch {
-                            onEvent(OrdersEvent.StatusSelect(OrderStatus.ACTUAL))
+                            viewModel.dispatch(OrdersEvent.StatusSelect(OrderStatus.ACTUAL))
                             pagerState.animateScrollToPage(0)
                         }
                     },
@@ -118,7 +117,7 @@ internal fun OrdersScreen(
                     selected = pagerState.currentPage == 1,
                     onClick = {
                         scope.launch {
-                            onEvent(OrdersEvent.StatusSelect(OrderStatus.COMPLETED))
+                            viewModel.dispatch(OrdersEvent.StatusSelect(OrderStatus.COMPLETED))
                             pagerState.animateScrollToPage(1)
                         }
                     },
@@ -140,7 +139,7 @@ internal fun OrdersScreen(
                         items(state.orders) { order ->
                             OrderItem(
                                 order = order,
-                                onOrderClick = { onEvent(OrdersEvent.Order(order.id)) }
+                                onOrderClick = { viewModel.dispatch(OrdersEvent.Order(order.id)) }
                             )
                         }
                     }

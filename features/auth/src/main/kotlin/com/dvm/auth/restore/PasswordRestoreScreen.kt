@@ -31,7 +31,6 @@ internal fun PasswordRestoreScreen(
     viewModel: PasswordRestoreViewModel = getStateViewModel()
 ) {
     val state: RestoreState = viewModel.state
-    val onEvent: (RestoreEvent) -> Unit = { viewModel.dispatch(it) }
 
     val email = rememberSaveable { mutableStateOf("") }
     val code = rememberSaveable { mutableStateOf("") }
@@ -47,7 +46,7 @@ internal fun PasswordRestoreScreen(
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.password_restoration_appbar_title)) },
                 navigationIcon = {
-                    AppBarIconBack { onEvent(RestoreEvent.Back) }
+                    AppBarIconBack { viewModel.dispatch(RestoreEvent.Back) }
                 },
             )
 
@@ -62,14 +61,16 @@ internal fun PasswordRestoreScreen(
                         Email(
                             email = email.value,
                             onEmailChanged = { email.value = it },
-                            onSend = { onEvent(RestoreEvent.SendEmail(email.value)) }
+                            onSend = {
+                                viewModel.dispatch(RestoreEvent.SendEmail(email.value))
+                            }
                         )
                     Screen.CODE ->
                         Code(
                             code = code.value,
                             onCodeChanged = { code.value = it },
                             onComplete = {
-                                onEvent(
+                                viewModel.dispatch(
                                     RestoreEvent.VerifyCode(
                                         email.value,
                                         code.value
@@ -84,7 +85,7 @@ internal fun PasswordRestoreScreen(
                             onPasswordChanged = { password.value = it },
                             onConfirmPasswordChanged = { confirmPassword.value = it },
                             onSave = {
-                                onEvent(
+                                viewModel.dispatch(
                                     RestoreEvent.ResetPassword(
                                         email = email.value,
                                         code = code.value,
@@ -103,7 +104,7 @@ internal fun PasswordRestoreScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(RestoreEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(RestoreEvent.DismissAlert) }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,

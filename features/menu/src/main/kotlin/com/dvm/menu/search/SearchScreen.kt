@@ -67,7 +67,6 @@ internal fun SearchScreen(
     viewModel: SearchViewModel = getStateViewModel()
 ) {
     val state: SearchState = viewModel.state
-    val onEvent: (SearchEvent) -> Unit = { viewModel.dispatch(it) }
 
     val context = LocalContext.current
 
@@ -77,9 +76,9 @@ internal fun SearchScreen(
             Spacer(modifier = Modifier.statusBarsHeight())
             SearchField(
                 query = state.query,
-                onBackClick = { onEvent(SearchEvent.Back) },
-                onQueryChange = { onEvent(SearchEvent.ChangeQuery(it.trimStart())) },
-                onRemoveQuery = { onEvent(SearchEvent.RemoveQuery) },
+                onBackClick = { viewModel.dispatch(SearchEvent.Back) },
+                onQueryChange = { viewModel.dispatch(SearchEvent.ChangeQuery(it.trimStart())) },
+                onRemoveQuery = { viewModel.dispatch(SearchEvent.RemoveQuery) },
             )
 
             val color by rememberSaveable {
@@ -92,12 +91,15 @@ internal fun SearchScreen(
                     .verticalGradient(color.color.copy(alpha = 0.15f))
             ) {
                 if (state.query.trim().isEmpty()) {
-                    Hints(state, onEvent)
+                    Hints(
+                        state = state,
+                        onEvent = { viewModel.dispatch(it) }
+                    )
                 } else {
                     SearchResult(
                         state = state,
                         color = color.color,
-                        onEvent = onEvent
+                        onEvent = { viewModel.dispatch(it) }
                     )
                 }
             }
@@ -107,9 +109,11 @@ internal fun SearchScreen(
     state.alert?.let {
         Alert(
             message = state.alert.asString(context),
-            onDismiss = { onEvent(SearchEvent.DismissAlert) }
+            onDismiss = { viewModel.dispatch(SearchEvent.DismissAlert) }
         ) {
-            AlertButton(onClick = { onEvent(SearchEvent.DismissAlert) })
+            AlertButton(
+                onClick = { viewModel.dispatch(SearchEvent.DismissAlert) }
+            )
         }
     }
 }

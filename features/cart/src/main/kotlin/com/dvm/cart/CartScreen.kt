@@ -60,7 +60,6 @@ internal fun CartScreen(
     viewModel: CartViewModel = getStateViewModel()
 ) {
     val state: CartState = viewModel.state
-    val onEvent: (CartEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -103,9 +102,9 @@ internal fun CartScreen(
                         itemsIndexed(state.items) { index, item ->
                             CartItem(
                                 item = item,
-                                onDishClick = { onEvent(CartEvent.OpenDish(item.dishId)) },
-                                onAddPiece = { onEvent(CartEvent.AddPiece(item.dishId)) },
-                                onRemovePiece = { onEvent(CartEvent.RemovePiece(item.dishId)) },
+                                onDishClick = { viewModel.dispatch(CartEvent.OpenDish(item.dishId)) },
+                                onAddPiece = { viewModel.dispatch(CartEvent.AddPiece(item.dishId)) },
+                                onRemovePiece = { viewModel.dispatch(CartEvent.RemovePiece(item.dishId)) },
                             )
                             if (index != state.items.lastIndex) {
                                 Divider()
@@ -116,15 +115,15 @@ internal fun CartScreen(
                                 promoCode = state.promoCode,
                                 appliedPromoCode = state.appliedPromoCode,
                                 promoCodeDescription = state.promoCodeText,
-                                onValueChange = { onEvent(CartEvent.ChangePromoCode(it)) },
-                                onApplyPromoCode = { onEvent(CartEvent.ApplyPromoCode) },
-                                onCancelPromoCode = { onEvent(CartEvent.CancelPromoCode) }
+                                onValueChange = { viewModel.dispatch(CartEvent.ChangePromoCode(it)) },
+                                onApplyPromoCode = { viewModel.dispatch(CartEvent.ApplyPromoCode) },
+                                onCancelPromoCode = { viewModel.dispatch(CartEvent.CancelPromoCode) }
                             )
                         }
                     }
                     BottomContent(
                         totalPrice = state.totalPrice,
-                        onClick = { onEvent(CartEvent.CreateOrder) }
+                        onClick = { viewModel.dispatch(CartEvent.CreateOrder) }
                     )
                 }
             }
@@ -132,7 +131,7 @@ internal fun CartScreen(
     }
 
     if (state.alert != null) {
-        val onDismiss = { onEvent(CartEvent.DismissAlert) }
+        val onDismiss = { viewModel.dispatch(CartEvent.DismissAlert) }
         Alert(
             message = stringResource(state.alert),
             onDismiss = onDismiss,

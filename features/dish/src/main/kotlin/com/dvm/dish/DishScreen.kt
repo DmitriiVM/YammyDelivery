@@ -74,7 +74,6 @@ internal fun DishScreen(
     viewModel: DishViewModel = getStateViewModel { parametersOf(dishId) }
 ) {
     val state = viewModel.state
-    val onEvent: (DishEvent) -> Unit = { viewModel.dispatch(it) }
 
     Drawer(selected = DrawerItem.NONE) {
 
@@ -107,9 +106,9 @@ internal fun DishScreen(
                         price = dish.price,
                         oldPrice = dish.oldPrice,
                         quantity = state.quantity,
-                        onRemoveItem = { onEvent(DishEvent.RemovePiece) },
-                        onAddItem = { onEvent(DishEvent.AddPiece) },
-                        onAddToCart = { onEvent(DishEvent.AddToCart) },
+                        onRemoveItem = { viewModel.dispatch(DishEvent.RemovePiece) },
+                        onAddItem = { viewModel.dispatch(DishEvent.AddPiece) },
+                        onAddToCart = { viewModel.dispatch(DishEvent.AddToCart) },
                     )
 
                     Divider(Modifier.padding(top = 20.dp))
@@ -117,7 +116,7 @@ internal fun DishScreen(
                     ReviewHeader(
                         rating = dish.rating,
                         color = color,
-                        onAddReviewClick = { onEvent(DishEvent.AddReview) }
+                        onAddReviewClick = { viewModel.dispatch(DishEvent.AddReview) }
                     )
                 }
             }
@@ -141,16 +140,16 @@ internal fun DishScreen(
                 color = color,
                 isFavorite = dish.isFavorite,
                 lazyListState = lazyListState,
-                onNavigateUp = { onEvent(DishEvent.Back) },
-                onFavoriteClick = { onEvent(DishEvent.ToggleFavorite) }
+                onNavigateUp = { viewModel.dispatch(DishEvent.Back) },
+                onFavoriteClick = { viewModel.dispatch(DishEvent.ToggleFavorite) }
             )
         }
 
         if (state.reviewDialog) {
             ReviewDialog(
-                onDismiss = { onEvent(DishEvent.DismissReviewDialog) },
+                onDismiss = { viewModel.dispatch(DishEvent.DismissReviewDialog) },
                 onAddReview = { rating, text ->
-                    onEvent(
+                    viewModel.dispatch(
                         DishEvent.SendReview(
                             rating = rating,
                             text = text
@@ -165,9 +164,9 @@ internal fun DishScreen(
     state.alert?.let {
         Alert(
             message = stringResource(state.alert),
-            onDismiss = { onEvent(DishEvent.DismissAlert) }
+            onDismiss = { viewModel.dispatch(DishEvent.DismissAlert) }
         ) {
-            AlertButton(onClick = { onEvent(DishEvent.DismissAlert) })
+            AlertButton(onClick = { viewModel.dispatch(DishEvent.DismissAlert) })
         }
     }
 }

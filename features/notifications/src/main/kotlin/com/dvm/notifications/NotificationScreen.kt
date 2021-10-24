@@ -49,7 +49,6 @@ internal fun NotificationScreen(
     viewModel: NotificationViewModel = getViewModel()
 ) {
     val state: NotificationState = viewModel.state
-    val onEvent: (NotificationEvent) -> Unit = { viewModel.dispatch(it) }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -92,7 +91,7 @@ internal fun NotificationScreen(
                 val lastItem = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
                 LaunchedEffect(lastItem) {
                     lastItem?.let {
-                        onEvent(NotificationEvent.ChangeVisibleItem(lastItem))
+                        viewModel.dispatch(NotificationEvent.ChangeVisibleItem(lastItem))
                     }
                 }
 
