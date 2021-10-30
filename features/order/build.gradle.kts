@@ -1,6 +1,22 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val properties = Properties()
+val propertiesFile: File = rootProject.file("apikey.properties")
+properties.load(FileInputStream(propertiesFile))
+
 plugins {
     id(PluginId.COMPOSE_CONVENTION)
     id(PluginId.KOTLIN_PARCELIZE)
+}
+
+android {
+    defaultConfig {
+        resValue("string", "google_key", properties.getProperty("GOOGLE_API_KEY"))
+    }
+    buildFeatures {
+        resValues = true
+    }
 }
 
 dependencies {
