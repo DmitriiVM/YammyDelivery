@@ -64,6 +64,7 @@ internal class OrdersViewModel(
                     when (status) {
                         OrderStatus.ACTUAL -> orderRepository.activeOrders()
                         OrderStatus.COMPLETED -> orderRepository.completedOrders()
+                        else -> throw IllegalArgumentException("Wrong order status type")
                     }
                         .map { orders ->
                             status to orders

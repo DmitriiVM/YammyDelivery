@@ -1,7 +1,6 @@
-package com.dvm.updateservice.impl.di
+package com.dvm.updateservice.impl
 
 import com.dvm.updateservice.api.UpdateService
-import com.dvm.updateservice.impl.DefaultUpdateService
 import org.koin.dsl.module
 
 val updateModule = module {

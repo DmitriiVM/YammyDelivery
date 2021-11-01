@@ -1,4 +1,4 @@
-package com.dvm.database.impl.di
+package com.dvm.database.impl
 
 import com.dvm.database.AppDatabase
 import com.dvm.database.Hint
@@ -12,7 +12,6 @@ import com.dvm.database.api.NotificationRepository
 import com.dvm.database.api.OrderRepository
 import com.dvm.database.api.ProfileRepository
 import com.dvm.database.api.ReviewRepository
-import com.dvm.database.impl.DateAdapter
 import com.dvm.database.impl.repositories.DefaultCartRepository
 import com.dvm.database.impl.repositories.DefaultCategoryRepository
 import com.dvm.database.impl.repositories.DefaultDishRepository

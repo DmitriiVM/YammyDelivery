@@ -25,8 +25,8 @@ internal class DefaultDishRepository(
     @Suppress("MaxLineLength")
     private val cardDishMapper: (String, String, String?, String, Int, Int, Double, Int, Int, String, Boolean) -> CardDish =
         { id, name, description, image,
-          oldPrice, price, rating, commentsCount,
-          likes, category, isFavorite ->
+          oldPrice, price, rating, _,
+          likes, _, isFavorite ->
             CardDish(
                 id = id,
                 name = name,
