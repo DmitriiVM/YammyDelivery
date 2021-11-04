@@ -4,8 +4,6 @@ import android.content.Context
 import com.dvm.utils.AppException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
-import okhttp3.Request
-import okio.Timeout
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -48,7 +46,7 @@ internal class ExceptionCallAdapterFactory(
     private class ResponseCall<T>(
         private val context: Context,
         private val delegate: Call<T>,
-    ) : Call<T> {
+    ) : Call<T> by delegate {
         override fun enqueue(callback: Callback<T>) {
             delegate.enqueue(object : Callback<T> {
                 override fun onResponse(call: Call<T>, response: Response<T>) {
@@ -80,19 +78,5 @@ internal class ExceptionCallAdapterFactory(
                 }
             })
         }
-
-        override fun clone(): Call<T> = delegate.clone()
-
-        override fun execute(): Response<T> = delegate.execute()
-
-        override fun isExecuted(): Boolean = delegate.isExecuted
-
-        override fun cancel() = delegate.cancel()
-
-        override fun isCanceled(): Boolean = delegate.isCanceled
-
-        override fun request(): Request = delegate.request()
-
-        override fun timeout(): Timeout = delegate.timeout()
     }
 }
