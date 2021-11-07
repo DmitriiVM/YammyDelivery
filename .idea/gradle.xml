@@ -36,7 +36,6 @@
             <option value="$PROJECT_DIR$/services/update" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
