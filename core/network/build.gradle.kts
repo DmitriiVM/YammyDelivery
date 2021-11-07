@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UTILS))
-    implementation(project(ModulePath.Core.DATASTORE))
+    implementation(projects.core.utils)
+    implementation(projects.core.datastore)
 
     implementation(libs.coroutines)
 

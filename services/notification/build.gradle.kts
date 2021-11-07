@@ -3,11 +3,11 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UTILS))
-    implementation(project(ModulePath.Core.UI))
-    implementation(project(ModulePath.Core.DATABASE))
-    implementation(project(ModulePath.Core.DATASTORE))
-    implementation(project(ModulePath.NAVIGATION))
+    implementation(projects.core.ui)
+    implementation(projects.core.utils)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
+    implementation(projects.navigation)
 
     implementation(libs.android.core)
     implementation(libs.coroutines)

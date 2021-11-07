@@ -8,7 +8,7 @@ object PluginId {
     const val KOTLIN_SERIALIZATION = "kotlinx-serialization"
     const val DETEKT = "io.gitlab.arturbosch.detekt"
 
-    const val ANDROID_CONVENTION = "android-convention"
+    const val COMMON_CONVENTION = "common-convention"
     const val LIBRARY_CONVENTION = "library-convention"
     const val COMPOSE_CONVENTION = "compose-convention"
 }

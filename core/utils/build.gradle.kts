@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UI))
+    implementation(projects.core.ui)
 
     implementation(libs.android.core)
 
