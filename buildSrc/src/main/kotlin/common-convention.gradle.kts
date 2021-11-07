@@ -1,4 +1,6 @@
 import com.android.build.gradle.BaseExtension
+import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 configure<BaseExtension> {
 
@@ -15,7 +17,7 @@ configure<BaseExtension> {
     }
 }
 
-tasks.register<io.gitlab.arturbosch.detekt.Detekt>("detektAll") {
+tasks.register<Detekt>("detektAll") {
     parallel = true
     setSource(files(projectDir))
     config.from(files("$rootDir/detekt.yml"))
@@ -25,7 +27,7 @@ tasks.register<io.gitlab.arturbosch.detekt.Detekt>("detektAll") {
     exclude("**/build/**")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         freeCompilerArgs = listOf(
             "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",

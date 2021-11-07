@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.NETWORK))
+    implementation(projects.core.network)
 
     implementation(libs.android.core)
 

@@ -5,10 +5,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UI))
-    implementation(project(ModulePath.Core.DATASTORE))
-    implementation(project(ModulePath.Services.UPDATE))
-    implementation(project(ModulePath.NAVIGATION))
+    implementation(projects.core.ui)
+    implementation(projects.core.datastore)
+    implementation(projects.services.update)
+    implementation(projects.navigation)
 
     implementation(libs.android.core)
     implementation(libs.android.appcompat)

@@ -1,5 +1,8 @@
 rootProject.name = "YammyDelivery"
 
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(
     ":app",
     ":features:splash",
@@ -28,5 +31,3 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-enableFeaturePreview("VERSION_CATALOGS")

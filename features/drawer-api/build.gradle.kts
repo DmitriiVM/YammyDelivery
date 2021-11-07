@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UTILS))
-    implementation(project(ModulePath.Feature.DRAWER))
+    implementation(projects.core.utils)
+    implementation(projects.features.drawer)
 
     implementation(libs.bundles.compose)
 }

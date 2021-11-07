@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library")
-    id("android-convention")
+    id("common-convention")
     id("kotlin-android")
 }
 

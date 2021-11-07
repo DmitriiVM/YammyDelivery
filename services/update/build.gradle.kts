@@ -5,13 +5,12 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UTILS))
-    implementation(project(ModulePath.Core.NETWORK))
-    implementation(project(ModulePath.Core.DATABASE))
-    implementation(project(ModulePath.Core.DATASTORE))
+    implementation(projects.core.utils)
+    implementation(projects.core.network)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
 
     implementation(libs.android.core)
-
     implementation(libs.coroutines)
 
     implementation(libs.hilt.library)

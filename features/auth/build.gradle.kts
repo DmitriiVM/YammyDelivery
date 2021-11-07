@@ -5,14 +5,14 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModulePath.Core.UI))
-    implementation(project(ModulePath.Core.UTILS))
-    implementation(project(ModulePath.Core.NETWORK))
-    implementation(project(ModulePath.Core.DATABASE))
-    implementation(project(ModulePath.Core.DATASTORE))
-    implementation(project(ModulePath.Feature.DRAWER_API))
-    implementation(project(ModulePath.Services.UPDATE))
-    implementation(project(ModulePath.NAVIGATION))
+    implementation(projects.core.ui)
+    implementation(projects.core.utils)
+    implementation(projects.core.network)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
+    implementation(projects.features.drawerApi)
+    implementation(projects.services.update)
+    implementation(projects.navigation)
 
     implementation(libs.android.core)
     implementation(libs.android.appcompat)
