@@ -10,5 +10,6 @@ object PluginId {
 
     const val COMMON_CONVENTION = "common-convention"
     const val LIBRARY_CONVENTION = "library-convention"
-    const val COMPOSE_CONVENTION = "compose-convention"
+    const val COMPOSE_CONVENTION = "library-compose-convention"
+    const val COMPOSE_OPTIONS_CONVENTION = "compose-options-convention"
 }
