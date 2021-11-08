@@ -1,6 +1,7 @@
 plugins {
     id(PluginId.ANDROID_APPLICATION)
     id(PluginId.COMMON_CONVENTION)
+    id(PluginId.COMPOSE_OPTIONS_CONVENTION)
     id(PluginId.KOTLIN_KAPT)
     id(PluginId.DAGGER_HILT)
     id(PluginId.GOOGLE_SERVICES)
@@ -15,10 +16,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.1"
     }
 
     buildTypes {
