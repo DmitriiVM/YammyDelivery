@@ -1,4 +1,5 @@
 [versions]
+kotlin = "1.5.21"
 compose = "1.0.1"  # update kotlinCompilerExtensionVersion in compose-convention.gradle.kts
 coroutines = "1.5.1"
 ktor = "1.6.3"
@@ -9,6 +10,13 @@ navigation = "2.3.5"
 accompanist = "0.17.0"
 
 [libraries]
+plugin-androidGradle = "com.android.tools.build:gradle:7.2.0-alpha03"
+plugin-kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+plugin-google-services = "com.google.gms:google-services:4.3.10"
+plugin-sqldelight = "com.squareup.sqldelight:gradle-plugin:1.5.0"
+plugin-detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
+
 android-core = "androidx.core:core-ktx:1.6.0"
 android-appcompat = "androidx.appcompat:appcompat:1.3.1"
 android-material = "com.google.android.material:material:1.3.0"

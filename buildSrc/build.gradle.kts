@@ -8,10 +8,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:7.2.0-alpha03")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
-    implementation("com.google.gms:google-services:4.3.10")
-    implementation("com.squareup.sqldelight:gradle-plugin:1.5.0")
-    implementation("org.jetbrains.kotlin:kotlin-serialization:1.5.21")
-    implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1")
+    implementation(lib.plugin.androidGradle)
+    implementation(lib.plugin.kotlinGradle)
+    implementation(lib.plugin.google.services)
+    implementation(lib.plugin.sqldelight)
+    implementation(lib.plugin.serialization)
+    implementation(lib.plugin.detekt)
 }
