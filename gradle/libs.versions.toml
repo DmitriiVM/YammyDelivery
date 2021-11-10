@@ -1,15 +1,21 @@
 [versions]
-compose = "1.0.1"  # update kotlinCompilerExtensionVersion on compose-convention.gradle.kts
+compose = "1.0.1"  # update kotlinCompilerExtensionVersion on compose-options-convention.gradle.kts
 coroutines = "1.5.1"
 retrofit = "2.9.0"
-gson = "2.8.6"
 room = "2.2.6"
-hilt = "2.38.1"  # update hilt plugin in buildSrc
+hilt = "2.38.1"
 lifecycle = "2.4.0-alpha02"
 navigation = "2.3.5"
 accompanist = "0.17.0"
 
 [libraries]
+plugin-androidGradle = "com.android.tools.build:gradle:7.2.0-alpha03"
+plugin-kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
+plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+plugin-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+plugin-google-services = "com.google.gms:google-services:4.3.10"
+plugin-detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
+
 android-core = "androidx.core:core-ktx:1.3.2"
 android-appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
 android-material = "com.google.android.material:material:1.3.0"
@@ -36,7 +42,7 @@ coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", vers
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 gsonConverter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+gson = "com.google.code.gson:gson:2.8.6"
 loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:4.9.1"
 
 lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
