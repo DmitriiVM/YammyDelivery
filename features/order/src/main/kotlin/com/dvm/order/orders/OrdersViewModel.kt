@@ -16,6 +16,7 @@ import com.dvm.order.orders.model.OrdersState
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.getErrorMessage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -51,6 +52,8 @@ internal class OrdersViewModel(
             state = state.copy(progress = true)
             try {
                 updateService.updateOrders()
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(alert = exception.getErrorMessage())
             } finally {

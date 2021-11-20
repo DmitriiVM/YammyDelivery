@@ -19,6 +19,7 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.network.api.MenuApi
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
@@ -128,6 +129,8 @@ internal class DishViewModel(
                 token = requireNotNull(datastore.getAccessToken()),
                 favorites = mapOf(id to !currentIsFavorite)
             )
+        } catch (exception: CancellationException) {
+            throw CancellationException()
         } catch (exception: Exception) {
             Log.e(TAG, "Can't change favorite status: $exception")
         }
@@ -153,6 +156,8 @@ internal class DishViewModel(
                     reviewDialog = false,
                     alert = CoreR.string.dish_message_review_result
                 )
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     alert = exception.getErrorMessage(),

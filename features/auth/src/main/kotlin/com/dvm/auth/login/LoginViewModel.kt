@@ -20,6 +20,7 @@ import com.dvm.utils.AppException
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.getErrorMessage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -115,6 +116,8 @@ internal class LoginViewModel(
                 onSuccess()
                 updateService.syncFavorites()
                 navigator.goTo(Destination.LoginTarget)
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 val message =
                     if (exception is AppException.IncorrectData) {

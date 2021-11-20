@@ -20,6 +20,7 @@ import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import com.dvm.utils.getErrorMessage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -143,6 +144,8 @@ internal class RegisterViewModel(
                 )
                 updateService.syncFavorites()
                 navigator.goTo(Destination.FinishRegister)
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     alert = exception.getErrorMessage(),

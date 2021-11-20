@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -152,7 +153,9 @@ internal class MapViewModel(
             Geocoder(context)
                 .getFromLocation(latitude, longitude, 1)
                 .first()
-        } catch (e: Exception) {
+        } catch (exception: CancellationException) {
+            throw CancellationException()
+        } catch (exception: Exception) {
             state = state.copy(alert = CoreR.string.message_unknown_error)
             return emptyList()
         }

@@ -7,6 +7,7 @@ import com.dvm.navigation.api.model.Destination
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.updateservice.api.UpdateService
 import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,6 +31,8 @@ internal class SplashViewModel(
                 if (updateDuration < MIN_SPLASH_DURATION) {
                     delay(MIN_SPLASH_DURATION - updateDuration)
                 }
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 datastore.setUpdateError(true)
             } finally {

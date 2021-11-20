@@ -1,6 +1,7 @@
 package com.dvm.network.impl
 
 import com.dvm.utils.AppException
+import kotlinx.coroutines.CancellationException
 
 internal suspend fun <T> getAllChunks(
     limit: Int = 100,
@@ -13,6 +14,8 @@ internal suspend fun <T> getAllChunks(
     while (true) {
         val chunk = try {
             call(offset * limit, limit)
+        } catch (exception: CancellationException) {
+            throw CancellationException()
         } catch (exception: Exception) {
             if (exception is AppException.NotModifiedException) {
                 break

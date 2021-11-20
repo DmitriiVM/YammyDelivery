@@ -17,6 +17,7 @@ import com.dvm.utils.AppException
 import com.dvm.utils.extensions.getEmailErrorOrNull
 import com.dvm.utils.extensions.getTextFieldErrorOrNull
 import com.dvm.utils.getErrorMessage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -117,6 +118,8 @@ internal class ProfileViewModel(
                     progress = false,
                     passwordChanging = false
                 )
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 val message =
                     if (exception is AppException.BadRequest) {
@@ -177,6 +180,8 @@ internal class ProfileViewModel(
                     progress = false,
                     editing = false
                 )
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     alert = exception.getErrorMessage(),

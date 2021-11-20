@@ -14,6 +14,7 @@ import com.dvm.navigation.api.Navigator
 import com.dvm.network.api.AuthApi
 import com.dvm.utils.AppException
 import com.dvm.utils.getErrorMessage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -72,6 +73,8 @@ internal class PasswordRestoreViewModel(
                 authApi.sendEmail(email)
                 state = state.copy(progress = false)
                 screen.value = Screen.CODE
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
@@ -92,6 +95,8 @@ internal class PasswordRestoreViewModel(
                 authApi.sendCode(email, code)
                 state = state.copy(progress = false)
                 screen.value = Screen.PASSWORD
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
@@ -119,6 +124,8 @@ internal class PasswordRestoreViewModel(
                     password = password
                 )
                 navigator.back()
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
