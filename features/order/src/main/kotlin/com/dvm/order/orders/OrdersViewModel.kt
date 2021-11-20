@@ -18,6 +18,7 @@ import com.dvm.updateservice.api.UpdateService
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -54,6 +55,8 @@ internal class OrdersViewModel @Inject constructor(
             state = state.copy(progress = true)
             try {
                 updateService.updateOrders()
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(alert = exception.getErrorMessage())
             } finally {

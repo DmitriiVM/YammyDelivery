@@ -22,6 +22,7 @@ import com.dvm.utils.extensions.getPasswordErrorOrNull
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -118,6 +119,8 @@ internal class LoginViewModel @Inject constructor(
                 onSuccess()
                 updateService.syncFavorites()
                 navigator.goTo(Destination.LoginTarget)
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 val message =
                     if (exception is AppException.IncorrectData) {

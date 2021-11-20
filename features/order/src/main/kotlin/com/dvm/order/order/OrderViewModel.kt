@@ -19,6 +19,7 @@ import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -102,6 +103,8 @@ internal class OrderViewModel @Inject constructor(
                     progress = false,
                     cancelMessage = CoreR.string.order_message_order_canceled
                 )
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,

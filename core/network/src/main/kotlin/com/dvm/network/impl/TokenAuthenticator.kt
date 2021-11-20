@@ -5,6 +5,7 @@ import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.createFullToken
 import dagger.Lazy
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -25,6 +26,8 @@ internal class TokenAuthenticator @Inject constructor(
 
             val tokens = try {
                 authApi.get().refreshToken(refreshToken)
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 return@runBlocking null
             }

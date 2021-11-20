@@ -9,6 +9,7 @@ import com.dvm.network.impl.request.CancelOrderRequest
 import com.dvm.network.impl.request.CreateOrderRequest
 import com.dvm.utils.AppException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 
 internal class DefaultOrderApi @Inject constructor(
     private val apiService: ApiService
@@ -52,6 +53,8 @@ internal class DefaultOrderApi @Inject constructor(
     ): List<StatusResponse> =
         try {
             apiService.getStatuses(lastUpdateTime)
+        } catch (exception: CancellationException) {
+            throw CancellationException()
         } catch (exception: Exception) {
             if (exception is AppException.NotModifiedException) {
                 emptyList()

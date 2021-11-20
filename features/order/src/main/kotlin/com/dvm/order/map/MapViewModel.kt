@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -155,7 +156,9 @@ internal class MapViewModel @Inject constructor(
             Geocoder(context)
                 .getFromLocation(latitude, longitude, 1)
                 .first()
-        } catch (e: Exception) {
+        } catch (exception: CancellationException) {
+            throw CancellationException()
+        } catch (exception: Exception) {
             state = state.copy(alert = CoreR.string.message_general_error)
             return emptyList()
         }

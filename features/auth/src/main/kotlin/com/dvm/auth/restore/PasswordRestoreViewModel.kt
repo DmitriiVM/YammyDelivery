@@ -16,6 +16,7 @@ import com.dvm.utils.AppException
 import com.dvm.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -75,6 +76,8 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 authApi.sendEmail(email)
                 state = state.copy(progress = false)
                 screen.value = Screen.CODE
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
@@ -95,6 +98,8 @@ internal class PasswordRestoreViewModel @Inject constructor(
                 authApi.sendCode(email, code)
                 state = state.copy(progress = false)
                 screen.value = Screen.PASSWORD
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
@@ -122,6 +127,8 @@ internal class PasswordRestoreViewModel @Inject constructor(
                     password = password
                 )
                 navigator.back()
+            } catch (exception: CancellationException) {
+                throw CancellationException()
             } catch (exception: Exception) {
                 state = state.copy(
                     progress = false,
