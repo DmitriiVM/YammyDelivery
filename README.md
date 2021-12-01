@@ -5,7 +5,7 @@ YammyDelivery - a food delivery application for learning purposes and technology
 ## Architecture:
 
 * Multi-module,
-* MVVM + MVI/Redux principles (UDF, common state for screen)
+* MVVM
 
 ## Tech stack:
 
