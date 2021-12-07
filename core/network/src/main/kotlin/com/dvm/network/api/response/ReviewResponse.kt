@@ -5,7 +5,7 @@ data class ReviewResponse(
     val author: String,
     val date: String,
     val rating: Int,
-    val text: String,
+    val text: String?,
     val active: Boolean,
     val createdAt: Long,
     val updatedAt: Long
