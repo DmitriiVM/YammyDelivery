@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS review(
     author TEXT NOT NULL,
     date TEXT NOT NULL,
     rating INTEGER AS Int NOT NULL,
-    text TEXT NOT NULL,
+    text TEXT,
     active INTEGER AS Boolean
 );
 

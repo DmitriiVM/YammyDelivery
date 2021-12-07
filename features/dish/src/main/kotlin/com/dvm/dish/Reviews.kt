@@ -1,21 +1,7 @@
 package com.dvm.dish
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
@@ -117,10 +103,12 @@ fun ReviewItem(
                     color = color
                 )
             }
-            Text(
-                text = review.text,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-            )
+            review.text?.let { text ->
+                Text(
+                    text = text,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                )
+            }
         }
     }
 }
