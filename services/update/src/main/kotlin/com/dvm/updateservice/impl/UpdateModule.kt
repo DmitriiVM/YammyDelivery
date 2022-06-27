@@ -7,15 +7,11 @@ val updateModule = module {
 
     factory<UpdateService> {
         DefaultUpdateService(
-            categoryRepository = get(),
-            dishRepository = get(),
-            reviewRepository = get(),
-            profileRepository = get(),
-            orderRepository = get(),
-            favoriteRepository = get(),
-            menuApi = get(),
-            profileApi = get(),
-            orderApi = get(),
+            categoryInteractor = get(),
+            dishInteractor = get(),
+            profileInteractor = get(),
+            orderInteractor = get(),
+            favoriteInteractor = get(),
             datastore = get()
         )
     }

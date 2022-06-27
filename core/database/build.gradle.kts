@@ -8,8 +8,6 @@ sqldelight {
 }
 
 dependencies {
-    implementation(projects.core.network)
-
     implementation(libs.sqldelight.androidDriver)
     implementation(libs.sqldelight.coroutines)
 

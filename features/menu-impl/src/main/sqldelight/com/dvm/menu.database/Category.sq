@@ -1,0 +1,72 @@
+CREATE TABLE IF NOT EXISTS categoryEntity(
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    categoryOrder INTEGER AS Int NOT NULL,
+    parent TEXT,
+    icon TEXT,
+    active INTEGER AS Boolean
+);
+
+
+parentCategoryEntity:
+SELECT
+    id,
+    name,
+    icon
+FROM categoryEntity
+WHERE parent IS NULL
+AND active = 1
+ORDER BY `categoryOrder`;
+
+
+subcategoryEntity:
+SELECT
+    id,
+    name,
+    parent
+FROM categoryEntity
+WHERE parent IS :id
+AND active = 1
+ORDER BY `categoryOrder`;
+
+
+title:
+SELECT name
+FROM categoryEntity
+WHERE id = :categoryId;
+
+
+searchParentCategory:
+SELECT
+    id,
+    name,
+    icon
+FROM categoryEntity
+WHERE parent IS NULL
+AND categoryEntity.name LIKE '%' || :query || '%'
+AND categoryEntity.active = 1
+ORDER BY name;
+
+
+searchSubcategory:
+SELECT
+    id,
+    name,
+    parent
+FROM categoryEntity
+WHERE parent IS NOT NULL
+AND categoryEntity.name LIKE '%' || :query || '%'
+AND categoryEntity.active = 1
+ORDER BY name;
+
+
+insert:
+INSERT OR REPLACE INTO categoryEntity(
+   id,
+   name,
+   categoryOrder,
+   parent,
+   icon,
+   active
+)
+VALUES ?;

@@ -1,0 +1,70 @@
+import java.util.Date;
+
+CREATE TABLE IF NOT EXISTS orderDetailsEntity(
+    id TEXT NOT NULL PRIMARY KEY,
+    total INTEGER AS Int NOT NULL,
+    address TEXT NOT NULL,
+    statusId TEXT NOT NULL,
+    active INTEGER AS Boolean,
+    completed INTEGER AS Boolean NOT NULL,
+    createdAt INTEGER AS Date NOT NULL
+);
+
+
+activeOrders:
+SELECT
+    orderDetailsEntity.id,
+    orderDetailsEntity.total,
+    orderDetailsEntity.address,
+    orderDetailsEntity.createdAt,
+    (
+        SELECT name
+        FROM orderStatusEntity
+        WHERE orderStatusEntity.id = statusId
+    ) AS status
+FROM orderDetailsEntity
+WHERE completed = 0;
+
+
+completedOrders:
+SELECT
+    orderDetailsEntity.id,
+    orderDetailsEntity.total,
+    orderDetailsEntity.address,
+    orderDetailsEntity.createdAt,
+    (
+        SELECT name
+        FROM orderStatusEntity
+        WHERE orderStatusEntity.id = statusId
+    ) AS status
+FROM orderDetailsEntity
+WHERE completed = 1;
+
+
+order:
+SELECT *
+FROM orderDetailsEntity
+WHERE id = :orderId;
+
+
+deleteInactiveOrders:
+DELETE
+FROM orderDetailsEntity
+WHERE active = 0;
+
+
+insert:
+INSERT OR REPLACE INTO orderDetailsEntity(
+    id,
+    total,
+    address,
+    statusId,
+    active,
+    completed,
+    createdAt
+)
+VALUES ?;
+
+
+deleteAll:
+DELETE FROM orderDetailsEntity;

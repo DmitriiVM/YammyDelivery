@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS orderItemEntity(
+    name TEXT NOT NULL,
+    orderId TEXT NOT NULL,
+    image TEXT NOT NULL,
+    amount INTEGER AS Int NOT NULL,
+    price INTEGER AS Int NOT NULL,
+    dishId TEXT NOT NULL,
+
+    PRIMARY KEY(dishId, orderId),
+
+    FOREIGN KEY(orderId)
+        REFERENCES orderDetailsEntity(id)
+        ON DELETE CASCADE
+);
+
+
+orderItems:
+SELECT *
+FROM orderItemEntity
+WHERE orderId = :orderId;
+
+
+insert:
+INSERT OR REPLACE INTO orderItemEntity(
+    name,
+    orderId,
+    image,
+    amount,
+    price,
+    dishId
+)
+VALUES ?;

@@ -6,9 +6,9 @@ import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.dvm.database.api.NotificationRepository
 import com.dvm.navigation.api.Navigator
 import com.dvm.navigation.api.model.Destination
+import com.dvm.notifications_api.domain.NotificationInteractor
 import com.dvm.preferences.api.DatastoreRepository
 import com.dvm.utils.AppLauncher
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -21,7 +21,7 @@ import org.koin.core.component.inject
 class NotificationService : FirebaseMessagingService(), KoinComponent {
 
     private val datastore: DatastoreRepository by inject()
-    private val notificationRepository: NotificationRepository by inject()
+    private val notificationInteractor: NotificationInteractor by inject()
     private val navigator: Navigator by inject()
     private val appLauncher: AppLauncher by inject()
     private val serviceScope: CoroutineScope by inject()
@@ -40,7 +40,7 @@ class NotificationService : FirebaseMessagingService(), KoinComponent {
             val title = message.data[NOTIFICATION_TITLE].orEmpty()
             val text = message.data[NOTIFICATION_TEXT].orEmpty()
 
-            notificationRepository.insertNotification(
+            notificationInteractor.insertNotification(
                 title = title,
                 text = text,
                 seen = false

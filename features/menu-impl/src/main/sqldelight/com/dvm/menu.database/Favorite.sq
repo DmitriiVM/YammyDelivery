@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS favoriteEntity(
+    dishId TEXT NOT NULL PRIMARY KEY
+);
+
+
+isFavorite:
+SELECT (
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = :dishId
+    )
+);
+
+
+favorites:
+SELECT dishId
+FROM favoriteEntity;
+
+
+insert:
+INSERT OR IGNORE INTO favoriteEntity(
+    dishId
+)
+VALUES (?);
+
+
+delete:
+DELETE FROM favoriteEntity
+WHERE dishId = :dishId;
+
+
+deleteAll:
+DELETE FROM favoriteEntity;

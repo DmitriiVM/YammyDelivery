@@ -1,0 +1,142 @@
+CREATE TABLE IF NOT EXISTS dishEntity(
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    image TEXT NOT NULL,
+    oldPrice INTEGER AS Int NOT NULL,
+    price INTEGER AS Int NOT NULL,
+    rating REAL AS Double NOT NULL,
+    commentsCount INTEGER AS Int NOT NULL,
+    likes INTEGER AS Int NOT NULL,
+    category TEXT NOT NULL
+);
+
+
+dish:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE id = :dishId;
+
+
+dishes:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE category IS :category;
+
+
+searchDish:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE name LIKE '%' || :query || '%'
+ORDER BY name;
+
+
+hasSpecialOffers:
+SELECT EXISTS(
+    SELECT 1
+    FROM dishEntity
+    WHERE oldPrice > 0
+);
+
+
+specialOffersDish:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE oldPrice > price;
+
+
+recommendedDishes:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+JOIN recommendedEntity ON id = recommendedEntity.dishId;
+
+
+bestDishes:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE rating > 3.5
+LIMIT 10;
+
+
+popularDishes:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE id IN (
+    SELECT id
+    FROM dishEntity
+    ORDER BY likes DESC
+    LIMIT 10
+);
+
+
+favoriteDishes:
+SELECT
+    dishEntity.*,
+    EXISTS(
+        SELECT 1
+        FROM favoriteEntity
+        WHERE favoriteEntity.dishId = dishEntity.id
+    ) AS isFavorite
+FROM dishEntity
+WHERE id IN (
+    SELECT dishId
+    FROM favoriteEntity
+);
+
+
+insert:
+INSERT OR REPLACE INTO dishEntity(
+   id,
+   name,
+   description,
+   image,
+   oldPrice,
+   price,
+   rating,
+   commentsCount,
+   likes,
+   category
+)
+VALUES ?;

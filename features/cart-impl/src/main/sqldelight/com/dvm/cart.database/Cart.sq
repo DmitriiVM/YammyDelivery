@@ -1,0 +1,57 @@
+CREATE TABLE IF NOT EXISTS cartItemEntity(
+    dishId TEXT NOT NULL PRIMARY KEY,
+    quantity INTEGER AS Int NOT NULL DEFAULT 0
+);
+
+
+cartItemDetails:
+SELECT
+    cartItemEntity.*
+FROM cartItemEntity;
+
+
+totalQuantity:
+SELECT SUM(quantity)
+FROM cartItemEntity;
+
+
+cartCount:
+SELECT COUNT(*)
+FROM cartItemEntity;
+
+
+dishQuantity:
+SELECT quantity
+FROM cartItemEntity
+WHERE dishId = :dishId;
+
+
+clearCart:
+DELETE
+FROM cartItemEntity;
+
+
+addPiece:
+UPDATE cartItemEntity
+SET quantity = quantity + 1
+WHERE dishId = :dishId;
+
+
+removeDishPiece:
+UPDATE cartItemEntity
+SET quantity = quantity - 1
+WHERE dishId = :dishId;
+
+
+removeDishFromCart:
+DELETE
+FROM cartItemEntity
+WHERE dishId = :dishId;
+
+
+insert:
+INSERT OR REPLACE INTO cartItemEntity(
+    dishId,
+    quantity
+)
+VALUES ?;

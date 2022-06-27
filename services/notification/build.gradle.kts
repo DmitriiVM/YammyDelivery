@@ -5,9 +5,9 @@ plugins {
 dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.utils)
-    implementation(projects.core.database)
     implementation(projects.core.datastore)
     implementation(projects.navigation)
+    implementation(projects.features.notificationsApi)
 
     implementation(libs.android.core)
     implementation(libs.coroutines)

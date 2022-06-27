@@ -4,9 +4,10 @@ plugins {
 
 dependencies {
     implementation(projects.core.utils)
-    implementation(projects.core.network)
-    implementation(projects.core.database)
     implementation(projects.core.datastore)
+    implementation(projects.features.orderApi)
+    implementation(projects.features.profileApi)
+    implementation(projects.features.menuApi)
 
     implementation(libs.android.core)
     implementation(libs.coroutines)

@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     implementation(projects.core.utils)
-    implementation(projects.features.drawer)
 
     implementation(libs.bundles.compose)
 }

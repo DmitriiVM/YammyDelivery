@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS profileEntity(
+    email TEXT NOT NULL PRIMARY KEY,
+    firstName TEXT NOT NULL,
+    lastName TEXT NOT NULL
+);
+
+
+profile:
+SELECT *
+FROM profileEntity;
+
+
+insert:
+INSERT OR REPLACE INTO profileEntity(
+    email,
+    firstName,
+    lastName
+)
+VALUES ?;
+
+
+delete:
+DELETE FROM profileEntity;

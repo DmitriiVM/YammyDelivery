@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS notificationEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    text TEXT NOT NULL,
+    seen INTEGER AS Boolean
+);
+
+
+notifications:
+SELECT *
+FROM notificationEntity;
+
+
+count:
+SELECT COUNT()
+FROM notificationEntity
+WHERE seen = 0;
+
+
+setSeen:
+UPDATE notificationEntity
+SET seen = 1
+WHERE id IN (:id);
+
+
+insert:
+INSERT OR REPLACE INTO notificationEntity(
+    title,
+    text,
+    seen
+)
+VALUES (?, ?, ?);

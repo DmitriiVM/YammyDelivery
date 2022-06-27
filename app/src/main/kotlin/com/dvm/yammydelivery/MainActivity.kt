@@ -29,7 +29,7 @@ internal class MainActivity : AppCompatActivity() {
                     } else {
                         Destination.Splash.route
                     }
-                    NavHost(
+                    AppNavHost(
                         navController = navController,
                         startDestination = startDestination
                     )

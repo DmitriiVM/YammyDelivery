@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import androidx.core.net.toUri
+import com.dvm.notifications_api.NOTIFICATION_URI
 import com.dvm.utils.AppLauncher
 
 class DefaultAppLauncher : AppLauncher {

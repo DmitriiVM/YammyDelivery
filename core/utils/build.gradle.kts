@@ -9,4 +9,6 @@ dependencies {
 
     implementation(libs.bundles.compose)
     implementation(libs.compose.navigation)
+
+    implementation(libs.sqldelight.androidDriver)
 }

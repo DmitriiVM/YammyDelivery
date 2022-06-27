@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS orderStatusEntity(
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    cancelable INTEGER AS Boolean NOT NULL,
+    active INTEGER AS Boolean
+);
+
+
+orderStatus:
+SELECT *
+FROM orderStatusEntity
+WHERE id = :id;
+
+
+insert:
+INSERT OR REPLACE INTO orderStatusEntity(
+    id,
+    name,
+    cancelable,
+    active
+)
+VALUES ?;

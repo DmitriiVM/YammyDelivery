@@ -1,0 +1,40 @@
+import java.util.Date;
+
+CREATE TABLE IF NOT EXISTS hintEntity(
+    query TEXT NOT NULL PRIMARY KEY,
+    date INTEGER AS Date NOT NULL
+);
+
+
+hints:
+SELECT query
+FROM hintEntity
+ORDER BY date DESC;
+
+
+hintCount:
+SELECT COUNT()
+FROM hintEntity;
+
+
+delete:
+DELETE
+FROM hintEntity
+WHERE query = :hint;
+
+
+deleteOldest:
+DELETE
+FROM hintEntity
+WHERE date = (
+    SELECT MIN(date)
+    FROM hintEntity
+);
+
+
+insert:
+INSERT OR REPLACE INTO hintEntity(
+    query,
+    date
+)
+VALUES ?;

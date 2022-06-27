@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS reviewEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    dishId TEXT NOT NULL,
+    author TEXT NOT NULL,
+    date TEXT NOT NULL,
+    rating INTEGER AS Int NOT NULL,
+    text TEXT,
+    active INTEGER AS Boolean
+);
+
+
+reviews:
+SELECT *
+FROM reviewEntity
+WHERE dishId = :dishId;
+
+
+insert:
+INSERT OR REPLACE INTO reviewEntity(
+    dishId,
+    author,
+    date,
+    rating,
+    text,
+    active
+)
+VALUES (?,?,?,?,?,?);
