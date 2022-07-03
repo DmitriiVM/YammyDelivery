@@ -1,26 +1,26 @@
 [versions]
-kotlin = "1.5.21"
-compose = "1.0.1"  # update kotlinCompilerExtensionVersion in compose-convention.gradle.kts
-coroutines = "1.5.1"
-ktor = "1.6.3"
-sqldelight = "1.5.0"
+kotlin = "1.7.0"
+compose = "1.2.0-rc03"  # update kotlinCompilerExtensionVersion in compose-convention.gradle.kts
+coroutines = "1.6.0"
+ktor = "2.0.3"
+sqldelight = "1.5.3"
 koin= "3.2.0"
-lifecycle = "2.4.0-alpha02"
-navigation = "2.3.5"
+lifecycle = "2.4.1"
+navigation = "2.4.2"
 accompanist = "0.17.0"
 
 [libraries]
-plugin-androidGradle = "com.android.tools.build:gradle:7.2.0-alpha03"
+plugin-androidGradle = "com.android.tools.build:gradle:7.2.1"
 plugin-kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
-plugin-google-services = "com.google.gms:google-services:4.3.10"
-plugin-sqldelight = "com.squareup.sqldelight:gradle-plugin:1.5.0"
+plugin-google-services = "com.google.gms:google-services:4.3.13"
+plugin-sqldelight = "com.squareup.sqldelight:gradle-plugin:1.5.3"
 plugin-detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
 
-android-core = "androidx.core:core-ktx:1.6.0"
-android-appcompat = "androidx.appcompat:appcompat:1.3.1"
+android-core = "androidx.core:core-ktx:1.7.0"
+android-appcompat = "androidx.appcompat:appcompat:1.4.1"
 android-material = "com.google.android.material:material:1.3.0"
-activity-compose = "androidx.activity:activity-compose:1.4.0-alpha01"
+activity-compose = "androidx.activity:activity-compose:1.4.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
@@ -29,10 +29,10 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-icons = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
 compose-iconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
-compose-navigation = "androidx.navigation:navigation-compose:2.4.0-alpha07"
-compose-constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
-compose-lottie = "com.airbnb.android:lottie-compose:4.0.0"
-compose-coil = "io.coil-kt:coil-compose:1.3.2"
+compose-navigation = "androidx.navigation:navigation-compose:2.4.2"
+compose-constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+compose-lottie = "com.airbnb.android:lottie-compose:5.2.0"
+compose-coil = "io.coil-kt:coil-compose:2.0.0"
 
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
@@ -58,7 +58,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 
-datastore = "androidx.datastore:datastore-preferences:1.0.0-alpha08"
+datastore = "androidx.datastore:datastore-preferences:1.0.0"
 
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
