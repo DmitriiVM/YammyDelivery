@@ -2,7 +2,9 @@ package com.dvm.order_impl.presentation.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Address
 import android.location.Geocoder
+import android.location.Geocoder.GeocodeListener
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -152,11 +154,15 @@ internal class MapViewModel(
         val locationAddress = try {
             Geocoder(context)
                 .getFromLocation(latitude, longitude, 1)
-                .first()
+                ?.first()
+                ?: run {
+                    showError()
+                    return emptyList()
+                }
         } catch (exception: CancellationException) {
             throw CancellationException()
         } catch (exception: Exception) {
-            state = state.copy(alert = CoreR.string.message_unknown_error)
+            showError()
             return emptyList()
         }
         val city = locationAddress.subAdminArea?.let {
@@ -170,6 +176,11 @@ internal class MapViewModel(
         }
         return listOfNotNull(city, building, flat)
     }
+
+    private fun showError() {
+        state = state.copy(alert = CoreR.string.message_unknown_error)
+    }
+
 
     private fun GoogleMap.locationFlow() = callbackFlow<LatLng> {
         setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {

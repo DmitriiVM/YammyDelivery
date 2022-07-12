@@ -3,10 +3,15 @@ package com.dvm.auth_impl.presentation.register
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,8 +42,6 @@ import com.dvm.ui.components.DefaultAppBar
 import com.dvm.ui.components.EditTextField
 import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getStateViewModel
 import com.dvm.ui.R as CoreR
@@ -60,7 +63,7 @@ internal fun RegisterScreen(
                 .padding(15.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(Modifier.statusBarsHeight())
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.registration_appbar_title)) },
                 navigationIcon = {
@@ -172,7 +175,8 @@ internal fun RegisterScreen(
                     onClick = { viewModel.dispatch(RegisterEvent.Login) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .navigationBarsWithImePadding()
+                        .navigationBarsPadding()
+                        .imePadding()
                 ) {
                     Text(text = stringResource(CoreR.string.registration_button_login))
                 }

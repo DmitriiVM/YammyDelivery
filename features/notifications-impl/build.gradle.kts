@@ -19,7 +19,6 @@ dependencies {
     implementation(libs.compose.iconsExtended)
     implementation(libs.compose.constraintLayout)
     implementation(libs.compose.coil)
-    implementation(libs.accompanist.insets)
     implementation(libs.compose.navigation)
 
     implementation(libs.koin.core)

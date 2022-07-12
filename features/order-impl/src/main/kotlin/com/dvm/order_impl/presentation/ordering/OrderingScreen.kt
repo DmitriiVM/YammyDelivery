@@ -3,10 +3,15 @@ package com.dvm.order_impl.presentation.ordering
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -44,8 +49,6 @@ import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.DefaultAppBar
 import com.dvm.ui.components.LoadingScrim
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 import com.dvm.ui.R as CoreR
@@ -68,7 +71,7 @@ internal fun OrderingScreen(
         selected = DrawerItem.ORDERS
     ) {
         Column(Modifier.fillMaxSize()) {
-            Spacer(Modifier.statusBarsHeight())
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.ordering_appbar_title)) },
                 navigationIcon = {
@@ -229,7 +232,8 @@ internal fun OrderingScreen(
                 modifier = Modifier
                     .padding(20.dp)
                     .fillMaxWidth()
-                    .navigationBarsWithImePadding(),
+                    .navigationBarsPadding()
+                    .imePadding(),
                 onClick = { viewModel.dispatch(OrderingEvent.MakeOrder(fields)) }
             ) {
                 Text(stringResource(CoreR.string.ordering_button_create_order))

@@ -13,11 +13,17 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -70,9 +76,6 @@ import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.asString
-import com.google.accompanist.insets.navigationBarsHeight
-import com.google.accompanist.insets.statusBarsHeight
-import com.google.accompanist.insets.statusBarsPadding
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getStateViewModel
 import org.koin.core.parameter.parametersOf
@@ -144,7 +147,7 @@ internal fun CategoryScreen(
             val subcategories = state.subcategories
             if (subcategories.isNotEmpty()) {
                 Column {
-                    Spacer(Modifier.statusBarsHeight())
+                    Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
                     Spacer(Modifier.height(AppBarHeight))
                     val titleHeightDp = with(LocalDensity.current) { titleHeight.value.toDp() }
                     Spacer(Modifier.height(titleHeightDp))
@@ -233,7 +236,7 @@ private fun DishList(
                         }
                     }
                 }
-                item { Spacer(Modifier.navigationBarsHeight()) }
+                item { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)) }
             }
         }
     }
@@ -245,7 +248,7 @@ private fun DishListHeader(
     selectedColor: Color,
     titleHeight: MutableState<Int>
 ) {
-    Spacer(Modifier.statusBarsHeight())
+    Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
     Spacer(Modifier.height(AppBarHeight))
     state.title?.let { title ->
         val context = LocalContext.current

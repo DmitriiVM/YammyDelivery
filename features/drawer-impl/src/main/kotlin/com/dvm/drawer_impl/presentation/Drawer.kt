@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -52,7 +53,6 @@ import com.dvm.ui.components.AlertButton
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.BackPressHandler
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsPadding
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import com.dvm.ui.R as CoreR

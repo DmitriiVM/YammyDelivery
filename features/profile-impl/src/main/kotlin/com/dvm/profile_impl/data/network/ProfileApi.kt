@@ -6,20 +6,20 @@ import com.dvm.profile_impl.data.network.request.ChangePasswordRequest
 import com.dvm.profile_impl.data.network.request.EditProfileRequest
 import com.dvm.profile_impl.data.network.response.ProfileResponse
 import com.dvm.profile_impl.domain.ProfileApi
-import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import io.ktor.client.request.put
-import io.ktor.client.request.header
-import io.ktor.http.HttpHeaders
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 
 internal class DefaultProfileApi(
     private val client: HttpClient
 ) : ProfileApi {
 
     override suspend fun getProfile(token: String): Profile =
-        client.get<ProfileResponse>("profile") {
+        client.get("profile") {
             header(HttpHeaders.Authorization, token)
         }
+            .body<ProfileResponse>()
             .toProfile()
 
     override suspend fun editProfile(
@@ -28,14 +28,17 @@ internal class DefaultProfileApi(
         lastName: String,
         email: String
     ): Profile =
-        client.put<ProfileResponse>("profile") {
+        client.put("profile") {
             header(HttpHeaders.Authorization, token)
-            body = EditProfileRequest(
-                firstName = firstName,
-                lastName = lastName,
-                email = email
+            setBody(
+                EditProfileRequest(
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email
+                )
             )
         }
+            .body<ProfileResponse>()
             .toProfile()
 
 
@@ -43,12 +46,16 @@ internal class DefaultProfileApi(
         token: String,
         oldPassword: String,
         newPassword: String
-    ): Unit =
+    ) {
         client.put("profile/password") {
             header(HttpHeaders.Authorization, token)
-            body = ChangePasswordRequest(
-                oldPassword = oldPassword,
-                newPassword = newPassword,
+            setBody(
+                ChangePasswordRequest(
+                    oldPassword = oldPassword,
+                    newPassword = newPassword,
+                )
             )
         }
+    }
+
 }

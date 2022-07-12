@@ -4,8 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ContentAlpha
@@ -22,7 +26,6 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,8 +46,6 @@ import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -79,7 +80,7 @@ internal fun OrdersScreen(
                 .fillMaxSize()
                 .verticalGradient(color.color.copy(alpha = 0.15f))
         ) {
-            Spacer(modifier = Modifier.statusBarsHeight())
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.orders_appbar_title)) },
                 navigationIcon = {
@@ -89,7 +90,7 @@ internal fun OrdersScreen(
                 },
             )
 
-            val pagerState = rememberPagerState(pageCount = 2)
+            val pagerState = rememberPagerState()
 
             TabRow(
                 selectedTabIndex = state.status.ordinal,
@@ -125,7 +126,10 @@ internal fun OrdersScreen(
                     },
                 )
             }
-            HorizontalPager(pagerState) {
+            HorizontalPager(
+                count = 2,
+                state = pagerState
+            ) {
                 if (state.empty) {
                     EmptyPlaceholder(
                         resId = com.dvm.ui.R.raw.empty_image,
@@ -155,7 +159,6 @@ internal fun OrdersScreen(
     }
 }
 
-@OptIn(ExperimentalComposeApi::class)
 @Composable
 private fun OrderItem(
     order: Order,

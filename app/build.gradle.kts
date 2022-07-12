@@ -55,7 +55,6 @@ dependencies {
 
     implementation(libs.bundles.compose)
     implementation(libs.compose.navigation)
-    implementation(libs.accompanist.insets)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

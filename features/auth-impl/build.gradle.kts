@@ -21,7 +21,6 @@ dependencies {
     implementation(libs.compose.icons)
     implementation(libs.compose.constraintLayout)
     implementation(libs.compose.navigation)
-    implementation(libs.accompanist.insets)
 
     implementation(libs.lifecycle.livedata)
 
@@ -33,7 +32,7 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
-    implementation(libs.plugin.serialization)
+//    implementation(libs.plugin.serialization)
 }
 
 sqldelight {

@@ -2,19 +2,23 @@ package com.dvm.menu_impl.presentation.menu
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -48,8 +52,6 @@ import com.dvm.menu_impl.presentation.menu.model.MenuItem
 import com.dvm.ui.components.AppBarIconMenu
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
@@ -70,7 +72,7 @@ internal fun MenuScreen(
         selected = DrawerItem.MENU
     ) {
         Column {
-            Spacer(Modifier.statusBarsHeight())
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             TopAppBar(
                 title = { Text(stringResource(CoreR.string.menu_appbar_title)) },
                 navigationIcon = {
@@ -105,7 +107,6 @@ internal fun MenuScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MenuContent(
     menuItems: List<MenuItem>,
@@ -119,7 +120,7 @@ private fun MenuContent(
     }
 
     LazyVerticalGrid(
-        cells = GridCells.Fixed(rows),
+        columns = GridCells.Fixed(rows),
         contentPadding = PaddingValues(
             top = 20.dp,
             start = 10.dp,
@@ -130,7 +131,7 @@ private fun MenuContent(
             MenuItem(
                 index = index,
                 item = item,
-                modifier = Modifier.fillParentMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 onItemClick = onItemClick
             )
         }

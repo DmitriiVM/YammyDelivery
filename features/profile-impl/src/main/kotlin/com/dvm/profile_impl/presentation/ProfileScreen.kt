@@ -3,10 +3,15 @@ package com.dvm.profile_impl.presentation
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -49,8 +54,6 @@ import com.dvm.ui.components.DefaultAppBar
 import com.dvm.ui.components.EditTextField
 import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
@@ -77,7 +80,7 @@ internal fun ProfileScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(Modifier.statusBarsHeight())
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.profile_appbar_title)) },
                 navigationIcon = {
@@ -167,8 +170,10 @@ internal fun ProfileScreen(
                 val configuration = LocalConfiguration.current
 
                 val modifier = when (configuration.orientation) {
-                    Configuration.ORIENTATION_PORTRAIT -> Modifier.navigationBarsWithImePadding()
-                    else -> Modifier
+                    Configuration.ORIENTATION_PORTRAIT ->
+                        Modifier.navigationBarsPadding().imePadding()
+                    else ->
+                        Modifier
                 }
 
                 if (state.editing) {

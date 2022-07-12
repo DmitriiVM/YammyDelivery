@@ -20,6 +20,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 @Suppress("UnusedPrivateMember")
 internal fun SplashScreen(
+    // to initialize ViewModel
     viewModel: SplashViewModel = getViewModel()
 ) {
     Box(

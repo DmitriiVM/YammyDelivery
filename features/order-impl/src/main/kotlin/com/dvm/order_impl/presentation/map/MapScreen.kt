@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -27,7 +28,6 @@ import androidx.core.content.ContextCompat
 import com.dvm.order_impl.presentation.map.model.MapState
 import com.dvm.ui.components.Alert
 import com.dvm.ui.components.AlertButton
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.maps.android.ktx.awaitMap
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getStateViewModel

@@ -12,6 +12,7 @@ import com.dvm.order_impl.data.network.response.StatusResponse
 import com.dvm.order_impl.domain.OrderApi
 import com.dvm.utils.AppException
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlin.coroutines.cancellation.CancellationException
@@ -29,29 +30,33 @@ internal class DefaultOrderApi(
         intercom: String?,
         comment: String?,
     ): OrderDetails =
-        client.post<OrderResponse>("orders/new") {
+        client.post("orders/new") {
             header(HttpHeaders.Authorization, token)
-            body = CreateOrderRequest(
-                address = address,
-                entrance = entrance,
-                floor = floor,
-                apartment = apartment,
-                intercom = intercom,
-                comment = comment,
+            setBody(
+                CreateOrderRequest(
+                    address = address,
+                    entrance = entrance,
+                    floor = floor,
+                    apartment = apartment,
+                    intercom = intercom,
+                    comment = comment,
+                )
             )
         }
+            .body<OrderResponse>()
             .toOrderDetails()
 
     override suspend fun getOrders(
         token: String,
         lastUpdateTime: Long?
     ): List<OrderDetails> = getAllChunks { offset, limit ->
-        client.get<List<OrderResponse>>("orders") {
+        client.get("orders") {
             header(HttpHeaders.Authorization, token)
             header(HttpHeaders.IfModifiedSince, lastUpdateTime)
             parameter(HEADER_OFFSET, offset)
             parameter(HEADER_LIMIT, limit)
         }
+            .body<List<OrderResponse>>()
             .map { it.toOrderDetails() }
     }
 
@@ -59,9 +64,10 @@ internal class DefaultOrderApi(
         lastUpdateTime: Long?
     ): List<OrderStatus> =
         try {
-            client.get<List<StatusResponse>>("orders/statuses") {
+            client.get("orders/statuses") {
                 header(HttpHeaders.IfModifiedSince, lastUpdateTime)
             }
+                .body<List<StatusResponse>>()
                 .map { it.toOrderStatus() }
         } catch (exception: CancellationException) {
             throw CancellationException()
@@ -77,10 +83,11 @@ internal class DefaultOrderApi(
         token: String,
         orderId: String
     ): OrderDetails =
-        client.put<OrderResponse>("orders/cancel") {
+        client.put("orders/cancel") {
             header(HttpHeaders.Authorization, token)
-            body = CancelOrderRequest(orderId)
+            setBody(CancelOrderRequest(orderId))
         }
+            .body<OrderResponse>()
             .toOrderDetails()
 
     companion object {

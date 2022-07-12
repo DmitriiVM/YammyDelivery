@@ -3,10 +3,15 @@ package com.dvm.auth_impl.presentation.login
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,8 +45,6 @@ import com.dvm.ui.components.DefaultAppBar
 import com.dvm.ui.components.EditTextField
 import com.dvm.ui.components.ProgressButton
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getStateViewModel
 import com.dvm.ui.R as CoreR
@@ -68,7 +71,7 @@ internal fun LoginScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Spacer(Modifier.statusBarsHeight())
+                Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
                 DefaultAppBar(
                     title = { Text(stringResource(CoreR.string.login_appbar_title)) },
                     navigationIcon = {
@@ -154,7 +157,7 @@ internal fun LoginScreen(
                 ) {
                     Text(text = stringResource(CoreR.string.login_button_restore_password))
                 }
-                Spacer(Modifier.navigationBarsWithImePadding())
+                Spacer(Modifier.navigationBarsPadding().imePadding())
             }
         }
     }

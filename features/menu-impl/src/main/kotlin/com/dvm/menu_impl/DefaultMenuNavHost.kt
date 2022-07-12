@@ -3,7 +3,7 @@ package com.dvm.menu_impl
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
 import com.dvm.menu_api.MenuNavHost
 import com.dvm.menu_impl.presentation.category.presentation.CategoryScreen
 import com.dvm.menu_impl.presentation.dish.DishScreen

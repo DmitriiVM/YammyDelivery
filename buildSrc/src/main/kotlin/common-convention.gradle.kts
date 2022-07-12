@@ -9,11 +9,11 @@ configure<BaseExtension> {
         id(PluginId.DETEKT)
     }
 
-    compileSdkVersion(31)
+    compileSdkVersion(33)
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 31
+        targetSdk = 33
     }
 }
 

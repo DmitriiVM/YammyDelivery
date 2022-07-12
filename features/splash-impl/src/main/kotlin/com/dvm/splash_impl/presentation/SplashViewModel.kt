@@ -1,5 +1,6 @@
 package com.dvm.splash_impl.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvm.navigation.api.Navigator
@@ -34,6 +35,7 @@ internal class SplashViewModel(
             } catch (exception: CancellationException) {
                 throw CancellationException()
             } catch (exception: Exception) {
+                Log.d("mmm", "SplashViewModel :   --  $exception")
                 datastore.setUpdateError(true)
             } finally {
                 navigator.goTo(Destination.Main)

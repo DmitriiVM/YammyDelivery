@@ -7,12 +7,12 @@ sqldelight = "1.5.3"
 koin= "3.2.0"
 lifecycle = "2.4.1"
 navigation = "2.4.2"
-accompanist = "0.17.0"
+accompanist = "0.26.2-beta"
 
 [libraries]
-plugin-androidGradle = "com.android.tools.build:gradle:7.2.1"
+plugin-androidGradle = "com.android.tools.build:gradle:7.3.0-rc01"
 plugin-kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-google-services = "com.google.gms:google-services:4.3.13"
 plugin-sqldelight = "com.squareup.sqldelight:gradle-plugin:1.5.3"
 plugin-detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
@@ -36,14 +36,14 @@ compose-coil = "io.coil-kt:coil-compose:2.0.0"
 
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
-accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
 
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor"}
 ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor"}
 ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor"}
-ktor-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor"}
-ktor-serialization = { module = "io.ktor:ktor-client-serialization-jvm", version.ref = "ktor"}
+ktor-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging-jvm", version.ref = "ktor"}
 
 lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
@@ -74,4 +74,4 @@ leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 
 [bundles]
 compose = ["compose-ui", "compose-tooling", "compose-util", "compose-foundation", "compose-material"]
-ktor = ["ktor-android", "ktor-cio", "ktor-json", "ktor-serialization", "ktor-logging"]
+ktor = ["ktor-core", "ktor-android", "ktor-cio", "ktor-negotiation", "ktor-serialization", "ktor-logging"]

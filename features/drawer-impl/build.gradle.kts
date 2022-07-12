@@ -17,7 +17,6 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.compose.icons)
     implementation(libs.compose.iconsExtended)
-    implementation(libs.accompanist.insets)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

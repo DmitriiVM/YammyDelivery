@@ -4,11 +4,15 @@ import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
@@ -35,8 +39,6 @@ import com.dvm.ui.components.verticalGradient
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.asString
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsHeight
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
@@ -68,7 +70,7 @@ internal fun FavoriteScreen(
                 .fillMaxSize()
                 .verticalGradient(color.color.copy(alpha = 0.15f))
         ) {
-            Spacer(modifier = Modifier.statusBarsHeight())
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.favorite_appbar_title)) },
                 navigationIcon = {
@@ -95,7 +97,7 @@ internal fun FavoriteScreen(
                 }
 
                 LazyVerticalGrid(
-                    cells = GridCells.Fixed(rows),
+                    columns = GridCells.Fixed(rows),
                     modifier = Modifier.padding(5.dp)
                 ) {
                     items(state.dishes) { dish ->

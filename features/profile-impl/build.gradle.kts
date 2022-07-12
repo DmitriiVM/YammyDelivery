@@ -22,7 +22,6 @@ dependencies {
     implementation(libs.compose.icons)
     implementation(libs.compose.iconsExtended)
     implementation(libs.compose.coil)
-    implementation(libs.accompanist.insets)
     implementation(libs.compose.navigation)
 
     implementation(libs.koin.core)
@@ -32,7 +31,7 @@ dependencies {
     implementation(libs.sqldelight.androidDriver)
     implementation(libs.sqldelight.coroutines)
 
-    implementation(libs.plugin.serialization)
+//    implementation(libs.plugin.serialization)
 }
 
 sqldelight {

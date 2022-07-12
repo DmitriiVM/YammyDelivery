@@ -3,10 +3,13 @@ package com.dvm.order_impl.presentation.order
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -38,7 +41,6 @@ import com.dvm.ui.components.Image
 import com.dvm.ui.components.LoadingScrim
 import com.dvm.utils.DrawerItem
 import com.dvm.utils.extensions.format
-import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getStateViewModel
 import org.koin.core.parameter.parametersOf
@@ -57,7 +59,7 @@ internal fun OrderScreen(
         selected = DrawerItem.ORDERS
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.statusBarsHeight())
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
             state.order?.let { order ->
                 DefaultAppBar(

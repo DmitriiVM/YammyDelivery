@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import com.dvm.navigation.api.model.Destination
 import com.dvm.notification.NotificationService.Companion.NOTIFICATION_EXTRA
 import com.dvm.ui.YammyDeliveryScreen
-import com.google.accompanist.insets.ProvideWindowInsets
 
 internal class MainActivity : AppCompatActivity() {
 
@@ -21,19 +20,17 @@ internal class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             YammyDeliveryScreen(this) {
-                ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-                    val navController = rememberNavController()
-                    viewModel.navController = navController
-                    val startDestination = if (fromNotification(intent)) {
-                        Destination.Main.route
-                    } else {
-                        Destination.Splash.route
-                    }
-                    AppNavHost(
-                        navController = navController,
-                        startDestination = startDestination
-                    )
+                val navController = rememberNavController()
+                viewModel.navController = navController
+                val startDestination = if (fromNotification(intent)) {
+                    Destination.Main.route
+                } else {
+                    Destination.Splash.route
                 }
+                AppNavHost(
+                    navController = navController,
+                    startDestination = startDestination
+                )
             }
         }
     }

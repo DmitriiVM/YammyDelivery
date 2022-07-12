@@ -2,6 +2,8 @@ package com.dvm.auth_impl.presentation.restore
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,7 +21,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.dvm.ui.components.EditTextField
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.dvm.ui.R as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -74,7 +75,8 @@ internal fun Password(
         enabled = password.isNotEmpty() && password == confirmPassword,
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsWithImePadding(),
+            .navigationBarsPadding()
+            .imePadding(),
         onClick = {
             keyboardController?.hide()
             onSave()

@@ -17,6 +17,7 @@ import com.dvm.menu_impl.data.network.response.ReviewResponse
 import com.dvm.menu_impl.domain.api.MenuApi
 import com.dvm.network.util.getAllChunks
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
@@ -25,27 +26,29 @@ internal class DefaultMenuApi(
 ) : MenuApi {
 
     override suspend fun getRecommended(): List<String> =
-        client.get("main/recommend")
+        client.get("main/recommend").body()
 
     override suspend fun getCategories(
         lastUpdateTime: Long?
     ): List<Category> = getAllChunks { offset, limit ->
-        client.get<List<CategoryResponse>>("categories") {
+        client.get("categories") {
             header(HttpHeaders.IfModifiedSince, lastUpdateTime)
             parameter(HEADER_OFFSET, offset)
             parameter(HEADER_LIMIT, limit)
         }
+            .body<List<CategoryResponse>>()
             .map { it.toCategory() }
     }
 
     override suspend fun getDishes(
         lastUpdateTime: Long?
     ): List<Dish> = getAllChunks { offset, limit ->
-        client.get<List<DishResponse>>("dishes") {
+        client.get("dishes") {
             header(HttpHeaders.IfModifiedSince, lastUpdateTime)
             parameter(HEADER_OFFSET, offset)
             parameter(HEADER_LIMIT, limit)
         }
+            .body<List<DishResponse>>()
             .map { it.toDish() }
     }
 
@@ -53,12 +56,13 @@ internal class DefaultMenuApi(
         token: String,
         lastUpdateTime: Long?
     ): List<Favorite> = getAllChunks { offset, limit ->
-        client.get<List<FavoriteResponse>>("favorite") {
+        client.get("favorite") {
             header(HttpHeaders.Authorization, token)
             header(HttpHeaders.IfModifiedSince, lastUpdateTime)
             parameter(HEADER_OFFSET, offset)
             parameter(HEADER_LIMIT, limit)
         }
+            .body<List<FavoriteResponse>>()
             .map { it.toFavorite() }
     }
 
@@ -66,14 +70,16 @@ internal class DefaultMenuApi(
         token: String,
         favorites: Map<String, Boolean>
     ) {
-        client.put<Unit>("favorite/change") {
+        client.put("favorite/change") {
             header(HttpHeaders.Authorization, token)
-            body = favorites.map { favorite ->
-                ChangeFavoriteRequest(
-                    dishId = favorite.key,
-                    favorite = favorite.value
-                )
-            }
+            setBody(
+                favorites.map { favorite ->
+                    ChangeFavoriteRequest(
+                        dishId = favorite.key,
+                        favorite = favorite.value
+                    )
+                }
+            )
         }
     }
 
@@ -81,11 +87,12 @@ internal class DefaultMenuApi(
         dishId: String,
         lastUpdateTime: Long?
     ): List<Review> = getAllChunks { offset, limit ->
-        client.get<List<ReviewResponse>>("reviews/$dishId") {
+        client.get("reviews/$dishId") {
             header(HttpHeaders.IfModifiedSince, lastUpdateTime)
             parameter(HEADER_OFFSET, offset)
             parameter(HEADER_LIMIT, limit)
         }
+            .body<List<ReviewResponse>>()
             .map { it.toReview() }
     }
 
@@ -95,11 +102,13 @@ internal class DefaultMenuApi(
         rating: Int,
         text: String
     ) {
-        client.post<Unit>("reviews/$dishId") {
+        client.post("reviews/$dishId") {
             header(HttpHeaders.Authorization, token)
-            body = AddReviewRequest(
-                rating = rating,
-                text = text
+            setBody(
+                AddReviewRequest(
+                    rating = rating,
+                    text = text
+                )
             )
         }
     }

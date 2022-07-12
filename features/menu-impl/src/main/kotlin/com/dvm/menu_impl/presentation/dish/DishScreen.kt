@@ -8,13 +8,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -60,8 +65,6 @@ import com.dvm.ui.components.ErrorImage
 import com.dvm.ui.components.Image
 import com.dvm.ui.themes.DecorColors
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.navigationBarsHeight
-import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getStateViewModel
 import org.koin.core.parameter.parametersOf
@@ -136,12 +139,12 @@ internal fun DishScreen(
             }
 
             item {
-                Spacer(Modifier.navigationBarsHeight())
+                Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
             }
         }
 
         Column {
-            Spacer(Modifier.statusBarsHeight())
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
             DishAppBar(
                 color = color,
@@ -211,7 +214,7 @@ private fun BottomGraphicHeader(
 ) {
     Spacer(
         Modifier
-            .statusBarsHeight()
+            .windowInsetsTopHeight(WindowInsets.statusBars)
             .background(color.copy(alpha = 0.3f))
     )
 
@@ -255,7 +258,7 @@ private fun TopGraphicHeader(
     color: Color
 ) {
     Column {
-        Spacer(Modifier.statusBarsHeight())
+        Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         Canvas(Modifier.fillMaxWidth()) {
 
             val noTranslationOffset = 670
@@ -451,7 +454,6 @@ private fun QuantityButton(
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 private fun DrawScope.pointGrid(
     startY: Float,
     lines: Int,

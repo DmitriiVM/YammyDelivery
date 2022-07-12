@@ -3,8 +3,11 @@ package com.dvm.auth_impl.presentation.restore
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
@@ -24,7 +27,6 @@ import com.dvm.ui.components.AppBarIconBack
 import com.dvm.ui.components.DefaultAppBar
 import com.dvm.ui.components.LoadingScrim
 import com.dvm.utils.DrawerItem
-import com.google.accompanist.insets.statusBarsHeight
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getStateViewModel
 import com.dvm.ui.R as CoreR
@@ -49,7 +51,7 @@ internal fun PasswordRestoreScreen(
             Modifier
                 .fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.statusBarsHeight())
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             DefaultAppBar(
                 title = { Text(stringResource(CoreR.string.password_restoration_appbar_title)) },
                 navigationIcon = {

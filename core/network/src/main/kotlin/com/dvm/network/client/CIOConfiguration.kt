@@ -5,17 +5,14 @@ import android.util.Log
 import com.dvm.preferences.api.DatastoreRepository
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.cio.CIOEngineConfig
-import io.ktor.client.features.HttpTimeout
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.request.host
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 internal object CIOConfiguration {
 
@@ -43,9 +40,11 @@ internal object CIOConfiguration {
                 }
             }
         }
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(
-                kotlinx.serialization.json.Json {
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    prettyPrint = true
+                    isLenient = true
                     ignoreUnknownKeys = true
                 }
             )
