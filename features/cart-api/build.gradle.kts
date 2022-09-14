@@ -3,6 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.bundles.compose)
     implementation(libs.compose.navigation)
 }

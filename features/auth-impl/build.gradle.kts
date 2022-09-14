@@ -31,8 +31,6 @@ dependencies {
     implementation(libs.coroutines)
 
     implementation(libs.bundles.ktor)
-
-//    implementation(libs.plugin.serialization)
 }
 
 sqldelight {

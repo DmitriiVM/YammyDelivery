@@ -3,7 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.coroutines)
-    implementation(libs.bundles.compose)
     implementation(libs.compose.navigation)
 }

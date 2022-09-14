@@ -3,7 +3,6 @@ package com.dvm.notifications_api
 import androidx.navigation.NavGraphBuilder
 
 interface NotificationNavHost {
-
     fun addComposables(navGraphBuilder: NavGraphBuilder)
 }
 

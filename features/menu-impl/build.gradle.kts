@@ -36,8 +36,6 @@ dependencies {
 
     implementation(libs.sqldelight.androidDriver)
     implementation(libs.sqldelight.coroutines)
-
-//    implementation(libs.plugin.serialization)
 }
 
 sqldelight {
