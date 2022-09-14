@@ -8,8 +8,9 @@ object PluginId {
     const val KOTLIN_SERIALIZATION = "kotlinx-serialization"
     const val DETEKT = "io.gitlab.arturbosch.detekt"
 
-    const val COMMON_CONVENTION = "common-convention"
-    const val LIBRARY_CONVENTION = "library-convention"
-    const val COMPOSE_CONVENTION = "library-compose-convention"
-    const val COMPOSE_OPTIONS_CONVENTION = "compose-options-convention"
+    const val CONVENTION_BASE = "convention.base"
+    const val CONVENTION_APPLICATION = "convention.application"
+    const val CONVENTION_LIBRARY = "convention.library"
+    const val CONVENTION_LIBRARY_COMPOSE = "convention.library-compose"
+    const val CONVENTION_COMPOSE = "convention.compose"
 }

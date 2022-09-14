@@ -1,5 +1,5 @@
 plugins {
-    id(PluginId.LIBRARY_CONVENTION)
+    id(PluginId.CONVENTION_LIBRARY)
     id(PluginId.KOTLIN_SERIALIZATION)
 }
 

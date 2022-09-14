@@ -1,27 +1,5 @@
 plugins {
-    id(PluginId.ANDROID_APPLICATION)
-    id(PluginId.COMMON_CONVENTION)
-    id(PluginId.COMPOSE_OPTIONS_CONVENTION)
-    id(PluginId.GOOGLE_SERVICES)
-}
-
-android {
-    defaultConfig {
-        applicationId = "com.dvm.yammydelivery"
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-        }
-    }
+    id(PluginId.CONVENTION_APPLICATION)
 }
 
 dependencies {

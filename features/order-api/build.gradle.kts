@@ -1,5 +1,5 @@
 plugins {
-    id(PluginId.COMPOSE_CONVENTION)
+    id(PluginId.CONVENTION_LIBRARY_COMPOSE)
 }
 
 dependencies {

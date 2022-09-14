@@ -6,7 +6,7 @@ val propertiesFile: File = rootProject.file("apikey.properties")
 properties.load(FileInputStream(propertiesFile))
 
 plugins {
-    id(PluginId.COMPOSE_CONVENTION)
+    id(PluginId.CONVENTION_LIBRARY_COMPOSE)
     id(PluginId.KOTLIN_PARCELIZE)
     id(PluginId.KOTLIN_SERIALIZATION)
     id(PluginId.SQLDELIGHT)
