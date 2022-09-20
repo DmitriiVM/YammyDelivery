@@ -2,6 +2,8 @@
 
 YammyDelivery - a food delivery application for learning purposes and technology playground.
 
+#### The last updated branch is koin-ktor-sqldelight.
+
 ## Architecture:
 
 * Multi-module,
