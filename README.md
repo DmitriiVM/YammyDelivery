@@ -2,6 +2,8 @@
 
 YammyDelivery - food delivery app for learning purposes.
 
+#### The last updated branch is koin-ktor-sqldelight.
+
 Architecture:
  * Multi-module,
  * MVVM + MVI/Redux principles (UDF, common state)
