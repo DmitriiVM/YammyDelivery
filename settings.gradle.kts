@@ -3,6 +3,8 @@ rootProject.name = "YammyDelivery"
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+includeBuild("build-logic")
+
 include(
     ":app",
     ":features:splash-impl",
